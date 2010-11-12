@@ -31,15 +31,22 @@
 						<legend>Busca</legend>
 						<p/>
 	
-						<h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
-							<h:outputLabel value="UG" rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte  or controlBean.chefeSetor}" for="ugSolicitacao"/>
-							<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" style="width:400px">
+						<h:outputLabel value="UG:" for="ugSolicitacao" style="padding-right:20px;"/>
+						<h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador}">
+							<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" style="width:480px">
 								<f:selectItem itemLabel="Todas.." itemValue=""/>
 								<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 							</h:selectOneMenu>
 						</h:panelGroup>
 						
-						<h:selectOneRadio id="radioSolVeic" styleClass="checkbox" value="#{solicitacaoVeiculoBean.statusPesquisa}" style="width:50%;">
+						<h:panelGroup rendered="#{controlBean.chefeTransporte or controlBean.chefeSetor}">
+							<h:outputText value="#{solicitacaoVeiculoBean.orgaoSelecionado.descricao}" />
+						</h:panelGroup>
+						
+						<p/>
+						
+						<h:outputLabel value="Filtrar por:"/>
+						<h:selectOneRadio id="radioSolVeic" styleClass="checkbox" value="#{solicitacaoVeiculoBean.statusPesquisa}" style="width:80%;">
 							<f:selectItem itemLabel="Solicitado" itemValue="SOLICITADO"/>
 							<f:selectItem itemLabel="Autorizado" itemValue="AUTORIZADO"/>
 							<f:selectItem itemLabel="Negado" itemValue="NEGADO"/>

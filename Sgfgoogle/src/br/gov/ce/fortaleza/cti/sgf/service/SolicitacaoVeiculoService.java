@@ -162,15 +162,20 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		return solicitacaoVeiculos;
 	}
 
+	/**
+	 * Encontra os veículos disponíveis em qualquer UG, no caso de adminstrador ou coordenador
+	 * Encontra os veículos disponíveis na UG do usuário, no caso de chefe de transporte ou chefe se setor
+	 * @param solicitacao
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculosDisponiveis(SolicitacaoVeiculo solicitacao) {
 
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
 		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
 
-		StringBuffer hql = new StringBuffer(
-				"SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND (s.dataHoraSaida BETWEEN :saida and :retorno)) " +
-				"or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
+		StringBuffer hql = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND " +
+				"(s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
 		UG ug = null;
 		if(!SgfUtil.isAdministrador(solicitacao.getSolicitante()) && !SgfUtil.isCoordenador(solicitacao.getSolicitante())){
 			ug = solicitacao.getSolicitante().getPessoa().getUa().getUg();
@@ -200,6 +205,23 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		}
 		veiculos.removeAll(remove);
 		return veiculos;
+	}
+	/**
+	 * Verifica se o veículo possui alguma solicitação, autorização ou o veículo se encontra em rota pra o período informado
+	 * @param vid
+	 * @param horaSaida
+	 * @param horaRetorno // status = 0 => SOLICITADO  status = 1 =>  status = 3 => (AUTORIZADO  EXTERNO OU EM ROTA)
+	 * @return
+	 */
+	public Boolean isVeiculoDisponivel(Integer vid, Date horaSaida, Date horaRetorno){
+		StringBuffer stringQuery = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE s.veiculo.id = :veiculo and (s.status = 0 or s.status = 1 or s.status = 3) and " +
+				"(((s.dataHoraRetorno BETWEEN :saida and :retorno) AND (s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or " +
+				"(s.dataHoraSaida BETWEEN :saida AND :retorno))");
+		Query query = entityManager.createQuery(stringQuery.toString());
+		query.setParameter("veiculo", vid);
+		query.setParameter("saida", horaSaida);
+		query.setParameter("retorno", horaRetorno);
+		return query.getResultList().size() > 0;
 	}
 
 	@SuppressWarnings("unchecked")

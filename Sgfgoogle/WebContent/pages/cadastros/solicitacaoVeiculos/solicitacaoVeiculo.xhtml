@@ -24,9 +24,9 @@
 			<p></p>
 
 			<h:panelGroup rendered="#{(controlBean.administrador or controlBean.coordenador  or controlBean.chefeTransporte)}">
-				<h:outputLabel value="Veiculo:" styleClass="labelNegrito"/>
+				<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
 				<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.entity.veiculo}" disabled="#{!solicitacaoVeiculoBean.veiculoNull}" 
-				requiredMessage="Informe o veículo" converter="entityConverter" required="true" style="margin-left:55px">
+					requiredMessage="Informe o veículo" converter="entityConverter" required="true" style="margin-left:55px">
 					<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
 		 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 				</h:selectOneMenu>
@@ -48,9 +48,8 @@
 			<h:message for="hrInicial" styleClass="message"/>
 			
 			<h:outputLabel value="Hora saída:" for="hrInicialReal" styleClass="labelNegrito"  style="margin-left:20px"/>
-			<h:inputText id="hrInicialReal" value="#{solicitacaoVeiculoBean.horaSaidaReal}" size="4" 
-					styleClass="maskHora" required="true" requiredMessage="Informe hora saída" 
-					style="margin-left:20px" disabled="#{!solicitacaoVeiculoBean.autorizado}">
+			<h:inputText id="hrInicialReal" value="#{solicitacaoVeiculoBean.horaSaidaReal}" size="4" styleClass="maskHora" required="true" 
+				requiredMessage="Informe hora saída" style="margin-left:20px" disabled="#{!solicitacaoVeiculoBean.autorizado}">
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			<h:message for="hrInicialReal" styleClass="message"/>
@@ -71,17 +70,16 @@
 			<h:message for="hrFinal" styleClass="message"/>
 			
 			<h:outputLabel value="Hora Retorno:" for="hrFinalReal" styleClass="labelNegrito"  style="margin-left:20px"/>
-			<h:inputText id="hrFinalReal" value="#{solicitacaoVeiculoBean.horaRetornoReal}" 
-					styleClass="maskHora" required="true" requiredMessage="Informe hora retorno" size="4" 
-					style="margin-left:2px" disabled="#{!solicitacaoVeiculoBean.externo}">
+			<h:inputText id="hrFinalReal" value="#{solicitacaoVeiculoBean.horaRetornoReal}" styleClass="maskHora" required="true" 
+				requiredMessage="Informe hora retorno" size="4" style="margin-left:2px" disabled="#{!solicitacaoVeiculoBean.externo}">
 				<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00"/>
 			</h:inputText>
 			<h:message for="hrFinalReal" styleClass="message"/>
 			<p/>
 			
-			<h:outputLabel value="Destino:" for="destinoSol" styleClass="labelNegrito" style="padding-right:43px"/>
+			<h:outputLabel value="Destino:" for="destinoSol" styleClass="labelNegrito" style="padding-right:40px"/>
 			<h:inputText id="destinoSol" value="#{solicitacaoVeiculoBean.entity.destino}" required="true" 
-				requiredMessage="Informe o destino" style="width:356px"/>
+				requiredMessage="Informe o destino" style="width:350px"/>
 			<h:message for="destinoSol" styleClass="message"/>
 			<p/>
 			
@@ -99,12 +97,9 @@
 				</a4j:outputPanel>
 			</a4j:outputPanel>
 
-
-
 			<a4j:outputPanel id="panelSaida" rendered="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO'}">
-				
-				<h:outputLabel value="Km saída:" for="kmSaida"  style="padding-right:36px"/>
-				<h:inputText id="kmSaida" value="#{solicitacaoVeiculoBean.entity.kmSaida}" 
+				<h:outputLabel value="Km saída:" for="kmSaida"  style="padding-right:34px"/>
+				<h:inputText id="kmSaida" value="#{solicitacaoVeiculoBean.entity.kmSaida}"  style="width:60px"
 					required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
 				</h:inputText>	
 				<h:message for="kmSaida" styleClass="message"/>
@@ -120,12 +115,9 @@
 
 			</a4j:outputPanel>
 
-
-
 			<a4j:outputPanel id="panelRetorno" rendered="#{solicitacaoVeiculoBean.entity.status == 'EXTERNO'}">
-
 				<h:outputLabel value="Km saída:" for="kmSaidaView" style="padding-right:36px"/>
-				<h:inputText id="kmSaidaView" value="#{solicitacaoVeiculoBean.entity.kmSaida}" requiredMessage="Informe Km de saída" disabled="true" styleClass="maskInteiro">
+				<h:inputText id="kmSaidaView" value="#{solicitacaoVeiculoBean.entity.kmSaida}" style="width:60px" requiredMessage="Informe Km de saída" disabled="true">
 				</h:inputText>
 				<h:message for="kmSaidaView" styleClass="message"/>
 				<p/>
@@ -139,14 +131,15 @@
 				<p/>
 
 				<h:outputLabel value="Km retorno:" for="kmRetorno" style="padding-right:23px"/>
-				<h:inputText id="kmRetorno" value="#{solicitacaoVeiculoBean.entity.kmRetorno}" required="true" 
+				<h:inputText id="kmRetorno" value="#{solicitacaoVeiculoBean.entity.kmRetorno}" required="true" style="width:60px"
 					requiredMessage="Informe Km de retorno" styleClass="maskInteiro">
 				</h:inputText>	
 				<h:message for="kmRetorno" styleClass="message"/>
 				<p/>	
 
 				<h:outputLabel value="Observações:" for="justRetorno"/><p/>
-				<h:inputTextarea id="justRetorno" value="#{solicitacaoVeiculoBean.entity.justificativaRetorno}" style="margin-left:110px" rows="4" cols="56" />
+				<h:inputTextarea id="justRetorno" value="#{solicitacaoVeiculoBean.entity.justificativaRetorno}" 
+					style="margin-left:110px" rows="4" cols="56" />
 				<h:message for="justRetorno" styleClass="message"/>	
 
 			</a4j:outputPanel>

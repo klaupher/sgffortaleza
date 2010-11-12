@@ -50,7 +50,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	private Page rolePageUrl;
 	private Set<String> permissoes;
 	private Boolean rolePage = true;
-
+	
 	@PostConstruct
 	public String init() throws ServletException, IOException {
 		if(!isUserIn()){
