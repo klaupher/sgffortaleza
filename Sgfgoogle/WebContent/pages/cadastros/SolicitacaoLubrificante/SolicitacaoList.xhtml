@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +13,7 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:300px"> Solicitações de Lubrificação </h1>
+		<h1 style="width:300px"> SolicitaÃ§Ãµes de LubrificaÃ§Ã£o </h1>
 
 		<h:messages globalOnly="true" styleClass="messages"/>
 
@@ -82,19 +82,19 @@
 	      		<c:if test="#{solicitacaoLubrificanteBean.entitiesSize > 0}" >
 
 					<rich:column width="2%" style="text-align: center;" > 
-						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+						<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
 					<rich:column sortBy="#{solicitacao.veiculo.placa}" width="12%" style="text-align: left;"> 
-						<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
+						<f:facet name="header"><h:outputText value="veÃ­culo" /></f:facet>
 						<a4j:commandLink id="descricao" action="#" 
 							value="#{solicitacao.veiculo.placa} #{solicitacao.veiculo.modelo.descricao}" 
 							style="color: black;text-decoration:none;font-weight: bold;" reRender="paginaPrincipal"
 							oncomplete="Richfaces.showModalPanel('solicitacaoView');">
 							<f:setPropertyActionListener target="#{solicitacaoLubrificanteBean.solicitacao}" value="#{solicitacao}"/>
 						</a4j:commandLink>	
-						<rich:toolTip value="Clique aqui p/ ver mais informações ..." for="descricao"/>	
+						<rich:toolTip value="Clique aqui p/ ver mais informaÃ§Ãµes ..." for="descricao"/>	
 					</rich:column>
 
 					<rich:column sortBy="#{solicitacao.posto.descricao}" width="12%" style="text-align: left;" > 
@@ -103,7 +103,7 @@
 					</rich:column>
 
 					<rich:column width="12%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="Serviço" /></f:facet>
+						<f:facet name="header"><h:outputText value="ServiÃ§o" /></f:facet>
 						<h:outputText value="#{solicitacao.tipoServico.descricao}" style="color: black;"/>
 					</rich:column>
 
@@ -122,7 +122,7 @@
 					<rich:column width="2%" style="text-align: left;">
 						<f:facet name="header"><h:outputText value="Status"/></f:facet>
 						<h:outputText value="Negado" rendered="#{solicitacao.status == 0}" style="color: red;"/>
-						<h:outputText value="Excluído" rendered="#{solicitacao.status == -1}" style="color: red;"/>
+						<h:outputText value="ExcluÃ­do" rendered="#{solicitacao.status == -1}" style="color: red;"/>
 						<h:outputText value="Autorizado" rendered="#{solicitacao.status == 1}" style="color: black;"/>
 						<h:outputText value="Atendido" rendered="#{solicitacao.status == 2}" style="color: blue;"/>
 					</rich:column>

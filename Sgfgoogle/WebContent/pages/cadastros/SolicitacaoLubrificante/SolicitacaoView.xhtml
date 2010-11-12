@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -12,7 +12,7 @@
     	domElementAttachment="form">
     	
     	<f:facet name="header">
-                <h:outputText value="Detalhes da Autorização de Troca de Lubrificante"></h:outputText>
+                <h:outputText value="Detalhes da AutorizaÃ§Ã£o de Troca de Lubrificante"></h:outputText>
         </f:facet>
         
         <f:facet name="controls">
@@ -38,14 +38,14 @@
 			</dl>
 
 			<dl>
-				<dt><label for="servico">Serviço</label></dt>
+				<dt><label for="servico">ServiÃ§o</label></dt>
 				<dd>
 				<h:outputText id="servico" value="#{solicitacaoLubrificanteBean.solicitacao.tipoServico.descricao}" />
 				</dd>
 			</dl>
 
 			<dl>
-				<dt><label for="veiculo">Veículo</label></dt>
+				<dt><label for="veiculo">veÃ­culo</label></dt>
 				<dd>
 				<h:outputText id="veiculo" value="#{solicitacaoLubrificanteBean.solicitacao.veiculo.placa} #{solicitacaoLubrificanteBean.solicitacao.veiculo.modelo.descricao}" />
 				</dd>
@@ -66,7 +66,7 @@
 			</dl>
 			
 			<dl>
-				<dt><label for="kmProxTroca">Km Próx. Troca</label></dt>
+				<dt><label for="kmProxTroca">Km PrÃ³x. Troca</label></dt>
 				<dd>
 				<h:outputText id="kmProxTroca" value="#{solicitacaoLubrificanteBean.solicitacao.kmPrevProximaTroca}" />
 				</dd>
@@ -87,7 +87,7 @@
 			</dl>
 			
 			<dl>
-				<dt><label for="dataAutorizacao">Data Autorização</label></dt>
+				<dt><label for="dataAutorizacao">Data AutorizaÃ§Ã£o</label></dt>
 				<dd>
 				<h:outputText id="dataAutorizacao" value="#{solicitacaoLubrificanteBean.solicitacao.dataAutorizacao}">
 					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>

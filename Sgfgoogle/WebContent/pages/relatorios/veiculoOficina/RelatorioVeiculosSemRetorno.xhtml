@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,11 +13,11 @@
 
 	<div id="cadastro">
 
-	<h1 style="width:250px">Veículo sem Retorno</h1>
+	<h1 style="width:250px">veÃ­culo sem Retorno</h1>
 
 	<fieldset>
 	
-		<legend>Relatórios de Veículo sem Retorno</legend>
+		<legend>RelatÃ­rios de veÃ­culo sem Retorno</legend>
 	
 		<h:panelGrid columns="2" id="searchUG">
 			<h:outputLabel value="UG:" />
@@ -28,7 +28,7 @@
 		</h:panelGrid>
 
 		<h:panelGrid  columns="5" style="padding-right:100px">
-			<h:outputLabel value="Data Início:" for="dataInicial">
+			<h:outputLabel value="Data INÂºcio:" for="dataInicial">
 				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
 			</h:outputLabel>
 			<h:message for="dataInicial" styleClass="message"/>
@@ -58,7 +58,7 @@
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
 				<rich:column colspan="6">
-					<h:outputText value="Orgão: #{relatorio.orgao.descricao}"  style="font-weight: bold;"/>
+					<h:outputText value="OrgÃ£o: #{relatorio.orgao.descricao}"  style="font-weight: bold;"/>
 				</rich:column>
 				
 				<rich:subTable id="subDataTable" headerClass="subHeader" value="#{relatorio.relatorios}" var="r" rowKeyVar="k"
@@ -67,12 +67,12 @@
 					onRowMouseOut="jQuery(this).removeClass('trHover')">
 		
 					<rich:column width="2%">
-						<f:facet name="header"><h:outputLabel value="Nº"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="NÂº"/></f:facet>
 						<h:outputText value="#{k+1}" />
 					</rich:column>
 
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Veículo"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="veÃ­culo"/></f:facet>
 						<h:outputText value="#{r.manutencao.veiculo.placa} - #{r.manutencao.veiculo.modelo.descricao}"/>
 					</rich:column>
 					
@@ -82,7 +82,7 @@
 					</rich:column>
 
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Data/Hora Saída" /></f:facet>
+						<f:facet name="header"><h:outputLabel value="Data/Hora saÃ­da" /></f:facet>
 						<h:outputText value="#{r.manutencao.dataSaida}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
 						</h:outputText>
@@ -119,7 +119,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 		</h:panelGroup>

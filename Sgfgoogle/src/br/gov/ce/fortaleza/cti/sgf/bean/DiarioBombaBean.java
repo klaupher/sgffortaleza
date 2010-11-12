@@ -65,6 +65,10 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		return diario;
 	}
 
+	/**
+	 * Verifica o estado atual da diÃ¡ria e chama o mÃ©todo prepareUpdate ou prepareSave
+	 * @return
+	 */
 	public String prepareState(){
 		String retorno = null;
 		this.entity.setZerada(false);
@@ -89,6 +93,10 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			if((this.entity.getValorFinal() < this.entity.getValorInicial()) && !this.entity.isZerada()){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valFim.inconsistente");
 				return false;
+			} else if(this.entity.getValorFinal() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL || 
+					this.entity.getValorInicial() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL){
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
+				return false;
 			} else {
 				return true;
 			}
@@ -101,20 +109,16 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	public String prepareSave() {
 		this.mostrarZeraBomba = false;
 		DiarioBomba ultimaDiaria = service.findCurrentDiaryByBomba(this.entity.getBomba().getId());
+		this.entity.setHoraInicial(new Date());
 		if(ultimaDiaria != null){
-			this.entity.setHoraInicial(new Date());
 			this.entity.setValorInicial(ultimaDiaria.getValorFinal());
-			if(existeDiarias()){
-				if(this.entity.getValorInicial() != null){
-					verificaBombaZerada();
-				}
+			if(this.entity.getValorInicial() != null){
+				verificaBombaZerada();
 			}
-			setCurrentBean(currentBeanName());
-			setCurrentState(SAVE);
-			return SUCCESS;
-		} else {
-			return FAIL;
 		}
+		setCurrentBean(currentBeanName());
+		setCurrentState(SAVE);
+		return SUCCESS;
 	}
 
 	@Override
@@ -127,14 +131,24 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	@Override
 	public String save() {
 		DiarioBomba ultimaDiaria = service.findCurrentDiaryByBomba(this.entity.getBomba().getId());
-		if(ultimaDiaria.getValorInicial() > this.entity.getValorInicial()){
-			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialMenorQFinalAnterior");
-			return FAIL;
-		}
 		if(this.entity.getValorInicial() == null){
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialNulo");
 			return FAIL;
+		} else if(ultimaDiaria != null && ultimaDiaria.getValorFinal() != null && ultimaDiaria.getValorFinal() > this.entity.getValorInicial()){
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialMenorQFinalAnterior");
+			return FAIL;
+		} if(this.entity.getValorFinal() != null){
+			if(this.entity.getValorFinal() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL){
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
+				return FAIL;
+			}
+		} if (this.entity.getValorInicial() != null){
+			if(this.entity.getValorInicial() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL){
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
+				return FAIL;
+			}
 		}
+
 		this.entity.setStatus(0);
 		this.entity.setImageStatus("/images/open_icon.png");
 		this.entity.setHoraInicial(new Date());
@@ -156,13 +170,11 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 				this.entity.setImageStatus("/images/open_icon.png");
 				this.entity.setHoraFinal(null);
 				super.update();
-				//return searchSort();
 			} else {
 				this.entity.setStatus(1);
 				this.entity.setImageStatus("/images/tick.png");
 				this.entity.setHoraFinal(new Date());
 				super.update();
-				//return searchSort();
 			}
 			return searchSort();
 		} else {
@@ -183,7 +195,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	}
 
 	/**
-	 * this.service.findDiariasByBomba(bombaSelecionada) faz uma consulta a todos as diárias
+	 * this.service.findDiariasByBomba(bombaSelecionada) faz uma consulta a todos as diï¿½rias
 	 * @return
 	 */
 	private Boolean existeDiarias() {
@@ -199,8 +211,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	}
 
 	public void verificaBombaZerada(){
-		if(this.entity.getValorInicial() >= Constants.LIM_SUP_LEIT_BOMBA_COMBUSTIVEL){
-			this.entity.setZerada(true);
+		if(this.entity.getValorInicial() >= Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
 			setMostrarZeraBomba(true);
 		}
 	}
@@ -211,22 +222,28 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		return super.searchSort();
 	}
 
+	/**
+	 * Iniciar as diárias da bombas de cada posto
+	 */
 	public void iniciarDiarias() {
+		
 		this.postos = new ArrayList<Posto>();
-		List<Posto> tmp = new ArrayList<Posto>();
+		List<Posto> listPostos = new ArrayList<Posto>();
+		
 		if(SgfUtil.isAdministrador(this.user) || SgfUtil.isCoordenador(this.user)){
-			tmp = postoService.retrieveAll();
+			listPostos = postoService.retrieveAll();
 		} else if(SgfUtil.isOperador(this.user)){
-			tmp.add(postoService.retrieve(this.user.getPosto().getCodPosto()));
+			listPostos.add(postoService.retrieve(this.user.getPosto().getCodPosto()));
 		}
-		for (Posto p : tmp) {
-			for (Bomba b : p.getListaBomba()) {
+		
+		for (Posto posto : listPostos) {
+			for (Bomba bomba : posto.getListaBomba()) {
 				boolean existeDiaria = false;
 				Calendar calendar = Calendar.getInstance();
 				Calendar calendar2 = Calendar.getInstance();
 				calendar.setTime(new Date());
-				Date ultimaDiaria = service.findUltimaDiariaByBomba(b.getId());
-				DiarioBomba diaria = service.findCurrentDiaryByBomba(b.getId());
+				Date ultimaDiaria = service.findUltimaDiariaByBomba(bomba.getId());
+				DiarioBomba diaria = service.findCurrentDiaryByBomba(bomba.getId());
 				if(ultimaDiaria != null){
 					calendar2.setTime(ultimaDiaria);
 					if( (calendar2.get(Calendar.DAY_OF_MONTH) < calendar.get(Calendar.DAY_OF_MONTH)) || 
@@ -235,14 +252,10 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 					} else {
 						existeDiaria = true;
 					}
-				} else {
-					existeDiaria = false;
 				}
 				if(existeDiaria){
-					if(isUpdateState()){
-						diaria.setImageStatus("/images/tick.png");
-					}
-					b.setDiarioBomba(diaria);
+					diaria.setImageStatus("/images/tick.png");
+					bomba.setDiarioBomba(diaria);
 				} else {
 					DiarioBomba db = new DiarioBomba();
 					db.setDataCadastro(new Date());
@@ -252,17 +265,17 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 					db.setImageStatus("/images/closed.gif");
 					db.setUser(user);
 					db.setValorInicial(null);
-					db.setBomba(b);
-					b.setDiarioBomba(db);
+					db.setBomba(bomba);
+					bomba.setDiarioBomba(db);
 				}
 			}
-			this.postos.add(p);
+			this.postos.add(posto);
 		}
 	}
 
 	/**
-	 * Caso a bomba não tenha nenhuma diária, uma diária será criada
-	 * Caso Contrário a bomba tenha diária, a diário corrente será mostrada
+	 * Caso a bomba nï¿½o tenha nenhuma diï¿½ria, uma diï¿½ria serï¿½ criada
+	 * Caso Contrï¿½rio a bomba tenha diï¿½ria, a diï¿½rio corrente serï¿½ mostrada
 	 * @param list
 	 */
 	public void setarValores(List<Posto> list) {
@@ -309,7 +322,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		}
 	}
 
-	private Float recuperarValorFinal(DiarioBomba diarioBomba, Bomba bomba) {
+	public Float recuperarValorFinal(DiarioBomba diarioBomba, Bomba bomba) {
 		DiarioBomba diarioBombaAux = this.service.findLastDiariaByDate(bomba);
 		if(diarioBomba.getDataCadastro().equals(diarioBombaAux.getDataCadastro())){
 			return diarioBomba.getValorFinal();

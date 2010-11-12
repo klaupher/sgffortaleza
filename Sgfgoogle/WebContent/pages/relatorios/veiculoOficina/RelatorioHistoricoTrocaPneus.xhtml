@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,15 +13,15 @@
 
 	<div id="cadastro">
 
-	<h1 style="width:350px"> Histórico de Troca de Pneus</h1>
+	<h1 style="width:350px"> HistÃ­rico de Troca de Pneus</h1>
 
 	<fieldset>
 	
-		<legend>Histórico de troca de pneus</legend>
+		<legend>HistÃ­rico de troca de pneus</legend>
 
 			
 		<h:panelGrid id="gridUG" columns="2">
-			<h:outputLabel value="Orgão:" for="ugTrocaPneus">
+			<h:outputLabel value="OrgÃ£o:" for="ugTrocaPneus">
 				<h:selectOneMenu id="ugTrocaPneus" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 					<f:selectItem itemLabel="Todos" itemValue="" />
 		    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
@@ -31,8 +31,8 @@
 		</h:panelGrid>
 		
 		<h:panelGrid id="gridVeiculo"  columns="2">
-			<h:outputLabel value="Veículos:" for="veiculo">
-				<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" disabled="#{empty relatorioBean.veiculos}" requiredMessage="Informe o Veículo" converter="entityConverter">
+			<h:outputLabel value="veÃ­culos:" for="veiculo">
+				<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" disabled="#{empty relatorioBean.veiculos}" requiredMessage="Informe o veÃ­culo" converter="entityConverter">
 					<f:selectItem itemLabel="Todos" itemValue="" />
 					<t:selectItems value="#{relatorioBean.veiculos}" var="veiculo" itemLabel="#{veiculo.modelo.descricao}-#{veiculo.placa}" itemValue="#{veiculo}" />
 				</h:selectOneMenu>
@@ -42,7 +42,7 @@
 
 		<h:panelGrid  columns="6" style="padding-right:200px">
 
-			<h:outputLabel value="Data Início:" for="dataInicial">
+			<h:outputLabel value="Data INÂºcio:" for="dataInicial">
 				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
 			</h:outputLabel>
 			<h:message for="dataInicial" styleClass="message"/>
@@ -71,8 +71,8 @@
 			<c:if test="#{not empty relatorioBean.entities}">
 	
 				<rich:column colspan="5" style="font-weight: bold; background:white">
-					<h:outputText value="Orgão: #{relatorio.orgao.descricao}" style="padding-right:20px"/>
-					<h:outputText value="Veículo: #{relatorio.veiculo.placa} /  #{relatorio.veiculo.modelo.descricao}"  style="padding-right:20px"/>
+					<h:outputText value="OrgÃ£o: #{relatorio.orgao.descricao}" style="padding-right:20px"/>
+					<h:outputText value="veÃ­culo: #{relatorio.veiculo.placa} /  #{relatorio.veiculo.modelo.descricao}"  style="padding-right:20px"/>
 					<h:outputText value="Quant. trocas: #{relatorio.quantTrocaPneus}"/>
 				</rich:column>
 	
@@ -82,7 +82,7 @@
 					onRowMouseOut="jQuery(this).removeClass('trHover')">
 	
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Nº" style="text-align:left"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="NÂº" style="text-align:left"/></f:facet>
 						<h:outputText value="#{k+1}" />
 					</rich:column>
 	
@@ -92,7 +92,7 @@
 					</rich:column>
 					
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Mecânico"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="MecÃ¢nico"/></f:facet>
 						<h:outputText value="#{r.manutencao.oficina.responsavel}"/>
 					</rich:column>
 					
@@ -134,7 +134,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
 			</h:commandLink>
 		</h:panelGroup>

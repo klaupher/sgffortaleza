@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -14,7 +14,7 @@
 
 		<fieldset>
 
-	      <legend>Listagem de Perfis</legend>
+	      <legend>Perfis</legend>
 
 	      	<p></p>
 	      	<rich:dataTable id="dataTable"	value="#{roleBean.entities}" var="role" rows="10" rowKeyVar="k"
@@ -23,16 +23,16 @@
 				onRowMouseOut="jQuery(this).removeClass('trHover')">
 				
 				<rich:column width="3%" style="text-align: center;" > 
-					<f:facet name="header"><h:outputText value="Nº"/></f:facet>
+					<f:facet name="header"><h:outputText value="NÂº"/></f:facet>
 					<h:outputText value="#{k+1}" style="color: black;"/>
 				</rich:column>
 
 				<rich:column width="50%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
+					<f:facet name="header"><h:outputText value="DescriÃ§Ã£o" /></f:facet>
 					<a4j:commandLink id="roleEdit" action="#{roleBean.prepareEdit}" value="#{role.nome}" style="color: black;text-decoration:none;font-weight: bold;" reRender="paginaPrincipal">
 						<f:setPropertyActionListener target="#{roleBean.entity}" value="#{role}"/>
 					</a4j:commandLink>
-					<rich:toolTip value="Click p/ Editar Permissões do Perfil" for="roleEdit"/>
+					<rich:toolTip value="Click p/ Editar PermissÃµes do Perfil" for="roleEdit"/>
 				</rich:column>
 
 				<rich:column width="3%" style="text-align: center;">

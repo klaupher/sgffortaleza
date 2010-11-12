@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -16,26 +16,26 @@
 
 		<fieldset>
 
-	      <legend><h:outputText value="Cadastro de página" /></legend>
+	      <legend><h:outputText value="Cadastro de pÃ¡gina" /></legend>
 	      
-	      	<dt><label for="nomePage">Nome da página</label></dt>
+	      	<dt><label for="nomePage">Nome da pÃ¡gina</label></dt>
 	      	<dd>
 				<h:inputText id="nomePage" value="#{pageBean.entity.nome}" size="45" maxlength="90" required="true"
 					requiredMessage="Informe o nome" />
 				<rich:message for="nomePage" styleClass="message"/>
 			</dd>
 			
-			<dt><label for="descpage">Descrição da página</label></dt>
+			<dt><label for="descpage">DescriÃ§Ã£o da pÃ¡gina</label></dt>
 			<dd>
 				<h:inputText id="descpage" value="#{pageBean.entity.descricao}" size="80" maxlength="120" required="true"
-					requiredMessage="Informe a descrição" />
+					requiredMessage="Informe a DescriÃ§Ã£o" />
 				<rich:message for="descpage" styleClass="message"/>
 			</dd>
 			
-			<dt><label for="urlpage">URL da página</label></dt>
+			<dt><label for="urlpage">URL da pÃ¡gina</label></dt>
 			<dd>
 				<h:inputText id="urlpage" value="#{pageBean.entity.urlPage}" size="60" maxlength="120" required="true" style="text-transform:none;"
-					requiredMessage="Informe a url da página" />
+					requiredMessage="Informe a url da pÃ¡gina" />
 				<rich:message for="urlpage" styleClass="message"/>
 			</dd>
 			

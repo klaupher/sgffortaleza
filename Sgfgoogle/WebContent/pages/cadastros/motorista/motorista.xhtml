@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -51,12 +51,12 @@
 
 	    	<fieldset class="medio">
 
-			    <legend>Dados do Usuário</legend>
+			    <legend>Dados do UsuÃ¡rio</legend>
 
 			     <a4j:outputPanel id="panelDadosPessoa">
 			    	<dt><label for="nome">Nome</label></dt>
 				  	<dd><h:inputText value="#{motoristaBean.pessoa.nome}" id="nome" disabled="true" size="50"/></dd>
-				  	<dt><label for="matricula">Matrícula</label></dt>
+				  	<dt><label for="matricula">MatrÃ­cula</label></dt>
 				  	<dd><h:inputText value="#{motoristaBean.pessoa.matricula}" id="matricula" disabled="true"/></dd>				
 				  	<dt><label for="tpPessoa">Tipo de pessoa</label></dt>
 				  	<dd><h:inputText value="#{motoristaBean.pessoa.tpPessoa}" id="tpPessoa" disabled="true"/></dd>
@@ -104,7 +104,7 @@
 					  	</h:panelGroup>
 					  	
 						<dl>
-					    	<dt><label for="cnh">Número CNH</label></dt>
+					    	<dt><label for="cnh">NÃºmero CNH</label></dt>
 						  	<dd>
 						  		<h:inputText value="#{motoristaBean.entity.cnh}" id="cnh" maxlength="11" size="12" required="true" requiredMessage="Informe a CNH">
 							  		<rich:jQuery query="numeric()" selector="#cnh" timing="onload" />
@@ -120,7 +120,7 @@
 						  			<rich:jQuery selector="#dataValidadeCnh" timing="onload" query="setMask('date')" />
 									<rich:jQuery selector="#dataValidadeCnh" timing="onload" query="datepicker({
 													dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-													monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+													monthNames: ['Janeiro','Fevereiro','MarÃ§o','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
 													dateFormat: 'dd/mm/yy', showOn: 'button', buttonImage: '../images/calendar.png', buttonImageOnly: true})"/>
 						  			<f:convertDateTime pattern="dd/MM/yyyy"  timeZone="GMT-03:00"/>
 						  		</h:inputText>

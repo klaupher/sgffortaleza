@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -14,7 +14,7 @@
 			<a4j:outputPanel id="panelPostoServicos">
 			<h1>Selecione os servicos do posto</h1>    
 				<fieldset>
-<legend>Dados do Posto e Veículo</legend>
+<legend>Dados do Posto e veÃ­culo</legend>
 					<h:outputLabel value="Modelo" for="modeloServicos" />
 					<h:inputText value="#{veiculoBean.entity.modelo.descricao}" id="modeloServicos" size="50" disabled="true"/>
 					<h:outputLabel value="Posto" for="postoSelecionado" />
@@ -22,7 +22,7 @@
 				</fieldset>
 				<rich:panel headerClass="panelHeader">
 					<f:facet name="header">
-						Serviços disponiveis para o posto
+						serviÃ§os disponiveis para o posto
 					</f:facet>
 					<h:panelGroup> 
 						<rich:pickList value="#{postoBean.entity.listaServicosSelecionados}"

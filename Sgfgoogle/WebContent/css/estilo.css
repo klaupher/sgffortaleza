@@ -439,3 +439,14 @@ input.pequeno
 	float:right;
 }
 
+.fieldLabel {
+     display: block;
+     width: 50px;
+     float: left;
+     line-height: 20px;
+ }
+ 
+ .fieldValue {
+     width: 250px;
+ }
+

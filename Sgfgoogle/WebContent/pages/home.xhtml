@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition template="templates/template.xhtml"
@@ -20,7 +20,7 @@
 			<ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
 		</c:if>
 
-		<c:if test="#{controlBean.abastecimentoBean and !abastecimentoBean.start}">
+		<c:if test="#{controlBean.abastecimentoBean}">
 			<c:if test="#{(abastecimentoBean.updateState or abastecimentoBean.saveState)}">
 				<ui:include src="cadastros/abastecimento/abastecimento.xhtml" />
 			</c:if>
@@ -285,7 +285,7 @@
 			</c:if>
 		</c:if>
 
-		<!-- PÁGINAS DOS RELATÓRIOS DO SGF -->
+		<!-- PÃGINAS DOS RELAtÃ­RIOS DO SGF -->
 		<c:if test="#{controlBean.relatorioBean}">
 			<c:if test="#{relatorioBean.relatorioInformacoesVeiculoState}">
 				<ui:include src="relatorios/veiculos/relatorioInformacoesVeiculo.xhtml" />

@@ -505,8 +505,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				RelatorioDTO dto = new RelatorioDTO();
 				if(d.getValorFinal() != null && d.getValorInicial() != null){
 					if(d.getValorFinal() < d.getValorInicial()){
-						if(d.getValorFinal() < Constants.LIM_INF_LEIT_BOMBA_COMBUSTIVEL && d.getValorInicial() > Constants.LIM_SUP_LEIT_BOMBA_COMBUSTIVEL){
-							Float la =  ((Constants.LIMITE_LEIT_BOMBA_COMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
+						if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && 
+						   d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+							Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
 							d.setLitrosAbastecidos(la);
 							total+=la;
 						}
@@ -540,8 +541,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					RelatorioDTO dto = new RelatorioDTO();
 					if(d.getValorFinal() != null && d.getValorInicial() != null){
 						if(d.getValorFinal() > d.getValorInicial()){
-							if(d.getValorFinal() < Constants.LIM_INF_LEIT_BOMBA_COMBUSTIVEL && d.getValorInicial() > Constants.LIM_SUP_LEIT_BOMBA_COMBUSTIVEL){
-								Float la =  ((Constants.LIMITE_LEIT_BOMBA_COMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
+							if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+								Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
 								d.setLitrosAbastecidos(la);
 								total+=la;
 							}

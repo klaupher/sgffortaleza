@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -35,17 +35,17 @@
 		      		<c:if test="#{not empty areaBean.entities}" >
 	
 						<rich:column width="2%" style="text-align: center;" > 
-							<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+							<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 							<h:outputText value="#{index+1}" style="color: black;"/>
 						</rich:column>
 	
 						<rich:column width="60%" style="text-align: left;" > 
-							<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
+							<f:facet name="header"><h:outputText value="DescriÃ§Ã£o" /></f:facet>
 							<h:outputText value="#{area.descricao}" style="color: black;"/>
 						</rich:column>
 						
 						<rich:column width="8%" style="text-align: left;" > 
-							<f:facet name="header"><h:outputText value="Veículos" /></f:facet>
+							<f:facet name="header"><h:outputText value="veÃ­culos" /></f:facet>
 							<h:outputText value="#{area.numeroVeiculos}" style="color: black;"/>
 						</rich:column>
 
@@ -54,7 +54,7 @@
 							    <h:graphicImage value="../images/cars/car.png" style="border:0" />
 								<f:setPropertyActionListener target="#{areaBean.entity}" value="#{area}"/>
 								<a4j:support event="onclick" reRender="paginaPrincipal"/>
-								 <rich:toolTip for="veiculoAreaEdit" value="veículos que estão na área" />
+								 <rich:toolTip for="veiculoAreaEdit" value="veÃ­culos que estÃ­o na Ã¡rea" />
 							</h:commandLink>
 						</rich:column>
 

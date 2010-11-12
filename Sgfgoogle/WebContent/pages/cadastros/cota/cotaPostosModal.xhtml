@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -17,14 +17,14 @@
 				<h1>Cadastro de Cotas</h1>    
 
 				<fieldset>
-					<legend>Dados do Veículo</legend>
+					<legend>Dados do veÃ­culo</legend>
 						<h:outputLabel value="Modelo" for="modeloCotaPosto" />
 						<h:inputText value="#{veiculoBean.entity.placa} #{veiculoBean.entity.modelo.descricao}" id="modeloCotaPosto" size="50" disabled="true"/>
 				</fieldset>
 
 				<fieldset>
 
-					<legend>Escolha os Postos e Serviços</legend>
+					<legend>Escolha os Postos e serviÃ§os</legend>
 
 					<rich:panel headerClass="panelHeader">
 
@@ -36,7 +36,7 @@
 								Richfaces.hideModalPanel('cotaPostosModal'); Richfaces.showModalPanel('selecionarServicos')"
 								reRender="panelPostoServicos, selecionarServicos" style="text-decoration: none; color:black;font-weight: bold;">
 								<a4j:actionparam name="posto" value="#{posto}" assignTo="#{postoBean.entity}" converter="postoConverter"/>
-								<rich:toolTip value="Clique aqui para selecionar os serviços desse posto"/>				
+								<rich:toolTip value="Clique aqui para selecionar os serviÃ§os desse posto"/>				
 							</a4j:commandLink>
 							<p/>			    
 						</a4j:repeat>						

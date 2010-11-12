@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -17,11 +17,11 @@
 	
 	<div id="cadastro">
 
-		<h1 style="width:300px">Solicitação de Lubrificação </h1>
+		<h1 style="width:300px">SolicitaÃ§Ã£o de LubrificaÃ§Ã£o </h1>
 
 		<fieldset>
 
-	      	<legend>Cadastro de Autorização de Lubrificação</legend>
+	      	<legend>Cadastro de AutorizaÃ§Ã£o de LubrificaÃ§Ã£o</legend>
 
 	      	<a4j:region>
 	      	<dl>
@@ -69,10 +69,11 @@
 			
 			<a4j:region>
 			<dl>
-			  	<dt><label for="tipoServico">Serviço</label></dt>
+			  	<dt><label for="tipoServico">ServiÃ§o</label></dt>
 			  	<dd>
-				<h:selectOneMenu id="tipoServico" value="#{solicitacaoLubrificanteBean.tipoServico}" required="true" requiredMessage="Selecione o Tipo de Serviço" converter="entityConverter">
-					<f:selectItem itemLabel="Informe o Tipo de Serviço" itemValue=""/>
+				<h:selectOneMenu id="tipoServico" value="#{solicitacaoLubrificanteBean.tipoServico}" required="true" 
+				requiredMessage="Selecione o Tipo de ServiÃ§o" converter="entityConverter">
+					<f:selectItem itemLabel="Informe o Tipo de ServiÃ§oo" itemValue=""/>
 		 			<t:selectItems value="#{solicitacaoLubrificanteBean.servicos}" var="servico" itemLabel="#{servico.descricao}" itemValue="#{servico}"/>
 				</h:selectOneMenu>
 				<rich:message for="tipoServico"  styleClass="message"/>
@@ -80,11 +81,11 @@
 			</dl>
 
 			<dl>
-			  	<dt><label for="veiculo">Veículo</label></dt>
+			  	<dt><label for="veiculo">veÃ­culo</label></dt>
 			  	<dd>
 					<h:selectOneMenu id="veiculo" value="#{solicitacaoLubrificanteBean.entity.veiculo}" required="true"
-					requiredMessage="Veículo deve ser selecionado."  converter="entityConverter">
-			 			<f:selectItem itemLabel="Informe o Veículo" itemValue=""/>
+					requiredMessage="veÃ­culo deve ser selecionado."  converter="entityConverter">
+			 			<f:selectItem itemLabel="Informe o veÃ­culo" itemValue=""/>
 			 			<t:selectItems value="#{solicitacaoLubrificanteBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 			 			<a4j:support event="onchange" rendered="#{solicitacaoLubrificanteBean.saveState}" action="#{solicitacaoLubrificanteBean.getUltimaAutorizacao}"/>
 					</h:selectOneMenu>
@@ -93,7 +94,7 @@
 			</dl>
 
 			<a4j:outputPanel id="ultimoServico" rendered="false" >
-				<h:outputLabel value="Última autorização atendida em: " style="color:red"/>
+				<h:outputLabel value="Ãšltima autorizaÃ§Ã£o atendida em: " style="color:red"/>
 				<h:outputText value="#{solicitacaoLubrificanteBean.ultimaAutorizacao.dataAtendimento}" style="color:red">
 					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT -03:00"/>
 				</h:outputText>
@@ -109,7 +110,7 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal" />
 	</h:commandButton>
 
-	<h:commandButton action="#{solicitacaoLubrificanteBean.update}" value="Alterar"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}"
+	<h:commandButton action="#{solicitacaoLubrificanteBean.update}" value="Alterar"  onclick="if(!confirm('Confirmar alteraÃ§Ã£o de dados.')) { form.reset();return false;}"
 		rendered="#{solicitacaoLubrificanteBean.updateState}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
@@ -118,6 +119,6 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 
-	<h:commandButton action="#{solicitacaoLubrificanteBean.emitirAutorizacao}" value="Emitir Autorização" rendered="#{solicitacaoLubrificanteBean.entity.status == 1}" style="align:right;"/>
+	<h:commandButton action="#{solicitacaoLubrificanteBean.emitirAutorizacao}" value="Emitir AutorizaÃ§Ã£o" rendered="#{solicitacaoLubrificanteBean.entity.status == 1}" style="align:right;"/>
 
 </ui:composition>

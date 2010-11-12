@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -14,7 +14,7 @@
 <f:loadBundle basename="messages" var="msg" />
 
 <head>
-	<title>Sistema de Gestão de Frotas - SGF</title>
+	<title>Sistema de GestÃ£o de Frotas - SGF</title>
 	<a4j:loadStyle src="css/estilo.css" />
 </head>
 
@@ -24,8 +24,8 @@
 
 		<div id="topo">
 
-	    	<img src="#{msg['sistema.label.imageLogo']}" alt="Logo da Administração" width="250" height="80" />
-	    	<h1>Sistema de Gestão de Frotas - SGF</h1>
+	    	<img src="#{msg['sistema.label.imageLogo']}" alt="Logo da AdministraÃ§Ã£o" width="250" height="80" />
+	    	<h1>Sistema de GestÃ£o de Frotas - SGF</h1>
 	    	<h2><h:outputText value="#{msg['sistema.label.prefeitura']}"/></h2>
 
   		</div>
@@ -37,9 +37,9 @@
 		    
 		    	<fieldset style="width:270px">
 
-		  			<legend>Área de Login</legend>
+		  			<legend>Ãrea de Login</legend>
 				    <dl>
-				    	<dt><label for="j_username">Usuário </label></dt>
+				    	<dt><label for="j_username">UsuÃ¡rio </label></dt>
 				        <dd><input type="text" name="j_username" id="j_username" style="text-transform:none;" /></dd>
 
 				   		<dt><label for="j_password">Senha </label></dt>
@@ -50,27 +50,13 @@
 				    		</dt>
 				   		</dl>
 				   		<br/>
-				   		
-<!--						<h:panelGroup rendered="#{loginBean.loginErro}">-->
-<!--						 <dd>-->
-<!--							<font color="red">-->
-<!--								<h:outputText value="#{msg['sistema.label.usuarioSenhaInvalido']}" />-->
-<!--							</font>-->
-<!--						</dd>-->
-<!--						</h:panelGroup>-->
 						<h:messages styleClass="messages" globalOnly="true"/>
-							<font color="red">
-								<h:outputText value="#{messageLogin}" />
-							</font>
-
+						<font color="red">
+							<h:outputText value="#{messageLogin}" />
+						</font>
 				    </dl>
 
 			    </fieldset>
-		   
-
-				<!--<h:commandButton value="Lembrar senha..." onclick="Richfaces.showModalPanel('retrieveLogin', {width:500, height:200, top:45});" 
-					style="color: black;text-decoration:none;">
-				</h:commandButton>-->
 
   			</form>
 

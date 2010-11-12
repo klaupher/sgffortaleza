@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -11,7 +11,7 @@
      
 	<div id="cadastro">
 
-		<h1>Localização Veículo</h1>
+		<h1>LocalizaÃ§Ã£o veÃ­culo</h1>
 		
 		<h:outputText value="Veiculo:"/>
 		<h:selectOneMenu id="veiculo" value="#{pontoBean.veiculo}" converter="entityConverter">
@@ -27,7 +27,7 @@
 		<a4j:poll id="clockReload" action="#{pontoBean.search}" rendered="#{pontoBean.reload}" 
 				  interval="24000" reRender="points"  oncomplete="loadMaps();"/>
 		
-		<h:outputText value="Posição:"/>
+		<h:outputText value="PosiÃ§Ã£o:"/>
 		<h:inputText id="endereco" maxlength="50" size="36"/>
 		
 		<h:outputText value="Vel:"/>
@@ -36,7 +36,7 @@
 		<h:outputText value="Odometro:"/>
 		<h:inputText id="odometro" value="#{pontoBean.odometro}" maxlength="10" size="4"/>
 		
-		<label>Ignição:</label>
+		<label>IgniÃ§Ã£o:</label>
 		<h:selectOneRadio id="ignicao" value="#{pontoBean.ignicao}" style="width:20%;">
 	      	<f:selectItem itemLabel="ON" itemValue="true"/>
 	      	<f:selectItem itemLabel="OFF" itemValue="false"/>

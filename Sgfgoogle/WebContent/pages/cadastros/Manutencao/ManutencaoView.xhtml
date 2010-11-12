@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -11,7 +11,7 @@
     <rich:modalPanel id="manutencaoView" autosized="true" width="400" moveable="true" top="10" domElementAttachment="form">
     	
     	<f:facet name="header">
-                <h:outputText value="Detalhes de Autorização de Manutenção"></h:outputText>
+                <h:outputText value="Detalhes de AutorizaÃ§Ã£o de ManutenÃ§Ã£o"></h:outputText>
         </f:facet>
         
         <f:facet name="controls">
@@ -25,12 +25,12 @@
 
 		<div id="cadastro">
 		
-			<h1 style="width:250px">Solicitação de Manutenção</h1>
+			<h1 style="width:250px">SolicitaÃ§Ã£o de ManutenÃ§Ã£o</h1>
 
 			<fieldset>    
 			
 			<dl>
-				<dt><label for="veiculo">Veículo:</label></dt>
+				<dt><label for="veiculo">veÃ­culo:</label></dt>
 				<dd>
 				<h:outputText id="veiculo" value="#{requisicaoManutencaoBean.requisicao.veiculo.modelo.descricao}-#{requisicaoManutencaoBean.requisicao.veiculo.placa}" />
 				</dd>
@@ -44,7 +44,7 @@
 			</dl>
 
 			<dl>
-				<dt><label for="mecanico">Nome do Mecânico:</label></dt>
+				<dt><label for="mecanico">Nome do MecÃ¢nico:</label></dt>
 				<dd>
 				<h:outputText id="mecanico" value="#{requisicaoManutencaoBean.requisicao.nomeMecanico}" />
 				</dd>
@@ -89,12 +89,12 @@
 				var="item" width="100%" rows="5" rowKeyVar="index">
 
 					<rich:column width="1%"> 
-						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+						<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
 					<rich:column width="5%"> 
-						<f:facet name="header"><h:outputText value="Tipo Serviço"/></f:facet>
+						<f:facet name="header"><h:outputText value="Tipo ServiÃ§o"/></f:facet>
 						<h:outputText value="#{item.tipoServico.descricao}" style="color: black;"/>
 					</rich:column>
 

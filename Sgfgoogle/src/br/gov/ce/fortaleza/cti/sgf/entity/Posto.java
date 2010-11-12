@@ -139,5 +139,4 @@ public class Posto implements Serializable {
 	public void setDiarioBombas(List<DiarioBomba> diarioBombas) {
 		this.diarioBombas = diarioBombas;
 	}
-
 }

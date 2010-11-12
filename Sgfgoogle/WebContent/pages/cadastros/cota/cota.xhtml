@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -17,7 +17,7 @@
 
       <fieldset>
 
-		<legend>Listagem de veículos sem cota</legend>
+		<legend>Listagem de veÃ­culos sem cota</legend>
 		
 	        <fieldset>
 
@@ -38,14 +38,14 @@
 				
 				<c:if test="#{empty cotaBean.veiculos}">
 					<rich:column>
-						<f:facet name="header">Nenhum veículo não encontrado.</f:facet>
+						<f:facet name="header">Nenhum veÃ­culo NÂºo encontrado.</f:facet>
 					</rich:column>
 				</c:if>
 				
 				<c:if test="#{not empty cotaBean.veiculos}">
 
 					<rich:column width="2%" style="text-align: center;" > 
-						<f:facet name="header"><h:outputText value="Nº"/></f:facet>
+						<f:facet name="header"><h:outputText value="NÂº"/></f:facet>
 						<h:outputText value="#{k+1}" style="color: black;"/>
 					</rich:column>
 	

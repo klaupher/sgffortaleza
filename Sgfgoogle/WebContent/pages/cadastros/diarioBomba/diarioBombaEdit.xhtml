@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -10,13 +10,13 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:350px"> Diário de Bombas de Combustível </h1>
+		<h1 style="width:390px"> DiÃ¡rio de Bomba de CombustÃ­vel </h1>
 
 		<fieldset>
-			<legend>Dados da Bomba de Combustível</legend>
+			<legend>Dados da Bomba de CombustÃ­vel</legend>
 			<h:outputText value="POSTO: " style="font-weight: bold;"/>
 			<h:outputText value="#{diarioBombaBean.entity.bomba.posto.descricao}"/><br/>
-			<h:outputText value="NÚMERO DA BOMBA: " style="font-weight: bold;"/>
+			<h:outputText value="NÂºMERO DA BOMBA: " style="font-weight: bold;"/>
 			<h:outputText value="#{diarioBombaBean.entity.bomba.numero}" />
 		</fieldset>
 
@@ -31,7 +31,7 @@
 				width="100%">
 
 				<rich:column width="5%" style="text-align: center;" > 
-					<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+					<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 					<h:outputText value="#{index+1}" style="color: black;"/>
 				</rich:column>
 

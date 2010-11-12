@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -17,10 +17,10 @@
 
 	<fieldset>
 	
-		<legend>Relatório Consolidado Mensal</legend>
+		<legend>RelatÃ­rio Consolidado Mensal</legend>
 
 
-		<h:outputLabel value="Orgão" for="ugList"/>
+		<h:outputLabel value="OrgÃ£o" for="ugList"/>
 		<h:panelGroup>
 	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
@@ -28,9 +28,9 @@
 		</h:panelGroup>
 		<p/>
 
-		<h:outputLabel value="Mês de referência" for="mesesList"/>
+		<h:outputLabel value="MÃªs de referÃªncia" for="mesesList"/>
 		<h:panelGroup>
-	      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mês">
+	      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mÃªs">
 	   			<f:selectItems value="#{relatorioBean.meses}"/>
 	   		</h:selectOneMenu>			
 		</h:panelGroup>
@@ -56,7 +56,7 @@
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 	
 				<rich:column style="width:2%">
-					<f:facet name="header"><h:outputLabel value="Nº" /></f:facet>
+					<f:facet name="header"><h:outputLabel value="NÂº" /></f:facet>
 					<h:outputText value="#{index+1}" />
 				</rich:column>
 				
@@ -142,7 +142,7 @@
 	
 		<h:panelGroup id="reportConsolidadoMensal" rendered="#{relatorioBean.entitiesSize > 0}">
 	
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 	

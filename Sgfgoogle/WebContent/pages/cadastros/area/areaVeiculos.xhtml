@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,20 +13,20 @@
 
 	<div id="cadastro">
 
-		<h1>  Área de Veículos </h1>
+		<h1>  Ã¡rea de veÃ­culos </h1>
 
 		<fieldset>
 			
-			<legend>Área de Veículos</legend>
+			<legend>Ã¡rea de veÃ­culos</legend>
 
-			<h:outputLabel value="Descrição da Área:"/>
+			<h:outputLabel value="DescriÃ§Ã£o da Ã¡rea:"/>
  			<h:outputText value="#{areaBean.entity.descricao}" />
 
  			<p/>
 
- 			<h:outputLabel value="Veículo:"/>
-			<h:selectOneMenu id="veiculo" value="#{areaBean.veiculo}" requiredMessage="Informe o veículo"  converter="entityConverter">
-	 			<f:selectItem itemLabel="Vecículo:" itemValue=""/>
+ 			<h:outputLabel value="veÃ­culo:"/>
+			<h:selectOneMenu id="veiculo" value="#{areaBean.veiculo}" requiredMessage="Informe o veÃ­culo"  converter="entityConverter">
+	 			<f:selectItem itemLabel="VeÃ­culo:" itemValue=""/>
 	 			<t:selectItems value="#{areaBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 			</h:selectOneMenu>
 
@@ -41,14 +41,14 @@
 
         		 <c:if test="#{empty areaBean.entity.veiculos}">
 					<rich:column>
-						<f:facet name="header">Nenhum veículo na área.</f:facet>
+						<f:facet name="header">Nenhum veÃ­culo na Ã¡rea.</f:facet>
 					</rich:column>
 				</c:if>
 
 				 <c:if test="#{not empty areaBean.entity.veiculos}">
 
 					<h:column>
-						<f:facet name="header"><h:outputText styleClass="headerText" value="Nº" /></f:facet>
+						<f:facet name="header"><h:outputText styleClass="headerText" value="NÂº" /></f:facet>
 						<h:outputText value="#{k+1}" />
 					</h:column>
 

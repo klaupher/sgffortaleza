@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -12,11 +12,11 @@
 
 	<div id="cadastro">
 
-		<h1> Número Motor </h1>
+		<h1> NÂºmero Motor </h1>
 
 		<fieldset>
 
-	      	<legend>Cadastro de Número de Motor</legend>
+	      	<legend>Cadastro de NÂºmero de Motor</legend>
 
 			<h:inputHidden value="#{numeroMotorBean.entity.id}" rendered="#{numeroMotorBean.updateState}"/>
 
@@ -32,10 +32,10 @@
 	    	</dd>
 
 			<h:panelGroup id="veiculoRegion">
-			  	<dt><label for="veiculoNumMotor">Veículo</label></dt>
+			  	<dt><label for="veiculoNumMotor">veÃ­culo</label></dt>
 			  	<dd>
-					<h:selectOneMenu id="veiculoNumMotor" value="#{numeroMotorBean.entity.veiculo}" required="true" requiredMessage="Informe o Veículo"  converter="entityConverter">
-						<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
+					<h:selectOneMenu id="veiculoNumMotor" value="#{numeroMotorBean.entity.veiculo}" required="true" requiredMessage="Informe o veÃ­culo"  converter="entityConverter">
+						<f:selectItem itemLabel="Informe o veÃ­culo" itemValue=""/>
 			 			<t:selectItems value="#{numeroMotorBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}"/>
 					</h:selectOneMenu>
 					<label style="color:red">*</label>
@@ -43,10 +43,10 @@
 				</dd>
 			</h:panelGroup>
 
-			<dt><label for="numeroMotor">Número do motor</label></dt>
+			<dt><label for="numeroMotor">NÂºmero do motor</label></dt>
 			<dd>
 				<h:inputText id="numeroMotor" value="#{numeroMotorBean.entity.numeroMotor}"  required="true" size="20" maxlength="50"  
-				  		requiredMessage="Informe o número do motor">
+				  		requiredMessage="Informe o NÂºmero do motor">
 			</h:inputText>
 			<label style="color:red">*</label>
 			<rich:message errorClass="error" for="numeroMotor" styleClass="message"/>
@@ -58,7 +58,7 @@
 			</dd>
 			
 			<p></p>
-			<label style="color:red">* campos obrigatórios</label>
+			<label style="color:red">* campos obrigatÃ­rios</label>
 
 	    </fieldset>
 
@@ -68,7 +68,7 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 
-	<h:commandButton action="#{numeroMotorBean.update}" value="Alterar" rendered="#{numeroMotorBean.updateState}" onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{numeroMotorBean.update}" value="Alterar" rendered="#{numeroMotorBean.updateState}" onclick="if(!confirm('Confirmar alteraÃ§Ã£o de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
 

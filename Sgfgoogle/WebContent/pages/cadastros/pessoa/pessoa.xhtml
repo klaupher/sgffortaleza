@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -19,7 +19,7 @@
 	      	<legend>
 	      		
 	      		<h:outputText value="Cadastro de Nova Pessoa" rendered="#{pessoaBean.saveState}"/>
-	      		<h:outputText value="Alteração de Pessoa" rendered="#{pessoaBean.updateState}"/>
+	      		<h:outputText value="alteraÃ§Ã£o de Pessoa" rendered="#{pessoaBean.updateState}"/>
 	      	
 	      	</legend>
 
@@ -45,7 +45,7 @@
 		</h:commandButton>
 		
 		<h:commandButton action="#{pessoaBean.update}" value="Alterar" rendered="#{pessoaBean.updateState}">
-			<a4j:support event="onclick" reRender="paginaPrincipal" onclick="if(!confirm('Confirmar Operação')){document.getElementById('paginaPrincipal').reset(); return false;}"/>
+			<a4j:support event="onclick" reRender="paginaPrincipal" onclick="if(!confirm('Confirmar OperaÃ§Ã£o')){document.getElementById('paginaPrincipal').reset(); return false;}"/>
 		</h:commandButton>
 		
 		<h:commandButton action="#{pessoaBean.search}" value="Voltar"  immediate="true">

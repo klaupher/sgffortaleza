@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -12,11 +12,11 @@
 
 	<div id="cadastro">
 
-		<h1>  Veículos </h1>
+		<h1>  veÃ­culos </h1>
 		
 		<fieldset>
 
-	      	<legend>Listagem de Veículos</legend>
+	      	<legend>Listagem de veÃ­culos</legend>
 
 	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{controlBean.hasPermission('RULE_CADASTRO_VEICULO')}">
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
@@ -54,7 +54,7 @@
 	      		<c:if test="#{veiculoBean.entitiesSize > 0}" >
 
 					<rich:column width="5%" style="text-align: center;" > 
-						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+						<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
@@ -79,7 +79,7 @@
 					</rich:column>
 
 					<rich:column width="4%"> 
-						<f:facet name="header"><h:outputText value="Combustível" /></f:facet>
+						<f:facet name="header"><h:outputText value="CombustÃ­vel" /></f:facet>
 						<h:outputText value="#{veiculo.combustivel}" style="color: black;"/>
 					</rich:column>
 					
@@ -105,7 +105,7 @@
 
 					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
-						<h:commandLink styleClass="excluir" value="Excluir" onclick="if(!confirm('Não pode ser excluído')){document.getElementById('paginaPrincipal').reset(); return false;}">
+						<h:commandLink styleClass="excluir" value="Excluir" onclick="if(!confirm('Confirmar ExclusÃ£o')){document.getElementById('paginaPrincipal').reset(); return false;}">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
 							<a4j:support event="onclick" reRender="paginaPrincipal" />
 						</h:commandLink>

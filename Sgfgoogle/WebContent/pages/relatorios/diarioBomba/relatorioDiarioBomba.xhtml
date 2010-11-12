@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -11,11 +11,11 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:320px">Diário de Bomba de Combustível</h1>
+		<h1 style="width:320px">DiÃ¡rio de Bomba de CombustÃ­vel</h1>
 
 		<fieldset class="medio">
 
-	      	<legend>Relatório Diário de Bomba de Combustível</legend>
+	      	<legend>RelatÃ­rio DiÃ¡rio de Bomba de CombustÃ­vel</legend>
 
 	      	<dl>
 	      		<a4j:region>
@@ -84,12 +84,12 @@
 						rowClasses="odd,even">
 
 							<rich:column width="3%" style="text-align: center;" > 
-								<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+								<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 								<h:outputText value="#{k+1}" style="color: black;"/>
 							</rich:column>
 
 							<rich:column width="5%">
-								<f:facet name="header"><h:outputLabel value="Bomba Nº"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Bomba NÂº"/></f:facet>
 								<h:outputText value="#{db.bomba.numero}"/>
 							</rich:column>
 
@@ -146,7 +146,7 @@
 
 				<h:panelGroup rendered="#{not empty relatorioBean.entities}">
 
-					<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+					<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio" target="blank">
 		    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
 					</h:commandLink>
 

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -28,9 +28,9 @@
 			</dl>
 
 			<dl>
-				<dt><label for="endereco">Endereço</label></dt>
+				<dt><label for="endereco">EndereÃ§o</label></dt>
 				<dd>
-				  	<h:inputText id="endereco" value="#{oficinaBean.entity.endereco}" required="true" size="60" maxlength="150"  requiredMessage="Informe o endereço da oficina.">
+				  	<h:inputText id="endereco" value="#{oficinaBean.entity.endereco}" required="true" size="60" maxlength="150"  requiredMessage="Informe o endereÃ§o da oficina.">
 					</h:inputText>
 					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="endereco" styleClass="message"/>
@@ -39,16 +39,16 @@
 			
 
 			<dl>
-				<dt><label for="responsavel">Responsável</label></dt>
+				<dt><label for="responsavel">ResponsÃ¡vel</label></dt>
 				<dd>
-				  	<h:inputText id="responsavel" value="#{oficinaBean.entity.responsavel}" required="true" size="30" maxlength="100"  requiredMessage="Informe o responsável.">
+				  	<h:inputText id="responsavel" value="#{oficinaBean.entity.responsavel}" required="true" size="30" maxlength="100"  requiredMessage="Informe o responsÃ¡vel.">
 					</h:inputText>
 					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="responsavel" styleClass="message"/>
 				</dd>
 			</dl>
 			<p></p>
-			<label style="color:red">* campos obrigatórios</label>
+			<label style="color:red">* campos obrigatÃ³rios</label>
 
 	    </fieldset>
 
@@ -59,7 +59,7 @@
 	</h:commandButton>
 
 	<h:commandButton action="#{oficinaBean.update}" value="Alterar" rendered="#{oficinaBean.updateState}"  
-		onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+		onclick="if(!confirm('Confirmar alteraÃ§Ã£o de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
 

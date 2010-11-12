@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -13,14 +13,14 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:250px">Bomba de Combustível </h1>
+		<h1 style="width:250px">Bomba de CombustÃ­vel </h1>
 
 		<fieldset>
 
 			<legend>Busca</legend>
 
 	      	<dl>
-				<dt><label for="numeroPesquisa">Nº da Bomba:</label></dt>
+				<dt><label for="numeroPesquisa">NÂº da Bomba:</label></dt>
 				<dd>
 					<h:inputText value="#{bombaBean.numeroPesquisa}" id="numeroPesquisa">
 						 <rich:jQuery query="numeric()" selector="#numeroPesquisa" timing="onload" />
@@ -36,11 +36,11 @@
 					</h:selectOneMenu>
 				</dd>
 
-				<dt><label for="combustivelPesquisa">Combustível:</label></dt>
+				<dt><label for="combustivelPesquisa">CombustÃ­vel:</label></dt>
 				<dd>
 					<h:selectOneMenu id="combustivelPesquisa" value="#{bombaBean.combustivel}" required="true" 
-						requiredMessage="Informe o tipo de combustível" converter="entityConverter">
-						<f:selectItem itemValue="" itemLabel="Selecione o combustível" />
+						requiredMessage="Informe o tipo de combustÃ­vel" converter="entityConverter">
+						<f:selectItem itemValue="" itemLabel="Selecione o combustÃ­vel" />
 						<t:selectItems value="#{combustivelBean.combustiveis}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
 					</h:selectOneMenu>
 					
@@ -58,7 +58,7 @@
 
 		<fieldset>
 
-			<legend>Cadastro de Bomba de Combustível</legend>		
+			<legend>Cadastro de Bomba de CombustÃ­vel</legend>		
 
       		<a4j:commandLink id="novaBomba" action="#{bombaBean.prepareSave}" value="Nova" reRender="paginaPrincipal" immediate="true" styleClass="novo"/>
 		    <p/>
@@ -70,12 +70,12 @@
 				width="100%">
 
 				<rich:column width="3%" style="text-align: center;" > 
-					<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+					<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 					<h:outputText value="#{index+1}" style="color: black;"/>
 				</rich:column>
 
 				<rich:column width="5%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Nº da Bomba" /></f:facet>
+					<f:facet name="header"><h:outputText value="NÂº da Bomba" /></f:facet>
 					<h:outputText value="#{bomba.numero}" style="color: black;"/>
 				</rich:column>
 
