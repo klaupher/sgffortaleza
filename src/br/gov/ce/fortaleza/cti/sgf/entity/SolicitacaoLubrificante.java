@@ -23,7 +23,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SecondaryTable(name="TB_ATENDTROCALUB")
+@SecondaryTable(name="TB_ATENDTROCALUB", schema = "SGF")
 @Table(name = "TB_SOLTROCALUBRIFICANTE", schema = "SGF")
 @NamedQueries({
 	@NamedQuery(name="SolicitacaoLubrificante.findByStatus", query = "select s from SolicitacaoLubrificante as s where s.status = ? and s.posto.codPosto = ? and s.status != -1 order by s.id desc"),

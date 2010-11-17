@@ -26,7 +26,7 @@ public class Permissao implements Serializable {
 	@Column(name="CODPERMISSAO", nullable = false)
 	private Integer codPermissao;
 
-	@Column(name="DESCPERMISSAO", nullable = false, length = 50)
+	@Column(name="DESCPERMISSAO", nullable = false, length = 150)
 	private String descricao;
 
 	@Column(name="NOMEPERMISSAO", nullable = false, length = 50)
