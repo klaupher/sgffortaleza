@@ -120,6 +120,19 @@
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}"  rendered="#{controlBean.administrador}" immediate="true"/>
 
 			</rich:dropDownMenu>
+			
+			<rich:dropDownMenu>
+
+				<f:facet name="label"><h:outputText value="#{msg['menu.rastreamento']}" /></f:facet>
+				<rich:menuItem value="Monitoramento"  rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Comandos" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Área de Movimentação" action="#{areaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Rota de Veículo" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Relatório de Posição"  rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Relatório de Velocidades"  rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Verificação de Rota" rendered="#{controlBean.administrador}" immediate="true"/>
+
+			</rich:dropDownMenu>
 
 			 <rich:toolBarGroup location="right">
 

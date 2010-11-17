@@ -36,7 +36,6 @@ public class Area implements Serializable{
 	private String descricao;
 
 
-//	@Type(type="org.hibernatespatial.GeometryUserType")
 	@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
 	@Column(name = "GEOMAREA", nullable = false)
 	private Polygon geometry;
@@ -45,7 +44,8 @@ public class Area implements Serializable{
 	@JoinTable(name = "TB_VEICULO_AREA", schema = "SGF", joinColumns=@JoinColumn(name="CODAREA"), inverseJoinColumns=@JoinColumn(name="CODVEICULO"))
 	private List<Veiculo> veiculos;
 	
-	private transient Integer numeroVeiculos;
+	@Column(name="NUM_VEIC_AREA")
+	private Integer numeroVeiculosArea;
 
 	public Integer getId() {
 		return id;
@@ -79,12 +79,12 @@ public class Area implements Serializable{
 		this.veiculos = veiculos;
 	}
 	
-	public Integer getNumeroVeiculos() {
-		return this.veiculos.size();
+	public Integer getNumeroVeiculosArea() {
+		return numeroVeiculosArea;
 	}
 
-	public void setNumeroVeiculos(Integer numeroVeiculos) {
-		this.numeroVeiculos = numeroVeiculos;
+	public void setNumeroVeiculosArea(Integer numeroVeiculosArea) {
+		this.numeroVeiculosArea = numeroVeiculosArea;
 	}
 
 	public int hashCode() {

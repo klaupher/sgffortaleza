@@ -119,7 +119,7 @@ public class AreaBean extends EntityBean<Integer, Area>{
 	}
 
 	/*
-	 * codifica um polígone em string de pontos
+	 * codifica um polígono em string de pontos
 	 * 
 	 */
 
