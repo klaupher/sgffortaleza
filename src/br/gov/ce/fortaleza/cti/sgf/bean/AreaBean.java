@@ -89,7 +89,9 @@ public class AreaBean extends EntityBean<Integer, Area>{
 	
 	public String areaVeiculos(){
 		this.veiculos = veiculoService.retrieveAll();
-		this.veiculos.removeAll(this.entity.getVeiculos());
+		if(this.entity.getVeiculos().size() > 0){
+			this.veiculos.removeAll(this.entity.getVeiculos());
+		}
 		setCurrentBean(currentBeanName());
 		setCurrentState(AREA_VEICULOS);
 		return SUCCESS;
@@ -119,7 +121,7 @@ public class AreaBean extends EntityBean<Integer, Area>{
 	}
 
 	/*
-	 * codifica um polígono em string de pontos
+	 * codifica um polï¿½gono em string de pontos
 	 * 
 	 */
 
@@ -143,7 +145,7 @@ public class AreaBean extends EntityBean<Integer, Area>{
 
 	/**
 	 * 
-	 * decodifica uma string de pontos em um polígono
+	 * decodifica uma string de pontos em um polï¿½gono
 	 * @param mapArea
 	 * @return
 	 */

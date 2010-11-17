@@ -149,12 +149,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	@Override
 	protected Integer retrieveEntityId(RelatorioDTO entity) {
-		throw new IllegalStateException("Não implementado");
+		throw new IllegalStateException("Nï¿½o implementado");
 	}
 
 	@Override
 	protected BaseService<Integer, RelatorioDTO> retrieveEntityService() {
-		throw new IllegalStateException("Não implementado");
+		throw new IllegalStateException("Nï¿½o implementado");
 	}
 
 	public List<SelectItem> getMesList(){
@@ -280,7 +280,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 	/**
-	 * métodos de chamada do relatório de kilometros rodados
+	 * mï¿½todos de chamada do relatï¿½rio de kilometros rodados
 	 * @return
 	 */
 	public String relatorioKilometrosRodadosVeiculo() {
@@ -505,8 +505,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				RelatorioDTO dto = new RelatorioDTO();
 				if(d.getValorFinal() != null && d.getValorInicial() != null){
 					if(d.getValorFinal() < d.getValorInicial()){
-						if(d.getValorFinal() < Constants.LIM_INF_LEIT_BOMBA_COMBUSTIVEL && d.getValorInicial() > Constants.LIM_SUP_LEIT_BOMBA_COMBUSTIVEL){
-							Float la =  ((Constants.LIMITE_LEIT_BOMBA_COMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
+						if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+							Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
 							d.setLitrosAbastecidos(la);
 							total+=la;
 						}
@@ -540,8 +540,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					RelatorioDTO dto = new RelatorioDTO();
 					if(d.getValorFinal() != null && d.getValorInicial() != null){
 						if(d.getValorFinal() > d.getValorInicial()){
-							if(d.getValorFinal() < Constants.LIM_INF_LEIT_BOMBA_COMBUSTIVEL && d.getValorInicial() > Constants.LIM_SUP_LEIT_BOMBA_COMBUSTIVEL){
-								Float la =  ((Constants.LIMITE_LEIT_BOMBA_COMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
+							if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+								Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
 								d.setLitrosAbastecidos(la);
 								total+=la;
 							}
@@ -767,7 +767,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	/**
 	 * 
-	 * pesquisa está sendo feita p/ todos os veículos
+	 * pesquisa estï¿½ sendo feita p/ todos os veï¿½culos
 	 */
 	@Transactional
 	public String consultarConsolidadoMensal() {
@@ -1132,7 +1132,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	/**
 	 * 
-	 * gera consulta dos kilomentros rodados dos veículos do orgãos
+	 * gera consulta dos kilomentros rodados dos veï¿½culos do orgï¿½os
 	 * @return
 	 */
 
@@ -1285,7 +1285,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		// Resgatando response
 		HttpServletResponse res = JSFUtil.getInstance().getResponse(FacesContext.getCurrentInstance());
 
-		// Configurando cabeçalho
+		// Configurando cabeï¿½alho
 		res.setContentType("application/pdf");
 		res.setHeader("Pragma", "public");
 		res.setHeader("Cache-control", "must-revalidate");

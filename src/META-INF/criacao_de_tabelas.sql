@@ -1,4 +1,12 @@
-    create table SGF.TB_ABASTECIMENTO (
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+SET search_path = public, sgf, pg_catalog;    
+    
+create table SGF.TB_ABASTECIMENTO (
         CODSOLABASTECIMENTO int4 not null,
         DTAUTORIZACAO timestamp,
         JUSTIFICATIVAATEND varchar(255),
@@ -12,13 +20,16 @@
         CODVEICULO int4 not null,
         primary key (CODSOLABASTECIMENTO)
     );
+    ALTER TABLE sgf.TB_ABASTECIMENTO OWNER TO sgf;
 
     create table SGF.TB_AREA (
         CODAREA  serial not null,
         DESCAREA varchar(255),
-        GEOMAREA oid not null,
+        NUM_VEIC_AREA INTEGER,
+        GEOMAREA geometry not null,
         primary key (CODAREA)
     );
+    ALTER TABLE sgf.tb_area OWNER TO sgf;
 
     create table SGF.TB_ATENDABASTECIMENTO (
         CODATENDABASTECIMENTO int4 not null,
@@ -33,6 +44,7 @@
         CODUSUARIO int4,
         primary key (CODATENDABASTECIMENTO)
     );
+    ALTER TABLE sgf.TB_ATENDABASTECIMENTO OWNER TO sgf;
 
     create table SGF.TB_CADPESSOA (
         CODPESSOA int4 not null,
@@ -45,6 +57,7 @@
         COD_UA varchar(255),
         primary key (CODPESSOA)
     );
+    ALTER TABLE sgf.TB_CADPESSOA OWNER TO sgf;
 
     create table SGF.TB_CADVEICULO (
         CODVEICULO int4 not null,
@@ -72,18 +85,21 @@
         COD_UA_ASI varchar(255),
         primary key (CODVEICULO)
     );
+    ALTER TABLE sgf.TB_CADVEICULO OWNER TO sgf;
 
     create table SGF.TB_ESPECIE (
         CODESPECIE int4 not null,
         DESCESPECIE varchar(150) not null,
         primary key (CODESPECIE)
     );
+    ALTER TABLE sgf.TB_ESPECIE OWNER TO sgf;
 
     create table SGF.TB_GRUPOUSUARIO (
         codgrupo int4,
         CODPESSOAUSUARIO int4 not null,
         primary key (CODPESSOAUSUARIO)
     );
+    ALTER TABLE sgf.TB_GRUPOUSUARIO OWNER TO sgf;
 
     create table SGF.TB_INFRACAO (
         CODINFRACAO int4 not null,
@@ -94,6 +110,7 @@
         VALOR float8,
         primary key (CODINFRACAO)
     );
+    ALTER TABLE sgf.TB_INFRACAO OWNER TO sgf;
 
     create table SGF.TB_LOGUSUARIO (
         ID  serial not null,
@@ -104,12 +121,14 @@
         ID_USUARIO int4 not null,
         primary key (ID)
     );
+    ALTER TABLE sgf.TB_LOGUSUARIO OWNER TO sgf;
 
     create table SGF.TB_MARCA (
         CODMARCA int4 not null,
         DESCMARCA varchar(50) not null,
         primary key (CODMARCA)
     );
+    ALTER TABLE sgf.TB_MARCA OWNER TO sgf;
 
     create table SGF.TB_MODELO (
         CODMODELO int4 not null,
@@ -117,6 +136,7 @@
         CODMARCA int4,
         primary key (CODMODELO)
     );
+    ALTER TABLE sgf.TB_MODELO OWNER TO sgf;
 
     create table SGF.TB_MULTA (
         CODMULTA int4 not null,
@@ -128,6 +148,7 @@
         CODVEICULO int4,
         primary key (CODMULTA)
     );
+    ALTER TABLE sgf.TB_MULTA OWNER TO sgf;
 
     create table SGF.TB_NUMEROMOTOR (
         CODNUMMOTOR int4 not null,
@@ -138,6 +159,7 @@
         CODVEICULO int4,
         primary key (CODNUMMOTOR)
     );
+    ALTER TABLE sgf.TB_NUMEROMOTOR OWNER TO sgf;
 
     create table SGF.TB_OFICINA (
         CODOFICINA int4 not null,
@@ -146,6 +168,7 @@
         RESPONSAVEL varchar(100),
         primary key (CODOFICINA)
     );
+    ALTER TABLE sgf.TB_OFICINA OWNER TO sgf;
 
     create table SGF.TB_PAGE (
         CODPAGE  serial not null,
@@ -155,6 +178,7 @@
         URLPAGE varchar(255) not null,
         primary key (CODPAGE)
     );
+    ALTER TABLE sgf.TB_PAGE OWNER TO sgf;
 
     create table SGF.TB_PARAMETRO (
         ID_PARAMETRO  serial not null,
@@ -164,6 +188,7 @@
         VALOR varchar(255),
         primary key (ID_PARAMETRO)
     );
+    ALTER TABLE sgf.TB_PARAMETRO OWNER TO sgf;
 
     create table SGF.TB_PESSOAUSUARIO (
         CODPESSOAUSUARIO int4 not null,
@@ -176,13 +201,15 @@
         CODPOSTO int4,
         primary key (CODPESSOAUSUARIO)
     );
+    ALTER TABLE sgf.TB_PESSOAUSUARIO OWNER TO sgf;
 
     create table SGF.TB_PONTO (
         CODPONTO  serial not null,
         DESCPONTO varchar(255),
-        GEOMPONTO oid not null,
+        GEOMPONTO geometry not null,
         primary key (CODPONTO)
     );
+    ALTER TABLE sgf.TB_PONTO OWNER TO sgf;
 
     create table SGF.TB_REGISTROVEICULOS (
         dtretorno timestamp,
@@ -195,6 +222,7 @@
         CODSOLVEICULO int4 not null,
         primary key (CODSOLVEICULO)
     );
+    ALTER TABLE sgf.TB_REGISTROVEICULOS OWNER TO sgf;
 
     create table SGF.TB_REQUISICAOITEM (
         CODREQITEM  serial not null,
@@ -205,6 +233,7 @@
         CODTIPOSERVICO int4,
         primary key (CODREQITEM)
     );
+    ALTER TABLE sgf.TB_REQUISICAOITEM OWNER TO sgf;
 
     create table SGF.TB_REQUISICAOMANUTENCAO (
         CODREQMANUTENCAO  serial not null,
@@ -219,6 +248,7 @@
         CODVEICULO int4,
         primary key (CODREQMANUTENCAO)
     );
+    ALTER TABLE sgf.TB_REQUISICAOMANUTENCAO OWNER TO sgf;
 
     create table SGF.TB_SOLTROCALUBRIFICANTE (
         CODSOLTROCALUB int4 not null,
@@ -232,6 +262,7 @@
         CODVEICULO int4 not null,
         primary key (CODSOLTROCALUB)
     );
+    ALTER TABLE sgf.TB_SOLTROCALUBRIFICANTE OWNER TO sgf;
 
     create table SGF.TB_SOLVEICULOS (
         CODSOLVEICULO int4 not null,
@@ -248,12 +279,13 @@
         CODVEICULOAUT int4,
         primary key (CODSOLVEICULO)
     );
+    ALTER TABLE sgf.TB_SOLVEICULOS OWNER TO sgf;
 
     create table SGF.TB_TRANSMISSAO (
         CODTRANSMISSAO  bigserial not null,
         DAT_TRANSMISSAO timestamp not null,
         DISTANCIA_PONTOPROX float4,
-        GEOM oid not null,
+        GEOM geometry not null,
         IGNICAO bool,
         ODOMETRO float4,
         TEMPERATURA float4,
@@ -262,6 +294,7 @@
         CODPONTO int4,
         primary key (CODTRANSMISSAO)
     );
+    ALTER TABLE sgf.TB_TRANSMISSAO OWNER TO sgf;
 
     create table SGF.TB_UA (
         COD_UA varchar(255) not null,
@@ -270,11 +303,12 @@
         COD_UG varchar(255),
         primary key (COD_UA)
     );
+    ALTER TABLE sgf.TB_UA OWNER TO sgf;
 
     create table SGF.TB_ULTIMATRANSMISSAO (
         DAT_TRANSMISSAO timestamp,
         DISTANCIA_PONTOPROX float4,
-        GEOM oid,
+        GEOM geometry,
         IGNICAO bool,
         ODOMETRO float4,
         TEMPERATURA float4,
@@ -283,11 +317,13 @@
         CODVEICULO int4 not null,
         primary key (CODVEICULO)
     );
+    ALTER TABLE sgf.TB_ULTIMATRANSMISSAO OWNER TO sgf;
 
     create table SGF.TB_VEICULO_AREA (
         CODAREA int4 not null,
         CODVEICULO int4 not null
     );
+    ALTER TABLE sgf.TB_VEICULO_AREA OWNER TO sgf;
 
     create table SGF.tb_bomba (
         codbomba int4 not null,
@@ -296,6 +332,7 @@
         CODPOSTO int4 not null,
         primary key (codbomba)
     );
+    ALTER TABLE sgf.tb_bomba OWNER TO sgf;
 
     create table SGF.tb_cotaabastecimento (
         codcotaabastecimento int4 not null,
@@ -305,6 +342,7 @@
         CODVEICULO int4,
         primary key (codcotaabastecimento)
     );
+    ALTER TABLE sgf.tb_cotaabastecimento OWNER TO sgf;
 
     create table SGF.tb_diariobomba (
         coddiariobomba int4 not null,
@@ -319,6 +357,7 @@
         codusuario int4,
         primary key (coddiariobomba)
     );
+    ALTER TABLE sgf.tb_diariobomba OWNER TO sgf;
 
     create table SGF.tb_grupo (
         CODGRUPO int4 not null,
@@ -326,17 +365,20 @@
         NOMEGRUPO varchar(255) not null,
         primary key (CODGRUPO)
     );
+    ALTER TABLE sgf.tb_grupo OWNER TO sgf;
 
     create table SGF.tb_grupopage (
         codgrupo int4 not null,
         codpage int4 not null,
         primary key (codgrupo, codpage)
     );
+    ALTER TABLE sgf.tb_grupopage OWNER TO sgf;
 
     create table SGF.tb_grupopermissao (
         codgrupo int4 not null,
         codpermissao int4 not null
     );
+    ALTER TABLE sgf.tb_grupopermissao OWNER TO sgf;
 
     create table SGF.tb_permissao (
         CODPERMISSAO int4 not null,
@@ -344,6 +386,7 @@
         NOMEPERMISSAO varchar(50) not null,
         primary key (CODPERMISSAO)
     );
+    ALTER TABLE sgf.tb_permissao OWNER TO sgf;
 
     create table SGF.tb_pessoamotorista (
         CODPESSOAMOTORISTA int4 not null,
@@ -355,12 +398,14 @@
         CODPESSOA int4,
         primary key (CODPESSOAMOTORISTA)
     );
+    ALTER TABLE sgf.tb_pessoamotorista OWNER TO sgf;
 
     create table SGF.tb_posto (
         CODPOSTO int4 not null,
         NOMEPOSTO varchar(255),
         primary key (CODPOSTO)
     );
+     ALTER TABLE sgf.tb_posto OWNER TO sgf;
 
     create table SGF.tb_postoservico (
         codpostoservico int4 not null,
@@ -369,6 +414,7 @@
         CODTIPOSERVICO int4,
         primary key (codpostoservico)
     );
+    ALTER TABLE sgf.tb_postoservico OWNER TO sgf;
 
     create table SGF.tb_postoservicoveiculo (
         codpostoservicoveiculo int4 not null,
@@ -376,12 +422,14 @@
         CODVEICULO int4,
         primary key (codpostoservicoveiculo)
     );
+    ALTER TABLE sgf.tb_postoservicoveiculo OWNER TO sgf;
 
     create table SGF.tb_tipocombustivel (
         codtipocombustivel int4 not null,
         descservico varchar(255),
         primary key (codtipocombustivel)
     );
+    ALTER TABLE sgf.tb_tipocombustivel OWNER TO sgf;
 
     create table SGF.tb_tiposervico (
         CODTIPOSERVICO int4 not null,
@@ -389,6 +437,7 @@
         manutencao int4,
         primary key (CODTIPOSERVICO)
     );
+    ALTER TABLE sgf.tb_tiposervico OWNER TO sgf;
 
     create table SGF.tb_ug (
         cod_ug varchar(255) not null,
@@ -396,6 +445,7 @@
         flag int4,
         primary key (cod_ug)
     );
+    ALTER TABLE sgf.tb_ug OWNER TO sgf;
 
     create table SGF.TB_ATENDTROCALUB (
         DTATENDIMENTO timestamp,
@@ -407,6 +457,7 @@
         CODSOLTROCALUB int4 not null,
         primary key (CODSOLTROCALUB)
     );
+    ALTER TABLE sgf.TB_ATENDTROCALUB OWNER TO sgf;
 
     alter table SGF.TB_ABASTECIMENTO 
         add constraint FK8C04C7B6E4286893 
@@ -738,59 +789,86 @@
         foreign key (CODUSUARIOATEND) 
         references SGF.TB_PESSOAUSUARIO;
 
-    create sequence codnumeromotor_seq;
-
-    create sequence codsoltrocalub_seq;
-
     create table sgf.hibernate_sequences (
          sequence_name varchar(255),
          sequence_next_hi_value int4 
     );
+    ALTER TABLE sgf.hibernate_sequences OWNER TO sgf;
+    
+    create sequence sgf.codnumeromotor_seq;
+    ALTER TABLE sgf.codnumeromotor_seq OWNER TO sgf;
+
+    create sequence sgf.codsoltrocalub_seq;
+    ALTER TABLE sgf.codsoltrocalub_seq OWNER TO sgf;
 
     create sequence sgf.abastecimento_seq;
+    ALTER TABLE sgf.abastecimento_seq OWNER TO sgf;
 
     create sequence sgf.atendabastecimento_seq;
+    ALTER TABLE sgf.atendabastecimento_seq OWNER TO sgf;
 
     create sequence sgf.codbomba_seq;
+    ALTER TABLE sgf.codbomba_seq OWNER TO sgf;
 
     create sequence sgf.codcotaabastecimento_seq;
+    ALTER TABLE sgf.codcotaabastecimento_seq OWNER TO sgf;
 
     create sequence sgf.coddiariobomba_seq;
+    ALTER TABLE sgf.coddiariobomba_seq OWNER TO sgf;
 
     create sequence sgf.codespecie_seq;
+    ALTER TABLE sgf.codespecie_seq OWNER TO sgf;
 
     create sequence sgf.codgrupo_seq;
+    ALTER TABLE sgf.codgrupo_seq OWNER TO sgf;
 
     create sequence sgf.codinfracao_seq;
+    ALTER TABLE sgf.codinfracao_seq OWNER TO sgf;
 
     create sequence sgf.codmarca_seq;
+    ALTER TABLE sgf.codmarca_seq OWNER TO sgf;
 
     create sequence sgf.codmodelo_seq;
+    ALTER TABLE sgf.codmodelo_seq OWNER TO sgf;
 
     create sequence sgf.codmulta_seq;
+    ALTER TABLE sgf.codmulta_seq OWNER TO sgf;
 
     create sequence sgf.codoficina_seq;
+    ALTER TABLE sgf.codoficina_seq OWNER TO sgf;
 
     create sequence sgf.codpermissao_seq;
+    ALTER TABLE sgf.codpermissao_seq OWNER TO sgf;
 
     create sequence sgf.codpessoa_seq;
+    ALTER TABLE sgf.codpessoa_seq OWNER TO sgf;
 
     create sequence sgf.codpessoamotorista_seq;
+    ALTER TABLE sgf.codpessoamotorista_seq OWNER TO sgf;
 
     create sequence sgf.codpessoausuario_seq;
+    ALTER TABLE sgf.codpessoausuario_seq OWNER TO sgf;
 
     create sequence sgf.codposto_seq;
+    ALTER TABLE sgf.codposto_seq OWNER TO sgf;
 
     create sequence sgf.codpostoservico_seq;
+    ALTER TABLE sgf.codpostoservico_seq OWNER TO sgf;
 
     create sequence sgf.codpostoservicoveiculo_seq;
+    ALTER TABLE sgf.codpostoservicoveiculo_seq OWNER TO sgf;
 
     create sequence sgf.codsolveiculo_seq;
+    ALTER TABLE sgf.codsolveiculo_seq OWNER TO sgf;
 
     create sequence sgf.codtipocombustivel_seq;
+    ALTER TABLE sgf.codtipocombustivel_seq OWNER TO sgf;
 
     create sequence sgf.codtiposervico_seq;
+    ALTER TABLE sgf.codtiposervico_seq OWNER TO sgf;
 
     create sequence sgf.codua_seq;
+    ALTER TABLE sgf.codua_seq OWNER TO sgf;
 
     create sequence sgf.codveiculo_seq;
+    ALTER TABLE sgf.codveiculo_seq OWNER TO sgf;

@@ -126,13 +126,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	@PostConstruct
 	public void init() {
-		this.start = false;
 		this.orgaoSelecionado = usuario.getPessoa().getUa().getUg();
 		this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
 		this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
 		this.status = StatusAbastecimento.AUTORIZADO;
 		search();
-		this.start = true;
 	}
 
 	@Override
@@ -211,15 +209,17 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.veiculos.clear();
 		this.motoristas.clear();
 		this.tiposServico.clear();
-		if (entity != null) {
+		if (this.entity != null) {
 			if (entity.getQuilometragem() != null) {
 				this.ultimaQuilometragem = entity.getQuilometragem();
 			}
 		}
 		Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
 		this.veiculos.add(vasilhame);
-		this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
-		this.motoristas.addAll(motoristaService.findByUG(this.orgaoSelecionado.getId()));
+		if (this.orgaoSelecionado != null) {
+			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
+			this.motoristas.addAll(motoristaService.findByUG(this.orgaoSelecionado.getId()));
+		}
 		this.tiposServico.add(tipoServicoService.retrieve(1));
 		if (this.entity.getPosto() != null) {
 			if(this.entity.getPosto().getListaBomba() != null){
@@ -251,7 +251,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		}
 	}
 	/**
-	 * Valida a cota disponível para o veículo durante o atendimento
+	 * Valida a cota disponï¿½vel para o veï¿½culo durante o atendimento
 	 * do abastecimento
 	 * 
 	 * @return Boolean
@@ -290,7 +290,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	@Override
 	public String search() {
-
 		Set<Abastecimento> filtro = new HashSet<Abastecimento>(0);
 		this.entities = new ArrayList<Abastecimento>();
 		this.tiposServico.add(tipoServicoService.retrieve(1));
@@ -313,14 +312,14 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
 			this.entities = service.pesquisarPeriodo(this.dtInicial,this.dtFinal, usuario.getPessoa().getUa().getUg(),this.status);
 			loadVeiculos();
-			loadMotoristas();
-			setCurrentBean(currentBeanName());
-			setCurrentState(SEARCH);
+			//loadMotoristas();
+			//setCurrentBean(currentBeanName());
+			//setCurrentState(SEARCH);
 		}
 
-		Double qtdAbastecida = 0.0;
+		//Double qtdAbastecida = 0.0;
 
-		for (Abastecimento o : this.entities) {
+		for (Abastecimento abastecimento : this.entities) {
 
 			if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
 				this.autorizar = true;
@@ -329,19 +328,17 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			}
 
 			if (!this.atendimento) {
-				this.atendimento = SgfUtil.isOperador(usuario)
-				&& (o.getStatus().equals(StatusAbastecimento.AUTORIZADO));
+				this.atendimento = SgfUtil.isOperador(usuario) && (abastecimento.getStatus().equals(StatusAbastecimento.AUTORIZADO));
 			}
 
 			if (this.autorizar || this.atendimento) {
 				this.negar = false;
 				this.atender = false;
-				filtro.add(o);
+				filtro.add(abastecimento);
 			}
 		}
 		this.entities.clear();
 		this.entities.addAll(filtro);
-		this.start = false;
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;
@@ -357,49 +354,54 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return FAIL;
 	}
 
+	/**
+	 * Atualiza o cadastro do  atendimento, veificando se o abastecimento nÃ£o se refere ao abastecimento 
+	 * de um vasilhame(veÃ­culo de modelo com cÃ³digo = 75)
+	 */
 	@Override
 	public String update() {
-
+		boolean vasilhame = false;
 		if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
-			StatusAbastecimento status = entity.getStatus();
+			//StatusAbastecimento status = entity.getStatus();
 			if(this.entity.getVeiculo().getModelo() != null){
-				boolean vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
-				if(vasilhame){
-					this.entity.setQuilometragem(0L);
-					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-					Date now = new Date();
-					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
-					atendimento.setBomba(this.bomba);
-					atendimento.setData(now);
-					atendimento.setHora(now);
-					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
-					atendimento.setQuilometragem(0L);
-					atendimento.setUsuario(SgfUtil.usuarioLogado());
-					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
-					atendimento.setAbastecimento(this.entity);
-					atendimentoService.save(atendimento);
-				} else if (validaQuilometragem()) {
-					Double cotaAtualizada = 0.0;
-					this.entity.setQuilometragem(kmAtendimento);
-					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-					Date now = new Date();
-					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
-					atendimento.setBomba(this.bomba);
-					atendimento.setData(now);
-					atendimento.setHora(now);
-					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
-					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
-					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
-					atendimento.setQuilometragem(kmAtendimento);
-					atendimento.setUsuario(SgfUtil.usuarioLogado());
-					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
-					atendimento.setAbastecimento(this.entity);
-					this.cotaService.update(this.entity.getVeiculo().getCota());
-					atendimentoService.save(atendimento);
-				} else {
-					return FAIL;
-				}
+				vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
 			}
+			if(vasilhame){
+				this.entity.setQuilometragem(0L);
+				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+				Date now = new Date();
+				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+				atendimento.setBomba(this.bomba);
+				atendimento.setData(now);
+				atendimento.setHora(now);
+				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
+				atendimento.setQuilometragem(0L);
+				atendimento.setUsuario(SgfUtil.usuarioLogado());
+				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
+				atendimento.setAbastecimento(this.entity);
+				atendimentoService.save(atendimento);
+			} else if (validaQuilometragem()) {
+				Double cotaAtualizada = 0.0;
+				this.entity.setQuilometragem(kmAtendimento);
+				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+				Date now = new Date();
+				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+				atendimento.setBomba(this.bomba);
+				atendimento.setData(now);
+				atendimento.setHora(now);
+				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
+				cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
+				this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
+				atendimento.setQuilometragem(kmAtendimento);
+				atendimento.setUsuario(SgfUtil.usuarioLogado());
+				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
+				atendimento.setAbastecimento(this.entity);
+				this.cotaService.update(this.entity.getVeiculo().getCota());
+				atendimentoService.save(atendimento);
+			} else {
+				return FAIL;
+			}
+
 		}
 		return super.update();
 	}
@@ -417,6 +419,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		super.update();
 	}
 
+	/**
+	 * Prepara tela para efetuar o atendimento do abastecimento
+	 * @return
+	 */
 	public String atenderAbastecimento() {
 		this.vasilhame = false;
 		if(this.entity.getVeiculo().getModelo() != null){
@@ -443,9 +449,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (usuario.getPosto() != null) {
 			this.bombas.addAll(bombaService.findBombaByPosto(usuario.getPosto().getCodPosto()));
 		}
-		prepareView();
 		this.atendimento = true;
-		return SUCCESS;
+		return super.prepareView();
 	}
 
 	public List<Veiculo> getVeiculos() {

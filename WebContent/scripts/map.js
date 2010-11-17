@@ -29,7 +29,7 @@ function loadMaps() {
 	if (document.getElementById("maparea")) {
 		createEditablePolygon();
 		var pontos = document.getElementById('points').value;
-		alert(pontos);
+		//alert(pontos);
 		if(pontos){
 			var points = pontos.split('$*@');
 			for ( var j = 0; j < points.length; j++) {
@@ -115,8 +115,8 @@ function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist
 				"</b><br/>Placa:<b>" + placa + 
 				"</b><br/>Km Atual:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
 				"</b><br/>Veloc:<b> " +  velocidade.substring(0, velocidade.length-2).replace(".", ",") +  "(Km/h)"+
-				"</b><br/>Ponto próx:<b>" + pprox + 
-				"</b><br/>Dist. Ponto Próx:<b>" + dist.substring(0, dist.length-2) + "(m)" +
+				"</b><br/>Ponto prÃ³x:<b>" + pprox + 
+				"</b><br/>Dist. Ponto PrÃ³x:<b>" + dist.substring(0, dist.length-2) + "(m)" +
 				"</b><br/>Data/Hora:<b>" + dataHora + 
 				"</b></td></tr></table><br/>";
 		marker.openInfoWindowHtml(html);
@@ -594,6 +594,6 @@ function openKML( url ) {
 		kmlMap.addControl(GMapTypeControl);
 		kmlMap.addOverlay(geoXml);
 	} else {
-		window.alert('Navegador não compatível com o Google Maps.\nFavor instalar uma versão mais recente\nou utilizar outro navegador.');
+		window.alert('Navegador nï¿½o compatï¿½vel com o Google Maps.\nFavor instalar uma versï¿½o mais recente\nou utilizar outro navegador.');
 	}
 }

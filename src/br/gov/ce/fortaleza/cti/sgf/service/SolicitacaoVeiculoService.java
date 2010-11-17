@@ -71,7 +71,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 
 	/**
 	 * 
-	 * @param retorna um mapeamento dos kilometros rodados por veículo
+	 * @param retorna um mapeamento dos kilometros rodados por veï¿½culo
 	 * @param begin
 	 * @param end
 	 * @return
@@ -137,7 +137,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	}
 
 	/**
-	 * s.veiculo.status = 4 é o caso em o veículo está indisponível
+	 * s.veiculo.status = 4 ï¿½ o caso em o veï¿½culo estï¿½ indisponï¿½vel
 	 * @param user
 	 * @param status
 	 * @return
@@ -162,15 +162,20 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		return solicitacaoVeiculos;
 	}
 
+	/**
+	 * Encontra os veï¿½culos disponï¿½veis em qualquer UG, no caso de adminstrador ou coordenador
+	 * Encontra os veï¿½culos disponï¿½veis na UG do usuï¿½rio, no caso de chefe de transporte ou chefe se setor
+	 * @param solicitacao
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculosDisponiveis(SolicitacaoVeiculo solicitacao) {
 
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
 		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
 
-		StringBuffer hql = new StringBuffer(
-				"SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND (s.dataHoraSaida BETWEEN :saida and :retorno)) " +
-				"or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
+		StringBuffer hql = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND " +
+				"(s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
 		UG ug = null;
 		if(!SgfUtil.isAdministrador(solicitacao.getSolicitante()) && !SgfUtil.isCoordenador(solicitacao.getSolicitante())){
 			ug = solicitacao.getSolicitante().getPessoa().getUa().getUg();
@@ -200,6 +205,23 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		}
 		veiculos.removeAll(remove);
 		return veiculos;
+	}
+	/**
+	 * Verifica se o veï¿½culo possui alguma solicitaï¿½ï¿½o, autorizaï¿½ï¿½o ou o veï¿½culo se encontra em rota pra o perï¿½odo informado
+	 * @param vid
+	 * @param horaSaida
+	 * @param horaRetorno // status = 0 => SOLICITADO  status = 1 =>  status = 3 => (AUTORIZADO  EXTERNO OU EM ROTA)
+	 * @return
+	 */
+	public Boolean isVeiculoDisponivel(Integer vid, Date horaSaida, Date horaRetorno){
+		StringBuffer stringQuery = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE s.veiculo.id = :veiculo and (s.status = 0 or s.status = 1 or s.status = 3) and " +
+				"(((s.dataHoraRetorno BETWEEN :saida and :retorno) AND (s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or " +
+				"(s.dataHoraSaida BETWEEN :saida AND :retorno))");
+		Query query = entityManager.createQuery(stringQuery.toString());
+		query.setParameter("veiculo", vid);
+		query.setParameter("saida", horaSaida);
+		query.setParameter("retorno", horaRetorno);
+		return query.getResultList().size() > 0;
 	}
 
 	@SuppressWarnings("unchecked")
