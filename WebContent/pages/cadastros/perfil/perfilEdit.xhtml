@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -11,11 +11,11 @@
       xmlns:c="http://java.sun.com/jstl/core">
 
 
-		<h1> Configurações de grupo</h1>
+		<h1> ConfiguraÃ§Ãµes de grupo</h1>
 		
 		<rich:tabPanel switchType="client">
 		
-			<rich:tab label="Permissões do grupo">
+			<rich:tab label="PermissÃµes do grupo">
 			
 				<div id="cadastro">
 
@@ -23,7 +23,7 @@
 				
 					<fieldset>
 
-						<legend>Permissões disponíveis</legend>
+						<legend>PermissÃµes dispoNÂºveis</legend>
 						<h:selectOneMenu id="rolePermissao" value="#{roleBean.permissao}" converter="entityConverter"  rendered="#{roleBean.permissaoStatus}">
 							<t:selectItems value="#{roleBean.permissoes}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
 						</h:selectOneMenu>
@@ -32,7 +32,7 @@
 						</h:commandButton>
 						
 						<c:if test="#{!roleBean.permissaoStatus}">
-							<h:outputText value="Todas as permissões concedidas." style="color:red"/>
+							<h:outputText value="Todas as permissÃµes concedidas." style="color:red"/>
 						</c:if>
 
 					</fieldset>
@@ -44,14 +44,14 @@
 						
 						<c:if test="#{empty roleBean.entity.permissoes}">
 							<rich:column>
-								<f:facet name="header">Nenhuma permissão cadastrada para o perfil.</f:facet>
+								<f:facet name="header">Nenhuma permissÃ£o cadastrada para o perfil.</f:facet>
 							</rich:column>
 						</c:if>
 
 			      		<c:if test="#{not empty roleBean.entity.permissoes}">
 
 					 		<rich:column width="2%">
-					 			<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+					 			<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 					 			<h:outputText value="#{k+1}"/>
 					 		</rich:column>
 
@@ -85,7 +85,7 @@
 		    
 		    </rich:tab>
 		    
- 			<rich:tab label="Página inicial do grupo">
+ 			<rich:tab label="PÃ¡gina inicial do grupo">
 			    
 				<div id="cadastro">
 
@@ -93,7 +93,7 @@
 				
 					<fieldset>
 					
-						<legend>Páginas</legend>
+						<legend>PÃ¡ginas</legend>
 						<h:selectOneMenu id="rolePage" value="#{roleBean.page}" converter="entityConverter"  rendered="#{roleBean.pageStatus}">
 							<t:selectItems value="#{roleBean.pages}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
 						</h:selectOneMenu>
@@ -111,14 +111,14 @@
 						
 						<c:if test="#{empty roleBean.rolePages}">
 							<rich:column>
-								<f:facet name="header">Nenhuma página inicial para o perfil.</f:facet>
+								<f:facet name="header">Nenhuma pÃ¡gina inicial para o perfil.</f:facet>
 							</rich:column>
 						</c:if>
 		
 			      		<c:if test="#{not empty roleBean.rolePages}">
 						
 							<rich:column width="2%">
-					 			<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+					 			<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 					 			<h:outputText value="#{k+1}"/>
 					 		</rich:column>
 

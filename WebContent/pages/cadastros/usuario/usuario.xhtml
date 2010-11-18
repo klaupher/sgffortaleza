@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -12,7 +12,7 @@
 
 	<div id="cadastro">
 
-		<h1>  Usuário do Sistema </h1>
+		<h1>  UsuÃ¡rio do Sistema </h1>
 
 		<h:panelGroup rendered="#{usuarioBean.saveState}">
 		
@@ -46,13 +46,13 @@
 
 		    <fieldset class="medio">
 
-			    <legend>Dados do Usuário</legend>
+			    <legend>Dados do UsuÃ¡rio</legend>
 
 			    <a4j:outputPanel id="panelDadosPessoa">
 			    	<dt><label for="nome">Nome</label></dt>
 				  	<dd><h:inputText value="#{usuarioBean.entity.pessoa.nome}" id="nome" disabled="true" size="50"/></dd>
 
-				  	<dt><label for="matricula">Matrícula</label></dt>
+				  	<dt><label for="matricula">MatrÃ­cula</label></dt>
 				  	<dd><h:inputText value="#{usuarioBean.entity.pessoa.matricula}" id="matricula" disabled="true"/></dd>				
 
 				  	<dt><label for="tpPessoa">Tipo de pessoa</label></dt>
@@ -164,7 +164,7 @@
 				  		<dd>	
 					  		<h:selectOneRadio id="autoriza" styleClass="checkbox" value="#{usuarioBean.entity.autoriza}" required="true" 
 					  		requiredMessage="Informe o campo autoriza" disabled="#{!controlBean.administrador and !controlBean.coordenador}">
-					  			<f:selectItem itemLabel="Não" itemValue="#{false}"/>
+					  			<f:selectItem itemLabel="NÂºo" itemValue="#{false}"/>
 					  			<f:selectItem itemLabel="Sim" itemValue="#{true}"/>
 					  		</h:selectOneRadio>
 					  		<h:message for="autoriza" styleClass="message"/>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -34,7 +34,7 @@
 		      	
 		      	<h:panelGroup>
 			      	<h:selectOneRadio id="multas" value="#{multaBean.searchId}" style="width:50%;padding:0px"  styleClass="checkbox">
-						<f:selectItem itemLabel="Filtrar p/ veículo" itemValue="0"/>
+						<f:selectItem itemLabel="Filtrar p/ veÃ­culo" itemValue="0"/>
 						<f:selectItem itemLabel="Filtrar p/ motorista" itemValue="1"/>
 					</h:selectOneRadio>
 				</h:panelGroup>
@@ -55,7 +55,7 @@
 	      		<c:if test="#{multaBean.entitiesSize > 0}" >
 
 					<rich:column width="5%" style="text-align: center;"> 
-						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+						<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
@@ -70,7 +70,7 @@
 					</rich:column>
 
 					<rich:column width="22%" sortBy="#{multa.infracao.descricao}"> 
-						<f:facet name="header"><h:outputText value="Infração" /></f:facet>
+						<f:facet name="header"><h:outputText value="InfraÃ§Ã£o" /></f:facet>
 						<h:outputText value="#{multa.infracao.descricao}" style="color: black;"/>
 					</rich:column>
 
@@ -90,7 +90,7 @@
 					</rich:column>
 
 					<rich:column width="4%" sortBy="#{multa.dataInfracao}">
-						<f:facet name="header"><h:outputLabel value="Data infração"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="Data infraÃ§Ã£o"/></f:facet>
 						<h:outputText value="#{multa.dataInfracao}">
 							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 						</h:outputText>

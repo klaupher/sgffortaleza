@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -16,7 +16,7 @@
 
 		<h1>
 			<h:outputLabel value="Cadastro Multa" rendered="#{multaBean.saveState}"/>
-			<h:outputLabel value="Alteração de Multa"  rendered="#{multaBean.updateState}"/>		
+			<h:outputLabel value="alteraÃ§Ã£o de Multa"  rendered="#{multaBean.updateState}"/>		
 		</h1>
 
 		<fieldset>
@@ -34,22 +34,22 @@
 	    		<rich:message for="ugVeiculo" styleClass="message"/>
 	    	</dd>
 
-		  	<dt><label for="veiculo">Veículo</label></dt>
+		  	<dt><label for="veiculo">veÃ­culo</label></dt>
 		  	<dd>
-				<h:selectOneMenu id="veiculo" value="#{multaBean.entity.veiculo}" required="true" requiredMessage="Selecione o veículo"  
+				<h:selectOneMenu id="veiculo" value="#{multaBean.entity.veiculo}" required="true" requiredMessage="Selecione o veÃ­culo"  
 				converter="entityConverter">
-		 			<f:selectItem itemLabel="Selecione um Veículo" itemValue=""/>
+		 			<f:selectItem itemLabel="Selecione um veÃ­culo" itemValue=""/>
 		 			<t:selectItems value="#{multaBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}"/>
 				</h:selectOneMenu>
 				<label style="color:red">*</label>
 				<rich:message for="veiculo"  styleClass="message"/>
 			</dd>
 			
-			<dt><label for="infracao">Infração</label></dt>
+			<dt><label for="infracao">InfraÃ§Ã£o</label></dt>
 		  	<dd>
-				<h:selectOneMenu id="infracao" value="#{multaBean.entity.infracao}" required="true" requiredMessage="Selecione a infração" 
+				<h:selectOneMenu id="infracao" value="#{multaBean.entity.infracao}" required="true" requiredMessage="Selecione a infraÃ§Ã£o" 
 				converter="entityConverter" style="width:240px">
-					<f:selectItem itemLabel="Selecione a infração" itemValue=""/>
+					<f:selectItem itemLabel="Selecione a infraÃ§Ã£o" itemValue=""/>
 		 			<t:selectItems value="#{infracaoBean.infracoes}" var="infracao" itemLabel="#{infracao.descricao}" itemValue="#{infracao}"/>
 				</h:selectOneMenu>
 				<label style="color:red">*</label>
@@ -66,7 +66,7 @@
 				<rich:message for="motorista"  styleClass="message"/>
 			</dd>
 
-			<dt><label for="dataInfracao">Data da infração</label></dt>
+			<dt><label for="dataInfracao">Data da infraÃ§Ã£o</label></dt>
 			<dd>
 				<h:inputText  id="dataInfracao" value="#{multaBean.dataInfracao}" required="true" styleClass="maskData" requiredMessage="Informe a data da multa" size="10" maxlength="10">
 				</h:inputText>
@@ -75,7 +75,7 @@
 			</dd>
 			<p></p>
 			
-			<label style="color:red">* campos obrigatórios</label>
+			<label style="color:red">* campos obrigatÃ­rios</label>
 
 	    </fieldset>
 
@@ -85,7 +85,7 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal" />
 	</h:commandButton>
 
-	<h:commandButton action="#{multaBean.update}" value="Alterar" rendered="#{multaBean.updateState}" onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{multaBean.update}" value="Alterar" rendered="#{multaBean.updateState}" onclick="if(!confirm('Confirmar alteraÃ§Ã£o de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
 

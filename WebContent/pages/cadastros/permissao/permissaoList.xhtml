@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -16,7 +16,7 @@
 		
 		<fieldset>
 
-			<legend>Listagem de Permissões</legend>
+			<legend>Listagem de PermissÃµes</legend>
 
 			<a4j:commandLink id="novaPermissao" action="#{permissaoBean.prepareSave}" value="#{msg['label.novo']}" 
       			reRender="paginaPrincipal" immediate="true" styleClass="novo">
@@ -34,7 +34,7 @@
 				<p/>
 	
 				<h:messages rendered="#{empty permissaoBean.entities}" globalOnly="true">
-					<h:outputText value="Nenhuma permissão encontrada" styleClass="messages"/>
+					<h:outputText value="Nenhuma permissÃ£o encontrada" styleClass="messages"/>
 				</h:messages>
 			
 			</fieldset>
@@ -55,7 +55,7 @@
                 </rich:column>				
 
 				<rich:column width="30%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
+					<f:facet name="header"><h:outputText value="DescriÃ§Ã£o" /></f:facet>
 					<h:outputText value="#{permissao.descricao}" style="color: black;"/>
 				</rich:column>
 
