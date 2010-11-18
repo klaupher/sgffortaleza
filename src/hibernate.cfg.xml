@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <session-factory>
-		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sgf</property>
-		<property name="hibernate.connection.username">sgf</property>
-		<property name="hibernate.connection.password">sgf</property>
-		<property name="hibernate.dialect">org.hibernatespatial.postgis.PostgisDialect</property> 
-		<property name="hibernate.format_sql">true</property>
-		<property name="hibernate.show_sql">true</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.User"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Pessoa"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Posto"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.PostoServico"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.PostoServicoVeiculo"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Role"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Page"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Motorista"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Permissao"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Infracao"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Modelo"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Marca"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Multa"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Especie"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Veiculo"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.TipoServico"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Cota"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Bomba"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.UA"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.UG"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.NumeroMotor"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Oficina"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Parametro"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Transmissao"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Ponto"/>
-		<mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Area"/>
-	  
+ <session-factory name="">
+  <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+  <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/sgf</property>
+  <property name="hibernate.connection.username">sgf</property>
+  <property name="hibernate.connection.password">sgf</property>
+  <property name="hibernate.dialect">org.hibernatespatial.postgis.PostgisDialect</property>
+  <property name="hibernate.format_sql">true</property>
+  <property name="hibernate.show_sql">true</property>
+  <property name="hibernate.hbm2ddl.auto">update</property>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.User"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Pessoa"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Posto"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.PostoServico"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.PostoServicoVeiculo"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Role"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Page"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Message"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Motorista"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Permissao"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Infracao"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Modelo"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Marca"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Multa"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Especie"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Veiculo"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.TipoServico"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Cota"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Bomba"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.UA"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.UG"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.NumeroMotor"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Oficina"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Parametro"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Transmissao"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Ponto"/>
+  <mapping class="br.gov.ce.fortaleza.cti.sgf.entity.Area"/>
  </session-factory>
-
 </hibernate-configuration>
