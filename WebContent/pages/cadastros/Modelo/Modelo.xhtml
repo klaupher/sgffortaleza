@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -20,9 +20,9 @@
 
 			<p></p>
 			<dl>
-				<dt><label for="descricao">Descrição</label></dt>
+				<dt><label for="descricao">DescriÃ§Ã£o</label></dt>
 			  	<dd>
-				  	<h:inputText id="descricao" value="#{modeloBean.entity.descricao}"  required="true" size="40" maxlength="70"  requiredMessage="Informe a descrição">
+				  	<h:inputText id="descricao" value="#{modeloBean.entity.descricao}"  required="true" size="40" maxlength="70"  requiredMessage="Informe a DescriÃ§Ã£o">
 					</h:inputText>
 					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="descricao" styleClass="message"/>
@@ -41,7 +41,7 @@
 				</dd>
 			</dl>
 			<p></p>
-			<label style="color:red">* campos obrigatórios</label>
+			<label style="color:red">* campos obrigatÃ­rios</label>
 	    </fieldset>
 
 	</div>
@@ -50,7 +50,7 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 
-	<h:commandButton action="#{modeloBean.update}" value="Alterar" rendered="#{modeloBean.updateState}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{modeloBean.update}" value="Alterar" rendered="#{modeloBean.updateState}"  onclick="if(!confirm('Confirmar alteraÃ§Ã£o de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
 
