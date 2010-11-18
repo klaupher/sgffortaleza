@@ -10,6 +10,7 @@ public class CrudStateBean extends BaseStateBean {
 	public static final String IMPORT  = "IMPORT";
 	public static final String EDIT = "EDIT";
 	public static final String AREA_VEICULOS = "AREA_VEICULOS";
+	public static final String MONITORAMENTO = "MONITORAMENTO";
 
 	public boolean isSearchState() {
 		return SEARCH.equals(getCurrentState());

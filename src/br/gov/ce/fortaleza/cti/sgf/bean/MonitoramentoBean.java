@@ -43,12 +43,12 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 	@Override
 	protected Integer retrieveEntityId(PontoDTO entity) {
-		throw new IllegalStateException("Não implementado");
+		throw new IllegalStateException("Nï¿½o implementado");
 	}
 
 	@Override
 	protected BaseService<Integer, PontoDTO> retrieveEntityService() {
-		throw new IllegalStateException("Não implementado");
+		throw new IllegalStateException("Nï¿½o implementado");
 	}
 
 	public List<Integer> getVeiculosIds() {
@@ -71,6 +71,23 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 		return this.pontos != null && this.pontos.size() > 0 ? true : false;
 	}
 
+//	public String searchMonitoramento() {
+//		User user = SgfUtil.usuarioLogado();
+//		List<Veiculo> veiculos = null;
+//		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -DateUtil.HOUR_IN_MILLIS);
+//		if(SgfUtil.isAdministrador(user)){
+//			veiculos = veiculoService.retrieveAll();
+//		} else {
+//			veiculos = veiculoService.findByUG(user.getPessoa().getUa().getUg());
+//		}
+//		veiculosIds = new ArrayList<Integer>();
+//		for (Veiculo veiculo : veiculos) {
+//			veiculosIds.add(veiculo.getId());
+//		}
+//		this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
+//		return SUCCESS;
+//	}
+	
 	public String searchMonitoramento() {
 		User user = SgfUtil.usuarioLogado();
 		List<Veiculo> veiculos = null;
@@ -84,7 +101,9 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 		for (Veiculo veiculo : veiculos) {
 			veiculosIds.add(veiculo.getId());
 		}
-		//this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
+		this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
+		setCurrentBean(currentBeanName());
+		setCurrentState(MONITORAMENTO);
 		return SUCCESS;
 	}
 
