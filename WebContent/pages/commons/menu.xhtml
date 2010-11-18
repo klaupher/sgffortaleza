@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,14 +13,14 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	
 	<div id="topo">
-    	<img src="../images/fortaleza-bela.gif" alt="Logo da Administração" width="250" height="80" />
-    	<h1>Sistema de Gestão de Frotas - SGF</h1>
+    	<img src="../images/fortaleza-bela.gif" alt="Logo da AdministraÃ§Ã£o" width="250" height="80" />
+    	<h1>Sistema de GestÃ£o de Frotas - SGF</h1>
     	<h2><h:outputText value="#{msg['sistema.label.prefeitura']}"/></h2>
    	</div>
 
    	<div id="info">
 	    <dl>
-	      <dt>Usuário:</dt> 
+	      <dt>UsuÃ¡rio:</dt> 
 	      <dd><h:outputText value="#{controlBean.usuario.login}" /></dd>
 	      <dt>Grupo:</dt>
 	      <dd><h:outputText value="#{controlBean.grupo.nome}" /></dd>
@@ -38,16 +38,11 @@
 			<rich:dropDownMenu rendered="#{controlBean.hasPermission('RULE_ATIVIDADE')}">
 
 				<f:facet name="label"><h:outputText value="#{msg['menu.atividades']}" /></f:facet>
-			    <rich:menuItem value="#{msg['abastecimento.menu']}" action="#{abastecimentoBean.search}"
-                    rendered="#{controlBean.hasPermission('RULE_ABASTECIMENTO')}" immediate="true"/>
-				<rich:menuItem value="#{msg['diario.menu']}" action="#{diarioBombaBean.searchSort}"
-					rendered="#{controlBean.hasPermission('RULE_DIARIO_BOMBA')}" immediate="true"/>
-				<rich:menuItem value="#{msg['lubrificante.menu']}" action="#{solicitacaoLubrificanteBean.search}" 
-					rendered="#{controlBean.hasPermission('RULE_LUBRIFICANTE')}" immediate="true"/>
-                <rich:menuItem value="#{msg['manutencao.menu']}" action="#{requisicaoManutencaoBean.searchStatus}"	
-					rendered="#{controlBean.hasPermission('RULE_MANUNTENCAO')}" immediate="true"/>
-                <rich:menuItem value="#{msg['solveiculo.menu']}" action="#{solicitacaoVeiculoBean.search}"
-					rendered="#{controlBean.hasPermission('RULE_SOLVEICULO')}" immediate="true"/>
+			    <rich:menuItem value="#{msg['abastecimento.menu']}" action="#{abastecimentoBean.search}" rendered="#{controlBean.hasPermission('RULE_ABASTECIMENTO')}" immediate="true"/>
+				<rich:menuItem value="#{msg['diario.menu']}" action="#{diarioBombaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_DIARIO_BOMBA')}" immediate="true"/>
+				<rich:menuItem value="#{msg['lubrificante.menu']}" action="#{solicitacaoLubrificanteBean.search}" rendered="#{controlBean.hasPermission('RULE_LUBRIFICANTE')}" immediate="true"/>
+                <rich:menuItem value="#{msg['manutencao.menu']}" action="#{requisicaoManutencaoBean.searchStatus}" rendered="#{controlBean.hasPermission('RULE_MANUNTENCAO')}" immediate="true"/>
+                <rich:menuItem value="#{msg['solveiculo.menu']}" action="#{solicitacaoVeiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_SOLVEICULO')}" immediate="true"/>
 
 			</rich:dropDownMenu>
 		
@@ -57,38 +52,38 @@
 				<rich:menuItem submitMode="server" value="Consolidado Mensal" action="#{relatorioBean.relatorioConsolidadoMensal}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_CONSOLIDADO_MENSAL')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Consumo de Combustível" action="#{relatorioBean.relatorioConsumoCombustivel}" 
+				<rich:menuItem submitMode="server" value="Consumo de CombustÃ­vel" action="#{relatorioBean.relatorioConsumoCombustivel}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_CONSUMO_COMBUSTIVEL')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Diário de bomba combustível" action="#{relatorioBean.relatorioDiarioBomba}" 
+				<rich:menuItem submitMode="server" value="DiÃ¡rio de bomba combustÃ­vel" action="#{relatorioBean.relatorioDiarioBomba}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_DIARIO_BOMBA')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Histórico de Manutenção" action="#{relatorioBean.relatorioHistoricoVeiculoManutencao}" 
+				<rich:menuItem submitMode="server" value="HistÃ­rico de ManutenÃ§Ã£o" action="#{relatorioBean.relatorioHistoricoVeiculoManutencao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_HISTORICO_VEICULO_MANUTENCAO')}" immediate="true"/>				 
 
-				<rich:menuItem submitMode="server" value="Histórico de Troca de Pneus" action="#{relatorioBean.relatorioHistoricoTrocaPneus}" 
+				<rich:menuItem submitMode="server" value="HistÃ­rico de Troca de Pneus" action="#{relatorioBean.relatorioHistoricoTrocaPneus}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_HISTORICO_TROCA_PNEUS')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Informações de Veículo" action="#{relatorioBean.relatorioInformacoesVeiculos}" 
+				<rich:menuItem submitMode="server" value="InformaÃ§Ãµes de veÃ­culo" action="#{relatorioBean.relatorioInformacoesVeiculos}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_INFORMACOES_VEICULOS')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Multa de Veículo" action="#{relatorioBean.relatorioMultasOrgao}" 
+				<rich:menuItem submitMode="server" value="Multa de veÃ­culo" action="#{relatorioBean.relatorioMultasOrgao}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_VEICULO_MULTA')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Pontuação de Motoristas" action="#{relatorioBean.relatorioMotoristaPontuacao}" 
+				<rich:menuItem submitMode="server" value="PontuaÃ§Ã£o de Motoristas" action="#{relatorioBean.relatorioMotoristaPontuacao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_PONTUACAO_MOTORISTA')}" immediate="true"/>
 				
 
-				<rich:menuItem submitMode="server" value="Solicitação de Veículo" action="#{relatorioBean.relatorioSolicitacaoVeiculo}" 
+				<rich:menuItem submitMode="server" value="SolicitaÃ§Ã£o de veÃ­culo" action="#{relatorioBean.relatorioSolicitacaoVeiculo}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_SOLICITACAO_VEICULOS')}" immediate="true"/>
 				 
-				<rich:menuItem submitMode="server" value="Veículos em Manutenção" action="#{relatorioBean.relatorioVeiculosEmManutencao}" 
+				<rich:menuItem submitMode="server" value="veÃ­culos em ManutenÃ§Ã£o" action="#{relatorioBean.relatorioVeiculosEmManutencao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_VEICULOS_EM_MANUTENCAO')}" immediate="true"/>
 				 
-				<rich:menuItem submitMode="server" value="Veículos sem Retorno" action="#{relatorioBean.relatorioVeiculosSemRetorno}" 
+				<rich:menuItem submitMode="server" value="veÃ­culos sem Retorno" action="#{relatorioBean.relatorioVeiculosSemRetorno}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_VEICULOS_SEM_RETORNO_MANUTENCAO')}" immediate="true"/>
 				 
-				<rich:menuItem submitMode="server" value="Kms Rodados de Veículo" action="#{relatorioBean.relatorioKilometrosRodadosVeiculo}" 
+				<rich:menuItem submitMode="server" value="Kms Rodados de veÃ­culo" action="#{relatorioBean.relatorioKilometrosRodadosVeiculo}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_KILOMETROS_RODADOS_VEICULO')}" immediate="true"/>
 
 			</rich:dropDownMenu>
@@ -96,14 +91,14 @@
 			<rich:dropDownMenu rendered="#{controlBean.hasPermission('RULE_CADASTRO')}">
 
 				<f:facet name="label"><h:outputText value="#{msg['menu.cadastros']}" /></f:facet>
-				<rich:menuItem value="Bombas de Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
+				<rich:menuItem value="Bombas de CombustÃ­vel" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
 				<rich:menuItem value="Cotas Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
-				<rich:menuItem value="Infrações" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
+				<rich:menuItem value="InfraÃ§Ãµes" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
 				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>	
-				<rich:menuItem value="Multas de Veículo" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
-				<rich:menuItem value="Nº Motor de Veículo" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
+				<rich:menuItem value="Multas de veÃ­culo" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
+				<rich:menuItem value="NÂº Motor de veÃ­culo" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
 				<rich:menuItem value="Oficinas" action="#{oficinaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_OFICINA')}" immediate="true"/>
-				<rich:menuItem value="Tipos de Serviço" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
+				<rich:menuItem value="Tipos de ServiÃ§o" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
 				<rich:menuItem value="Veiculos" action="#{veiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
 
 			</rich:dropDownMenu>
@@ -112,26 +107,20 @@
 
 				<f:facet name="label"><h:outputText value="#{msg['menu.administracao']}" /></f:facet>
 				<rich:menuItem value="Perfil" action="#{roleBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Permissão" action="#{permissaoBean.searchSort}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Usuário" action="#{usuarioBean.search}" immediate="true"/>
+				<rich:menuItem value="PermissÃ£o" action="#{permissaoBean.searchSort}" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="UsuÃ¡rio" action="#{usuarioBean.search}" immediate="true"/>
 				<rich:menuItem value="Mensagens" action="#{messageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Páginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Pessoa Física" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="PÃ¡ginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Pessoa FÃ­sica" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}"  rendered="#{controlBean.administrador}" immediate="true"/>
 
 			</rich:dropDownMenu>
 			
 			<rich:dropDownMenu>
 
-				<f:facet name="label"><h:outputText value="#{msg['menu.rastreamento']}" /></f:facet>
-				<rich:menuItem value="Monitoramento"  rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Comandos" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Área de Movimentação" action="#{areaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Rota de Veículo" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Relatório de Posição"  rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Relatório de Velocidades"  rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="Verificação de Rota" rendered="#{controlBean.administrador}" immediate="true"/>
-
+				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
+				<rich:menuItem value="Mapa" action="#{pontoBean.search}" reRender="paginaPrincipal"  rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="Ãrea movimentaÃ§Ã£o" action="#{areaBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 			</rich:dropDownMenu>
 
 			 <rich:toolBarGroup location="right">

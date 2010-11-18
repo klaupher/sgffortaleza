@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,13 +13,13 @@
 	
 	<div id="cadastro">
 		
-		<h1 style="width:300px"> Pontuação de CNH de Motorista </h1>
+		<h1 style="width:300px"> PontuaÃ§Ã£o de CNH de Motorista </h1>
 
 		<fieldset>
 
-	      	<legend>Relatórios de Pontuação de CNH de Motoristas</legend>
+	      	<legend>RelatÃ­rios de PontuaÃ§Ã£o de CNH de Motoristas</legend>
 
-	      	<h:outputLabel value="Orgão"/>
+	      	<h:outputLabel value="OrgÃ£o"/>
 	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 	      		<c:if test="#{controlBean.administrador}">
 					<f:selectItem itemLabel="Todos" itemValue=""/>
@@ -52,7 +52,7 @@
 						headerClass="subHeader" rowClasses="even,odd" rowKeyVar="k">
 
 						<rich:column>
-							<f:facet name="header"><h:outputLabel value="Nº"/></f:facet>
+							<f:facet name="header"><h:outputLabel value="NÂº"/></f:facet>
 							<h:outputText value="#{k+1}"/>
 						</rich:column>
 
@@ -100,7 +100,7 @@
 
 			<h:panelGroup id="reportPontuacaoMotorista" rendered="#{relatorioBean.entitiesSize > 0}">
 
-				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório"  target="blank">
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio"  target="blank">
 					<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 				</h:commandLink>
 

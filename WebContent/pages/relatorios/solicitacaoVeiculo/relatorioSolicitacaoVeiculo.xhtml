@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -11,11 +11,11 @@
 
 	<div id="cadastro">
 	
-		<h1 style="width:250px">Solicitação de Veículos</h1>
+		<h1 style="width:250px">SolicitaÃ§Ã£o de veÃ­culos</h1>
 
 		<fieldset class="medio">
 
-		<legend>Relatório de Solicitação de Veículos</legend>
+		<legend>RelatÃ³rio de SolicitaÃ§Ã£o de veÃ­culos</legend>
 
 		<dl>
       		<a4j:region>
@@ -74,7 +74,7 @@
 			rendered="#{not empty relatorioBean.entities}">
 			
 			<rich:column colspan="10" style="font-weight: bold; background:#CC0000">
-				<h:outputText value="Orgão: #{relatorio.orgao.descricao}" />
+				<h:outputText value="OrgÃ£o: #{relatorio.orgao.descricao}" />
 			</rich:column>
 
 			<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="10" rowKeyVar="k"
@@ -91,7 +91,7 @@
 					rowClasses="odd,even">
 
 					<rich:column width="3%" style="text-align: center;" > 
-						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+						<f:facet name="header"><h:outputText value="NÂº" /></f:facet>
 						<h:outputText value="#{y+1}" style="color: black;"/>
 					</rich:column>
 
@@ -106,7 +106,7 @@
 					</rich:column>				
 
 					<rich:column width="5%">
-						<f:facet name="header"><h:outputLabel value="Data saída"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="Data saÃ­da"/></f:facet>
 						<h:outputText value="#{s.solicitacaoVeiculo.dataHoraSaida}"/>
 					</rich:column>
 
@@ -116,7 +116,7 @@
 					</rich:column>
 
 					<rich:column width="5%">
-						<f:facet name="header"><h:outputLabel value="Km saída"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="Km saÃ­da"/></f:facet>
 						<h:outputText value="#{s.solicitacaoVeiculo.kmSaida}"/>
 					</rich:column>
 
@@ -139,7 +139,7 @@
 
 			<h:panelGroup>
 
-				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio" target="blank">
 	    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
 				</h:commandLink>	
 

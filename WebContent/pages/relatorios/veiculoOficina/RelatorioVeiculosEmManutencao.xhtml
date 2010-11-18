@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,13 +13,13 @@
 
 	<div id="cadastro">
 
-	<h1 style="width:400px">Veículos em Manutenção</h1>
+	<h1 style="width:400px">veÃ­culos em ManutenÃ§Ã£o</h1>
 
 	<fieldset>
 	
 		<p/>
 	
-		<legend>Relatório de Veículos em Manutenção</legend>
+		<legend>RelatÃ­rio de veÃ­culos em ManutenÃ§Ã£o</legend>
 
 		<h:panelGrid columns="2" id="searchUG">
 			<h:outputLabel value="UG:"/>
@@ -29,7 +29,7 @@
 		</h:panelGrid>
 
 		<h:panelGrid  columns="5" style="padding-right:100px">
-			<h:outputLabel value="Data Início:" for="dataInicial">
+			<h:outputLabel value="Data INÂºcio:" for="dataInicial">
 				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
 			</h:outputLabel>
 			<h:message for="dataInicial" styleClass="message"/>
@@ -59,7 +59,7 @@
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
 				<rich:column colspan="5" style="font-weight: bold; background:#BBD14F">
-					<h:outputText value="Orgão: #{relatorio.orgao.descricao}  Total Manutenções:#{relatorio.numeroManutencoes}" 
+					<h:outputText value="OrgÃ£o: #{relatorio.orgao.descricao}  Total ManutenÃ§Ãµes:#{relatorio.numeroManutencoes}" 
 					style="padding-right:20px;"/>
 				</rich:column>
 	
@@ -69,10 +69,10 @@
 					onRowMouseOut="jQuery(this).removeClass('trHover')">
 			
 					<rich:column colspan="5">
-						<h:outputText value="Veículo: #{r.manutencao.veiculo.placa} - #{r.manutencao.veiculo.modelo.descricao}    
+						<h:outputText value="veÃ­culo: #{r.manutencao.veiculo.placa} - #{r.manutencao.veiculo.modelo.descricao}    
 						Oficina: #{r.manutencao.oficina.nome}" style="font-weight: bold"/>
 
-						Data saída:
+						Data saÃ­da:
 						<h:outputText value="#{r.manutencao.dataSaida}"  style="font-weight:bold; padding-left:10px">
 							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 						</h:outputText>
@@ -93,7 +93,7 @@
 						</rich:column>
 						
 						<rich:column>
-							<f:facet name="header"><h:outputLabel value="Descrição" style="font-weight:bold;"/></f:facet>
+							<f:facet name="header"><h:outputLabel value="DescriÃ§Ã£o" style="font-weight:bold;"/></f:facet>
 							<h:outputText value="#{item.tipoServico.descricao}" style="padding-right:20px"/>
 						</rich:column>
 						
@@ -126,7 +126,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar RelatÃ­rio" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 		</h:panelGroup>
