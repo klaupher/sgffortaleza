@@ -21,7 +21,7 @@
 
 	<h:panelGroup>
 		<h:panelGrid id="histManutVeiculoUG">
-			<h:outputLabel value="Orgão">
+			<h:outputLabel value="Órgão">
 				<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 		      		<c:if test="#{controlBean.administrador}">
 						<f:selectItem itemLabel="Todos" itemValue=""/>
@@ -74,7 +74,7 @@
 		<c:if test="#{relatorioBean.entitiesSize > 0}">
 
 			<rich:column colspan="7" style="font-weight: bold; background:white">
-				<h:outputText value="Orgão: #{r.orgao.descricao}"  rendered="#{relatorioBean.searchId == 1}"/>
+				<h:outputText value="Órgão: #{r.orgao.descricao}"  rendered="#{relatorioBean.searchId == 1}"/>
 				<h:outputText value="veículo: #{r.veiculo.placa}"  rendered="#{relatorioBean.searchId == 2}"/>
 			</rich:column>
 
@@ -145,7 +145,7 @@
 	</a4j:status>
 
 	<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-		<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+		<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 		</h:commandLink>
 	</h:panelGroup>

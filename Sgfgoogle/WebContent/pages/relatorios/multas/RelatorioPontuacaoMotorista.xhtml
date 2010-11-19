@@ -17,9 +17,9 @@
 
 		<fieldset>
 
-	      	<legend>Relatírios de Pontuação de CNH de Motoristas</legend>
+	      	<legend>Relatórios de Pontuação de CNH de Motoristas</legend>
 
-	      	<h:outputLabel value="Orgão"/>
+	      	<h:outputLabel value="Órgão"/>
 	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 	      		<c:if test="#{controlBean.administrador}">
 					<f:selectItem itemLabel="Todos" itemValue=""/>
@@ -100,7 +100,7 @@
 
 			<h:panelGroup id="reportPontuacaoMotorista" rendered="#{relatorioBean.entitiesSize > 0}">
 
-				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio"  target="blank">
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório"  target="blank">
 					<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 				</h:commandLink>
 

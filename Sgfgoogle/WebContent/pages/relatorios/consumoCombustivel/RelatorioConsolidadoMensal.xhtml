@@ -17,10 +17,10 @@
 
 	<fieldset>
 	
-		<legend>Relatírio Consolidado Mensal</legend>
+		<legend>Relatório Consolidado Mensal</legend>
 
 
-		<h:outputLabel value="Orgão" for="ugList"/>
+		<h:outputLabel value="Órgão" for="ugList"/>
 		<h:panelGroup>
 	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
@@ -142,7 +142,7 @@
 	
 		<h:panelGroup id="reportConsolidadoMensal" rendered="#{relatorioBean.entitiesSize > 0}">
 	
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 	

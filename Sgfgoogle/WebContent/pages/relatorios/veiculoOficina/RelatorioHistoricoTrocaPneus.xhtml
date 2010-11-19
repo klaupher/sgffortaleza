@@ -21,7 +21,7 @@
 
 			
 		<h:panelGrid id="gridUG" columns="2">
-			<h:outputLabel value="Orgão:" for="ugTrocaPneus">
+			<h:outputLabel value="Órgão:" for="ugTrocaPneus">
 				<h:selectOneMenu id="ugTrocaPneus" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 					<f:selectItem itemLabel="Todos" itemValue="" />
 		    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
@@ -71,7 +71,7 @@
 			<c:if test="#{not empty relatorioBean.entities}">
 	
 				<rich:column colspan="5" style="font-weight: bold; background:white">
-					<h:outputText value="Orgão: #{relatorio.orgao.descricao}" style="padding-right:20px"/>
+					<h:outputText value="Órgão: #{relatorio.orgao.descricao}" style="padding-right:20px"/>
 					<h:outputText value="veículo: #{relatorio.veiculo.placa} /  #{relatorio.veiculo.modelo.descricao}"  style="padding-right:20px"/>
 					<h:outputText value="Quant. trocas: #{relatorio.quantTrocaPneus}"/>
 				</rich:column>
@@ -134,7 +134,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
 			</h:commandLink>
 		</h:panelGroup>

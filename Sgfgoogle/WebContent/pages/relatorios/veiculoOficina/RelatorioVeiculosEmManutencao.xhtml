@@ -19,7 +19,7 @@
 	
 		<p/>
 	
-		<legend>Relatírio de veículos em Manutenção</legend>
+		<legend>Relatório de veículos em Manutenção</legend>
 
 		<h:panelGrid columns="2" id="searchUG">
 			<h:outputLabel value="UG:"/>
@@ -59,7 +59,7 @@
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
 				<rich:column colspan="5" style="font-weight: bold; background:#BBD14F">
-					<h:outputText value="Orgão: #{relatorio.orgao.descricao}  Total Manutenções:#{relatorio.numeroManutencoes}" 
+					<h:outputText value="Órgão: #{relatorio.orgao.descricao}  Total Manutenções:#{relatorio.numeroManutencoes}" 
 					style="padding-right:20px;"/>
 				</rich:column>
 	
@@ -126,7 +126,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 		</h:panelGroup>

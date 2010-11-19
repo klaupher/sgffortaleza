@@ -13,11 +13,11 @@
 
 	<div id="cadastro">
 
-	<h1 style="width:300px"> Relatírios de Multas de veículo</h1>
+	<h1 style="width:300px"> Relatórios de Multas de veículo</h1>
 
 	<fieldset>
 	
-		<legend>Relatírios de Multas de veículo</legend>
+		<legend>Relatórios de Multas de veículo</legend>
 	
 		<h:selectOneRadio id="options" value="#{relatorioBean.searchFlag}" style="width:50%">
 			<f:selectItem itemLabel="Por UG" itemValue="SEARCH_UG" />
@@ -89,7 +89,7 @@
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
 				<rich:column colspan="10" style="font-weight: bold; background:white">
-					<h:outputText value="Orgão: #{r.orgao.descricao}"  rendered="#{relatorioBean.searchFlag == 'SEARCH_UG'}"/>
+					<h:outputText value="Órgão: #{r.orgao.descricao}"  rendered="#{relatorioBean.searchFlag == 'SEARCH_UG'}"/>
 					<h:outputText value="veículo: #{r.veiculo.placa} - #{r.veiculo.modelo.descricao}" rendered="#{relatorioBean.searchFlag == 'SEARCH_VEICULO'}"/>
 					<h:outputText value="Motorista: #{r.motorista.pessoa.nome}" rendered="#{relatorioBean.searchFlag == 'SEARCH_MOTORISTA'}"/>
 				</rich:column>
@@ -160,7 +160,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 		</h:panelGroup>

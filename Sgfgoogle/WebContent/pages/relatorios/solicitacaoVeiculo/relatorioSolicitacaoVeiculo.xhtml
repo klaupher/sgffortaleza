@@ -74,7 +74,7 @@
 			rendered="#{not empty relatorioBean.entities}">
 			
 			<rich:column colspan="10" style="font-weight: bold; background:#CC0000">
-				<h:outputText value="Orgão: #{relatorio.orgao.descricao}" />
+				<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 			</rich:column>
 
 			<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="10" rowKeyVar="k"
@@ -139,7 +139,7 @@
 
 			<h:panelGroup>
 
-				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 	    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
 				</h:commandLink>	
 

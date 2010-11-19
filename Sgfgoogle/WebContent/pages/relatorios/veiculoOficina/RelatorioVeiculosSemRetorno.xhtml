@@ -17,7 +17,7 @@
 
 	<fieldset>
 	
-		<legend>Relatírios de veículo sem Retorno</legend>
+		<legend>Relatórios de veículo sem Retorno</legend>
 	
 		<h:panelGrid columns="2" id="searchUG">
 			<h:outputLabel value="UG:" />
@@ -58,7 +58,7 @@
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
 				<rich:column colspan="6">
-					<h:outputText value="Orgão: #{relatorio.orgao.descricao}"  style="font-weight: bold;"/>
+					<h:outputText value="Órgão: #{relatorio.orgao.descricao}"  style="font-weight: bold;"/>
 				</rich:column>
 				
 				<rich:subTable id="subDataTable" headerClass="subHeader" value="#{relatorio.relatorios}" var="r" rowKeyVar="k"
@@ -119,7 +119,7 @@
 		</a4j:status>
 	
 		<h:panelGroup rendered="#{relatorioBean.entitiesSize > 0}">
-			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+			<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 				<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 			</h:commandLink>
 		</h:panelGroup>

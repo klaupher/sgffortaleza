@@ -28,7 +28,7 @@
 				
 				<h:inputHidden value="#{requisicaoManutencaoBean.entity.id}" rendered="#{requisicaoManutencaoBean.updateState}"/>
 	
-				<dt><label for="ug">Orgão</label></dt>
+				<dt><label for="ug">Órgão</label></dt>
 				<dd>
 					<h:selectOneMenu id="ug" value="#{requisicaoManutencaoBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 			      		<c:if test="#{controlBean.administrador}">

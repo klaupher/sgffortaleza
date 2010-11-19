@@ -15,7 +15,7 @@
 
 		<fieldset class="medio">
 
-		<legend>Relatírio de Km Rodados de veículos</legend>
+		<legend>Relatório Km Rodados de veículos</legend>
 
 		<dl>
       		<a4j:region>
@@ -36,7 +36,7 @@
 	        		<h:message for="dtFinal" styleClass="message"/>
 	        	</dd>
 
-	        	<dt><label for="orgao">Orgão</label></dt>
+	        	<dt><label for="orgao">Órgão</label></dt>
 			  	<dd>
 			  		<h:selectOneMenu id="orgao" value="#{relatorioBean.orgao}" converter="entityConverter">
 			  			<c:if test="#{controlBean.administrador}">
@@ -69,7 +69,7 @@
 			rendered="#{not empty relatorioBean.entities}">
 			
 			<rich:column colspan="4" style="font-weight: bold; background:white">
-				<h:outputText value="Orgão: #{relatorio.orgao.descricao}" />
+				<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 			</rich:column>
 
 			<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rowKeyVar="k" rowClasses="odd,even"
@@ -104,7 +104,7 @@
 
 			<h:panelGroup>
 
-				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatírio" target="blank">
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 	    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
 				</h:commandLink>	
 
