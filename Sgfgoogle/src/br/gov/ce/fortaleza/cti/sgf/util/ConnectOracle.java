@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Classe utilizada para realizar a conex„o com o banco de dados do
- * patrimÙnio, em Oracle
+ * Classe utilizada para realizar a conex√£o com o banco de dados do
+ * patrim√¥nio, em Oracle
  * 
  * @author lafitte
  * @since 23/04/2010
@@ -15,12 +15,12 @@ import java.sql.SQLException;
 public class ConnectOracle {
 	
 	/**
-	 * Conex„o que ser· utilizada para se comunicar com o banco de dados
+	 * Conex√£o que ser√° utilizada para se comunicar com o banco de dados
 	 */
 	private Connection con = null;
 	
 	/**
-	 * Realiza a conex„o com o banco de dados do PatrimÙnio
+	 * Realiza a conex√£o com o banco de dados do Patrim√¥nio
 	 * @return
 	 */
 	public Connection conectaOracle() {
@@ -28,12 +28,7 @@ public class ConnectOracle {
 		try {
 			// Carrega o driver JDBC do Oracle
 			Class.forName(driverName);
-//			String serverName = "172.30.116.22";
-//			String sid = "pmft";
-			String serverName = "172.31.2.6";
-			String sid = "pmf";
-			String portNumber = "1521";
-			String url = "jdbc:oracle:thin:@" + serverName + ":" + portNumber + ":" + sid;  
+			String url = "jdbc:oracle:thin:@172.31.2.9:1521:pmf";  
 			String username = "asiweb";
 			String password = "asiweb";
 			con = DriverManager.getConnection(url, username, password);
