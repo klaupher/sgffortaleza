@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -14,7 +14,6 @@
 		<h1 style="width:300px">  <h:outputText value="#{msg['abastecimento.title']}" /> </h1>
 		<br/>
 		<br/>
-		<br/>
 		
 		<a4j:outputPanel>
 
@@ -22,7 +21,7 @@
 			
 				<a4j:outputPanel rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador or  controlBean.operador}">
 				
-		      		<a4j:commandLink id="novaSolicitacaoAbastecimento" action="#{abastecimentoBean.prepareSave}" value="#{msg['label.novo']}" 
+		      		<a4j:commandLink id="novaSolicitacaoAbast" action="#{abastecimentoBean.prepareSave}" value="#{msg['label.novo']}" 
 		      			rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador}"	
 		      			reRender="paginaPrincipal" immediate="true" styleClass="novo"/>
 		      		<p/>
@@ -65,8 +64,7 @@
 						</h:selectOneRadio>
 	
 						<rich:spacer width="5"/>
-						<a4j:commandButton action="#{abastecimentoBean.pesquisarPeriodoOrgao}" value="Pesquisar" reRender="dataTable">
-						</a4j:commandButton>
+						<a4j:commandButton action="#{abastecimentoBean.pesquisarPeriodoOrgao}" value="Pesquisar" reRender="dataTable"/>
 		      		
 		      		</fieldset>
 		
@@ -83,7 +81,7 @@
 					
 					<c:if test="#{empty abastecimentoBean.entities}">
 						<rich:column>
-							<f:facet name="header">Nenhuma solicita��o foi encontrada.</f:facet>
+							<f:facet name="header">Nenhuma solicitação foi encontrada.</f:facet>
 						</rich:column>
 					</c:if>
 					
@@ -95,26 +93,26 @@
 						</rich:column>
 	
 						<rich:column width="20%" style="text-align: left;" > 
-		                    <f:facet name="header"><h:outputText value="Ve�culo(Placa/Modelo)" /></f:facet>
+		                    <f:facet name="header"><h:outputText value="Veículo(Placa/Modelo)" /></f:facet>
 		                    <a4j:commandLink id="descricao" value="#{abastecimento.veiculo.placa} #{abastecimento.veiculo.modelo.descricao}" reRender="paginaPrincipal" immediate="true"
 		                    	oncomplete="Richfaces.showModalPanel('acompanhamentoAbastecimento', {width:425, top:45});" style="color: black;text-decoration:none;">
 		                        <f:setPropertyActionListener value="#{abastecimento}" target="#{abastecimentoBean.entity}" />
 		                    </a4j:commandLink>
-		                    <rich:toolTip value="Clique aqui para acompanhar o andamento desta solicita��o" for="descricao"/>
+		                    <rich:toolTip value="Clique aqui para acompanhar o andamento desta solicitação" for="descricao"/>
 		                </rich:column>
 		                
 		                <rich:column width="10%" style="text-align: left;" > 
-		                    <f:facet name="header"><h:outputText value="Cota dispon�vel" /></f:facet>
+		                    <f:facet name="header"><h:outputText value="Cota disponível" /></f:facet>
 		                    <h:outputText value="#{abastecimento.veiculo.cota.cotaDisponivel}" style="color: black;"/>
 		                </rich:column>
 	
 		               <rich:column width="45%" style="text-align: left;" > 
-		                    <f:facet name="header"><h:outputText value="UG do ve�culo" /></f:facet>
+		                    <f:facet name="header"><h:outputText value="UG do veículo" /></f:facet>
 		                    <h:outputText value="#{abastecimento.veiculo.ua.ug.descricao}" style="color: black;"/>
 		                </rich:column>
 		                
 		                <rich:column width="20%" style="text-align: left;" sortBy="#{abastecimento.dataAutorizacao}">
-		                    <f:facet name="header"><h:outputText value="Data Autoriza��o" /></f:facet>
+		                    <f:facet name="header"><h:outputText value="Data Autorização" /></f:facet>
 		                    <h:outputText value="#{abastecimento.dataAutorizacao}" style="color: black;">
 		                        <f:convertDateTime  pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
 		                    </h:outputText>
@@ -137,8 +135,7 @@
 		                <rich:column width="3%" style="text-align: center;"
 		                	rendered="#{controlBean.administrador or controlBean.coordenador}">
 		                    <f:facet name="header"><h:outputText value="Editar" /></f:facet>
-		                    <a4j:commandLink styleClass="editar" action="#{abastecimentoBean.prepareUpdate}" 
-		                        reRender="paginaPrincipal" value="Editar" immediate="true">
+		                    <a4j:commandLink styleClass="editar" action="#{abastecimentoBean.prepareUpdate}" reRender="paginaPrincipal" value="Editar" immediate="true">
 		                        <f:setPropertyActionListener target="#{abastecimentoBean.entity}" value="#{abastecimento}"/>
 		                    </a4j:commandLink>
 		                </rich:column>

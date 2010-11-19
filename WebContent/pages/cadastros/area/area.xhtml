@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -20,8 +20,8 @@
 		<h:inputHidden id="points" value="#{areaBean.geoms}"/>
 		<h:inputHidden value="#{areaBean.entity.id}" rendered="#{areaBean.updateState}" />
 		
-		<h:outputLabel value="Descrição:"  for="descricao"/><p/>
-		<h:inputText id="descricao" value="#{areaBean.entity.descricao}" requiredMessage="Informa a descrição" required="true" style="width:360px"/>
+		<h:outputLabel value="DescriÃ§Ã£o:"  for="descricao"/><p/>
+		<h:inputText id="descricao" value="#{areaBean.entity.descricao}" requiredMessage="Informa a DescriÃ§Ã£o" required="true" style="width:360px"/>
 		<h:message for="descricao" styleClass="message"/>
 		<p/>
 
@@ -32,7 +32,7 @@
 		</h:commandButton>
 	
 		<h:commandButton action="#{areaBean.update}" value="Alterar" rendered="#{areaBean.updateState}"  
-			onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+			onclick="if(!confirm('Confirmar alteraÃ§Ã£o de dados.')) { form.reset();return false;}" styleClass="editar">
 			<a4j:support event="oncomplete" reRender="paginaPrincipal"/>	
 		</h:commandButton>
 	

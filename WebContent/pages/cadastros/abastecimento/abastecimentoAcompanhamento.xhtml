@@ -1,24 +1,11 @@
-<?xml version='1.0' encoding='ISO-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:rich="http://richfaces.org/rich"
       xmlns:a4j="http://richfaces.org/a4j">
-    <style type="text/css">
-    <!--
-    .fieldLabel {
-        display: block;
-        width: 50px;
-        float: left;
-        line-height: 20px;
-    }
-    
-    .fieldValue {
-        width: 250px;
-    }
-    -->
-    </style>
+
 	<rich:modalPanel id="acompanhamentoAbastecimento" autosized="true" top="10" domElementAttachment="form">
 		<div id="cadastro">
 			<a4j:outputPanel id="panelPostos">
@@ -74,10 +61,14 @@
 					<legend><h:outputText value="#{msg['label.justificativa']}" /></legend>
 					<h:outputText value="#{abastecimentoBean.entity.justificativa}" id="justificativa" styleClass="labelNegrito"/>
 				</fieldset>
+
 			</a4j:outputPanel>
+
 		</div>
-		<a4j:commandButton value="Voltar" 
-			onclick="Richfaces.hideModalPanel('acompanhamentoAbastecimento');"/>
+
+		<a4j:commandButton value="Voltar" onclick="Richfaces.hideModalPanel('acompanhamentoAbastecimento');"/>
+
 	</rich:modalPanel>
+
 </ui:composition>
 
