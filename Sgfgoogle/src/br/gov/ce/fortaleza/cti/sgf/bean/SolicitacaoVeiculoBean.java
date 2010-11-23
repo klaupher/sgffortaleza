@@ -177,27 +177,27 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		}
 	}
 
-	public String veiculosDisponiveis() {
+	/**
+	 * carrega os veÃ­culos disponÃ­veis para a data e perÃ­odo informado
+	 * se o usuÃ¡rio for administrador, checa em todos os orgÃ£o da prefeitura, senÃ£o
+	 * busca no orgÃ£o do usuÃ¡rio logado
+	 * @return
+	 */
+	public String carregarVeiculosDisponiveis() {
 
 		this.veiculos = new ArrayList<Veiculo>();
 		if (SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)) {
 			if (this.placaVeiculo == null || this.placaVeiculo == "") {
 				this.veiculos = service.findVeiculosDisponiveis(this.entity);
-			} else {
-				// this.veiculos = service.findVeiculosDisponiveis(this.entity, null, this.placaVeiculo);
 			}
 		} else if (SgfUtil.isChefeSetor(this.usuario)|| SgfUtil.isChefeTransporte(this.usuario)) {
 			if (this.placaVeiculo == null) {
 				this.veiculos = service.findVeiculosDisponiveis(this.entity);
-			} else {
-				// this.veiculos = service.findVeiculosDisponiveis(this.entity, orgao, this.placaVeiculo);
 			}
 		}
-		//if (DateUtil.compareDate(this.entity.getDataHoraSaida(), this.entity.getDataHoraRetorno())) {
 		if (this.veiculos.isEmpty()) {
 			JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.indisponiveis");
 		}
-		//}
 		return SUCCESS;
 	}
 
@@ -224,7 +224,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 				return FAIL;
 			}
 			
-			/** verificação da disponibilidade do veículo */
+			/** verificaï¿½ï¿½o da disponibilidade do veï¿½culo */
 			Boolean disponivel = !service.isVeiculoDisponivel(this.entity.getVeiculo().getId(), DateUtil.addTime(this.dataSaida, this.horaSaida),
 					DateUtil.addTime(this.dataRetorno, this.horaRetorno));
 			
@@ -277,7 +277,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	}
 
 	/**
-	 * Registra a saída do veículo, atualizando sua kilometragem
+	 * Registra a saï¿½da do veï¿½culo, atualizando sua kilometragem
 	 * 
 	 * @return
 	 */

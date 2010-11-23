@@ -21,9 +21,19 @@
 				<h:outputLabel value="Registro da saída de veículo" rendered="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO' and solicitacaoVeiculoBean.entity.statusAtendimento == null}"/>
 				<h:outputLabel value="Registro do Retorno de veículo" rendered="#{solicitacaoVeiculoBean.entity.statusAtendimento == 1}"/>
 			</legend>
-			<p></p>
+			<p/>
+			
+			<h:outputLabel value="UG:" for="ugeditSolicitacaoVeiculo" style="padding-right:20px;" rendered="#{controlBean.administrador or controlBean.coordenador}"  styleClass="labelNegrito"/>
+			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador}">
+				<h:selectOneMenu id="ugeditSolicitacaoVeiculo" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" style="width:480px">
+					<f:selectItem itemLabel="Todas.." itemValue=""/>
+					<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+					<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}" reRender="veiculoSolicitacao" ajaxSingle="true"/>
+				</h:selectOneMenu>
+			</a4j:region>
+			<p/>		
 
-			<h:panelGroup rendered="#{(controlBean.administrador or controlBean.coordenador  or controlBean.chefeTransporte)}">
+			<a4j:region id="solicitacaoVeiculoPanel" rendered="#{(controlBean.administrador or controlBean.coordenador  or controlBean.chefeTransporte)}">
 				<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
 				<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.entity.veiculo}" disabled="#{!solicitacaoVeiculoBean.veiculoNull}" 
 					requiredMessage="Informe o veículo" converter="entityConverter" required="true" style="margin-left:55px">
@@ -31,7 +41,7 @@
 		 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 				</h:selectOneMenu>
 				<h:message for="veiculoSolicitacao" styleClass="message"/><p></p>
-			</h:panelGroup>
+			</a4j:region>
 
 	        <h:outputLabel value="Data saída:" for="dtaInicial" styleClass="labelNegrito"/>
 			<h:inputText id="dtaInicial" value="#{solicitacaoVeiculoBean.dataSaida}" required="true" styleClass="maskData" 
@@ -148,9 +158,8 @@
 		
 		<h:panelGroup rendered="#{(controlBean.administrador or controlBean.coordenador  or controlBean.chefeTransporte)}">
 		
-			<h:commandButton action="#{solicitacaoVeiculoBean.confirmarNegar}" value="Confirmar Negação"  
-				rendered="#{solicitacaoVeiculoBean.flagNegar and (solicitacaoVeiculoBean.entity.status == 'SOLICITADO' and 
-				!solicitacaoVeiculoBean.veiculoNull)}"> 
+			<h:commandButton action="#{solicitacaoVeiculoBean.confirmarNegar}" value="Confirmar Negação" rendered="#{solicitacaoVeiculoBean.flagNegar and 
+				(solicitacaoVeiculoBean.entity.status == 'SOLICITADO' and !solicitacaoVeiculoBean.veiculoNull)}"> 
 				<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 			</h:commandButton>
 			
