@@ -135,12 +135,15 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		return SUCCESS;
 	}
 
+	/**
+	 * O status do usuário é a string TRUE ou FALSE
+	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String save() {
 		boolean hasLoginUser = service.loginExistente(this.entity.getLogin(), null);
 		if(validar()){
-			this.entity.setStatus("true");
+			this.entity.setStatus("TRUE");
 			this.entity.getPessoa().setUa(this.ua);
 			this.entity.setSenha(SgfUtil.md5(this.entity.getSenha()));
 			this.pessoaService.update(this.entity.getPessoa());
@@ -229,6 +232,11 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		return SUCCESS;
 	}
 
+	/**
+	 * 
+	 * Pesquisa uma pessoa pelo seu CPF
+	 * @return
+	 */
 	public String searchByCpf(){
 		try{
 			Pessoa pessoa;
@@ -273,6 +281,10 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		return SUCCESS;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String selecionarGrupoUsuario(){
 		this.entity.setRole(roleService.retrieve(this.entity.getRole().getCodGrupo()));
 		if (this.entity.getRole().getCodGrupo() == 5) {
@@ -303,6 +315,10 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		return usuarios;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String loadUas(){
 		this.uas = new ArrayList<UA>();
 		this.mostrarUA = true;
@@ -315,6 +331,11 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		return SUCCESS;
 	}
 
+	/**
+	 * 
+	 * valida a confirmação de senha do usuário
+	 * @return
+	 */
 	public Boolean validar() {
 		if(!this.entity.getSenha().equals(this.confirmaSenha)){
 			FacesContext.getCurrentInstance().addMessage("confirmaSenha", 

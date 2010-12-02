@@ -29,6 +29,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusRegistroSolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusSolicitacaoVeiculo;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 /**
  * @author Deivid
@@ -57,10 +58,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	private RegistroVeiculo registro;
 	private UG orgaoSelecionado = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
+	private Veiculo veiculo;
 	private List<UG> orgaos;
 	private List<Veiculo> veiculos;
 	private List<Motorista> motoristas;
 	private Veiculo veiculoSelecionado;
+	private List<SolicitacaoVeiculo> solicitacoesPendentes;
 
 	private Boolean mostrarSolicitacoes;
 	private Boolean flagNegar;
@@ -208,11 +211,13 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	}
 
 	public String save() {
+		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		try {
 			this.entity.setSolicitante(usuario);
 			this.entity.setStatus(StatusSolicitacaoVeiculo.SOLICITADO);
 			this.entity.setDataHoraSaida(DateUtil.addTime(this.dataSaida, this.horaSaida));
 			this.entity.setDataHoraRetorno(DateUtil.addTime(this.dataRetorno, this.horaRetorno));
+			this.entity.setVeiculo(this.veiculo);
 			
 			if (!DateUtil.compareDate(this.entity.getDataHoraSaida(), this.entity.getDataHoraRetorno())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
@@ -228,8 +233,22 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			Boolean disponivel = !service.isVeiculoDisponivel(this.entity.getVeiculo().getId(), DateUtil.addTime(this.dataSaida, this.horaSaida),
 					DateUtil.addTime(this.dataRetorno, this.horaRetorno));
 			
+			this.pesquisarSolicitacoesPendentes();
+			
+			if(this.solicitacoesPendentes.size() > 0){
+				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoComSolicitacoesPendentes");
+				super.prepareSave();
+				return FAIL;
+			}
+			
 			if(disponivel.equals(false)) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoIndisponivel");
+				super.prepareSave();
+				return FAIL;
+			}
+			
+			if(this.entity.getVeiculo().getStatus() == StatusVeiculo.TRANSF_EXTERNA){
+				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoEmTransferenciaExterna");
 				super.prepareSave();
 				return FAIL;
 			}
@@ -291,6 +310,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			}
 		}
 		this.entity.setDtSaida(DateUtil.addTime(new Date(),this.horaSaidaReal));
+		
+		if(this.entity.getDataHoraSaida().getTime() > DateUtil.getDateEndDay().getTime()){
+			JSFUtil.getInstance().addErrorMessage("msg.error.registro.saida.naopermitida");
+			return FAIL;
+		}
+		
 		this.entity.setStatusAtendimento(StatusRegistroSolicitacaoVeiculo.EM_SERVICO);
 		this.entity.setUsuario(SgfUtil.usuarioLogado());
 		this.entity.setStatus(StatusSolicitacaoVeiculo.EXTERNO);
@@ -357,13 +382,14 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		} else {
 			this.motoristas = motoristaService.findByUG(this.usuario.getPessoa().getUa().getUg().getId());
 		}
+		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		this.veiculos = veiculoService.findAll();
 		return SUCCESS;
 	}
 
 	@Override
 	public String prepareEdit() {
-		//this.motoristas = motoristaService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId());
+		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		if(SgfUtil.isAdministrador(this.usuario)){
 			this.motoristas = motoristaService.retrieveAll();
 		} else {
@@ -387,16 +413,39 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.horaRetorno = this.entity.getDataHoraRetorno();
 		this.veiculos = new ArrayList<Veiculo>();
 
-		if (this.entity.getVeiculo() == null) {
-			this.veiculos = veiculoService.findAll();
-		} else {
+		if (this.entity.getVeiculo() != null) {
 			this.entity.setKmSaida(this.entity.getVeiculo().getKmAtual());
 			//this.veiculos.add(this.entity.getVeiculo());
 		}
-
+		this.veiculos = veiculoService.findAll();
 		setCurrentBean(currentBeanName());
 		setCurrentState(EDIT);
 		return SUCCESS;
+	}
+	
+	public String pesquisarSolicitacoesPendentes(){
+		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
+		if(this.veiculo != null){
+			System.out.println(this.veiculo.getPlaca());
+			List<SolicitacaoVeiculo> pendentes = new ArrayList<SolicitacaoVeiculo>();
+			List<SolicitacaoVeiculo> current = service.findSolicitacoesVeiculo(this.veiculo, StatusSolicitacaoVeiculo.EXTERNO);
+			for (SolicitacaoVeiculo s: current) {
+				if(s.getDataHoraSaida().getTime() < DateUtil.getDateStartDay().getTime()){
+					pendentes.add(s);
+				}
+			}
+			this.solicitacoesPendentes = pendentes;
+		}
+		return SUCCESS;
+	}
+	
+	public List<SolicitacaoVeiculo> getSolicitacoesPendentes() {
+		return solicitacoesPendentes;
+	}
+
+	public void setSolicitacoesPendentes(
+			List<SolicitacaoVeiculo> solicitacoesPendentes) {
+		this.solicitacoesPendentes = solicitacoesPendentes;
 	}
 
 	public UG getOrgaoSelecionado() {
@@ -599,4 +648,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.desabilita = desabilita;
 	}
 
+	public Veiculo getVeiculo() {
+		return veiculo;
+	}
+
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
+	}
 }

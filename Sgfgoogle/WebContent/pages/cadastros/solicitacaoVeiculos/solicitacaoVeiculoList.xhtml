@@ -36,7 +36,7 @@
 							<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" style="width:480px">
 								<f:selectItem itemLabel="Todas.." itemValue=""/>
 								<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-								<a4j:support event="onclick" action="#{solicitacaoVeiculoBean.carregarVeiculosDoOrgao}" reRender="paginaPrincipal"/>	
+								<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}" reRender="paginaPrincipal"/>	
 							</h:selectOneMenu>
 						</h:panelGroup>
 						
@@ -94,14 +94,14 @@
 							</rich:column>
 							
 							<rich:column width="10%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="saída"/></f:facet>
+								<f:facet name="header"><h:outputText value="prev.saída"/></f:facet>
 								<h:outputText value="#{solicitacao.dataHoraSaida}" style="color: black;">
 									<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>	
 							
 							<rich:column width="10%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="Retorno"/></f:facet>
+								<f:facet name="header"><h:outputText value="prev.retorno"/></f:facet>
 								<h:outputText value="#{solicitacao.dataHoraRetorno}" style="color: black;">
 									<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
