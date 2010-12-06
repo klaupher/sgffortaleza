@@ -47,6 +47,23 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		});
 		return result;
 	}
+	/**
+	 * retorna os veículos com status disponíveis. Se o usuário é administrador, a lista virá com todos os veículos, senão
+	 * lista virá com os veículos do ôrgãos do usuário logado.
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> veiculosDisponiveis(){
+		Query query = null;
+		if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
+			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0");
+			return query.getResultList();
+		} else {
+			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0");
+			query.setParameter("ug", SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId());
+			return query.getResultList();
+		}
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculobyModelo(String filter) {
@@ -109,7 +126,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return query.getResultList();
 	}
 	/**
-	 * Busca a quantidade abastecida no m�s para o ve�culo informado
+	 * Busca a quantidade abastecida no m�s para o ve�culo informado
 	 * 
 	 * @param veiculo
 	 * @return Double
@@ -142,6 +159,14 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return result;
 	}
 
+	/**
+	 * Método quer gera as últimas transmissões dos veículos, configuradas para mostrar na tela de monitoramento
+	 * @param veiculos
+	 * @param exibirPontos
+	 * @param velocidadeMaxima
+	 * @param init
+	 * @return
+	 */
 	@Transactional(readOnly = true)
 	public List<PontoDTO> searchPontosMonitoramento(List<Veiculo> veiculos, boolean exibirPontos, Float velocidadeMaxima, Date init) {
 
@@ -188,8 +213,8 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 					}
 
 					if (veiculo.getGeometry() != null) {
-						//							m.setLat((float) ((Point)veiculo.getGeometry()).x);
-						//							m.setLng((float) ((Point)veiculo.getGeometry()).y);
+						//m.setLat((float) ((Point)veiculo.getGeometry()).x);
+						//m.setLng((float) ((Point)veiculo.getGeometry()).y);
 					}
 
 					if (exibirPontos) {
@@ -207,10 +232,10 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 									ponto.setDistPontoMaisProximo(transmissao.getDistancia());
 									ponto.setVelocidade(transmissao.getVelocidade());
 									ponto.setDataTransmissao(transmissao.getDataTransmissao());
-									//									ponto.setLat((float) transmissao.getGeometry().getX());
-									//									ponto.setLng((float) transmissao.getGeometry().getY());
-									//										ponto.setLat((float) ((Point)veiculo.getGeometry()).x);
-									//										ponto.setLng((float) ((Point)veiculo.getGeometry()).y);
+									//ponto.setLat((float) transmissao.getGeometry().getX());
+									//ponto.setLng((float) transmissao.getGeometry().getY());
+									//ponto.setLat((float) ((Point)veiculo.getGeometry()).x);
+									//ponto.setLng((float) ((Point)veiculo.getGeometry()).y);
 									ponto.setVelocidadeMaxima(velocidadeMaxima);
 									rastro.add(ponto);
 								} catch (Exception e) {

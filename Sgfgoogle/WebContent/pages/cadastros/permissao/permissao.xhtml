@@ -18,19 +18,16 @@
 
 	      <legend><h:outputText value="#{msg['permissao.permissoes']}" /></legend>
 	      
-	      	<dt><label for="nome">Nome da Permissão</label></dt>
-	      	<dd>
-				<h:inputText id="nomePermissao" value="#{permissaoBean.entity.nome}" size="45" maxlength="90" required="true"
-					requiredMessage="Informe o nome" />
-				<rich:message for="nomePermissao" styleClass="message"/>
-			</dd>
+      		<h:outputLabel value="Nome:"/>
+			<h:inputText id="nomePermissao" value="#{permissaoBean.entity.nome}" size="30" maxlength="90" required="true" requiredMessage="Informe o nome" />
+			Ex.: CADASTRO_USUARIO
+			<rich:message for="nomePermissao"/>
 			
-			<dt><label for="nome">Descrição da Permissão</label></dt>
-			<dd>
-				<h:inputText id="descPermissao" value="#{permissaoBean.entity.descricao}" size="60" maxlength="120" required="true"
-					requiredMessage="Informe a Descrição" />
-				<rich:message for="descPermissao" styleClass="message"/>
-			</dd>
+			<p/>
+			
+			<h:outputLabel value="Descrição:"/>
+			<h:inputText id="descPermissao" value="#{permissaoBean.entity.descricao}" size="45" maxlength="150" required="true" requiredMessage="Informe a Descrição" />
+			<rich:message for="descPermissao" styleClass="message"/>
 
 		</fieldset>
 

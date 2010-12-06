@@ -71,7 +71,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		}
 	}
 	/**
-	 * verifica se o grupo tem alguma página inicial
+	 * verifica se o grupo tem alguma pï¿½gina inicial
 	 * @return
 	 */
 	public boolean isRolePage(){
@@ -360,7 +360,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 					}
 				}
 			} else {
-				SgfUtil.getRequest().setAttribute("sendmail_err", "Não foi encontrado usuário p/ o e-mail informado!");
+				SgfUtil.getRequest().setAttribute("sendmail_err", "Nï¿½o foi encontrado usuï¿½rio p/ o e-mail informado!");
 				return FAIL;
 			}
 		} else {

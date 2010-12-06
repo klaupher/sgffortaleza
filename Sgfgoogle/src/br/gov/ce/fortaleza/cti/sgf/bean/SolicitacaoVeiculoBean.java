@@ -365,6 +365,9 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		return super.prepareUpdate();
 	}
 
+	/**
+	 * 
+	 */
 	public String prepareSave() {
 		super.prepareSave();
 		this.autorizado = false;
@@ -383,7 +386,8 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			this.motoristas = motoristaService.findByUG(this.usuario.getPessoa().getUa().getUg().getId());
 		}
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
-		this.veiculos = veiculoService.findAll();
+		//this.veiculos = veiculoService.findAll();
+		carregarVeiculosDisponiveis();
 		return SUCCESS;
 	}
 
@@ -422,7 +426,10 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		setCurrentState(EDIT);
 		return SUCCESS;
 	}
-	
+	/**
+	 * busca solicitações pendentes do veículos selecionado
+	 * @return
+	 */
 	public String pesquisarSolicitacoesPendentes(){
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		if(this.veiculo != null){

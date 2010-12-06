@@ -36,7 +36,7 @@
 			</a4j:region>
 			<p/>		
 
-			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador}">
+			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
 
 				<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
 				<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.veiculo}" disabled="#{!solicitacaoVeiculoBean.veiculoNull}" 

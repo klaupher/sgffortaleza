@@ -23,7 +23,7 @@
 				
 					<fieldset>
 
-						<legend>Permissões dispoNºveis</legend>
+						<legend>Permissões disponíveis</legend>
 						<h:selectOneMenu id="rolePermissao" value="#{roleBean.permissao}" converter="entityConverter"  rendered="#{roleBean.permissaoStatus}">
 							<t:selectItems value="#{roleBean.permissoes}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
 						</h:selectOneMenu>

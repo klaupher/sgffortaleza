@@ -4,6 +4,8 @@
 package br.gov.ce.fortaleza.cti.sgf.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -172,14 +174,18 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	public List<Veiculo> findVeiculosDisponiveis(SolicitacaoVeiculo solicitacao) {
 
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
+
 		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
 
 		StringBuffer hql = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND " +
 		"(s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
+		
 		UG ug = null;
+		
 		if(!SgfUtil.isAdministrador(solicitacao.getSolicitante()) && !SgfUtil.isCoordenador(solicitacao.getSolicitante())){
 			ug = solicitacao.getSolicitante().getPessoa().getUa().getUg();
 		}
+		
 		if (ug != null) {
 			hql.append("and s.solicitante.pessoa.ua.ug.id = :ugId");
 		}
@@ -194,16 +200,18 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 
 		solicitacaoVeiculos = query.getResultList();
 		List<Veiculo> remove = new ArrayList<Veiculo>();
+		
 		for (SolicitacaoVeiculo sol : solicitacaoVeiculos) {
 			remove.add(sol.getVeiculo());
 		}
-
-		if(SgfUtil.isAdministrador(solicitacao.getSolicitante())){
-			veiculos = veiculoService.findAll();
-		} else {
-			veiculos = veiculoService.findByUG(ug);
-		}
-		veiculos.removeAll(remove);
+		
+		veiculos = veiculoService.veiculosDisponiveis();
+		Collections.sort(veiculos, new Comparator<Veiculo>() {
+			public int compare(Veiculo o1, Veiculo o2) {
+				return o1.getPlaca().compareTo(o2.getPlaca());
+			}
+		});
+		//veiculos.removeAll(remove);
 		return veiculos;
 	}
 	/**
