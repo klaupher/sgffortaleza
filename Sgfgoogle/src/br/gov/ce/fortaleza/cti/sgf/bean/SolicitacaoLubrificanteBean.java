@@ -99,11 +99,11 @@ public class SolicitacaoLubrificanteBean extends
 
 	private boolean kmChecked = false;
 	/**
-	 * Período inicial do filtro da busca das solicitações de lubrificante
+	 * Perï¿½odo inicial do filtro da busca das solicitaï¿½ï¿½es de lubrificante
 	 */
 	private Date dtInicial;
 	/**
-	 * Período final do filtro da busca das solicitiações de lubrificante
+	 * Perï¿½odo final do filtro da busca das solicitiaï¿½ï¿½es de lubrificante
 	 */
 	private Date dtFinal;
 
@@ -229,6 +229,8 @@ public class SolicitacaoLubrificanteBean extends
 		this.ultimaAutorizacao = new SolicitacaoLubrificante();
 
 		loadList();
+		
+		this.interval = 2000000;
 
 		return SUCCESS;
 	}

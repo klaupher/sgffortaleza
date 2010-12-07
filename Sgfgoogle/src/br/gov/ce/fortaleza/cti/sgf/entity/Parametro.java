@@ -18,7 +18,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "TB_PARAMETRO", schema = "SGF")
 @NamedQueries({
-	@NamedQuery(name = "Parametro.findByTipo", query = "select p from Parametro p where p.tipo = ?")
+	@NamedQuery(name = "Parametro.findByTipo", query = "select p from Parametro p where p.tipo = ?"),
+	@NamedQuery(name = "Parametro.findByNome", query = "select p from Parametro p where p.nome = ?")
 })
 public class Parametro implements Serializable{
 	

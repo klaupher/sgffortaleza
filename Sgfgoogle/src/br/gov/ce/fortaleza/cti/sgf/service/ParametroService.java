@@ -12,9 +12,11 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Parametro;
 public class ParametroService extends BaseService<Integer, Parametro> {
 
 	public List<Parametro> findByTipo(String tipo){
-
 		List<Parametro> result = executeResultListQuery("findByTipo", tipo);
-
 		return result ;
+	}
+	
+	public Parametro findByNome(String nome){
+		return executeSingleResultQuery("findByNome", nome) ;
 	}
 }

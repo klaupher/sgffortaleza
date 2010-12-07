@@ -19,6 +19,7 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 	protected String filter;
 	protected Boolean saved;
 	protected Boolean updated;
+	protected Integer interval = 1000;
 
 	public String close() {
 		this.entities = null;
@@ -137,5 +138,11 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 
 	public void setUpdated(Boolean updated) {
 		this.updated = updated;
+	}
+	public Integer getInterval() {
+		return interval;
+	}
+	public void setInterval(Integer interval) {
+		this.interval = interval;
 	}
 }

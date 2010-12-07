@@ -99,6 +99,11 @@ EntityBean<Integer, RequisicaoManutencao> {
 	public boolean isItensStatus(){
 		return this.itensRequisicao.size() > 0;
 	}
+	
+	public String searchStatus(){
+		this.interval = 2000000;
+		return super.searchStatus();
+	}
 
 	public String delete() {
 		// this.entity.getVeiculo().setStatus(0);

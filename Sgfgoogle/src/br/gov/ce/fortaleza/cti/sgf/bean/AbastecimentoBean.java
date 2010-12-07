@@ -317,8 +317,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			//setCurrentState(SEARCH);
 		}
 
-		//Double qtdAbastecida = 0.0;
-
 		for (Abastecimento abastecimento : this.entities) {
 
 			if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
@@ -341,6 +339,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.entities.addAll(filtro);
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
+		this.interval = 2000000;
 		return SUCCESS;
 	}
 

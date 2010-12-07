@@ -273,7 +273,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		searchSolicitacaoByUG();
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
-		this.start = false;
+		this.interval = 2000000;
 		return SUCCESS;
 	}
 
@@ -415,13 +415,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.dataRetorno = this.entity.getDataHoraRetorno();
 		this.horaSaida = this.entity.getDataHoraSaida();
 		this.horaRetorno = this.entity.getDataHoraRetorno();
-		this.veiculos = new ArrayList<Veiculo>();
+		this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis());
 
 		if (this.entity.getVeiculo() != null) {
 			this.entity.setKmSaida(this.entity.getVeiculo().getKmAtual());
 			//this.veiculos.add(this.entity.getVeiculo());
 		}
-		this.veiculos = veiculoService.findAll();
 		setCurrentBean(currentBeanName());
 		setCurrentState(EDIT);
 		return SUCCESS;
@@ -433,7 +432,6 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String pesquisarSolicitacoesPendentes(){
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		if(this.veiculo != null){
-			System.out.println(this.veiculo.getPlaca());
 			List<SolicitacaoVeiculo> pendentes = new ArrayList<SolicitacaoVeiculo>();
 			List<SolicitacaoVeiculo> current = service.findSolicitacoesVeiculo(this.veiculo, StatusSolicitacaoVeiculo.EXTERNO);
 			for (SolicitacaoVeiculo s: current) {

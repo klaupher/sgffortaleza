@@ -207,8 +207,20 @@
 		
 		<!--Lista de solicitações pendentes do veículo selecionado-->
 
-			<rich:simpleTogglePanel id="panelSolicitacoesPendentes" label="Solicitações Pendentes do Veículo #{solicitacaoVeiculoBean.veiculo.placa}" headerClass="simpleHeader">
+		<rich:simpleTogglePanel id="panelSolicitacoesPendentes" label="Solicitações Pendentes do Veículo #{solicitacaoVeiculoBean.veiculo.placa}" headerClass="simpleHeader">
 
+
+				<rich:dataTable id="dataTable2" rendered="#{empty solicitacaoVeiculoBean.solicitacoesPendentes}"  
+		      		rowClasses="even, odd" 
+		      		onRowMouseOver="jQuery(this).addClass('trHover')" 
+		      		onRowMouseOut="jQuery(this).removeClass('trHover')" width="100%" rows="10" rowKeyVar="index">
+
+					<rich:column>
+						<f:facet name="header">Nenhuma pendência foi encontrada p/ #{solicitacaoVeiculoBean.veiculo.placa}</f:facet>
+					</rich:column>
+				
+				</rich:dataTable>
+				
 				<rich:dataTable id="dataTable" rendered="#{not empty solicitacaoVeiculoBean.solicitacoesPendentes}"	value="#{solicitacaoVeiculoBean.solicitacoesPendentes}" var="solicitacao" rows="10" rowKeyVar="k"
 					rowClasses="even, odd"
 					onRowMouseOver="jQuery(this).addClass('trHover')"
@@ -261,8 +273,8 @@
 
 				</rich:dataTable>
 
-			</rich:simpleTogglePanel>
-			<p/>
+		</rich:simpleTogglePanel>
+		<p/>
 
 	</div>	
 	

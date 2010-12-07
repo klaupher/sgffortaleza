@@ -50,7 +50,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	private Page rolePageUrl;
 	private Set<String> permissoes;
 	private Boolean rolePage = true;
-	
+
 	@PostConstruct
 	public String init() throws ServletException, IOException {
 		if(!isUserIn()){
@@ -75,17 +75,57 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	 * @return
 	 */
 	public boolean isRolePage(){
-		boolean result = this.usuario.getRole().getPages().size() > 0;
+		List<Page> pages = new ArrayList<Page>(this.usuario.getRole().getPages());
+		boolean result = pages.size() > 0;
 		if(result && this.rolePage){
-			List<Page> pages = new ArrayList<Page>(this.usuario.getRole().getPages());
 			this.rolePageUrl = pages.get(0);
 			setCurrentBean(this.rolePageUrl.getBeanName());
 			setCurrentState("SEARCH");
 			this.rolePage = false;
 			return true;
-		} else {
-			return false;
 		}
+		this.rolePage = false;
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDiarioBombaPage(){
+		if(this.rolePageUrl != null){
+			if(this.rolePageUrl.getBeanName().equals("DiarioBombaBean")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isAbastecimentoPage(){
+		if(this.rolePageUrl != null){
+			if(this.rolePageUrl.getBeanName().equals("AbastecimentoBean")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isSolicitacaoVeiculoPage(){
+		if(this.rolePageUrl != null){
+			if(this.rolePageUrl.getBeanName().equals("SolicitacaoVeiculoBean")){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isMonitoramentoPage(){
+		if(this.rolePageUrl != null){
+			if(this.rolePageUrl.getBeanName().equals("MonitoramentoBean")){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public boolean hasPermission(String... roles) {
@@ -303,15 +343,15 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	public boolean isAreaBean() {
 		return AreaBean.class.getSimpleName().equals(getCurrentBean());
 	}
-	
+
 	public boolean isMessageBean() {
 		return MessageBean.class.getSimpleName().equals(getCurrentBean());
 	}
-	
+
 	public boolean isPageBean() {
 		return PageBean.class.getSimpleName().equals(getCurrentBean());
 	}
-	
+
 	public boolean isMonitoramentoBean(){
 		return MonitoramentoBean.class.getSimpleName().equals(getCurrentBean());
 	}

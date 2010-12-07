@@ -12,13 +12,13 @@
 
 	<div id="cadastro">
 
-		<h1>  veículos </h1>
+		<h1>  Veículos </h1>
 		
 		<fieldset>
 
 	      	<legend>Listagem de veículos</legend>
 
-	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{controlBean.hasPermission('RULE_CADASTRO_VEICULO')}">
+	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{!veiculoBean.cadastraVeiculo}">
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	      	</h:commandLink>
 	      	<p></p>
@@ -103,9 +103,9 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador}">
+					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador and !veiculoBean.cadastraVeiculo}">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
-						<h:commandLink styleClass="excluir" value="Excluir" onclick="if(!confirm('Confirmar Exclusão')){document.getElementById('paginaPrincipal').reset(); return false;}">
+						<h:commandLink styleClass="excluir" action="#{veiculoBean.delete}" value="Excluir" onclick="if(!confirm('Confirmar Exclusão')){document.getElementById('paginaPrincipal').reset(); return false;}">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
 							<a4j:support event="onclick" reRender="paginaPrincipal" />
 						</h:commandLink>

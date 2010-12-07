@@ -19,16 +19,28 @@
 		 <c:choose>
 		
 		<c:when test="#{controlBean.rolePage}">
-		     <ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
+			<c:if test="#{controlBean.diarioBombaPage}">
+				<a4j:poll id="rolePagePoll" action="#{diarioBombaBean.searchSort}" reRender="paginaPrincipal"  interval="#{diarioBombaBean.interval}"/>
+				<a4j:region id="diarioBombaPage">
+					<ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
+				</a4j:region>
+			</c:if>
+			<c:if test="#{controlBean.solicitacaoVeiculoPage}">
+				<a4j:poll id="rolePagePoll" action="#{solicitacaoVeiculoBean.search}" reRender="paginaPrincipal"  interval="#{solicitacaoVeiculoBean.interval}"/>
+				<ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
+			</c:if>
+			<c:if test="#{controlBean.abastecimentoPage}">
+				<a4j:poll id="rolePagePoll" action="#{abastecimentoBean.search}" reRender="paginaPrincipal"  interval="#{abastecimentoBean.interval}"/>
+				<ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
+			</c:if>
+			<c:if test="#{controlBean.monitoramentoPage}">
+				<a4j:poll id="rolePagePoll" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" reRender="paginaPrincipal"  interval="#{monitoramentoBean.interval}"/>
+				<ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
+			</c:if>
 		</c:when>
 
 		<c:otherwise>
 
-			<c:if test="#{controlBean.rolePage}">
-				<a4j:poll id="rolePagePoll" action="#{pontoBean.search}" rendered="#{pontoBean.reload}"  interval="24000"/>
-				<ui:include src="#{controlBean.rolePageUrl.urlPage}"/>
-			</c:if>
-	
 			<c:if test="#{controlBean.abastecimentoBean}">
 				<c:if test="#{(abastecimentoBean.updateState or abastecimentoBean.saveState)}">
 					<ui:include src="cadastros/abastecimento/abastecimento.xhtml" />

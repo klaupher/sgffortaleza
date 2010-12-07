@@ -187,6 +187,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		iniciarDiarias();
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
+		this.interval = 2000000;
 		return SUCCESS;
 	}
 
@@ -223,7 +224,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	}
 
 	/**
-	 * Iniciar as diárias da bombas de cada posto
+	 * Iniciar as diï¿½rias da bombas de cada posto
 	 */
 	public void iniciarDiarias() {
 		
