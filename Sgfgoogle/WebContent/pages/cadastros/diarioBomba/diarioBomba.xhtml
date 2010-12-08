@@ -29,7 +29,7 @@
 				onRowMouseOut="jQuery(this).removeClass('trHover')" 
 				width="100%">
 
-				<rich:column width="5%" style="text-align: center;" > 
+				<rich:column width="3%" style="text-align: center;" > 
 					<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 					<h:outputText value="#{index+1}" style="color: black;"/>
 				</rich:column>
@@ -42,7 +42,7 @@
 					<h:graphicImage value="/images/calendar.png" />
 				</rich:column>
 
-				<rich:column width="15%" style="text-align: left;" > 
+				<rich:column width="25%" style="text-align: left;" > 
 					<f:facet name="header"><h:outputText value="Valor inicial" /></f:facet>
 					<h:inputText id="vlrInicial" disabled="#{diario.status == 0}" value="#{diario.valorInicial}" style="color: black;" size="10" 
 						 required="true" requiredMessage="Informe o valor inicial" maxlength="10">
@@ -50,7 +50,7 @@
 					Ex.: 1200.90
 				</rich:column>
 
-				<rich:column width="15%" style="text-align: left;" > 
+				<rich:column width="25%" style="text-align: left;" > 
 					<f:facet name="header"><h:outputText value="Valor final" /></f:facet>
 					<h:inputText disabled="#{diario.status == 1}" id="vlrFinal" value="#{diario.valorFinal}" style="color: black;" size="10"
 						 required="#{diario.status == 0}" requiredMessage="Informe o valor final" maxlength="10">

@@ -37,7 +37,7 @@
 
 			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
 				<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
-				<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.veiculo}" disabled="#{!solicitacaoVeiculoBean.veiculoNull}" 
+				<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.veiculo}"  disabled="#{!solicitacaoVeiculoBean.veiculoNull}" 
 					requiredMessage="Informe o veículo"  required="true" style="margin-left:52px" converter="entityConverter">
 					<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
 		 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>

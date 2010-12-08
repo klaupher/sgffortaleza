@@ -406,8 +406,10 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		if(SgfUtil.isAdministrador(this.usuario)){
 			this.motoristas = motoristaService.retrieveAll();
+			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(this.usuario.getPessoa().getUa().getUg()));
 		} else {
 			this.motoristas = motoristaService.findByUG(this.usuario.getPessoa().getUa().getUg().getId());
+			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(null));
 		}
 		this.desabilita = false;
 		if (this.entity.getStatus().equals(StatusSolicitacaoVeiculo.AUTORIZADO)) {
@@ -425,7 +427,8 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.dataRetorno = this.entity.getDataHoraRetorno();
 		this.horaSaida = this.entity.getDataHoraSaida();
 		this.horaRetorno = this.entity.getDataHoraRetorno();
-		this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis());
+		
+		
 
 		if (this.entity.getVeiculo() != null) {
 			this.entity.setKmSaida(this.entity.getVeiculo().getKmAtual());

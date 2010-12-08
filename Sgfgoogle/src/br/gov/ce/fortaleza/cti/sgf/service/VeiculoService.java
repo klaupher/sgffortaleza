@@ -53,10 +53,15 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Veiculo> veiculosDisponiveis(){
+	public List<Veiculo> veiculosDisponiveis(UG ug){
 		Query query = null;
 		if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
-			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0");
+			if(ug != null){
+				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 and v.ua.ug.id = :ug");
+				query.setParameter("ug", ug.getId());
+			} else {
+				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0");
+			}
 			return query.getResultList();
 		} else {
 			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0");

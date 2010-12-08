@@ -215,7 +215,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 			remove.add(sol.getVeiculo());
 		}
 		
-		veiculos = veiculoService.veiculosDisponiveis();
+		veiculos = veiculoService.veiculosDisponiveis(ug);
 		Collections.sort(veiculos, new Comparator<Veiculo>() {
 			public int compare(Veiculo o1, Veiculo o2) {
 				return o1.getPlaca().compareTo(o2.getPlaca());
