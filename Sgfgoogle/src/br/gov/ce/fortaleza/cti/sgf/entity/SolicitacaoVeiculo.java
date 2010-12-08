@@ -38,7 +38,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusSolicitacaoVeiculo;
 @SecondaryTable(name="TB_REGISTROVEICULOS", schema = "SGF")
 @Table(name = "TB_SOLVEICULOS", schema = "SGF")
 @NamedQueries( {
-		@NamedQuery(name = "SolicitacaoVeiculo.findByStatus", query = "select s from SolicitacaoVeiculo s where s.status = ?"),
+		@NamedQuery(name = "SolicitacaoVeiculo.findByStatus", query = "select s from SolicitacaoVeiculo s where s.status = ? order by s.dataHoraSaida desc"),
 		@NamedQuery(name = "SolicitacaoVeiculo.findByUsuarioStatus", query = "select s from SolicitacaoVeiculo s where "
 				+ "s.solicitante.codPessoaUsuario = ? and s.status = ? and s.veiculo.status != 4"),
 		@NamedQuery(name = "SolicitacaoVeiculo.veiculosIndisponiveis", query = "select o from SolicitacaoVeiculo o where "
@@ -98,7 +98,7 @@ public class SolicitacaoVeiculo implements Serializable {
 
 	/**
 	 * 
-	 * Mapeamento do atendimento da solicitação de veiculo
+	 * Mapeamento do atendimento da solicitaï¿½ï¿½o de veiculo
 	 */
 
 	@ManyToOne

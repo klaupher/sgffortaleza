@@ -92,20 +92,27 @@
 								<f:facet name="header"><h:outputLabel value="Nº bomba"/></f:facet>
 								<h:outputText value="#{db.bomba.numero}"/>
 							</rich:column>
+							
+							<rich:column width="10%">
+								<f:facet name="header"><h:outputLabel value="Data Cadastro"/></f:facet>
+								<h:outputText value="#{db.dataCadastro}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+								</h:outputText>
+							</rich:column>
 
 							<rich:column width="10%">
 								<f:facet name="header"><h:outputLabel value="Hora abertura"/></f:facet>
 								<h:outputText value="#{db.horaInicial}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>				
 
-							<rich:column width="10%">
+							<rich:column width="12%">
 								<f:facet name="header">
 									<h:outputLabel value="Hora fechamento"/>
 								</f:facet>
 								<h:outputText value="#{db.horaFinal}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>
 							
@@ -128,11 +135,6 @@
 								<h:outputText value="#{db.litrosAbastecidos}" styleClass="align:right">
 									<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 								</h:outputText>
-							</rich:column>
-
-							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
-								<h:outputText value="#{db.dataCadastro}"/>
 							</rich:column>
 
 							<f:facet name="footer">

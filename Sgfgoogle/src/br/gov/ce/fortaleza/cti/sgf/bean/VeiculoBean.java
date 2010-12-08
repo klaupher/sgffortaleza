@@ -108,7 +108,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	@Override
 	public String search(){
 		Parametro parametro = parametroService.findByNome("CADASTRO_VEICULO");
-		if(parametro.getValor().equals("TRUE")){
+		if(parametro != null && parametro.getValor().equals("TRUE")){
 			this.cadastraVeiculo = false;
 		}
 		List<Veiculo> veiculos =  new ArrayList<Veiculo>();

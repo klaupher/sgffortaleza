@@ -62,6 +62,8 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		if(orgao != null){
 			hql.append(" and o.veiculo.ua.ug.id = :ugid");
 		}
+		hql.append(" order by o.dataHoraSaida desc");
+		
 		Query query = entityManager.createQuery(hql.toString());
 		query.setParameter("inicio", dtInicial);
 		query.setParameter("fim", dtFinal);
@@ -148,11 +150,14 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	public List<SolicitacaoVeiculo> findByUserAndStatus(User user, StatusSolicitacaoVeiculo status) {
 		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
 		try {
-			StringBuffer hql = new StringBuffer("select s from SolicitacaoVeiculo s where s.solicitante.codPessoaUsuario = ?");
+			StringBuffer sql = new StringBuffer("select s from SolicitacaoVeiculo s where s.solicitante.codPessoaUsuario = ?");
 			if (status != null) {
-				hql.append("and s.status = ?");
+				sql.append(" and s.status = ?");
 			}
-			Query query = entityManager.createQuery(hql.toString());
+			
+			sql.append(" order by s.dataHoraSaida");
+			
+			Query query = entityManager.createQuery(sql.toString());
 			query.setParameter(1, user.getCodPessoaUsuario());
 			if (status != null) {
 				query.setParameter(2, status);
@@ -171,7 +176,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Veiculo> findVeiculosDisponiveis(SolicitacaoVeiculo solicitacao) {
+	public List<Veiculo> findVeiculosDisponiveis(SolicitacaoVeiculo solicitacao, UG aux) {
 
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
 
@@ -182,8 +187,13 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		
 		UG ug = null;
 		
-		if(!SgfUtil.isAdministrador(solicitacao.getSolicitante()) && !SgfUtil.isCoordenador(solicitacao.getSolicitante())){
-			ug = solicitacao.getSolicitante().getPessoa().getUa().getUg();
+		if(aux != null){
+			
+			ug = aux;
+		} else {
+			if(!SgfUtil.isAdministrador(solicitacao.getSolicitante()) && !SgfUtil.isCoordenador(solicitacao.getSolicitante())){
+				ug = solicitacao.getSolicitante().getPessoa().getUa().getUg();
+			}
 		}
 		
 		if (ug != null) {
