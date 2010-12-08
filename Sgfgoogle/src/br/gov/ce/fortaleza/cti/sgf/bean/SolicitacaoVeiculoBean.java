@@ -92,6 +92,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		solicitacao.setDestino(null);
 		solicitacao.setJustificativa(null);
 		this.desabilita = false;
+		this.externo = false;
 		this.placaVeiculo = null;
 		return solicitacao;
 	}
@@ -140,22 +141,22 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 			this.entities = service.findByUserAndStatus(this.usuario, statusPesquisa);
 		}
-		
+
 		if (!this.entities.isEmpty()) {
-		
+
 			for (SolicitacaoVeiculo s : this.entities) {
-			
+
 				if (s.getStatus().equals(StatusSolicitacaoVeiculo.EXTERNO)) {
-				
+
 					s.setImagemURL("/images/retorno.png");
 				} else if (s.getStatus().equals(StatusSolicitacaoVeiculo.FINALIZADO)) {
-					
+
 					s.setImagemURL("/images/tick.png");
 				} else if (s.getStatus().equals(StatusSolicitacaoVeiculo.SOLICITADO)) {
-					
+
 					s.setImagemURL("/images/tick.png");
 				} else if (s.getStatus().equals(StatusSolicitacaoVeiculo.AUTORIZADO)) {
-					
+
 					s.setImagemURL("/images/saida.png");
 				}
 			}
@@ -228,7 +229,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			this.entity.setDataHoraSaida(DateUtil.addTime(this.dataSaida, this.horaSaida));
 			this.entity.setDataHoraRetorno(DateUtil.addTime(this.dataRetorno, this.horaRetorno));
 			this.entity.setVeiculo(this.veiculo);
-			
+
 			if (!DateUtil.compareDate(this.entity.getDataHoraSaida(), this.entity.getDataHoraRetorno())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 				super.prepareSave();
@@ -238,31 +239,31 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 				super.prepareSave();
 				return FAIL;
 			}
-			
+
 			/** verifica��o da disponibilidade do ve�culo */
 			Boolean disponivel = !service.isVeiculoDisponivel(this.entity.getVeiculo().getId(), DateUtil.addTime(this.dataSaida, this.horaSaida),
 					DateUtil.addTime(this.dataRetorno, this.horaRetorno));
-			
+
 			this.pesquisarSolicitacoesPendentes(); // busca por solicitações pendentes do veículo
-			
+
 			if(this.solicitacoesPendentes.size() > 0){
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoComSolicitacoesPendentes");
 				super.prepareSave();
 				return FAIL;
 			}
-			
+
 			if(disponivel.equals(false)) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoIndisponivel");
 				super.prepareSave();
 				return FAIL;
 			}
-			
+
 			if(this.entity.getVeiculo().getStatus() == StatusVeiculo.TRANSF_EXTERNA){
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoEmTransferenciaExterna");
 				super.prepareSave();
 				return FAIL;
 			}
-			
+
 			super.save();
 			setCurrentBean(currentBeanName());
 			return search();
@@ -320,12 +321,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			}
 		}
 		this.entity.setDtSaida(DateUtil.addTime(new Date(),this.horaSaidaReal));
-		
+
 		if(this.entity.getDataHoraSaida().getTime() > DateUtil.getDateEndDay().getTime()){
 			JSFUtil.getInstance().addErrorMessage("msg.error.registro.saida.naopermitida");
 			return FAIL;
 		}
-		
+
 		this.entity.setStatusAtendimento(StatusRegistroSolicitacaoVeiculo.EM_SERVICO);
 		this.entity.setUsuario(SgfUtil.usuarioLogado());
 		this.entity.setStatus(StatusSolicitacaoVeiculo.EXTERNO);
@@ -427,12 +428,15 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.dataRetorno = this.entity.getDataHoraRetorno();
 		this.horaSaida = this.entity.getDataHoraSaida();
 		this.horaRetorno = this.entity.getDataHoraRetorno();
-		
-		
+		this.horaSaidaReal = this.entity.getDtSaida();
+		this.horaRetornoReal = this.entity.getDtRetorno();
+
 
 		if (this.entity.getVeiculo() != null) {
 			this.entity.setKmSaida(this.entity.getVeiculo().getKmAtual());
-			this.veiculos.add(this.entity.getVeiculo());
+			if(!this.veiculos.contains(this.entity.getVeiculo())){
+				this.veiculos.add(this.entity.getVeiculo());
+			}
 		}
 		setCurrentBean(currentBeanName());
 		setCurrentState(EDIT);
@@ -456,7 +460,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		}
 		return SUCCESS;
 	}
-	
+
 	public List<SolicitacaoVeiculo> getSolicitacoesPendentes() {
 		return solicitacoesPendentes;
 	}

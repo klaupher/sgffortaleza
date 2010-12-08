@@ -19,7 +19,7 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 	protected String filter;
 	protected Boolean saved;
 	protected Boolean updated;
-	protected Integer interval = 500;
+	protected Integer interval = 200;
 
 	public String close() {
 		this.entities = null;

@@ -28,7 +28,7 @@ public class ConnectOracle {
 		try {
 			// Carrega o driver JDBC do Oracle
 			Class.forName(driverName);
-			String url = "jdbc:oracle:thin:@172.31.2.9:1521:pmf";  
+			String url = "jdbc:oracle:thin:@172.31.2.9:1521:pmf";
 			String username = "asiweb";
 			String password = "asiweb";
 			con = DriverManager.getConnection(url, username, password);
