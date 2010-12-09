@@ -341,11 +341,13 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 			StackTraceElement[] stack = e.getStackTrace();
 			String message = "Class:" + stack[0].getClassName() + "\nMethod:" + stack[0].getMethodName() + "\nLine:" + stack[0].getLineNumber() + "\n";
 			//Mail.sendMailSsl(Mail.FROM, Mail.TO, "Error: " + e.getCause(), message);
+			e.printStackTrace();
 			JSFUtil.getInstance().addErrorMessage("msg.error.sincronizacao");
 		} catch(Exception e2){
 			StackTraceElement[] stack = e2.getStackTrace();
 			String message = "Class:" + stack[0].getClassName() + "\nMethod:" + stack[0].getMethodName() + "\nLine:" + stack[0].getLineNumber() + "\n";
 			//Mail.sendMailSsl(Mail.FROM, Mail.TO, "Error: " + e2.getCause(), message);
+			e2.printStackTrace();
 			JSFUtil.getInstance().addErrorMessage("msg.error.sincronizacao");
 		} finally {
 			if(connection!=null){
