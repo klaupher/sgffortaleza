@@ -4,7 +4,7 @@ jQuery(document).ready(function() {
 	
 	$('input.maskData').datepicker({
 		dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-		monthNames: ['Janeiro','Fevereiro','MarÁo','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		monthNames: ['Janeiro','Fevereiro','Mar√ßo','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
 		dateFormat: 'dd/mm/yy', showOn: 'button', buttonImage: 'imagens/calendar.png', buttonImageOnly: true
 	});
 	$('input.maskCpf').setMask('cpf');	
@@ -38,7 +38,7 @@ jQuery(document).ready(function() {
 		messages: {
 			email: {
 				required: " Por favor informe o email!",
-				email: " Por favor, informe um email v·lido!"
+				email: " Por favor, informe um email v√°lido!"
 			}
 		}
 	});

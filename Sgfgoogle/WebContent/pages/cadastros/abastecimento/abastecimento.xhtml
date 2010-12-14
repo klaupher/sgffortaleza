@@ -23,16 +23,13 @@
 	
 			<fieldset>
 	
-		      	<legend><h:outputText value="#{msg['abastecimento.autorizacao']}" /> </legend>
+		      	<legend><h:outputText value="#{msg['abastecimento.autorizacoes']}" /> </legend>
 
 		      	<a4j:region>
 			      	<dt><label for="ugList"><h:outputText value="UG" /></label></dt>
 			      	<dd>
 				      	<h:selectOneMenu id="ugList" value="#{abastecimentoBean.orgaoSelecionado}" requiredMessage="Informe a UG" converter="entityConverter"
 				      	   	disabled="#{abastecimentoBean.viewState or abastecimentoBean.entity.status == 'ATENDIDO'}" style="width:420px">
-				   			<c:if test="#{controlBean.administrador or controlBean.coordenador}">
-								<f:selectItem itemLabel="Todas" itemValue=""/>
-							</c:if>
 				   			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 				   			<a4j:support event="onchange" action="#{abastecimentoBean.loadVeiculos}" reRender="veiculoAbastecimento,motorista"/>
 					   	</h:selectOneMenu>
@@ -51,15 +48,6 @@
 					</dd>
 				</a4j:region>
 	
-				<dt><label for="tipoServico"><h:outputText value="#{msg['abastecimento.tipo']}" /></label></dt>
-	            <dd>
-	                <h:selectOneMenu id="tipoServico" value="#{abastecimentoBean.entity.tipoServico}" disabled="#{controlBean.operador}" converter="entityConverter" required="true">
-	                	<f:selectItem itemValue="" itemLabel="Informe o Servico" />
-	                    <t:selectItems value="#{abastecimentoBean.tiposServico}" var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
-	                </h:selectOneMenu>
-	                <h:message for="tipoServico" tooltip="true" styleClass="message"/>
-	            </dd>
-
 	        	<a4j:region>
 		            <dt><label for="motorista"><h:outputText value="#{msg['abastecimento.motorista']}" /></label></dt>
 		            <dd>
@@ -70,6 +58,15 @@
 		                <h:message for="motorista" tooltip="true" styleClass="message"/>
 		            </dd>
 	            </a4j:region>
+	            
+				<dt><label for="tipoServico"><h:outputText value="#{msg['abastecimento.tipo']}" /></label></dt>
+	            <dd>
+	                <h:selectOneMenu id="tipoServico" value="#{abastecimentoBean.entity.tipoServico}" disabled="#{controlBean.operador}" converter="entityConverter" required="true">
+	                	<f:selectItem itemValue="" itemLabel="Informe o Servico" />
+	                    <t:selectItems value="#{abastecimentoBean.tiposServico}" var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
+	                </h:selectOneMenu>
+	                <h:message for="tipoServico" tooltip="true" styleClass="message"/>
+	            </dd>
 
 	            <dt><label for="combustivel"><h:outputText value="#{msg['abastecimento.combustivel']}" /></label></dt>
 	            <dd>
@@ -99,34 +96,17 @@
 		                <h:message for="posto" tooltip="true" styleClass="message"/>
 		            </dd>
 	            </a4j:region>
-	
+	            
+		        <c:if test="#{abastecimentoBean.negar}">
+					<dt><label for="justificativa"><h:outputText value="#{msg['abastecimento.justificativa']}" /></label></dt>
+			        <dd>
+				        <h:inputTextarea id="justificativa" value="#{abastecimentoBean.entity.justificativa}" required="true" requiredMessage="Informe a justificativa" rows="4" cols="50"/>
+				        <h:message for="justificativa" tooltip="true" id="messageJustificativa" styleClass="message"/>
+			        </dd>
+		        </c:if>
+
 		    </fieldset>
 	</div>
-
-	<h:commandButton value="#{msg['label.atender']}" action="#{abastecimentoBean.atenderAbastecimento}" 
-		rendered="#{abastecimentoBean.atendimento and !abastecimentoBean.atender}">
-		<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
-		<a4j:support event="onclick" reRender="paginaPrincipal" />
-	</h:commandButton>
-    			
-	<h:commandButton value="#{msg['label.negar']}" rendered="#{abastecimentoBean.atendimento and !abastecimentoBean.atender}">
-		<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.negar}" />
-		<a4j:support event="onclick" reRender="paginaPrincipal" />
-	</h:commandButton>
-	
-	<h:commandButton action="#{abastecimentoBean.save}" value="#{msg['label.gravar']}" 
-		rendered="#{abastecimentoBean.saveState and abastecimentoBean.entity.status != 'ATENDIDO'}">
-        <a4j:support event="onclick" reRender="paginaPrincipal" />
-    </h:commandButton>
-
-	<h:commandButton action="#{abastecimentoBean.update}" value="#{msg['label.alterar']}" 
-		rendered="#{abastecimentoBean.updateState and abastecimentoBean.entity.status != 'ATENDIDO' and !abastecimentoBean.atender}">
-		<a4j:support event="onclick" reRender="paginaPrincipal" />
-	</h:commandButton>
-
-	<h:commandButton action="#{abastecimentoBean.search}" value="#{msg['label.voltar']}" immediate="true">
-		<a4j:support event="onclick" reRender="paginaPrincipal" />
-	</h:commandButton>
 	
 	<div id="cadastro">
 	
@@ -137,13 +117,13 @@
 	       	<rich:panel rendered="#{abastecimentoBean.atender}">
 	
 	       		<dt><label for="bomba"><h:outputText value="#{msg['abastecimento.bomba']}" /></label></dt>
-		         <dd>
+	         	<dd>
 		             <h:selectOneMenu required="true" id="bomba" value="#{abastecimentoBean.bomba}" converter="entityConverter">
 		                 <f:selectItem itemValue="" itemLabel="Informe a Bomba" />
 		                 <t:selectItems value="#{abastecimentoBean.bombas}" var="bomba" itemLabel="#{bomba.numero}" itemValue="#{bomba}" />
 		             </h:selectOneMenu>
-		             <h:message for="bomba" tooltip="true" styleClass="message"/>
-		         </dd>	
+	         	</dd>
+	         	<h:message for="bomba" tooltip="true" styleClass="message"/>
 	
 				<h:panelGroup rendered="#{!abastecimentoBean.vasilhame}">
 			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}" /></label></dt>
@@ -161,28 +141,14 @@
 		         <dt><label for="litrosAbastecidos"><h:outputText value="#{msg['abastecimento.litrosAbastecidos']}" /></label></dt>
 		         <dd>
 		         	<h:inputText id="litrosAbastecidos" value="#{abastecimentoBean.quantidadeAbastecida}" maxlength="8" required="true" />
-		            	<h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
+		            <h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
 		         </dd>
 
 	     	</rich:panel>
 	
-	        <rich:panel rendered="#{abastecimentoBean.negar}">	
-				<label for="justificativa"><h:outputText value="#{msg['abastecimento.justificativa']}" /></label>
-		        <dd>
-			        <h:inputTextarea id="justificativa" value="#{abastecimentoBean.entity.justificativa}"
-			         		required="true" requiredMessage="Informe a justificativa" rows="5" cols="40"/>
-			        <h:message for="justificativa" tooltip="true" id="messageJustificativa" styleClass="message"/>
-		        </dd>
-	    	</rich:panel>
-
 	       	<h:commandButton action="#{abastecimentoBean.update}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.atender}">
 	   			<a4j:support event="onclick" reRender="paginaPrincipal" />
 	   			<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
-			</h:commandButton>
-
-			<h:commandButton action="#{abastecimentoBean.negar}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.negar}">
-	   			<a4j:support event="onclick" reRender="paginaPrincipal" />
-	   			<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.negar}" />
 			</h:commandButton>
 	
 			<a4j:commandButton value="#{msg['label.cancelar']}" reRender="paginaPrincipal" rendered="#{abastecimentoBean.negar or abastecimentoBean.atender}" immediate="true">
@@ -196,5 +162,35 @@
   	
   	</div>
 
+	<h:commandButton value="#{msg['label.atender']}" action="#{abastecimentoBean.atenderAbastecimento}" 
+		rendered="#{(abastecimentoBean.atendimento and !abastecimentoBean.atender) and !abastecimentoBean.negar}">
+		<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+    			
+	<h:commandButton value="#{msg['label.negar']}" action="#{abastecimentoBean.negarAbastecimento}" 
+	rendered="#{(abastecimentoBean.atendimento and !abastecimentoBean.atender) and !abastecimentoBean.negar}">
+		<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.negar}" />
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+	
+	<h:commandButton value="Confirmar Negação" action="#{abastecimentoBean.confirmarNegacaoAbastecimento}" rendered="#{abastecimentoBean.negar}">
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+	
+	<h:commandButton action="#{abastecimentoBean.save}" value="#{msg['label.gravar']}" 
+		rendered="#{abastecimentoBean.saveState and abastecimentoBean.entity.status != 'ATENDIDO'}">
+        <a4j:support event="onclick" reRender="paginaPrincipal" />
+    </h:commandButton>
+
+	<h:commandButton action="#{abastecimentoBean.update}" value="#{msg['label.alterar']}" 
+		rendered="#{abastecimentoBean.updateState and abastecimentoBean.entity.status != 'ATENDIDO' and !abastecimentoBean.atender}">
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+
+	<h:commandButton action="#{abastecimentoBean.search}" value="#{msg['label.voltar']}" immediate="true">
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+	
 </ui:composition>
 

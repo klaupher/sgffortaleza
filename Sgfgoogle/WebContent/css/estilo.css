@@ -407,6 +407,7 @@ input.pequeno
 	padding: 5px;
 	float:left;
 	width: 200px;
+	text-align:right;
 }
 
 #cadastro fieldset.pequeno dt 

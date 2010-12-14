@@ -68,6 +68,10 @@
 	padding-left: 5px;
 }
 
+.ugList {
+	width: 450px;	
+}
+
 .messages {
 	color: red;
 }

@@ -11,16 +11,25 @@
 
    	<div id="cadastro">
 
-		<h1>  Perfil </h1>
+		<h1>  Perfil de Usuário </h1>
 
 		<fieldset>
 
-	      <legend>Novo Perfil</legend>
+	      <legend>Cadastro de Perfil</legend>
 
-			<label for="nome">Descrição</label>
-			<h:inputText value="#{roleBean.entity.nome}" id="descricaoPerfil" size="50" maxlength="70" required="true"
-				requiredMessage="Informe a Descrição do perfil!" />
-			<rich:message for="descricaoPerfil" styleClass="message"/>	
+			<dt><label for="descricaoPerfil">Descrição</label></dt>
+			<dd>
+				<h:inputText value="#{roleBean.entity.nome}" id="descricaoPerfil" size="50" maxlength="70" required="true"
+					requiredMessage="Informe a Descrição do perfil!" />
+			</dd>
+			<rich:message for="descricaoPerfil" styleClass="message"/>
+			
+			<dt><label for="roleName">Role name</label></dt>
+			<dd>
+				<h:inputText value="#{roleBean.entity.authority}" id="roleName" size="40" maxlength="70" required="true"
+					requiredMessage="Informe a role name" />
+			</dd>
+			<rich:message for="roleName" styleClass="message"/>
 
 	    </fieldset>
 

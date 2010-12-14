@@ -28,16 +28,15 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusAbastecimento;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "TB_ABASTECIMENTO", schema = "SGF")
 @NamedQueries( {
-		/*
-		 * @NamedQuery(name = "Abastecimento.findCota", query =
-		 * "select sum(o.atendimento.quantidadeAbastecida) from " +
-		 * "Abastecimento o where o.veiculo.id = :id and (o.atendimento.data >= :inicio and o.atendimento.data <= :fim)"
-		 * ),
-		 */
-		@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(o.id) "
-				+ "from Abastecimento o) and a.veiculo.id = ?"),
-		@NamedQuery(name = "Abastecimento.findByPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.status = ?"),
-		@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?") })
+	/*
+	 * @NamedQuery(name = "Abastecimento.findCota", query =
+	 * "select sum(o.atendimento.quantidadeAbastecida) from " +
+	 * "Abastecimento o where o.veiculo.id = :id and (o.atendimento.data >= :inicio and o.atendimento.data <= :fim)"
+	 * ) */
+	@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(o.id) from Abastecimento o) and a.veiculo.id = ?"),
+	@NamedQuery(name = "Abastecimento.findByPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc"),
+	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc") 
+})
 public class Abastecimento implements Serializable {
 
 	/**
@@ -75,11 +74,6 @@ public class Abastecimento implements Serializable {
 	@JoinColumn(name = "CODTIPOCOMBUSTIVEL", nullable = false)
 	private TipoCombustivel combustivel;
 
-	// @OneToOne(mappedBy = "abastecimento")
-	// @JoinColumn(name = "CODSOLABASTECIMENTO", table =
-	// "TB_ATENDABASTECIMENTO")
-	// private AtendimentoAbastecimento atendimento;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DTAUTORIZACAO")
 	private Date dataAutorizacao;
@@ -93,6 +87,71 @@ public class Abastecimento implements Serializable {
 
 	@Column(name = "JUSTIFICATIVAATEND")
 	private String justificativa;
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((motorista == null) ? 0 : motorista.hashCode());
+		result = prime * result + ((posto == null) ? 0 : posto.hashCode());
+		result = prime * result	+ ((quilometragem == null) ? 0 : quilometragem.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result	+ ((tipoServico == null) ? 0 : tipoServico.hashCode());
+		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+
+		if (getClass() != obj.getClass())
+			return false;
+		Abastecimento other = (Abastecimento) obj;
+
+		if (getId() == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (!getId().equals(other.getId()))
+			return false;
+		if (getMotorista() == null) {
+			if (other.getMotorista() != null)
+				return false;
+		} else if (!getMotorista().equals(other.getMotorista()))
+			return false;
+		if (getPosto() == null) {
+			if (other.getPosto() != null)
+				return false;
+		} else if (!getPosto().equals(other.getPosto()))
+			return false;
+		if (getQuilometragem() == null) {
+			if (other.getQuilometragem() != null)
+				return false;
+		} else if (!getQuilometragem().equals(other.getQuilometragem()))
+			return false;
+		if (getStatus() == null) {
+			if (other.getStatus() != null)
+				return false;
+		} else if (!getStatus().equals(other.getStatus()))
+			return false;
+		if (getTipoServico() == null) {
+			if (other.getTipoServico() != null)
+				return false;
+		} else if (!getTipoServico().equals(other.getTipoServico()))
+			return false;
+		if (getVeiculo() == null) {
+			if (other.getVeiculo() != null)
+				return false;
+		} else if (!getVeiculo().equals(other.getVeiculo()))
+			return false;
+		return true;
+	}
 
 	public Integer getId() {
 		return id;
@@ -173,82 +232,6 @@ public class Abastecimento implements Serializable {
 	public void setJustificativa(String justificativa) {
 		this.justificativa = justificativa;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((motorista == null) ? 0 : motorista.hashCode());
-		result = prime * result + ((posto == null) ? 0 : posto.hashCode());
-		result = prime * result
-				+ ((quilometragem == null) ? 0 : quilometragem.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result
-				+ ((tipoServico == null) ? 0 : tipoServico.hashCode());
-		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-
-		if (getClass() != obj.getClass())
-			return false;
-		Abastecimento other = (Abastecimento) obj;
-
-		if (getId() == null) {
-			if (other.getId() != null)
-				return false;
-		} else if (!getId().equals(other.getId()))
-			return false;
-		if (getMotorista() == null) {
-			if (other.getMotorista() != null)
-				return false;
-		} else if (!getMotorista().equals(other.getMotorista()))
-			return false;
-		if (getPosto() == null) {
-			if (other.getPosto() != null)
-				return false;
-		} else if (!getPosto().equals(other.getPosto()))
-			return false;
-		if (getQuilometragem() == null) {
-			if (other.getQuilometragem() != null)
-				return false;
-		} else if (!getQuilometragem().equals(other.getQuilometragem()))
-			return false;
-		if (getStatus() == null) {
-			if (other.getStatus() != null)
-				return false;
-		} else if (!getStatus().equals(other.getStatus()))
-			return false;
-		if (getTipoServico() == null) {
-			if (other.getTipoServico() != null)
-				return false;
-		} else if (!getTipoServico().equals(other.getTipoServico()))
-			return false;
-		if (getVeiculo() == null) {
-			if (other.getVeiculo() != null)
-				return false;
-		} else if (!getVeiculo().equals(other.getVeiculo()))
-			return false;
-		return true;
-	}
-
-	// public AtendimentoAbastecimento getAtendimento() {
-	// return atendimento;
-	// }
-	//
-	// public void setAtendimento(AtendimentoAbastecimento atendimento) {
-	// this.atendimento = atendimento;
-	// }
 
 	public void setCombustivel(TipoCombustivel combustivel) {
 		this.combustivel = combustivel;

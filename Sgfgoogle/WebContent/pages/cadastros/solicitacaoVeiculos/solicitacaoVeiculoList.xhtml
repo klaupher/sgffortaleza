@@ -32,7 +32,7 @@
 	
 						<h:outputLabel value="UG:" for="ugSolicitacao" style="padding-right:20px;"/>
 						<h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador}">
-							<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" style="width:480px">
+							<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList">
 								<f:selectItem itemLabel="Todas.." itemValue=""/>
 								<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 								<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}" reRender="paginaPrincipal"/>	
@@ -42,9 +42,12 @@
 						<h:panelGroup rendered="#{controlBean.chefeTransporte or controlBean.chefeSetor}">
 							<h:outputText value="#{solicitacaoVeiculoBean.orgaoSelecionado.descricao}" />
 						</h:panelGroup>
+						
+						<h:outputLabel value="Placa" for="placaVeiculo" style="padding-left:20px"/>
+						<h:inputText id="placaVeiculo" value="#{solicitacaoVeiculoBean.placaVeiculo}" style="color:black;width:80px"/>
 						<p/>
 						
-						<h:outputLabel value="Filtrar por:"/>
+						<h:outputLabel value="Filtro:"/>
 						<h:selectOneRadio id="radioSolVeic" styleClass="checkbox" value="#{solicitacaoVeiculoBean.statusPesquisa}" style="width:80%;">
 							<f:selectItem itemLabel="Solicitado" itemValue="SOLICITADO"/>
 							<f:selectItem itemLabel="Autorizado" itemValue="AUTORIZADO"/>

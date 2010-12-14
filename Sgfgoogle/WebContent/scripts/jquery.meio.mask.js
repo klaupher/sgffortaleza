@@ -145,7 +145,7 @@
 				'cep'				: { mask : '99999-999' },
 				'time'				: { mask : '29:59' },
 				'cc'				: { mask : '9999 9999 9999 9999' }, //credit card mask
-				'integer'			: { mask : '999999999999', type : 'reverse', defaultValue : '1'},
+				'integer'			: { mask : '999999999999', type : 'reverse', defaultValue : ''},
 				'decimal'			: { mask : '99.999999999999', type : 'reverse', defaultValue : '' },
 				'decimal-us'		: { mask : '99.999,999,999,999', type : 'reverse', defaultValue : '000' },
 				'signed-decimal'	: { mask : '99,999.999.999.999', type : 'reverse', defaultValue : '+000' },

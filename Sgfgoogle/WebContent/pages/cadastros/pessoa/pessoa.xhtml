@@ -17,25 +17,20 @@
 		<fieldset>
 
 	      	<legend>
-	      		
-	      		<h:outputText value="Cadastro de Nova Pessoa" rendered="#{pessoaBean.saveState}"/>
-	      		<h:outputText value="alteração de Pessoa" rendered="#{pessoaBean.updateState}"/>
-	      	
+	      		<h:outputText value="Cadastro de Pessoa" rendered="#{pessoaBean.saveState}"/>
+	      		<h:outputText value="Alteração de Pessoa" rendered="#{pessoaBean.updateState}"/>
 	      	</legend>
 
 			<h:inputHidden value="#{pessoaBean.entity.codPessoa}" rendered="#{pessoaBean.updateState}"/>
 
-			<p/>
-
-			<label for="pessoaNome">Nome:</label>
-		  	<h:inputText id="pessoaNome" value="#{pessoaBean.entity.nome}" required="true" requiredMessage="Informe o Nome" style="width:400px"/>
+			<dt><label for="pessoaNome">Nome</label></dt>
+		  	<dd><h:inputText id="pessoaNome" value="#{pessoaBean.entity.nome}" size="40" required="true" requiredMessage="Informe o Nome"/></dd>
 		  	<h:message for="pessoaNome" styleClass="message"/>	
 
-			<p/>
 
-		  	<label for="pessoaCPF">CPF:</label>
-       		<h:inputText id="pessoaCPF" value="#{pessoaBean.entity.cpf}" required="true" requiredMessage="Informe o CPF" styleClass="maskCpf">
-       		</h:inputText>
+		  	<dt><label for="pessoaCPF">Nº CPF</label></dt>
+       		<dd><h:inputText id="pessoaCPF" value="#{pessoaBean.entity.cpf}" required="true" requiredMessage="Informe o CPF" styleClass="maskCpf">
+       		</h:inputText></dd>
        		<h:message for="pessoaCPF" styleClass="message"/>
 
 		</fieldset>

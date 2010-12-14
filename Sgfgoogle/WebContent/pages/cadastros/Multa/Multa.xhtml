@@ -25,8 +25,7 @@
 
 	      	<dt><label for="ugVeiculo">UG</label></dt>
 	    	<dd>
-	    		<h:selectOneMenu id="ugVeiculo" value="#{multaBean.ug}" converter="entityConverter"
-	    			required="true" requiredMessage="Informe a UG">
+	    		<h:selectOneMenu id="ugVeiculo" value="#{multaBean.ug}" required="true" requiredMessage="Informe a UG" converter="entityConverter" style="width:450px">
 	    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 	    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
 	    			<a4j:support event="onchange" action="#{multaBean.loadVeiculos}" reRender="veiculo, motorista" ajaxSingle="true"/>

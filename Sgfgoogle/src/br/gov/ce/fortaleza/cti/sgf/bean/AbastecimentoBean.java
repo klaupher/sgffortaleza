@@ -97,7 +97,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private Double quantidadeAbastecida;
 	private Long ultimaQuilometragem;
 	private Bomba bomba;
-	private StatusAbastecimento status;
+	private StatusAbastecimento status = StatusAbastecimento.AUTORIZADO;
 	private String placa;
 	private Double saldoAtual;
 	private boolean vasilhame = false;
@@ -130,7 +130,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
 		this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
 		this.status = StatusAbastecimento.AUTORIZADO;
-		search();
+		this.entities = service.pesquisarTodos(this.dtInicial, this.dtFinal, this.status);
 	}
 
 	@Override
@@ -143,8 +143,13 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String prepareUpdate() {
 		this.postos = new ArrayList<Posto>();
+		this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
+		if(this.orgaoSelecionado != null){
+			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
+			this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
+		}
 		postoPorCombustivel();
-		refreshLists();
+		//refreshLists();
 		return super.prepareUpdate();
 	}
 
@@ -260,10 +265,23 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return this.entity.getVeiculo().getCota().getCotaDisponivel() > 0 ? true : false;
 	}
 
-	public boolean isValid() {
+	/**
+	 * faz validações de autorizaçao existente, se veículo é vasilhame
+	 * se veículo possui cota
+	 * @return
+	 */
+	public boolean validarAutorizacao() {
 		Veiculo veiculo = this.entity.getVeiculo();
 		boolean vasilhame = false;
-		
+		boolean existeAutorizacao = false;
+		if(veiculo != null){
+			existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo);
+		}
+		if(existeAutorizacao){
+			JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
+			return false;
+		}
+
 		if(veiculo.getModelo() != null){
 			vasilhame = veiculo.getModelo().getId() == 75;
 		}
@@ -302,7 +320,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.atendimento = false;
 		this.status = StatusAbastecimento.AUTORIZADO;
 		if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
-			super.search();
+			this.entities = service.pesquisarTodos(this.dtInicial,  this.dtFinal, this.status);
 		} else if (SgfUtil.isOperador(usuario)) {
 			this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
 			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
@@ -312,9 +330,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
 			this.entities = service.pesquisarPeriodo(this.dtInicial,this.dtFinal, usuario.getPessoa().getUa().getUg(),this.status);
 			loadVeiculos();
-			//loadMotoristas();
-			//setCurrentBean(currentBeanName());
-			//setCurrentState(SEARCH);
 		}
 
 		for (Abastecimento abastecimento : this.entities) {
@@ -335,8 +350,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				filtro.add(abastecimento);
 			}
 		}
-		this.entities.clear();
-		this.entities.addAll(filtro);
+		//this.entities.clear();
+		//this.entities.addAll(filtro);
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		this.interval = 2000000;
@@ -345,10 +360,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	@Override
 	public String save() {
-		if (isValid() == true) {
+		if (validarAutorizacao()) {
 			this.entity.setDataAutorizacao(new Date());
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
-			return super.save();
+			super.save();
+			return search();
 		}
 		return FAIL;
 	}
@@ -405,7 +421,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return super.update();
 	}
 
-	public void negar() {
+	/**
+	 * Negação do abastecimento
+	 * @return
+	 */
+	public String negarAbastecimento() {
 		Date now = new Date();
 		AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 		atendimento.setData(now);
@@ -415,7 +435,12 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		atendimento.setAbastecimento(this.entity);
 		atendimentoService.save(atendimento);
 		this.entity.setStatus(StatusAbastecimento.NEGADO);
-		super.update();
+		return SUCCESS;
+	}
+	
+	public String confirmarNegacaoAbastecimento(){
+		service.update(this.entity);
+		return search();
 	}
 
 	/**

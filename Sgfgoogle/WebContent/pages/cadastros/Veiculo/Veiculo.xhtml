@@ -19,20 +19,25 @@
 	      	<legend>Cadastro de veículo</legend>
 
 			<h:inputHidden value="#{veiculoBean.entity.id}" rendered="#{veiculoBean.updateState}"/>
-			<dt><label for="ugVeiculo">UG</label></dt>
-	    	<dd>
-	    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" disabled="#{veiculoBean.cadastraVeiculo}" converter="entityConverter"
-	    			required="true" requiredMessage="Informe a UG">
-	    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
-	    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
-	    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
-	    		</h:selectOneMenu>
-	    		<rich:message for="ugVeiculo" styleClass="message"/>
-	    	</dd>
+
+			<dl>
+				<dt><label for="ugVeiculo">UG</label></dt>
+		    	<dd>
+		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" disabled="#{veiculoBean.cadastraVeiculo}" converter="entityConverter"
+		    			required="true" requiredMessage="Informe a UG" style="width:400px">
+		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
+		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
+		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
+		    		</h:selectOneMenu>
+		    	</dd>
+		    	<rich:message for="ugVeiculo" styleClass="message"/>
+	    	</dl>
+
 	    	<h:panelGroup id="uaRegion">
 				<dt><label for="uaVeiculo">UA</label></dt>
 				<dd>
-					<h:selectOneMenu id="uaVeiculo" disabled="#{veiculoBean.cadastraVeiculo}" value="#{veiculoBean.entity.ua}" required="true"  requiredMessage="Informe a UA" converter="entityConverter">
+					<h:selectOneMenu id="uaVeiculo" disabled="#{veiculoBean.cadastraVeiculo}" value="#{veiculoBean.entity.ua}" required="true"  
+					requiredMessage="Informe a UA" converter="entityConverter"  style="width:380px">
 						<f:selectItem itemLabel="Informe a UA" itemValue=""/>
 	 					<t:selectItems value="#{veiculoBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}"/>
 					</h:selectOneMenu>

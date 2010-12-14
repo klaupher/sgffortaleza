@@ -15,8 +15,8 @@ import org.springframework.security.util.TextUtils;
 import org.springframework.stereotype.Component;
 
 /**
- * Classe responsável por realizar o direcionamento dinâmico do sistema
- * após o usuário efetuar o login no sistema
+ * Classe responsï¿½vel por realizar o direcionamento dinï¿½mico do sistema
+ * apï¿½s o usuï¿½rio efetuar o login no sistema
  * 
  * @author lafitte
  * @since 27/04/2010
@@ -32,7 +32,7 @@ public class CustomAuthenticationProcessingFilter extends  AuthenticationProcess
 	private static final String ROOT = "/";
 
 	/**
-	 * Determina a url da página para qual será direcionado o sistema de acordo com o perfil do usuário
+	 * Determina a url da pï¿½gina para qual serï¿½ direcionado o sistema de acordo com o perfil do usuï¿½rio
 	 * logado
 	 * 
 	 * @return String
@@ -47,11 +47,11 @@ public class CustomAuthenticationProcessingFilter extends  AuthenticationProcess
 
 		try {
 			if(failed.contains(ConcurrentLoginException.class)){
-				request.getSession().setAttribute("messageLogin", "Usuário já realizou login...");
+				request.getSession().setAttribute("messageLogin", "UsuÃ¡rio jÃ¡ realizou login...");
 			} else if(failed.contains(BadCredentialsException.class)){
-				request.getSession().setAttribute("messageLogin", "Usuário ou senha inválido...");
+				request.getSession().setAttribute("messageLogin", "UsuÃ¡rio ou senha invÃ¡lido...");
 			} else if(failed.contains(CredentialExpiredException.class)){
-				request.getSession().setAttribute("messageLogin", "Sessão está sendo reiniciada");
+				request.getSession().setAttribute("messageLogin", "SessÃ£o estÃ¡ sendo reiniciada");
 			} else {
 				request.getSession().setAttribute("messageLogin", "Erro: desconhecido...");
 			}

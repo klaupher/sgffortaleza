@@ -18,29 +18,25 @@
 
 	      <legend><h:outputText value="Cadastro de página" /></legend>
 	      
-	      	<label for="nomePage">Nome:</label>
-				<h:inputText id="nomePage" value="#{pageBean.entity.nome}" size="45" maxlength="90" required="true"
-					requiredMessage="Informe o nome" />
-				<rich:message for="nomePage" styleClass="message"/>
-			<p/>
+	      	<dt><label for="nomePage">Nome:</label></dt>
+			<dd><h:inputText id="nomePage" value="#{pageBean.entity.nome}" size="40" maxlength="90" required="true"
+				requiredMessage="Informe o nome" /></dd>
+			<rich:message for="nomePage" styleClass="message"/>
 
-			<label for="descpage">Descrição:</label>
-			<h:inputText id="descpage" value="#{pageBean.entity.descricao}" size="54" maxlength="120" required="true"
-				requiredMessage="Informe a Descrição" />
+			<dt><label for="descpage">Descrição:</label></dt>
+			<dd><h:inputText id="descpage" value="#{pageBean.entity.descricao}" size="50" maxlength="120" required="true"
+				requiredMessage="Informe a Descrição" /></dd>
 			<rich:message for="descpage" styleClass="message"/>
-			<p/>
 
-			<label for="urlpage">URL:</label>
-			<h:inputText id="urlpage" value="#{pageBean.entity.urlPage}" size="45" maxlength="120" required="true" style="text-transform:none;"
-				requiredMessage="Informe a url da página" />
+			<dt><label for="urlpage">URL:</label></dt>
+			<dd><h:inputText id="urlpage" value="#{pageBean.entity.urlPage}" size="50" maxlength="120" required="true" style="text-transform:none;"
+				requiredMessage="Informe a url da página" /></dd>
 			<rich:message for="urlpage" styleClass="message"/>
-			<p/>
 			
-			<label for="beanName">Bean:</label>
-			<h:inputText id="beanName" value="#{pageBean.entity.beanName}" size="45" maxlength="60" required="true" style="text-transform:none;"
-				requiredMessage="Informe o nome do bean" />
+			<dt><label for="beanName">Bean:</label></dt>
+			<dd><h:inputText id="beanName" value="#{pageBean.entity.beanName}" size="35" maxlength="60" required="true" style="text-transform:none;"
+				requiredMessage="Informe o nome do bean" /></dd>
 			<rich:message for="beanName" styleClass="message"/>
-			<p/>
 
 		</fieldset>
 

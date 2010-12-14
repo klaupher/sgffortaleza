@@ -21,23 +21,8 @@
       		<a4j:region>
 
       			<h:messages globalOnly="true" styleClass="messages"/>
-	        	<dt><label for="dtInicial">Data inicial:</label></dt>
-	        	<dd>
-	        		<h:inputText value="#{relatorioBean.dtInicial}" id="dtInicial" required="true" requiredMessage="Informe a data inicial" styleClass="maskData">
-	        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
-	        		</h:inputText>
-	        		<h:message for="dtInicial" styleClass="message"/>
-	        	</dd>
-
-	           	<dt><label for="dtFinal">Data final:</label></dt>
-	        	<dd>
-	        		<h:inputText value="#{relatorioBean.dtFinal}" id="dtFinal" required="true" requiredMessage="Informe a data final" styleClass="maskData">
-	        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
-	        		</h:inputText>
-	        		<h:message for="dtFinal" styleClass="message"/>
-	        	</dd>
-
-	        	<dt><label for="orgao">UG:</label></dt>
+      			
+	        	<dt><label for="orgao">UG</label></dt>
 			  	<dd>
 			  		<h:selectOneMenu id="orgao" value="#{relatorioBean.orgao}" converter="entityConverter">
 			  			<c:if test="#{controlBean.administrador}">
@@ -45,24 +30,36 @@
 						</c:if>
 			  			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 			  		</h:selectOneMenu>
-
-			  		<h:panelGroup>
-
-			    		<a4j:commandButton action="#{relatorioBean.consultarSolicitacaoVeiculo}" value="Consultar"
-			    			status="loadingSolicitacoes" reRender="paginaPrincipal">
-						</a4j:commandButton>
-
-						<a4j:status id="loadingSolicitacoes">
-			    			<f:facet name="start">
-			    				<h:panelGroup style="align:center;">
-			    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-				    				<h:outputText value="Processando..." styleClass="processando"/>
-								</h:panelGroup>
-							</f:facet>
-			    		</a4j:status>
-
-	    			</h:panelGroup>
 			  	</dd>
+      			
+	        	<dt><label for="dtInicial">Data inicial</label></dt>
+	        	<dd>
+	        		<h:inputText value="#{relatorioBean.dtInicial}" id="dtInicial" required="true" requiredMessage="Informe a data inicial" styleClass="maskData">
+	        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
+	        		</h:inputText>
+	        		<h:message for="dtInicial" styleClass="message"/>
+	        	</dd>
+
+	           	<dt><label for="dtFinal">Data final</label></dt>
+	        	<dd>
+	        		<h:inputText value="#{relatorioBean.dtFinal}" id="dtFinal" required="true" requiredMessage="Informe a data final" styleClass="maskData">
+	        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
+	        		</h:inputText>
+	        		<h:message for="dtFinal" styleClass="message"/>
+	        	</dd>
+
+	    		<a4j:commandButton action="#{relatorioBean.consultarSolicitacaoVeiculo}" value="Consultar"
+	    			status="loadingSolicitacoes" reRender="paginaPrincipal">
+				</a4j:commandButton>
+
+				<a4j:status id="loadingSolicitacoes">
+	    			<f:facet name="start">
+	    				<h:panelGroup style="align:center;">
+	    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+		    				<h:outputText value="Processando..." styleClass="processando"/>
+						</h:panelGroup>
+					</f:facet>
+	    		</a4j:status>
 
     		</a4j:region>
         </dl>

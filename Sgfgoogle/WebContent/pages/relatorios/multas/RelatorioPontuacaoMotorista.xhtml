@@ -17,10 +17,10 @@
 
 		<fieldset>
 
-	      	<legend>Relatórios de Pontuação de CNH de Motoristas</legend>
+	      	<legend>Relatórios Pontuação de CNH de Motoristas</legend>
 
 	      	<h:outputLabel value="Órgão"/>
-	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" style="width:450px">
 	      		<c:if test="#{controlBean.administrador}">
 					<f:selectItem itemLabel="Todos" itemValue=""/>
 				</c:if>

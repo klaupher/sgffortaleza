@@ -15,12 +15,12 @@
 
 		<fieldset>
 
-	    	<legend>Nova Oficina</legend>
+	    	<legend>Cadastro de Oficina</legend>
 			<p></p>
 			<dl>
 				<dt><label for="nome">Nome</label></dt>
 				<dd>
-				  	<h:inputText id="nome" value="#{oficinaBean.entity.nome}" required="true"  size="40" maxlength="80"  requiredMessage="Informe a nome da oficina.">
+				  	<h:inputText id="nome" value="#{oficinaBean.entity.nome}" required="true"  size="36" maxlength="80"  requiredMessage="Informe a nome da oficina.">
 					</h:inputText>
 					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="nome" styleClass="message"/>
@@ -30,7 +30,7 @@
 			<dl>
 				<dt><label for="endereco">Endereço</label></dt>
 				<dd>
-				  	<h:inputText id="endereco" value="#{oficinaBean.entity.endereco}" required="true" size="60" maxlength="150"  requiredMessage="Informe o endereço da oficina.">
+				  	<h:inputText id="endereco" value="#{oficinaBean.entity.endereco}" required="true" size="40" maxlength="150"  requiredMessage="Informe o endereço da oficina.">
 					</h:inputText>
 					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="endereco" styleClass="message"/>
@@ -47,7 +47,7 @@
 					<rich:message errorClass="error" for="responsavel" styleClass="message"/>
 				</dd>
 			</dl>
-			<p></p>
+			
 			<label style="color:red">* campos obrigatórios</label>
 
 	    </fieldset>

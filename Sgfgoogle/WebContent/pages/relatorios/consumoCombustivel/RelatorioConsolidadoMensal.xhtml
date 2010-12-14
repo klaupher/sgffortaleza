@@ -20,22 +20,23 @@
 		<legend>Relatório Consolidado Mensal</legend>
 
 
-		<h:outputLabel value="Órgão" for="ugList"/>
-		<h:panelGroup>
-	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-	   		</h:selectOneMenu>
-		</h:panelGroup>
-		<p/>
-
-		<h:outputLabel value="Mês de referência" for="mesesList"/>
-		<h:panelGroup>
-	      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mês">
-	   			<f:selectItems value="#{relatorioBean.meses}"/>
-	   		</h:selectOneMenu>			
-		</h:panelGroup>
+		<dt><label for="ugList">Órgão</label></dt>
+		<dd>
+			<h:panelGroup>
+		      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" styleClass="ugList">
+		   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+		   		</h:selectOneMenu>
+			</h:panelGroup>
+		</dd>
 		
-		<p/>
+		<dt><label for="mesesList">Mês de referência</label></dt>
+		<dd>
+			<h:panelGroup>
+		      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mês">
+		   			<f:selectItems value="#{relatorioBean.meses}"/>
+		   		</h:selectOneMenu>			
+			</h:panelGroup>		
+		</dd>
 	
 		<h:commandButton action="#{relatorioBean.consultarConsolidadoMensal}" value="Consultar">
 			<a4j:support event="onclick" reRender="dataTable" status="gerarRelatorio"/>

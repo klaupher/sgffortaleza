@@ -21,14 +21,14 @@
 		
 		<h:outputLabel value="Órgão" for="ugList"/>
 		<h:panelGrid>
-	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter"  styleClass="ugList">
 	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 	   		</h:selectOneMenu>
 		</h:panelGrid>
 
 		<h:panelGroup>
 			<h:panelGrid>
-				<h:outputLabel value="Data INºcio" for="dataInicial">
+				<h:outputLabel value="Data Início" for="dataInicial">
 					<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData" style="width:80px"/>
 				</h:outputLabel>
 			</h:panelGrid>

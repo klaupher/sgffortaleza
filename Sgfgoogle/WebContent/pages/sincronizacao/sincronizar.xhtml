@@ -15,17 +15,24 @@
 			<fieldset>
 				<legend>Sincronização</legend>
 				
-				<h:outputLabel value="Órgão" for="ugSelecao"/>
-				<h:selectOneMenu id="ugSelecao" value="#{sincronizaBean.ug}" converter="entityConverter">
-					<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-					<a4j:support event="onchange" action="#{sincronizaBean.loadUAs}"  reRender="uaSelecao"/>
-				</h:selectOneMenu>
-				<br/>
-				<h:outputLabel value="UA's" for="uaSelecao"/>
-				<h:selectOneMenu id="uaSelecao" value="#{sincronizaBean.ua}" converter="entityConverter">
-					<t:selectItems value="#{sincronizaBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}" />
-				</h:selectOneMenu>
-				<br/>
+				<dl>
+					<dt><label for="ugSelecao">Órgão - UG</label></dt>
+					<dd>
+						<h:selectOneMenu id="ugSelecao" value="#{sincronizaBean.ug}" converter="entityConverter" style="width:450px">
+							<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+							<a4j:support event="onchange" action="#{sincronizaBean.loadUAs}"  reRender="uaSelecao"/>
+						</h:selectOneMenu>
+					</dd>
+				</dl>
+
+				<dl>
+					<dt><label for="uaSelecao">Unidade Administrativa - UA</label></dt>
+					<dd><h:selectOneMenu id="uaSelecao" value="#{sincronizaBean.ua}" converter="entityConverter" style="width:400px">
+						<t:selectItems value="#{sincronizaBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}" />
+					</h:selectOneMenu>
+					</dd>
+				</dl>
+
 				<h:commandButton action="#{sincronizaBean.buscaVeiculosPatrimonio}" value="Buscar" >
 					<a4j:support event="onclick" reRender="dataTable" />
 				</h:commandButton>
@@ -66,16 +73,16 @@
 							<f:facet name="header">
 								Ano fab./Ano mod.
 							</f:facet>
-							<h:outputText value="#{veiculo.anoFabricacao}/#{veiculo.anoModelo}" 
-																rendered="#{not empty veiculo.anoFabricacao}"/>
+							<h:outputText value="#{veiculo.anoFabricacao}/#{veiculo.anoModelo}" rendered="#{not empty veiculo.anoFabricacao}"/>
 						</rich:column>
 
 					</rich:dataTable>
 
 				</h:panelGroup>
-					<h:commandButton value="Sincronizar" action="#{sincronizaBean.sincronizar}" rendered="#{not empty sincronizaBean.veiculos}">
-						<a4j:support event="onclick"  reRender="dataTable"/>
-					</h:commandButton>
+
+				<h:commandButton value="Sincronizar" action="#{sincronizaBean.sincronizar}" rendered="#{not empty sincronizaBean.veiculos}">
+					<a4j:support event="onclick"  reRender="dataTable"/>
+				</h:commandButton>
 				
 			</fieldset>
 		</div>
