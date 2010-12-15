@@ -112,8 +112,16 @@
 				<rich:menuItem value="Mensagens" action="#{messageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Páginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Pessoa Física" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="UA" action="#{uaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}"  rendered="#{controlBean.administrador}" immediate="true"/>
 
+			</rich:dropDownMenu>
+
+			<rich:dropDownMenu rendered="false">
+
+				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
+				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>
 			</rich:dropDownMenu>
 
 			 <rich:toolBarGroup location="right">
