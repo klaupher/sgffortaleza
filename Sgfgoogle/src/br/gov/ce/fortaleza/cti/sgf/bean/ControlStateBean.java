@@ -100,7 +100,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean isAbastecimentoPage(){
 		if(this.rolePageUrl != null){
 			if(this.rolePageUrl.getBeanName().equals("AbastecimentoBean")){
@@ -109,7 +109,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean isSolicitacaoVeiculoPage(){
 		if(this.rolePageUrl != null){
 			if(this.rolePageUrl.getBeanName().equals("SolicitacaoVeiculoBean")){
@@ -118,7 +118,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean isMonitoramentoPage(){
 		if(this.rolePageUrl != null){
 			if(this.rolePageUrl.getBeanName().equals("MonitoramentoBean")){
@@ -352,6 +352,14 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		return PageBean.class.getSimpleName().equals(getCurrentBean());
 	}
 
+	public boolean isUaBean() {
+		return UABean.class.getSimpleName().equals(getCurrentBean());
+	}
+
+	public boolean isUgBean() {
+		return UGBean.class.getSimpleName().equals(getCurrentBean());
+	}
+
 	public boolean isMonitoramentoBean(){
 		return MonitoramentoBean.class.getSimpleName().equals(getCurrentBean());
 	}
@@ -400,7 +408,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 					}
 				}
 			} else {
-				SgfUtil.getRequest().setAttribute("sendmail_err", "N�o foi encontrado usu�rio p/ o e-mail informado!");
+				SgfUtil.getRequest().setAttribute("sendmail_err", "Não foi encontrado usuário p/ o e-mail informado.");
 				return FAIL;
 			}
 		} else {

@@ -23,13 +23,13 @@
 			<h:inputHidden value="#{uaBean.entity.id}" rendered="#{uaBean.updateState}"/>
 
 			<dt><label for="nome">Nome</label></dt>
-		  	<dd><h:inputText id="nome" value="#{uaBean.entity.nome}" size="40" required="true" requiredMessage="Informe o Nome"/></dd>
+		  	<dd><h:inputText id="nome" value="#{uaBean.entity.descricao}" size="40" required="true" requiredMessage="Informe o Nome"/></dd>
 		  	<h:message for="nome" styleClass="message"/>	
 
 			<dl>
 				<dt><label for="ug">UG</label></dt>
 		    	<dd>
-		    		<h:selectOneMenu id="ug" value="#{uaBean.entity.ug}" converter="entityConverter" required="true" requiredMessage="Informe a UG">
+		    		<h:selectOneMenu id="ug" value="#{uaBean.entity.ug}" styleClass="ugList" converter="entityConverter" required="true" requiredMessage="Informe a UG">
 		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
 		    		</h:selectOneMenu>

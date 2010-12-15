@@ -152,20 +152,20 @@
 			</c:if>
 			
 			<c:if test="#{controlBean.uaBean}">
-				<c:if test="#{uaBean.search}">
-					<ui:include src="cadastros/ua/uaList.xhtml" />
+				<c:if test="#{uaBean.searchState}">
+					<ui:include src="cadastros/UA/uaList.xhtml" />
 				</c:if>
 				<c:if test="#{uaBean.saveState || uaBean.updateState}">
-					<ui:include src="cadastros/ua/ua.xhtml" />
+					<ui:include src="cadastros/UA/ua.xhtml" />
 				</c:if>
 			</c:if>
 			
 			<c:if test="#{controlBean.ugBean}">
-				<c:if test="#{ugBean.search}">
-					<ui:include src="cadastros/ug/ugList.xhtml" />
+				<c:if test="#{ugBean.searchState}">
+					<ui:include src="cadastros/UG/ugList.xhtml" />
 				</c:if>
 				<c:if test="#{ugBean.saveState || ugBean.updateState}">
-					<ui:include src="cadastros/ug/ug.xhtml" />
+					<ui:include src="cadastros/UG/ug.xhtml" />
 				</c:if>
 			</c:if>
 	

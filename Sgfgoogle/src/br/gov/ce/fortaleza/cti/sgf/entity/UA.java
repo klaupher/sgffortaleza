@@ -24,7 +24,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @NamedQueries({
 	@NamedQuery(name = "UA.findBy", query = "select object(v) from Veiculo v"),
 	@NamedQuery(name = "UA.findByUG", query = "select ua from UA ua where ua.ug = ?"),
-	@NamedQuery(name = "UA.findByID", query = "select ua from UA ua where ua.id = ?")
+	@NamedQuery(name = "UA.findByID", query = "select ua from UA ua where ua.id = ?"),
+	@NamedQuery(name = "UA.findSorted", query = "select ua from UA ua order by ua.descricao")
 })
 public class UA implements Serializable{
 

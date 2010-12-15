@@ -23,66 +23,57 @@ public class UABean extends EntityBean<String, UA>{
 	private UAService service;
 
 	protected String retrieveEntityId(UA entity) {
-
 		return entity.getId();
 	}
 
 	@Override
 	protected UAService retrieveEntityService() {
-
 		return this.service;
 	}
 
 
 	protected UA createNewEntity() {
-
 		UA ua = new UA();
-
 		return ua;
 	}
 
-	public List<SelectItem> getUaList(){
-
-		List<SelectItem> result = new ArrayList<SelectItem>();
-		result.add(new SelectItem(null, "Selecione"));
-		UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();
-
-		List<UA> uas = new ArrayList<UA>(ua.getUg().getUas());
-		Collections.sort(uas, new Comparator<UA>() {
-			public int compare(UA o1, UA o2) {
-				return o1.getDescricao().compareTo(o2.getDescricao());
-			}
-		});
-
-		for (UA i : uas) {
-			result.add(new SelectItem(i.getId(), i.getDescricao()));
-		}
-		return result;
-	}
+//	public List<SelectItem> getUaList(){
+//		List<SelectItem> result = new ArrayList<SelectItem>();
+//		result.add(new SelectItem(null, "Selecione"));
+//		UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();
+//		List<UA> uas = new ArrayList<UA>(ua.getUg().getUas());
+//		Collections.sort(uas, new Comparator<UA>() {
+//			public int compare(UA o1, UA o2) {
+//				return o1.getDescricao().compareTo(o2.getDescricao());
+//			}
+//		});
+//
+//		for (UA u : uas) {
+//			result.add(new SelectItem(u.getId(), u.getDescricao()));
+//		}
+//		return result;
+//	}
 
 	public synchronized List<UA> getUas(){
-
 		UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();
-
 		if(ua != null){
-
 			List<UA> uas = new ArrayList<UA>(ua.getUg().getUas());
-
 			Collections.sort(uas, new Comparator<UA>() {
 				public int compare(UA o1, UA o2) {
 					return o1.getDescricao().compareTo(o2.getDescricao());
 				}
 			});
-
 			return uas;
 		} else {
-
 			return new ArrayList<UA>();
 		}
 	}
-
+	
 	public String search(){
-
-		return super.searchSort();
+		this.entities = service.findUASorted();
+		this.entities = retrieveEntityService().filter(this.entities, filter);
+		setCurrentBean(currentBeanName());
+		setCurrentState(SEARCH);
+		return SUCCESS;
 	}
 }

@@ -87,9 +87,9 @@
 						</h:commandLink>
 					</rich:column>
 	
-					<rich:column width="3%" style="text-align: center;" rendered="#{controlBean.administrador or controlBean.coordenador}">
+					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador or controlBean.coordenador}">
 	
-						<f:facet name="header"><h:outputText>Bloquear //<br/> Desbloquear</h:outputText></f:facet>
+						<f:facet name="header"><h:outputText>Bloqueio</h:outputText></f:facet>
 	
 						<h:commandLink id="bloq" styleClass="desbloquear" action="#{usuarioBean.bloquear}" value="Bloquear" rendered="#{usuario.status == 'TRUE'}"
 							onclick="if(!confirm('Tem certeza que deseja bloquear o usuário?')) { form.reset();return false;}">

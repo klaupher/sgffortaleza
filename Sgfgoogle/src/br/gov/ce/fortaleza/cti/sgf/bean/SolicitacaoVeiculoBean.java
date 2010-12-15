@@ -85,13 +85,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	private Boolean desabilita;
 	private Boolean veiculoDesignado = true;
 	private User usuario = SgfUtil.usuarioLogado();
+	private Long ultimaKilometragem;
 
 	@Override
 	protected SolicitacaoVeiculo createNewEntity() {
 		SolicitacaoVeiculo solicitacao = new SolicitacaoVeiculo();
 		solicitacao.setSolicitante(this.usuario);
-		solicitacao.setDestino(null);
-		solicitacao.setJustificativa(null);
 		this.desabilita = false;
 		this.externo = false;
 		this.placaVeiculo = null;
@@ -176,8 +175,8 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String update() {
 		this.entity.setDataHoraSaida(DateUtil.addTime(getDataSaida(), getHoraSaida()));
 		this.entity.setDataHoraRetorno(DateUtil.addTime(getDataRetorno(), getHoraRetorno()));
-		if(this.veiculoDesignado == true){
-			this.entity.setStatus(StatusSolicitacaoVeiculo.AUTORIZADO);
+		if(this.veiculoDesignado == false){
+			autorizar();
 		}
 		this.entity.setVeiculo(this.veiculo);
 		service.update(this.entity);
@@ -230,11 +229,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 			if (!DateUtil.compareDate(this.entity.getDataHoraSaida(), this.entity.getDataHoraRetorno())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
-				super.prepareSave();
+				//super.prepareSave();
 				return FAIL;
 			} else if (!DateUtil.compareDate(DateUtil.getDateTime(new Date(),"07:59:59"), this.entity.getDataHoraSaida())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.invalida");
-				super.prepareSave();
+				//super.prepareSave();
 				return FAIL;
 			}
 
@@ -251,20 +250,20 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 			if(this.solicitacoesPendentes.size() > 0){
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoComSolicitacoesPendentes");
-				super.prepareSave();
+				//super.prepareSave();
 				return FAIL;
 			}
 
 			if(disponivel.equals(false)) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoIndisponivel");
-				super.prepareSave();
+				//super.prepareSave();
 				return FAIL;
 			}
 
 			if(this.entity.getVeiculo() != null ){
 				if(this.entity.getVeiculo().getStatus() == StatusVeiculo.TRANSF_EXTERNA){
 					JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoEmTransferenciaExterna");
-					super.prepareSave();
+					//super.prepareSave();
 					return FAIL;
 				}
 			}
@@ -462,7 +461,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 
 		if (this.entity.getVeiculo() != null) {
-			this.entity.setKmSaida(this.entity.getVeiculo().getKmAtual());
+			this.ultimaKilometragem = this.entity.getVeiculo().getKmAtual();
 			if(!this.veiculos.contains(this.entity.getVeiculo())){
 				this.veiculos.add(this.entity.getVeiculo());
 			}
@@ -713,5 +712,13 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public void setVeiculoDesignado(Boolean veiculoDesignado) {
 		this.veiculoDesignado = veiculoDesignado;
+	}
+
+	public Long getUltimaKilometragem() {
+		return ultimaKilometragem;
+	}
+
+	public void setUltimaKilometragem(Long ultimaKilometragem) {
+		this.ultimaKilometragem = ultimaKilometragem;
 	}
 }

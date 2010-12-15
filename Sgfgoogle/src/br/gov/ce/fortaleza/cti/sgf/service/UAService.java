@@ -15,13 +15,14 @@ public class UAService  extends BaseService<String, UA>{
 
 	@SuppressWarnings("unchecked")
 	public List<UA> retrieveByUG(String ug){
-
 		Query query = entityManager.createQuery("Select v from UA v where v.ug.id = ? ");
-
 		query.setParameter(1, ug);
-
 		List<UA> result =  query.getResultList();
-
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<UA> findUASorted(){
+		return executeResultListGenericQuery("findSorted");
 	}
 }

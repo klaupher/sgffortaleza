@@ -26,7 +26,7 @@
 		      	<legend><h:outputText value="#{msg['abastecimento.autorizacoes']}" /> </legend>
 
 		      	<a4j:region>
-			      	<dt><label for="ugList"><h:outputText value="UG" /></label></dt>
+			      	<dt><label for="ugList"><h:outputText value="UG:" /></label></dt>
 			      	<dd>
 				      	<h:selectOneMenu id="ugList" value="#{abastecimentoBean.orgaoSelecionado}" requiredMessage="Informe a UG" converter="entityConverter"
 				      	   	disabled="#{abastecimentoBean.viewState or abastecimentoBean.entity.status == 'ATENDIDO'}" style="width:420px">
@@ -38,7 +38,7 @@
 		   		</a4j:region>
 		   		
 		   		<a4j:region>
-					<dt><label for="veiculoAbastecimento"><h:outputText value="#{msg['abastecimento.veiculo']}" /></label></dt>
+					<dt><label for="veiculoAbastecimento"><h:outputText value="#{msg['abastecimento.veiculo']}:" /></label></dt>
 					<dd>
 					    <h:selectOneMenu id="veiculoAbastecimento" required="true" value="#{abastecimentoBean.entity.veiculo}" disabled="#{controlBean.operador}" converter="entityConverter"> 
 					         <f:selectItem itemValue="" itemLabel="Informe o veículo" />
@@ -49,7 +49,7 @@
 				</a4j:region>
 	
 	        	<a4j:region>
-		            <dt><label for="motorista"><h:outputText value="#{msg['abastecimento.motorista']}" /></label></dt>
+		            <dt><label for="motorista"><h:outputText value="#{msg['abastecimento.motorista']}:" /></label></dt>
 		            <dd>
 		                <h:selectOneMenu id="motorista" value="#{abastecimentoBean.entity.motorista}" required="true" disabled="#{empty abastecimentoBean.motoristas or controlBean.operador}" converter="entityConverter" >
 		                    <f:selectItem itemValue="" itemLabel="Informe o Motorista" />
@@ -59,7 +59,7 @@
 		            </dd>
 	            </a4j:region>
 	            
-				<dt><label for="tipoServico"><h:outputText value="#{msg['abastecimento.tipo']}" /></label></dt>
+				<dt><label for="tipoServico"><h:outputText value="#{msg['abastecimento.tipo']}:" /></label></dt>
 	            <dd>
 	                <h:selectOneMenu id="tipoServico" value="#{abastecimentoBean.entity.tipoServico}" disabled="#{controlBean.operador}" converter="entityConverter" required="true">
 	                	<f:selectItem itemValue="" itemLabel="Informe o Servico" />
@@ -68,7 +68,7 @@
 	                <h:message for="tipoServico" tooltip="true" styleClass="message"/>
 	            </dd>
 
-	            <dt><label for="combustivel"><h:outputText value="#{msg['abastecimento.combustivel']}" /></label></dt>
+	            <dt><label for="combustivel"><h:outputText value="#{msg['abastecimento.combustivel']}:" /></label></dt>
 	            <dd>
 	                <h:selectOneMenu id="combustivel" value="#{abastecimentoBean.entity.combustivel}" required="true" disabled="#{abastecimentoBean.viewState or abastecimentoBean.entity.status == 'ATENDIDO'}" converter="entityConverter" >
 	                    <f:selectItem itemValue="" itemLabel="Informe o Combustível" />
@@ -87,7 +87,7 @@
 				</dd>
 	
 	            <a4j:region id="panelUA" rendered="#{abastecimentoBean.mostrarPosto}">
-		            <dt><label for="posto"><h:outputText value="#{msg['abastecimento.posto']}" /></label></dt>
+		            <dt><label for="posto"><h:outputText value="#{msg['abastecimento.posto']}:" /></label></dt>
 		            <dd>
 		                <h:selectOneMenu id="posto" value="#{abastecimentoBean.entity.posto}" required="true" converter="entityConverter" disabled="#{abastecimentoBean.entity.status == 'ATENDIDO'}">
 		                    <f:selectItem itemValue="" itemLabel="Informe o Posto" />
@@ -98,7 +98,7 @@
 	            </a4j:region>
 	            
 		        <c:if test="#{abastecimentoBean.negar}">
-					<dt><label for="justificativa"><h:outputText value="#{msg['abastecimento.justificativa']}" /></label></dt>
+					<dt><label for="justificativa"><h:outputText value="#{msg['abastecimento.justificativa']}:" /></label></dt>
 			        <dd>
 				        <h:inputTextarea id="justificativa" value="#{abastecimentoBean.entity.justificativa}" required="true" requiredMessage="Informe a justificativa" rows="4" cols="50"/>
 				        <h:message for="justificativa" tooltip="true" id="messageJustificativa" styleClass="message"/>
@@ -114,9 +114,7 @@
 		
 		<fieldset>
 	
-	       	<rich:panel rendered="#{abastecimentoBean.atender}">
-	
-	       		<dt><label for="bomba"><h:outputText value="#{msg['abastecimento.bomba']}" /></label></dt>
+	       		<dt><label for="bomba"><h:outputText value="#{msg['abastecimento.bomba']}:" /></label></dt>
 	         	<dd>
 		             <h:selectOneMenu required="true" id="bomba" value="#{abastecimentoBean.bomba}" converter="entityConverter">
 		                 <f:selectItem itemValue="" itemLabel="Informe a Bomba" />
@@ -126,11 +124,11 @@
 	         	<h:message for="bomba" tooltip="true" styleClass="message"/>
 	
 				<h:panelGroup rendered="#{!abastecimentoBean.vasilhame}">
-			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}" /></label></dt>
+			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}:" /></label></dt>
 			        <dd>
 			        	<h:inputText id="kmAtendimento" value="#{abastecimentoBean.kmAtendimento}" maxlength="8" required="true" />
-			           	<h:message for="kmAtendimento" tooltip="true" id="messageKmAtendimento" styleClass="message"/>
 			        </dd>
+			        <h:message for="kmAtendimento" tooltip="true" id="messageKmAtendimento" styleClass="message"/>
 				
 					<dt><label for="saldoAtual"><h:outputText value="Saldo disponível:" /></label></dt>
 		          	<dd>
@@ -138,14 +136,12 @@
 		          	</dd>
 			    </h:panelGroup>
 	
-		         <dt><label for="litrosAbastecidos"><h:outputText value="#{msg['abastecimento.litrosAbastecidos']}" /></label></dt>
+		         <dt><label for="litrosAbastecidos"><h:outputText value="#{msg['abastecimento.litrosAbastecidos']}:" /></label></dt>
 		         <dd>
 		         	<h:inputText id="litrosAbastecidos" value="#{abastecimentoBean.quantidadeAbastecida}" maxlength="8" required="true" />
-		            <h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
 		         </dd>
+		         <h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
 
-	     	</rich:panel>
-	
 	       	<h:commandButton action="#{abastecimentoBean.update}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.atender}">
 	   			<a4j:support event="onclick" reRender="paginaPrincipal" />
 	   			<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />

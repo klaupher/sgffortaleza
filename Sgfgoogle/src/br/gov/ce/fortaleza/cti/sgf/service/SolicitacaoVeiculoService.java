@@ -44,7 +44,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 
 		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
 		try {
-			Query query = entityManager.createQuery("select s from SolicitacaoVeiculo s where s.solicitante.pessoa.ua.ug.id = ? and s.status = ? order by o.dataHoraSaida desc");
+			Query query = entityManager.createQuery("select s from SolicitacaoVeiculo s where s.solicitante.pessoa.ua.ug.id = ? and s.status = ? order by s.dataHoraSaida desc");
 			query.setParameter(1, ug.getId());
 			query.setParameter(2, status);
 			solicitacaoVeiculos = query.getResultList();

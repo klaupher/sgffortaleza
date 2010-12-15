@@ -26,26 +26,21 @@ public class UGBean extends EntityBean<String, UG>{
 
 	@Override
 	protected UG createNewEntity() {
-
 		return new UG();
 	}
 
 	@Override
 	protected String retrieveEntityId(UG entity) {
-
 		return new String(entity.getId());
 	}
 
 	@Override
 	protected UGService retrieveEntityService() {
-
 		return this.service;
 	}
 
 	public List<UG> getUgs(){
-
 		List<UG> ugs = new ArrayList<UG>(service.findAll());
-
 		return ugs;
 	}
 

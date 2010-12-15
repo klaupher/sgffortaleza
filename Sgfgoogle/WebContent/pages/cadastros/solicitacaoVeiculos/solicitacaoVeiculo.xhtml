@@ -116,6 +116,7 @@
 				<h:inputText id="kmSaida" value="#{solicitacaoVeiculoBean.entity.kmSaida}"  style="width:60px"
 					required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
 				</h:inputText>	
+				<h:outputText value="Últ. KM: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
 				<h:message for="kmSaida" styleClass="message"/>
 				<p/>
 
