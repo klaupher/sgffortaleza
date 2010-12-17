@@ -206,7 +206,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	protected static <E> E getUsuarioService(Class<E> clazz, HttpSession session) {
 		ApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(session.getServletContext());

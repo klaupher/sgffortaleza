@@ -55,7 +55,8 @@
 						</h:outputText>
 					</dd>
 					
-					<c:if test="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO' || solicitacaoVeiculoBean.entity.status == 'SOLICITADO' || solicitacaoVeiculoBean.entity.status == 'EXTERNO'}">
+					<c:if test="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO' || solicitacaoVeiculoBean.entity.status == 'SOLICITADO' || 
+								solicitacaoVeiculoBean.entity.status == 'EXTERNO' || solicitacaoVeiculoBean.entity.status == 'FINALIZADO'}">
 						<dt><h:outputLabel value="Justific. Solicitação:" for="justificativa" styleClass="labelNegrito"/></dt>
 						<dd><h:inputTextarea  id="justificativa" value="#{solicitacaoVeiculoBean.entity.justificativa}" cols="40" rows="3" disabled="true"/></dd>
 					</c:if>

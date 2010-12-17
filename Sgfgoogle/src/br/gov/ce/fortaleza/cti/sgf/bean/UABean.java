@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.faces.model.SelectItem;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -36,23 +34,6 @@ public class UABean extends EntityBean<String, UA>{
 		UA ua = new UA();
 		return ua;
 	}
-
-//	public List<SelectItem> getUaList(){
-//		List<SelectItem> result = new ArrayList<SelectItem>();
-//		result.add(new SelectItem(null, "Selecione"));
-//		UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();
-//		List<UA> uas = new ArrayList<UA>(ua.getUg().getUas());
-//		Collections.sort(uas, new Comparator<UA>() {
-//			public int compare(UA o1, UA o2) {
-//				return o1.getDescricao().compareTo(o2.getDescricao());
-//			}
-//		});
-//
-//		for (UA u : uas) {
-//			result.add(new SelectItem(u.getId(), u.getDescricao()));
-//		}
-//		return result;
-//	}
 
 	public synchronized List<UA> getUas(){
 		UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();

@@ -112,14 +112,20 @@
 				<rich:menuItem value="Mensagens" action="#{messageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Páginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Pessoa Física" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="UA" action="#{uaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
+				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{!veiculoBean.cadastraVeiculo}" immediate="true"/>
+				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{!veiculoBean.cadastraVeiculo}" immediate="true"/>
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}"  rendered="#{controlBean.administrador}" immediate="true"/>
 
 			</rich:dropDownMenu>
 
-			<rich:dropDownMenu rendered="false">
+			<rich:toolBarGroup location="left">
+				<a4j:commandLink id="sobre" value="Sobre" reRender="paginaPrincipal" immediate="true" style="text-decoration: none; color:black"
+					oncomplete="Richfaces.showModalPanel('sgfSobre', {width:700, height:560, top:40});">
+				</a4j:commandLink>
+				<h:commandLink value="Manual" action="#{downloadBean.download}" immediate="true" style="text-decoration: none; color:black" />
+			</rich:toolBarGroup>
 
+			<rich:dropDownMenu rendered="false">
 				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>
 			</rich:dropDownMenu>
@@ -129,14 +135,16 @@
 			 	<h:outputLink value="../j_spring_security_logout" style="text-decoration: none; color:black">Sair
 			 		<a4j:support event="onclick" action="#{controlBean.logout}" ajaxSingle="true"/>
 			 	</h:outputLink>
-			 	<h:commandLink value="Manual" action="#{downloadBean.download}" immediate="true" style="text-decoration: none; color:black" />
 
             </rich:toolBarGroup>
 
 		</rich:toolBar>
 
 	</div>
+
 	<hr/>
+	
+	<a4j:include viewId="sobre.xhtml"/>
 
 	<ui:include src="processando.xhtml"/>
 	<ui:include src="/pages/cadastros/cota/cotaPostosModal.xhtml" />

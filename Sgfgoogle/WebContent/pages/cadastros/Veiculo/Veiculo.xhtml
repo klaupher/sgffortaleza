@@ -23,8 +23,8 @@
 			<dl>
 				<dt><label for="ugVeiculo">UG</label></dt>
 		    	<dd>
-		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" disabled="#{veiculoBean.cadastraVeiculo}" converter="entityConverter"
-		    			required="true" requiredMessage="Informe a UG" style="width:400px">
+		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" disabled="#{veiculoBean.cadastraVeiculo}" converter="entityConverter"
+		    			>
 		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
 		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
@@ -187,7 +187,7 @@
 			</dl>
 
 			<dl>
-				<dt><label for="temSeguro">Seguro</label></dt>
+				<dt><label for="temSeguro">Possui seguro</label></dt>
 				<dd>
 					<h:selectOneRadio id="temSeguro" value="#{veiculoBean.entity.temSeguro}" disabled="#{veiculoBean.cadastraVeiculo}" style="width:36%">
 						<f:selectItem itemLabel="Sim" itemValue="1"/>
@@ -195,7 +195,7 @@
 					</h:selectOneRadio>
 				</dd>
 			</dl>
-			
+
 			<dl>
 				<dt><label for="dataCadastro">Data cadastro</label></dt>
 				<dd><h:inputText id="dataCadastro" value="#{veiculoBean.entity.dataCadastro}" disabled="true" maxlength="50" size="20">
@@ -205,9 +205,22 @@
 			</dl>
 			
 			<dl>
+				<dt><h:outputLabel value="Status" rendered="#{!(veiculoBean.entity.status == -1)}"/></dt>
+				<dd>
+					<h:inputText value="Disponível" rendered="#{veiculoBean.entity.status == 0}"/>
+					<h:inputText value="Locado" rendered="#{veiculoBean.entity.status == 1}"/>
+					<h:inputText value="Reservado" rendered="#{veiculoBean.entity.status == 2}"/>
+					<h:inputText value="Em Manutenção" rendered="#{veiculoBean.entity.status == 3}"/>
+					<h:inputText value="Em Serviço" rendered="#{veiculoBean.entity.status == 4}"/>
+					<h:inputText value="Transferência Externa" rendered="#{veiculoBean.entity.status == 5}"/>
+				</dd>
+			</dl>
+
+			<dl>
 				<dt><label for="observacoes">Observações</label></dt>
 				<dd><h:inputTextarea id="observacoes" value="#{veiculoBean.entity.objetivo}" cols="60"/></dd>
 			</dl>
+
 			
 			<p></p>
 			<label style="color:red">* campos obrigatórios</label>

@@ -51,4 +51,11 @@ public class UGBean extends EntityBean<String, UG>{
 	public void setService(UGService service) {
 		this.service = service;
 	}
+	public String search(){
+		this.entities = service.findUASorted();
+		this.entities = retrieveEntityService().filter(this.entities, filter);
+		setCurrentBean(currentBeanName());
+		setCurrentState(SEARCH);
+		return SUCCESS;
+	}
 }

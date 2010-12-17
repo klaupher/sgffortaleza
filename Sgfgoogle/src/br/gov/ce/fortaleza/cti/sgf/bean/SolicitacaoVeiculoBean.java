@@ -20,9 +20,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.MotoristaService;
-import br.gov.ce.fortaleza.cti.sgf.service.RegistroVeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.service.SolicitacaoVeiculoService;
-import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
@@ -48,13 +46,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	private VeiculoService veiculoService;
 
 	@Autowired
-	private UGService ugService;
-
-	@Autowired
 	private MotoristaService motoristaService;
-
-	@Autowired
-	private RegistroVeiculoService registroService;
 
 	private RegistroVeiculo registro;
 	private UG orgaoSelecionado;
@@ -175,9 +167,19 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String update() {
 		this.entity.setDataHoraSaida(DateUtil.addTime(getDataSaida(), getHoraSaida()));
 		this.entity.setDataHoraRetorno(DateUtil.addTime(getDataRetorno(), getHoraRetorno()));
-		if(this.veiculoDesignado == false){
-			autorizar();
+
+		if(this.veiculoDesignado == false && this.veiculo != null){
+			Boolean disponivel = service.isVeiculoDisponivel(this.veiculo.getId(), DateUtil.addTime(this.dataSaida, this.horaSaida),
+					DateUtil.addTime(this.dataRetorno, this.horaRetorno));
+			if(disponivel){
+				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoIndisponivel");
+				return FAIL;
+			} 
 		}
+		if(this.veiculoDesignado == false){
+			autorizarSolicitacao();
+		}
+
 		this.entity.setVeiculo(this.veiculo);
 		service.update(this.entity);
 		setCurrentBean(currentBeanName());
@@ -203,7 +205,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			if(this.orgaoSelecionado != null){
 				this.veiculos = service.findVeiculosDisponiveis(this.entity, this.orgaoSelecionado);
 			}
-		} else if (SgfUtil.isChefeSetor(this.usuario)|| SgfUtil.isChefeTransporte(this.usuario)) {
+		} else if (SgfUtil.isChefeSetor(this.usuario) || SgfUtil.isChefeTransporte(this.usuario)) {
 			if (this.placaVeiculo == null) {
 				this.veiculos = service.findVeiculosDisponiveis(this.entity, null);
 			}
@@ -222,22 +224,19 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		try {
 			this.entity.setSolicitante(usuario);
-			this.entity.setStatus(StatusSolicitacaoVeiculo.SOLICITADO);
 			this.entity.setDataHoraSaida(DateUtil.addTime(DateUtil.getDateStartDay(this.dataSaida), this.horaSaida));
 			this.entity.setDataHoraRetorno(DateUtil.addTime(DateUtil.getDateStartDay(this.dataRetorno), this.horaRetorno));
 			this.entity.setVeiculo(this.veiculo);
 
 			if (!DateUtil.compareDate(this.entity.getDataHoraSaida(), this.entity.getDataHoraRetorno())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
-				//super.prepareSave();
 				return FAIL;
 			} else if (!DateUtil.compareDate(DateUtil.getDateTime(new Date(),"07:59:59"), this.entity.getDataHoraSaida())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.invalida");
-				//super.prepareSave();
 				return FAIL;
 			}
 
-			/** verifica��o da disponibilidade do ve�culo */
+			/** verificação da disponibilidade do veículo */
 			Boolean disponivel = true;
 			if(this.entity.getVeiculo() != null){
 				disponivel = !service.isVeiculoDisponivel(this.entity.getVeiculo().getId(), DateUtil.addTime(this.dataSaida, this.horaSaida),
@@ -246,28 +245,24 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 				this.veiculoDesignado = false;
 			}
 
-			this.pesquisarSolicitacoesPendentes(); // busca por solicitações pendentes do veículo
-
+			this.pesquisarSolicitacoesPendentes(this.entity); // busca por solicitações pendentes do veículo
 			if(this.solicitacoesPendentes.size() > 0){
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoComSolicitacoesPendentes");
-				//super.prepareSave();
 				return FAIL;
 			}
 
 			if(disponivel.equals(false)) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoIndisponivel");
-				//super.prepareSave();
 				return FAIL;
 			}
 
 			if(this.entity.getVeiculo() != null ){
 				if(this.entity.getVeiculo().getStatus() == StatusVeiculo.TRANSF_EXTERNA){
 					JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoEmTransferenciaExterna");
-					//super.prepareSave();
 					return FAIL;
 				}
 			}
-
+			this.entity.setStatus(StatusSolicitacaoVeiculo.SOLICITADO);
 			super.save();
 			setCurrentBean(currentBeanName());
 			return search();
@@ -281,7 +276,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	@Override
 	public String search() {
 		statusPesquisa = StatusSolicitacaoVeiculo.SOLICITADO;
-		
+
 		if(SgfUtil.isChefeSetor(this.usuario) || SgfUtil.isChefeTransporte(this.usuario)){
 			this.orgaoSelecionado = this.usuario.getPessoa().getUa().getUg();
 		}
@@ -295,11 +290,19 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		return SUCCESS;
 	}
 
-	public String autorizar() {
-		this.entity.setAutorizador(SgfUtil.usuarioLogado());
-		this.entity.setStatus(StatusSolicitacaoVeiculo.AUTORIZADO);
-		this.flagNegar = false;
-		return super.update();
+	public String autorizarSolicitacao() {
+
+		if(this.veiculo != null){
+			this.entity.setAutorizador(SgfUtil.usuarioLogado());
+			this.entity.setStatus(StatusSolicitacaoVeiculo.AUTORIZADO);
+			this.flagNegar = false;
+			return super.update();
+		} else {
+			JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoNaoSelecionado");
+			setCurrentBean(currentBeanName());
+			setCurrentState(SAVE);
+			return FAIL;
+		}
 	}
 
 	public void negar() {
@@ -314,8 +317,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	}
 
 	/**
-	 * Registra a sa�da do ve�culo, atualizando sua kilometragem
-	 * 
+	 * Registra a saida do veículo, atualizando sua kilometragem atual informada
 	 * @return
 	 */
 	public String registrarSaida() {
@@ -329,9 +331,14 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		}
 
 		this.entity.setDtSaida(DateUtil.addTime(DateUtil.getDateStartDay(),this.horaSaidaReal));
-
 		if(this.entity.getDataHoraSaida().getTime() > DateUtil.getDateEndDay().getTime()){
 			JSFUtil.getInstance().addErrorMessage("msg.error.registro.saida.naopermitida");
+			return FAIL;
+		}
+
+		this.pesquisarSolicitacoesPendentes(this.entity);
+		if(this.solicitacoesPendentes.size() > 0){
+			JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoComSolicitacoesPendentes");
 			return FAIL;
 		}
 
@@ -398,18 +405,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.horaSaidaReal = null;
 		this.horaRetornoReal = null;
 		this.entity.setSolicitante(this.usuario);
-		//this.motoristas = motoristaService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId());
-		if(SgfUtil.isAdministrador(this.usuario)){
-			//this.motoristas = motoristaService.retrieveAll();
-			if(this.orgaoSelecionado != null){
-				this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
-			}
-		} else {
-			this.motoristas = motoristaService.findByUG(this.usuario.getPessoa().getUa().getUg().getId());
-		}
-		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
-		//this.veiculos = veiculoService.findAll();
+		this.orgaoSelecionado = null;
+		this.veiculos = new ArrayList<Veiculo>();
+		this.veiculo = null;
 		carregarVeiculosDisponiveis();
+		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		return SUCCESS;
 	}
 
@@ -422,17 +422,20 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		if(this.veiculo != null){
 			this.orgaoSelecionado = this.veiculo.getUa().getUg();
 		} else {
-			this.orgaoSelecionado = null;
+			this.orgaoSelecionado = this.entity.getSolicitante().getPessoa().getUa().getUg();
+			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(this.orgaoSelecionado));
 			this.veiculoDesignado = false;
 		}
 
-		if(SgfUtil.isAdministrador(this.usuario)){
+		if(SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)){
 			if(this.orgaoSelecionado != null){
 				this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
 			}
 			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(this.orgaoSelecionado));
-		} else {
+		} else if(SgfUtil.isChefeTransporte(this.usuario)){
+			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(this.usuario.getPessoa().getUa().getUg()));
 			this.motoristas = motoristaService.findByUG(this.usuario.getPessoa().getUa().getUg().getId());
+		} else {
 			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(null));
 		}
 		if(this.veiculo != null){
@@ -465,6 +468,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			if(!this.veiculos.contains(this.entity.getVeiculo())){
 				this.veiculos.add(this.entity.getVeiculo());
 			}
+			this.veiculoDesignado = true;
 		}
 		setCurrentBean(currentBeanName());
 		setCurrentState(EDIT);
@@ -474,19 +478,25 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	 * busca solicitações pendentes do veículos selecionado
 	 * @return
 	 */
-	public String pesquisarSolicitacoesPendentes(){
+	public String pesquisarSolicitacoesPendentes(SolicitacaoVeiculo solicitacao){
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		if(this.veiculo != null){
 			List<SolicitacaoVeiculo> pendentes = new ArrayList<SolicitacaoVeiculo>();
 			List<SolicitacaoVeiculo> current = service.findSolicitacoesVeiculo(this.veiculo, StatusSolicitacaoVeiculo.EXTERNO);
 			for (SolicitacaoVeiculo s: current) {
-				if(s.getDataHoraSaida().getTime() < DateUtil.getDateStartDay().getTime()){
+				if(s.getDataHoraSaida().getTime() < DateUtil.getDateStartDay().getTime() || 
+						(s.getDataHoraSaida().getTime() >= solicitacao.getDataHoraSaida().getTime() && 
+								s.getDataHoraRetorno().getTime() <= solicitacao.getDataHoraRetorno().getTime())){
 					pendentes.add(s);
 				}
 			}
 			this.solicitacoesPendentes = pendentes;
 		}
 		return SUCCESS;
+	}
+
+	public String pesquisarSolicitacoesPendentes(){
+		return pesquisarSolicitacoesPendentes(this.entity);
 	}
 
 	public List<SolicitacaoVeiculo> getSolicitacoesPendentes() {

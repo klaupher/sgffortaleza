@@ -103,8 +103,9 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	public List<Veiculo> findByUG(UG ug) {
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
 		if(ug != null){
-			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id");
+			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.status > :status");
 			query.setParameter("id", ug.getId());
+			query.setParameter("status", -1);
 			veiculos = query.getResultList();
 		}
 		return veiculos;

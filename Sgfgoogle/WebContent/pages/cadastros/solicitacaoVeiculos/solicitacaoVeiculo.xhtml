@@ -19,7 +19,7 @@
 				<h:outputLabel value="Cadastro da Solicitação de veículo" rendered="#{solicitacaoVeiculoBean.saveState}"/>
 				<h:outputLabel value="Alteração da Solicitação de veículo" rendered="#{solicitacaoVeiculoBean.editState and !solicitacaoVeiculoBean.veiculoDesignado}"/>
 				<h:outputLabel value="Registro da saída de veículo" rendered="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO' and solicitacaoVeiculoBean.entity.statusAtendimento == null}"/>
-				<h:outputLabel value="Registro do Retorno de veículo" rendered="#{solicitacaoVeiculoBean.entity.statusAtendimento == 1}"/>
+				<h:outputLabel value="Registro do retorno de veículo" rendered="#{solicitacaoVeiculoBean.entity.statusAtendimento == 1}"/>
 			</legend>
 			<p/>
 
@@ -31,7 +31,7 @@
 					<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}"  reRender="veiculoSolicitacao" ajaxSingle="true"/>
 				</h:selectOneMenu>
 			</a4j:region>
-			<p/>		
+			<p/>
 
 			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
 				<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
@@ -59,8 +59,8 @@
 			<h:message for="hrInicial" styleClass="message"/>
 			
 			<h:outputLabel value="Hora saída:" for="hrInicialReal" styleClass="labelNegrito"  style="margin-left:20px"/>
-			<h:inputText id="hrInicialReal" value="#{solicitacaoVeiculoBean.horaSaidaReal}" size="4" styleClass="maskHora" required="true" 
-				requiredMessage="Informe hora saída" style="margin-left:20px" disabled="#{!solicitacaoVeiculoBean.autorizado}">
+			<h:inputText id="hrInicialReal" value="#{solicitacaoVeiculoBean.horaSaidaReal}" styleClass="maskHora" required="true" 
+				requiredMessage="Informe hora saída" size="4" style="margin-left:18px" disabled="#{!solicitacaoVeiculoBean.autorizado}">
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			<h:message for="hrInicialReal" styleClass="message"/>
@@ -89,8 +89,7 @@
 			<p/>
 			
 			<h:outputLabel value="Destino:" for="destinoSol" styleClass="labelNegrito" style="padding-right:36px"/>
-			<h:inputText id="destinoSol" value="#{solicitacaoVeiculoBean.entity.destino}" required="true" 
-				requiredMessage="Informe o destino" style="width:350px"/>
+			<h:inputText id="destinoSol" value="#{solicitacaoVeiculoBean.entity.destino}" required="true" requiredMessage="Informe o destino" style="width:350px"/>
 			<h:message for="destinoSol" styleClass="message"/>
 			<p/>
 			
@@ -116,7 +115,7 @@
 				<h:inputText id="kmSaida" value="#{solicitacaoVeiculoBean.entity.kmSaida}"  style="width:60px"
 					required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
 				</h:inputText>	
-				<h:outputText value="Últ. KM: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
+				<h:outputText value=" Últ. Kilometragem: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
 				<h:message for="kmSaida" styleClass="message"/>
 				<p/>
 
@@ -183,7 +182,7 @@
 	  			<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 			</h:commandButton>
 			
-			<h:commandButton action="#{solicitacaoVeiculoBean.autorizar}" value="Autorizar" rendered="#{!solicitacaoVeiculoBean.flagNegar and (solicitacaoVeiculoBean.entity.status == 'SOLICITADO' and solicitacaoVeiculoBean.veiculoDesignado)}">
+			<h:commandButton action="#{solicitacaoVeiculoBean.autorizarSolicitacao}" value="Autorizar" rendered="#{!solicitacaoVeiculoBean.flagNegar and (solicitacaoVeiculoBean.entity.status == 'SOLICITADO' and solicitacaoVeiculoBean.veiculoDesignado)}">
 	    		<a4j:support  event="onclick" reRender="paginaPrincipal"/>
 	    	</h:commandButton>
     	

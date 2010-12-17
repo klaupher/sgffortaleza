@@ -29,7 +29,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name="tb_ug", schema = "SGF")
 @NamedQueries({
-	@NamedQuery(name = "UG.findByID", query = "select ug from UG ug where ug.id = ?")
+	@NamedQuery(name = "UG.findByID", query = "select ug from UG ug where ug.id = ?"),
+	@NamedQuery(name = "UG.findSorted", query = "select ug from UG ug order by ug.descricao")
 })
 public class UG implements Serializable{
 
@@ -57,17 +58,14 @@ public class UG implements Serializable{
 	
 	@Override
 	public boolean equals(Object obj) {
+
 		if (this == obj)
 			return true;
-
 		if (obj == null)
 			return false;
-
 		if (getClass() != obj.getClass())
 			return false;
-
 		UG other = (UG) obj;
-
 		return ((id == null && other.id == null) || (id != null && id.equals(other.id)) &&
 				(descricao == null && other.descricao == null) || (descricao != null && descricao.equals(other.descricao))&&
 				(flag == null && other.flag == null) || (flag != null && flag.equals(other.flag)));
