@@ -17,25 +17,27 @@
 
 	<fieldset>
 	
-		<legend>Relatório Consolidado Mensal</legend>
+		<legend>Relatório Consolidado Mensal de Abastecimentos</legend>
 
 
 		<dt><label for="ugList">Órgão</label></dt>
 		<dd>
-			<h:panelGroup>
-		      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" styleClass="ugList">
-		   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-		   		</h:selectOneMenu>
-			</h:panelGroup>
+	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" styleClass="ugList">
+	      		<c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue="" />
+				</c:if>
+	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+	   		</h:selectOneMenu>
 		</dd>
 		
 		<dt><label for="mesesList">Mês de referência</label></dt>
 		<dd>
-			<h:panelGroup>
-		      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mês">
-		   			<f:selectItems value="#{relatorioBean.meses}"/>
-		   		</h:selectOneMenu>			
-			</h:panelGroup>		
+	      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mês">
+	      		<c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue="" />
+				</c:if>
+	   			<f:selectItems value="#{relatorioBean.meses}"/>
+	   		</h:selectOneMenu>			
 		</dd>
 	
 		<h:commandButton action="#{relatorioBean.consultarConsolidadoMensal}" value="Consultar">
@@ -77,21 +79,21 @@
 				</rich:column>
 
 				<rich:column>
-					<f:facet name="header"><h:outputLabel value="Util.(lts)"/></f:facet>
+					<f:facet name="header"><h:outputLabel value="Lts"/></f:facet>
 					<h:outputText value="#{r.consumo}">
 						<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 					</h:outputText>
 				</rich:column>
 				
 				<rich:column>
-					<f:facet name="header"><h:outputLabel value="Km"/></f:facet>
+					<f:facet name="header"><h:outputLabel value="Kms"/></f:facet>
 					<h:outputText value="#{r.kmRodados}">
 						<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 					</h:outputText>
 				</rich:column>				
 
-				<rich:column>
-					<f:facet name="header"><h:outputLabel value="Consumo(Km/Lts)"/></f:facet>
+				<rich:column  style="width:2%">
+					<f:facet name="header"><h:outputLabel value="(Kms/Lts)"/></f:facet>
 					<h:outputText value="#{r.kmPorLitro}">
 						<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 					</h:outputText>
@@ -116,15 +118,15 @@
 					<h:outputText value="#{r.combustivel}" />
 				</rich:column>
 				
-				<rich:column>
+				<rich:column  style="width:3%">
 					<f:facet name="header"><h:outputLabel value="Custo(R$)"/></f:facet>
 					<h:outputText value="#{r.custo}">
 						<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 					</h:outputText>
 				</rich:column>
 				
-				<rich:column>
-					<f:facet name="header"><h:outputLabel value="Qde Abast."/></f:facet>
+				<rich:column style="width:2%">
+					<f:facet name="header"><h:outputLabel value="Nº Abast."/></f:facet>
 					<h:outputText value="#{r.numeroAbastecimentos}" />
 				</rich:column>
 		

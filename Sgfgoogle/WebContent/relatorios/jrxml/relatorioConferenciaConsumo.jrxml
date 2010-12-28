@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConferenciaConsumo" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<style name="zebrado" isDefault="false">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConferenciaConsumo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -76,14 +79,14 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Data atend.]]></text>
+					<text><![CDATA[Data]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="424" y="21" width="76" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Hora atend.]]></text>
+					<text><![CDATA[Hora]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="501" y="21" width="29" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
@@ -117,7 +120,7 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Bombeiro]]></text>
+					<text><![CDATA[Operador]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="734" y="21" width="68" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
@@ -127,21 +130,21 @@
 					<text><![CDATA[Posto]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="61" y="2" width="100" height="14"/>
+					<reportElement x="61" y="2" width="128" height="14"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="264" y="2" width="66" height="14"/>
+					<reportElement x="299" y="2" width="66" height="14"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{cota}]]></textFieldExpression>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$F{cota}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="208" y="2" width="56" height="15"/>
+					<reportElement x="208" y="2" width="91" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Cota:]]></text>
+					<text><![CDATA[Cota atual:]]></text>
 				</staticText>
 				<line>
 					<reportElement x="0" y="1" width="802" height="1" forecolor="#990000"/>

@@ -88,20 +88,13 @@
 								<h:outputText value="#{k+1}" style="color: black;"/>
 							</rich:column>
 
-							<rich:column width="5%">
-								<f:facet name="header"><h:outputLabel value="Nº bomba"/></f:facet>
+							<rich:column width="8%">
+								<f:facet name="header"><h:outputLabel value="Bomba"/></f:facet>
 								<h:outputText value="#{db.bomba.numero}"/>
 							</rich:column>
 							
 							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Data Cadastro"/></f:facet>
-								<h:outputText value="#{db.dataCadastro}">
-									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-								</h:outputText>
-							</rich:column>
-
-							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Hora abertura"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Hora inicial"/></f:facet>
 								<h:outputText value="#{db.horaInicial}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
@@ -109,7 +102,7 @@
 
 							<rich:column width="12%">
 								<f:facet name="header">
-									<h:outputLabel value="Hora fechamento"/>
+									<h:outputLabel value="Hora final"/>
 								</f:facet>
 								<h:outputText value="#{db.horaFinal}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
@@ -131,9 +124,16 @@
 							</rich:column>
 
 							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Lts/dia"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Litros/dia"/></f:facet>
 								<h:outputText value="#{db.litrosAbastecidos}" styleClass="align:right">
 									<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
+								</h:outputText>
+							</rich:column>
+							
+							<rich:column width="10%">
+								<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
+								<h:outputText value="#{db.dataCadastro}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>
 

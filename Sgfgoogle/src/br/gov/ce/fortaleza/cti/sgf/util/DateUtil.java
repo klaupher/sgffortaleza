@@ -30,9 +30,9 @@ public class DateUtil {
 
 	public static final String ARENA_DATE_TIME_PATTERN = US_DATE_PATTERN + " " + DEFAULT_HOUR_PATTERN;
 
-	public static final String[] DAYS_OF_WEEK = { "Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado" };
+	public static final String[] DAYS_OF_WEEK = { "Domingo", "Segunda-feira", "Terï¿½a-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sï¿½bado" };
 
-	public static final String[] MONTHS_OF_YEAR = { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+	public static final String[] MONTHS_OF_YEAR = { "Janeiro", "Fevereiro", "Marï¿½o", "Abril", "Maio", "Junho", 
 		"Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro" };
 
 	public static final String[] MONTHS_OF_YEAR_SIMPLE = { "Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez" };
@@ -302,24 +302,20 @@ public class DateUtil {
 	}
 
 	public static List<SelectItem> getSelectItemMeses(){
-
 		List<SelectItem> result = new ArrayList<SelectItem>();
-
 		for (int j = 0; j < 12; j++){
-
-			result.add(new SelectItem(j+1, MONTHS_OF_YEAR_SIMPLE[j]));
+			result.add(new SelectItem(j, MONTHS_OF_YEAR_SIMPLE[j]));
 		}
-
 		return result;
 	}
 
 	/** 
-	 * Retorna o valor do horário minimo para a data de referencia passada. 
+	 * Retorna o valor do horï¿½rio minimo para a data de referencia passada. 
 	 * <BR> 
 	 * <BR> Por exemplo se a data for "30/01/2009 as 17h:33m:12s e 299ms" a data 
-	 * retornada por este metodo será "30/01/2009 as 00h:00m:00s e 000ms". 
+	 * retornada por este metodo serï¿½ "30/01/2009 as 00h:00m:00s e 000ms". 
 	 * @param date de referencia. 
-	 * @return {@link Date} que representa o horário minimo para dia informado. 
+	 * @return {@link Date} que representa o horï¿½rio minimo para dia informado. 
 	 */  
 	public static Date lowDateTime(Date date) {  
 		Calendar aux = Calendar.getInstance();  
@@ -329,12 +325,12 @@ public class DateUtil {
 	}  
 
 	/** 
-	 * Retorna o valor do horário maximo para a data de referencia passada. 
+	 * Retorna o valor do horï¿½rio maximo para a data de referencia passada. 
 	 * <BR> 
 	 * <BR> Por exemplo se a data for "30/01/2009 as 17h:33m:12s e 299ms" a data 
-	 * retornada por este metodo será "30/01/2009 as 23h:59m:59s e 999ms". 
+	 * retornada por este metodo serï¿½ "30/01/2009 as 23h:59m:59s e 999ms". 
 	 * @param date de referencia. 
-	 * @return {@link Date} que representa o horário maximo para dia informado. 
+	 * @return {@link Date} que representa o horï¿½rio maximo para dia informado. 
 	 */  
 	public static Date highDateTime(Date date) {  
 		Calendar aux = Calendar.getInstance();  

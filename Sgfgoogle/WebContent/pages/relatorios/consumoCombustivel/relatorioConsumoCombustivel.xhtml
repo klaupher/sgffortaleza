@@ -19,28 +19,27 @@
 	
 		<legend>Relatório de Consumo de Combustível</legend>
 		
-		<h:outputLabel value="Órgão" for="ugList"/>
-		<h:panelGrid>
+		<dt><label for="ugList">Órgão</label></dt>
+		<dd>
 	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter"  styleClass="ugList">
+      			<c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue="" />
+				</c:if>
 	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 	   		</h:selectOneMenu>
-		</h:panelGrid>
+	   	</dd>
 
-		<h:panelGroup>
-			<h:panelGrid>
-				<h:outputLabel value="Data Início" for="dataInicial">
-					<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData" style="width:80px"/>
-				</h:outputLabel>
-			</h:panelGrid>
+		<dt><label for="dataInicial">Data Início</label></dt>
+		<dd>
+			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData"/>
+		</dd>
 
-			<h:panelGrid style="padding-left:15px">	
-				<h:outputLabel value="Data Fim" for="dataFinal">
-					<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" styleClass="maskData"  style="width:80px"/>
-				</h:outputLabel>
-			</h:panelGrid>
-		</h:panelGroup>
+		<dt><label for="dataFinal">Data Final</label></dt>
+		<dd>
+			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" styleClass="maskData"/>
+		</dd>
 	
-		<h:commandButton action="#{relatorioBean.consultarConsumoVeiculo}" value="Consultar">
+		<h:commandButton action="#{relatorioBean.consultarConsumoCombustivel}" value="Consultar">
 			<a4j:support event="onclick" reRender="dataTable" status="gerarRelatorio"/>
 		</h:commandButton> 
 		
@@ -56,14 +55,19 @@
 			</c:if>
 			
 			<rich:column colspan="10" style="font-weight: bold; background:white">
-				<h:outputText value="veículo: #{r.veiculo.modelo.descricao} - #{r.veiculo.placa}" />
+				<h:outputText value="Órgão: #{r.orgao.descricao}" />
+				<h:outputText value="Veículo: #{r.veiculo.modelo.descricao} - #{r.veiculo.placa}" />
 				<h:outputText value="Consumo: #{r.consumo}" style="padding-left:20px"/>
 				<h:outputText value="Cota: #{r.cota}" style="padding-left:20px"/>
 			</rich:column>
 
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
-				<rich:subTable id="subDataTable" headerClass="subHeader" rowClasses="odd,even" value="#{r.relatorios}" var="sr" rows="10" rowKeyVar="k">
+				<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="10" rowKeyVar="k"
+					headerClass="subHeader" 
+					rowClasses="odd,even"
+					onRowMouseOver="jQuery(this).addClass('trHover')" 
+					onRowMouseOut="jQuery(this).removeClass('trHover')">
 	
 					<rich:column style="width:2%">
 						<f:facet name="header"><h:outputLabel value="Nº" /></f:facet>

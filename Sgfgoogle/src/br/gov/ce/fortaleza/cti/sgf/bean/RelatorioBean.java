@@ -149,12 +149,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	@Override
 	protected Integer retrieveEntityId(RelatorioDTO entity) {
-		throw new IllegalStateException("N�o implementado");
+		throw new IllegalStateException("Não implementado");
 	}
 
 	@Override
 	protected BaseService<Integer, RelatorioDTO> retrieveEntityService() {
-		throw new IllegalStateException("N�o implementado");
+		throw new IllegalStateException("Não implementado");
 	}
 
 	public List<SelectItem> getMesList(){
@@ -280,7 +280,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 	/**
-	 * m�todos de chamada do relat�rio de kilometros rodados
+	 * m�todos de chamada do relat�rio de kilometros rodados
 	 * @return
 	 */
 	public String relatorioKilometrosRodadosVeiculo() {
@@ -344,7 +344,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	public boolean isRelatorioKilometrosRodadosState() {
 		return RelatorioDTO.KILOMETROS_RODADOS_VEICULO.equals(getCurrentState());
 	}
-	
+
 	public String populate() {
 		if (this.searchId == 1) {
 			this.motoristas = new ArrayList<Motorista>();
@@ -377,7 +377,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		}
 		return SUCCESS;
 	}
-	
+
 	public String populateOption(){
 		this.entities = null;
 		if(this.searchFlag.equals("SEARCH_UG")){
@@ -506,7 +506,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				if(d.getValorFinal() != null && d.getValorInicial() != null){
 					if(d.getValorFinal() < d.getValorInicial()){
 						if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && 
-						   d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+								d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
 							Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
 							d.setLitrosAbastecidos(la);
 							total+=la;
@@ -710,84 +710,122 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 
-	public String consultarConsumoVeiculo() {
+	/**
+	 * Consulta os consumos de combustível de veículos por orgão por período
+	 * Caso o mês selecionado esteja nulo(TODOS), será consultado o ano inteiro
+	 * Caso o orgão selecionado seja nulo(TODOS), será consultados todos os ôrgãos
+	 * @return
+	 */
+	public String consultarConsumoCombustivel() {
 		if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
-		List<AtendimentoAbastecimento> atendimentos = null;
+		Map<UG, List<AtendimentoAbastecimento>> atendimentos = null; // inicia lista de abastecimentos
 		if(this.orgao != null){
-			atendimentos = atendimentoService.findByPeriodo(this.orgao.getId().toString(), null, this.dtInicial, this.dtFinal);
+			// Consulta de abastecimentos caso a variável orgao seja diferente de nulo
+			atendimentos = new HashMap<UG, List<AtendimentoAbastecimento>>();
+			atendimentos.put(this.orgao, atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal)) ;
 		} else {
-			atendimentos = atendimentoService.findByPeriodo(null, null, this.dtInicial, this.dtFinal);
+			// neste caso, a consulta será para todos os orgãos
+			atendimentos = atendimentoService.findByPeriodoHashMap(this.dtInicial, this.dtFinal);
 		}
-		this.entities = new ArrayList<RelatorioDTO>();
-		List<Integer> ids = new ArrayList<Integer>();
-		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >();
-		for (AtendimentoAbastecimento a : atendimentos) {
-			Veiculo v = a.getAbastecimento().getVeiculo();
-			if(map.containsKey(v) == false){
-				List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
-				list.add(a);
-				map.put(v, list);
-				ids.add(v.getId());
-			} else {
-				map.get(v).add(a);
+		this.entities = new ArrayList<RelatorioDTO>(); // inicia lista de entidades do relatório
+		
+		  // inicia lista de ids de veículos para consulta das cotas
+		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >(); // inicia hashMap de veículos e seus abastecimento
+		
+		for (UG ug : atendimentos.keySet()) {
+			List<Integer> ids = new ArrayList<Integer>();
+			List<AtendimentoAbastecimento> result = atendimentos.get(ug);
+			for (AtendimentoAbastecimento a : result) {
+				Veiculo v = a.getAbastecimento().getVeiculo();
+				if(map.containsKey(v) == false){
+					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
+					list.add(a);
+					map.put(v, list);
+					ids.add(v.getId());
+				} else {
+					map.get(v).add(a);
+				}
 			}
-		}
-		Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids);
-		for (Veiculo v : map.keySet()) {
-			RelatorioDTO dto = new RelatorioDTO();
-			dto.setVeiculo(v);
-			dto.setRelatorios(new ArrayList<RelatorioDTO>());
-			Float total = 0F;
-			List<AtendimentoAbastecimento> list = map.get(v);
-			for (AtendimentoAbastecimento a : list) {
-				RelatorioDTO rel = new RelatorioDTO();
-				total += a.getQuantidadeAbastecida() != null ? a.getQuantidadeAbastecida().floatValue() : 0;
-				rel.setVeiculo(v);
-				rel.setAtendimento(a);
-				rel.setAbastecimento(a.getAbastecimento());
-				rel.setMotorista(a.getAbastecimento().getMotorista());
-				rel.setConsumo(a.getQuantidadeAbastecida() != null ? a.getQuantidadeAbastecida().floatValue() :  0F);
-				rel.setCota(mapCota.get(v).getCota().floatValue());
-				rel.setSaldoCota((float)mapCota.get(v).getCota().floatValue() - total);
-				rel.setConsumoTotal(total);
-				rel.setSaldoFinal((float)mapCota.get(v).getCota().floatValue() - total);
-				rel.setKmAtual(a.getQuilometragem() != null ? a.getQuilometragem().intValue() : 0);
-				dto.getRelatorios().add(rel);
-			}
-			dto.setConsumo(total);
-			dto.setCota((float)mapCota.get(v).getCota().floatValue());
 
-			this.entities.add(dto);
-			this.result.addAll(dto.getRelatorios());
+			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
+			
+			for (Veiculo veiculo : map.keySet()) { // map.keySet() = lista de veículos
+				RelatorioDTO dto = new RelatorioDTO();
+				dto.setOrgao(ug);
+				dto.setVeiculo(veiculo);
+				dto.setRelatorios(new ArrayList<RelatorioDTO>());
+				dto.setOrgao(this.orgao);
+				Float total = 0F;
+				for (AtendimentoAbastecimento atendimento : map.get(veiculo)) { // map.get(v) = lista de atendimentos abastecimentos do veículos v
+					RelatorioDTO rel = new RelatorioDTO();
+					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
+					rel.setOrgao(ug);
+					rel.setVeiculo(veiculo);
+					rel.setAtendimento(atendimento);
+					rel.setAbastecimento(atendimento.getAbastecimento());
+					rel.setMotorista(atendimento.getAbastecimento().getMotorista());
+					rel.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
+					if(mapCota.get(veiculo) != null){
+						rel.setCota(mapCota.get(veiculo).getCota().floatValue());
+						rel.setSaldoCota((float)mapCota.get(veiculo).getCota().floatValue() - total);
+						rel.setSaldoFinal((float)mapCota.get(veiculo).getCota().floatValue() - total);
+					} else {
+						rel.setSaldoCota(0F);
+					}
+					rel.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
+					rel.setConsumoTotal(total);
+					dto.getRelatorios().add(rel);
+				}
+				if(mapCota.get(veiculo) != null){
+					dto.setConsumo(total);
+					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
+				}else {
+					dto.setSaldoCota(0F);
+				}
+				this.entities.add(dto);
+				this.result.addAll(dto.getRelatorios());
+			}
 		}
+
 		return SUCCESS;
 	}
 
 	/**
 	 * 
-	 * pesquisa est� sendo feita p/ todos os ve�culos
+	 * pesquisa est� sendo feita p/ todos os ve�culos
 	 */
 	@Transactional
 	public String consultarConsolidadoMensal() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.set(Calendar.MONTH, this.mes - 1);
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		if(this.mes != null){
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			calendar.set(Calendar.MONTH, this.mes);
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
 
-		this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
-		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
-		this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
+			this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
+			calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
+			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
 
-		if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
-			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
-			return FAIL;
+			if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
+				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
+				return FAIL;
+			}
+		} else {
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.MONTH, 0); // JANEIRO
+			this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
+
+			calendar.set(Calendar.MONTH, 11); // DEZEMBRO
+			calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
+			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
 		}
+
 		List<AtendimentoAbastecimento> atendimentos = new ArrayList<AtendimentoAbastecimento>();
 		if(this.orgao != null){
-			atendimentos = atendimentoService.findByPeriodo(this.orgao.getId().toString(), null, this.dtInicial, this.dtFinal);
+			atendimentos = atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
 		} else {
 			atendimentos = atendimentoService.findByPeriodo(null, null, this.dtInicial, this.dtFinal);
 		}
@@ -824,15 +862,21 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					kmInicial = aux;
 				}
 				if(j == (list.size() - 1)){
-					kmFinal = (float)a.getQuilometragem();
+					if(a.getQuilometragem() != null){
+						kmFinal = (float)a.getQuilometragem();
+					}
 				}
 				dto.setCombustivel(a.getAbastecimento().getCombustivel().getDescricao());
 			}
 			dto.setConsumo(total);
 			dto.setKmRodados(kmFinal - kmInicial);
 			dto.setKmPorLitro((kmFinal - kmInicial)/total);
-			dto.setCota(mapCota.get(v).getCota().floatValue());
-			dto.setSaldoCota(mapCota.get(v).getCota().floatValue() - total);
+			if(mapCota.get(v) != null){
+				dto.setCota(mapCota.get(v).getCota().floatValue());
+				dto.setSaldoCota(mapCota.get(v).getCota().floatValue() - total);
+			} else {
+				dto.setCota(0F);
+			}
 			dto.setNumeroAbastecimentos(list.size());
 			this.entities.add(dto);
 		}
@@ -1133,7 +1177,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	/**
 	 * 
-	 * gera consulta dos kilomentros rodados dos ve�culos do org�os
+	 * gera consulta dos kilomentros rodados dos ve�culos do org�os
 	 * @return
 	 */
 
@@ -1286,7 +1330,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		// Resgatando response
 		HttpServletResponse res = JSFUtil.getInstance().getResponse(FacesContext.getCurrentInstance());
 
-		// Configurando cabe�alho
+		// Configurando cabe�alho
 		res.setContentType("application/pdf");
 		res.setHeader("Pragma", "public");
 		res.setHeader("Cache-control", "must-revalidate");
