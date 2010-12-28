@@ -57,7 +57,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	 */
 	private ConnectOracle conexaoPatrimonio;
 	/**
-	 * Serviï¿½o de acesso aos veï¿½culos na base do SGF
+	 * Serviï¿½o de acesso aos veículos na base do SGF
 	 */
 	@Autowired
 	private VeiculoService veiculoService;

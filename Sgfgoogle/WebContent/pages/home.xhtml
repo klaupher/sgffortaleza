@@ -324,6 +324,11 @@
 				</c:if>
 			</c:if>
 	
+			<!-- Relatório de veículos inconsistentes -->
+			<c:if test="#{controlBean.veiculoInconsistenteBean}">
+				<ui:include src="relatorios/veiculosInconsistentes/veiculosInconsistentes.xhtml" />
+			</c:if>
+	
 			<!-- PÁGINAS DOS RelatórioS DO SGF -->
 			<c:if test="#{controlBean.relatorioBean}">
 				<c:if test="#{relatorioBean.relatorioInformacoesVeiculoState}">
