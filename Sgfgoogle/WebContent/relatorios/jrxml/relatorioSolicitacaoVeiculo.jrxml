@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioSolicitacaoVeiculo" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<style name="zebrado" isDefault="false">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioSolicitacaoVeiculo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -30,44 +33,44 @@
 		<groupHeader>
 			<band height="43">
 				<staticText>
-					<reportElement mode="Opaque" x="113" y="25" width="230" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="113" y="25" width="218" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Solicitante]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="595" y="25" width="71" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="585" y="25" width="88" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Data retorno]]></text>
+					<text><![CDATA[Data/Hora retorno]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="528" y="25" width="66" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="503" y="25" width="81" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Data saída]]></text>
+					<text><![CDATA[Data/Hora saída]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="667" y="25" width="70" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="674" y="25" width="63" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Km saída]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="344" y="25" width="183" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="332" y="25" width="170" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Autorizador]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="738" y="25" width="64" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Km retorno]]></text>
 				</staticText>
@@ -78,7 +81,7 @@
 					<reportElement x="0" y="22" width="802" height="1" forecolor="#990000"/>
 				</line>
 				<textField>
-					<reportElement x="71" y="2" width="408" height="18"/>
+					<reportElement x="71" y="2" width="603" height="18"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
@@ -87,14 +90,14 @@
 				<staticText>
 					<reportElement x="0" y="2" width="71" height="18"/>
 					<textElement>
-						<font size="12" isBold="true"/>
+						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Orgão:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="1" y="25" width="111" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement>
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Veiculo(Placa)]]></text>
 				</staticText>
@@ -127,18 +130,18 @@
 				<text><![CDATA[Sistema de Controle de Frotas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="245" y="38" width="195" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="245" y="38" width="305" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement>
-					<font fontName="Verdana"/>
+					<font fontName="Verdana" size="12"/>
 				</textElement>
 				<text><![CDATA[Prefeitura Municipal de Fortaleza]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="245" y="59" width="253" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="245" y="59" width="305" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement>
-					<font fontName="Verdana"/>
+					<font fontName="Verdana" size="12"/>
 				</textElement>
-				<text><![CDATA[Relatório de Solicitação de Veículo]]></text>
+				<text><![CDATA[Relatório de Solicitação de Veículos]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="2" width="802" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
@@ -182,7 +185,7 @@
 			<staticText>
 				<reportElement x="-1" y="1" width="101" height="18"/>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data inicial:]]></text>
 			</staticText>
@@ -196,7 +199,7 @@
 			<staticText>
 				<reportElement x="245" y="1" width="85" height="18"/>
 				<textElement>
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data final:]]></text>
 			</staticText>
@@ -215,34 +218,34 @@
 	<detail>
 		<band height="16" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="114" y="1" width="229" height="14"/>
+				<reportElement style="zebrado" x="114" y="1" width="217" height="14"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{solicitacaoVeiculo}.getSolicitante().getPessoa().getNome()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="344" y="1" width="183" height="14"/>
+				<reportElement style="zebrado" x="332" y="1" width="170" height="14"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{solicitacaoVeiculo}.getAutorizador().getPessoa().getNome()]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="528" y="1" width="66" height="14"/>
+			<textField pattern="dd/MM/yy HH:mm" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="503" y="1" width="81" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{solicitacaoVeiculo}.getRegistro().getDtSaida()]]></textFieldExpression>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{solicitacaoVeiculo}.getDtSaida()]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="594" y="1" width="71" height="14"/>
+			<textField pattern="dd/MM/yy HH:mm" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="585" y="1" width="88" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{solicitacaoVeiculo}.getRegistro().getDtRetorno()]]></textFieldExpression>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{solicitacaoVeiculo}.getDtRetorno()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="666" y="1" width="71" height="14"/>
+				<reportElement style="zebrado" x="674" y="1" width="63" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{solicitacaoVeiculo}.getRegistro().getKmSaida()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{solicitacaoVeiculo}.getKmSaida()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
 				<reportElement style="zebrado" x="738" y="1" width="64" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{solicitacaoVeiculo}.getRegistro().getKmRetorno()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{solicitacaoVeiculo}.getKmRetorno()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement style="zebrado" x="1" y="1" width="111" height="14"/>

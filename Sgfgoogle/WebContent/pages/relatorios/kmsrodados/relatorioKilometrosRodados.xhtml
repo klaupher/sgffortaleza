@@ -19,6 +19,17 @@
 
 		<dl>
       		<a4j:region>
+      		
+      			<dt><label for="orgao">Órgão</label></dt>
+			  	<dd>
+			  		<h:selectOneMenu id="orgao" value="#{relatorioBean.orgao}" converter="entityConverter">
+			  			<c:if test="#{controlBean.administrador}">
+							<f:selectItem itemLabel="Todos" itemValue="" />
+						</c:if>
+			  			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+			  		</h:selectOneMenu>
+
+			  	</dd>
 
 	        	<dt><label for="dtInicial">Data inicial</label></dt>
 	        	<dd>
@@ -36,29 +47,18 @@
 	        		<h:message for="dtFinal" styleClass="message"/>
 	        	</dd>
 
-	        	<dt><label for="orgao">Órgão</label></dt>
-			  	<dd>
-			  		<h:selectOneMenu id="orgao" value="#{relatorioBean.orgao}" converter="entityConverter">
-			  			<c:if test="#{controlBean.administrador}">
-							<f:selectItem itemLabel="Todos" itemValue="" />
-						</c:if>
-			  			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-			  		</h:selectOneMenu>
+	    		<a4j:commandButton action="#{relatorioBean.consultarKilometrosRodados}" value="Consultar"
+	    			status="loadingSolicitacoes" reRender="paginaPrincipal">
+				</a4j:commandButton>
 
-		    		<a4j:commandButton action="#{relatorioBean.consultarKilometrosRodados}" value="Consultar"
-		    			status="loadingSolicitacoes" reRender="paginaPrincipal">
-					</a4j:commandButton>
-
-					<a4j:status id="loadingSolicitacoes">
-		    			<f:facet name="start">
-		    				<h:panelGroup style="align:center;">
-		    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-			    				<h:outputText value="Processando..." styleClass="processando"/>
-							</h:panelGroup>
-						</f:facet>
-		    		</a4j:status>
-
-			  	</dd>
+				<a4j:status id="loadingSolicitacoes">
+	    			<f:facet name="start">
+	    				<h:panelGroup style="align:center;">
+	    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+		    				<h:outputText value="Processando..." styleClass="processando"/>
+						</h:panelGroup>
+					</f:facet>
+	    		</a4j:status>
 
     		</a4j:region>
         </dl>

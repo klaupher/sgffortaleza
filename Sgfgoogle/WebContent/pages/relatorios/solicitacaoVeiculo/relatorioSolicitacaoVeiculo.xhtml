@@ -70,7 +70,7 @@
 			onRowMouseOut="jQuery(this).removeClass('trHover')" 
 			rendered="#{not empty relatorioBean.entities}">
 			
-			<rich:column colspan="10" style="font-weight: bold; background:#CC0000">
+			<rich:column colspan="10" style="font-weight: bold; background:white">
 				<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 			</rich:column>
 
@@ -103,13 +103,17 @@
 					</rich:column>				
 
 					<rich:column width="5%">
-						<f:facet name="header"><h:outputLabel value="Data saída"/></f:facet>
-						<h:outputText value="#{s.solicitacaoVeiculo.dataHoraSaida}"/>
+						<f:facet name="header"><h:outputLabel value="Data/Hora saída"/></f:facet>
+						<h:outputText value="#{s.solicitacaoVeiculo.dataHoraSaida}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+						</h:outputText>
 					</rich:column>
 
 					<rich:column width="5%">
-						<f:facet name="header"><h:outputLabel value="Data retorno"/></f:facet>
-						<h:outputText value="#{s.solicitacaoVeiculo.dataHoraRetorno}"/>
+						<f:facet name="header"><h:outputLabel value="Data/Hora retorno"/></f:facet>
+						<h:outputText value="#{s.solicitacaoVeiculo.dataHoraRetorno}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+						</h:outputText>
 					</rich:column>
 
 					<rich:column width="5%">

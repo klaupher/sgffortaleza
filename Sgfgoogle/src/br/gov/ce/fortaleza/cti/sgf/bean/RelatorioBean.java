@@ -721,84 +721,136 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
+
 		Map<UG, List<AtendimentoAbastecimento>> atendimentos = null; // inicia lista de abastecimentos
+
 		if(this.orgao != null){
 			// Consulta de abastecimentos caso a variável orgao seja diferente de nulo
 			atendimentos = new HashMap<UG, List<AtendimentoAbastecimento>>();
+
 			atendimentos.put(this.orgao, atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal)) ;
 		} else {
 			// neste caso, a consulta será para todos os orgãos
 			atendimentos = atendimentoService.findByPeriodoHashMap(this.dtInicial, this.dtFinal);
 		}
+
 		this.entities = new ArrayList<RelatorioDTO>(); // inicia lista de entidades do relatório
-		
-		  // inicia lista de ids de veículos para consulta das cotas
+
+		// inicia lista de ids de veículos para consulta das cotas
 		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >(); // inicia hashMap de veículos e seus abastecimento
-		
+
 		for (UG ug : atendimentos.keySet()) {
+
 			List<Integer> ids = new ArrayList<Integer>();
+
+			RelatorioDTO novo = new RelatorioDTO();
+
+			novo.setRelatorios(new ArrayList<RelatorioDTO>());
+
+			novo.setOrgao(ug);
+
 			List<AtendimentoAbastecimento> result = atendimentos.get(ug);
+
 			for (AtendimentoAbastecimento a : result) {
+
 				Veiculo v = a.getAbastecimento().getVeiculo();
+
 				if(map.containsKey(v) == false){
+
 					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
+
 					list.add(a);
+
 					map.put(v, list);
+
 					ids.add(v.getId());
 				} else {
+
 					map.get(v).add(a);
 				}
 			}
 
 			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
-			
+
 			for (Veiculo veiculo : map.keySet()) { // map.keySet() = lista de veículos
+
 				RelatorioDTO dto = new RelatorioDTO();
+
 				dto.setOrgao(ug);
+
 				dto.setVeiculo(veiculo);
+
 				dto.setRelatorios(new ArrayList<RelatorioDTO>());
+
 				dto.setOrgao(this.orgao);
+
 				Float total = 0F;
+
 				for (AtendimentoAbastecimento atendimento : map.get(veiculo)) { // map.get(v) = lista de atendimentos abastecimentos do veículos v
+
 					RelatorioDTO rel = new RelatorioDTO();
+
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
+
 					rel.setOrgao(ug);
+
 					rel.setVeiculo(veiculo);
+
 					rel.setAtendimento(atendimento);
+
 					rel.setAbastecimento(atendimento.getAbastecimento());
+
 					rel.setMotorista(atendimento.getAbastecimento().getMotorista());
+
 					rel.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
+
 					if(mapCota.get(veiculo) != null){
+
 						rel.setCota(mapCota.get(veiculo).getCota().floatValue());
+
 						rel.setSaldoCota((float)mapCota.get(veiculo).getCota().floatValue() - total);
+
 						rel.setSaldoFinal((float)mapCota.get(veiculo).getCota().floatValue() - total);
 					} else {
+
 						rel.setSaldoCota(0F);
 					}
+
 					rel.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
+
 					rel.setConsumoTotal(total);
+
 					dto.getRelatorios().add(rel);
 				}
+
 				if(mapCota.get(veiculo) != null){
+
 					dto.setConsumo(total);
+
 					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
-				}else {
+				} else {
+
 					dto.setSaldoCota(0F);
 				}
-				this.entities.add(dto);
-				this.result.addAll(dto.getRelatorios());
+
+				novo.getRelatorios().add(dto);
 			}
+
+			this.entities.add(novo);
 		}
 
 		return SUCCESS;
 	}
 
 	/**
-	 * 
-	 * pesquisa est� sendo feita p/ todos os ve�culos
+	 * Realiza a consulta dos abastecimentos, fazendo o resumo do mensal
+	 * Caso seja selecionado todos os meses, será feita a consulta em todos os meses
+	 * Caso seja selecionado todos os órgãos, será feita a consulta para todos os órgãos
+	 * @return
 	 */
 	@Transactional
 	public String consultarConsolidadoMensal() {
+
 		if(this.mes != null){
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
@@ -823,63 +875,118 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
 		}
 
-		List<AtendimentoAbastecimento> atendimentos = new ArrayList<AtendimentoAbastecimento>();
+		Map<UG, List<AtendimentoAbastecimento>> atendimentosMap = new HashMap<UG, List<AtendimentoAbastecimento>>();
+
 		if(this.orgao != null){
-			atendimentos = atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
+
+			atendimentosMap = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
 		} else {
-			atendimentos = atendimentoService.findByPeriodo(null, null, this.dtInicial, this.dtFinal);
+
+			atendimentosMap = atendimentoService.findByPeriodoHashMap(null, null, this.dtInicial, this.dtFinal);
 		}
 
 		this.entities = new ArrayList<RelatorioDTO>();
+
 		List<Integer> ids = new ArrayList<Integer>();
+
 		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >();
-		for (AtendimentoAbastecimento a : atendimentos) {
-			Veiculo v = a.getAbastecimento().getVeiculo();
-			if(map.containsKey(v) == false){
-				List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
-				list.add(a);
-				map.put(v, list);
-				ids.add(v.getId());
-			} else {
-				map.get(v).add(a);
-			}
-		}
-		Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids);
-		for (Veiculo v : map.keySet()) {
-			RelatorioDTO dto = new RelatorioDTO();
-			dto.setVeiculo(v);
-			dto.setOrgao(v.getUa().getUg());
-			dto.setRelatorios(new ArrayList<RelatorioDTO>());
-			Float total = 0F;
-			Float kmInicial = 0F;
-			Float kmFinal = 0F;
-			List<AtendimentoAbastecimento> list = map.get(v);
-			for (int j = 0; j < list.size(); j++) {
-				AtendimentoAbastecimento a = list.get(j);
-				total += a.getQuantidadeAbastecida() != null ? a.getQuantidadeAbastecida().floatValue() : 0F;
-				if(j == 0){
-					Float aux = (a.getQuilometragem() == null)?0f:a.getQuilometragem();
-					kmInicial = aux;
+
+		for (UG ug : atendimentosMap.keySet()) {
+
+			RelatorioDTO novo = new RelatorioDTO();
+
+			novo.setRelatorios(new ArrayList<RelatorioDTO>());
+
+			novo.setOrgao(ug);
+
+			List<AtendimentoAbastecimento> atendimentos = atendimentosMap.get(ug);
+
+			for (AtendimentoAbastecimento a : atendimentos) {
+
+				Veiculo v = a.getAbastecimento().getVeiculo();
+
+				if(map.containsKey(v) == false){
+
+					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
+
+					list.add(a);
+
+					map.put(v, list);
+
+					ids.add(v.getId());
+				} else {
+
+					map.get(v).add(a);
 				}
-				if(j == (list.size() - 1)){
-					if(a.getQuilometragem() != null){
-						kmFinal = (float)a.getQuilometragem();
+			}
+
+			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids);
+
+			for (Veiculo v : map.keySet()) {
+
+				RelatorioDTO dto = new RelatorioDTO();
+
+				dto.setVeiculo(v);
+
+				dto.setOrgao(v.getUa().getUg());
+
+				dto.setRelatorios(new ArrayList<RelatorioDTO>());
+
+				Float total = 0F;
+
+				Float kmInicial = 0F;
+
+				Float kmFinal = 0F;
+
+				List<AtendimentoAbastecimento> list = map.get(v);
+
+				for (int j = 0; j < list.size(); j++) {
+
+					AtendimentoAbastecimento a = list.get(j);
+
+					total += a.getQuantidadeAbastecida() != null ? a.getQuantidadeAbastecida().floatValue() : 0F;
+
+					if(j == 0){
+
+						Float aux = (a.getQuilometragem() == null)?0f:a.getQuilometragem();
+
+						kmInicial = aux;
 					}
+					if(j == (list.size() - 1)){
+
+						if(a.getQuilometragem() != null){
+
+							kmFinal = (float)a.getQuilometragem();
+						}
+					}
+
+					dto.setCombustivel(a.getAbastecimento().getCombustivel().getDescricao());
 				}
-				dto.setCombustivel(a.getAbastecimento().getCombustivel().getDescricao());
+
+				dto.setConsumo(total);
+
+				dto.setKmRodados(kmFinal - kmInicial);
+
+				dto.setKmPorLitro((kmFinal - kmInicial)/total);
+
+				if(mapCota.get(v) != null){
+
+					dto.setCota(mapCota.get(v).getCota().floatValue());
+
+					dto.setSaldoCota(mapCota.get(v).getCota().floatValue() - total);
+				} else {
+
+					dto.setCota(0F);
+				}
+
+				dto.setNumeroAbastecimentos(list.size());
+
+				novo.getRelatorios().add(dto);
 			}
-			dto.setConsumo(total);
-			dto.setKmRodados(kmFinal - kmInicial);
-			dto.setKmPorLitro((kmFinal - kmInicial)/total);
-			if(mapCota.get(v) != null){
-				dto.setCota(mapCota.get(v).getCota().floatValue());
-				dto.setSaldoCota(mapCota.get(v).getCota().floatValue() - total);
-			} else {
-				dto.setCota(0F);
-			}
-			dto.setNumeroAbastecimentos(list.size());
-			this.entities.add(dto);
+
+			this.entities.add(novo);
 		}
+
 		return SUCCESS;
 	}
 
@@ -1255,12 +1362,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			} else if (this.nomeRelatorio.equals(this.relDiarioBombas)) {
 
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
-
 				for (RelatorioDTO r : this.entities) {
-
 					list.addAll(r.getRelatorios());
 				}
-
 				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 
 			} else if (this.nomeRelatorio.equals(this.relVeiculoMulta)) {
@@ -1273,13 +1377,23 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
 
-			} else if (this.nomeRelatorio.equals(this.relConferenciaAbastecimento)) {
+			} else if (this.nomeRelatorio.equals(this.relConferenciaAbastecimento)) { // gera pdf do relatório consolidado mensal
 
-				gerarRelatorioCollection(parametros, result, this.nomeRelatorio);
+				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+				for (RelatorioDTO r : this.entities) {
+					for (RelatorioDTO rr : r.getRelatorios()) {
+						list.addAll(rr.getRelatorios());
+					}
+				}
+				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 
-			} else if (this.nomeRelatorio.equals(this.relConsolidadoMensal)) {
+			} else if (this.nomeRelatorio.equals(this.relConsolidadoMensal)) { // gera pdf do relatório consolidado mensal
 
-				gerarRelatorioCollection(parametros, this.entities, this.nomeRelatorio);
+				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+				for (RelatorioDTO r : this.entities) {
+					list.addAll(r.getRelatorios());
+				}
+				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 
 			}  else if (this.nomeRelatorio.equals(this.relVeiculosEmManutencao)) {
 
@@ -1309,18 +1423,14 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		} catch (IOException e) {
 
 			e.printStackTrace();
-
-			logger.error(e.getMessage(), e);
-
 		} catch (JRException e) {
 
 			e.printStackTrace();
-
-			logger.error(e.getMessage(), e);
 		}
 	}
 
-	public void gerarRelatorioCollection(Map<String, Object> parametros, Collection<?> colecao, String filePropertie) throws IOException, JRException {
+	public void gerarRelatorioCollection(Map<String, Object> parametros, Collection<?> colecao, String filePropertie) 
+	throws IOException, JRException {
 
 		// Gerando relatorio
 		// Montando jasper path
@@ -1330,7 +1440,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		// Resgatando response
 		HttpServletResponse res = JSFUtil.getInstance().getResponse(FacesContext.getCurrentInstance());
 
-		// Configurando cabe�alho
+		// Configurando cabeçalho
 		res.setContentType("application/pdf");
 		res.setHeader("Pragma", "public");
 		res.setHeader("Cache-control", "must-revalidate");

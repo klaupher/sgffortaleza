@@ -30,15 +30,14 @@
 			</h:selectOneMenu>
 		</dd>
 
-
 		<dt><label for="veiculo">Veículo</label></dt>
 		<dd>
-			<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" disabled="#{empty relatorioBean.veiculos}" requiredMessage="Informe o veículo" converter="entityConverter">
+			<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" rendered="#{not empty relatorioBean.veiculos}" requiredMessage="Informe o veículo" converter="entityConverter">
 				<f:selectItem itemLabel="Todos" itemValue="" />
 				<t:selectItems value="#{relatorioBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}" />
 			</h:selectOneMenu>
 		</dd>
-
+		
 		<dt><label for="dataInicial">Data Inicial</label></dt>
 		<dd>
 			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData" style="width:80px"/>

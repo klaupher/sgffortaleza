@@ -13,36 +13,38 @@
 
 	<div id="cadastro">
 
-	<h1 style="width:250px">veículo sem Retorno</h1>
+	<h1 style="width:250px">Veículos sem Retorno</h1>
 
 	<fieldset>
 	
-		<legend>Relatórios de veículo sem Retorno</legend>
-	
-		<h:panelGrid columns="2" id="searchUG">
-			<h:outputLabel value="UG:" />
+		<legend>Relatório Veículos sem Retorno</legend>
+
+		<dt><label for="ug">Órgão:</label></dt>
+		<dd>
 			<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-				<f:selectItem itemLabel="Todos" itemValue="" />
+				<c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue="" />
+				</c:if>
 	    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 			</h:selectOneMenu>
-		</h:panelGrid>
+		</dd>
 
-		<h:panelGrid  columns="5" style="padding-right:100px">
-			<h:outputLabel value="Data Início:" for="dataInicial">
-				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
-			</h:outputLabel>
+		<dt><label for="dataInicial">Data Início:</label></dt>
+		<dd>
+			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData"/>
 			<h:message for="dataInicial" styleClass="message"/>
+		</dd>
 
-			<h:outputLabel value="Data Fim:" for="dataFinal">
-				<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px"/>
-			</h:outputLabel>
+		<dt><label for="dataFinal">Data Fim:</label></dt>
+		<dd>
+			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"/>
 			<h:message for="dataFinal" styleClass="message"/>
+		</dd>
 
-			<h:commandButton action="#{relatorioBean.consultarVeiculosSemRetorno}" value="Consultar">
-				<a4j:support event="onclick" reRender="dataTable"/>
-			</h:commandButton>
+		<h:commandButton action="#{relatorioBean.consultarVeiculosSemRetorno}" value="Consultar">
+			<a4j:support event="onclick" reRender="dataTable"/>
+		</h:commandButton>
 
-		</h:panelGrid>
 	
 		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}"  var="relatorio" rows="10" rowKeyVar="index"
 			onRowMouseOver="jQuery(this).addClass('trHover')"
@@ -89,9 +91,9 @@
 					</rich:column>
 
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Data Prev.Retorno"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="Data/Hora retorno"/></f:facet>
 						<h:outputText value="#{r.manutencao.dataFim}">
-							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00" />
 						</h:outputText>
 					</rich:column>
 

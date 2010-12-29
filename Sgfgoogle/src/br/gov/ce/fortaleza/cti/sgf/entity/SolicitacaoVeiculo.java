@@ -145,8 +145,7 @@ public class SolicitacaoVeiculo implements Serializable {
 
 		SolicitacaoVeiculo other = (SolicitacaoVeiculo) obj;
 
-		return ((id == null && other.id == null) || (id != null && id
-				.equals(other.id)));
+		return ((id == null && other.id == null) || (id != null && id.equals(other.id)));
 	}
 
 	public Integer getId() {

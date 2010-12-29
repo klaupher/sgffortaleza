@@ -19,13 +19,15 @@
 
 	      	<legend>Relatórios Pontuação de CNH de Motoristas</legend>
 
-	      	<h:outputLabel value="Órgão"/>
-	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" style="width:450px">
-	      		<c:if test="#{controlBean.administrador}">
-					<f:selectItem itemLabel="Todos" itemValue=""/>
-				</c:if>
-    			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-    		</h:selectOneMenu>
+	      	<dt><label for="ugList">Órgão:</label></dt>
+	      	<dd>
+		      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" style="width:450px">
+		      		<c:if test="#{controlBean.administrador}">
+						<f:selectItem itemLabel="Todos" itemValue=""/>
+					</c:if>
+	    			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+	    		</h:selectOneMenu>
+	      	</dd>
 
     		<h:commandButton value="Consultar" action="#{relatorioBean.consultarPontuacaoMotorista}">
 				<a4j:support event="onclick"  reRender="dataTable"/>
@@ -45,7 +47,7 @@
 				<c:if test="#{relatorioBean.entitiesSize > 0}" >
 
 					<rich:column colspan="10" style="font-weight: bold; background:white">
-						<h:outputText value="UG: #{ug.descricao}" />
+						<h:outputText value="Órgão: #{ug.descricao}" />
 					</rich:column>
 
 					<rich:subTable id="subDataTable" value="#{ug.motoristas}" var="motorista"
@@ -66,14 +68,14 @@
 							<h:outputText value="#{motorista.cnh}"/>
 						</rich:column>
 
-						<rich:column>
-							<f:facet name="header"><h:outputLabel value="Pontos CNH"/></f:facet>
-							<h:outputText value="#{motorista.pontosCnh}"/>
-						</rich:column>
-
 						<rich:column  sortBy="#{r.motorista.pessoa.nome}">
 							<f:facet name="header"><h:outputLabel value="UA"/></f:facet>
 							<h:outputText value="#{motorista.pessoa.ua.descricao}"/>
+						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Pontos CNH"/></f:facet>
+							<h:outputText value="#{motorista.pontosCnh}"/>
 						</rich:column>
 
 						<rich:column>

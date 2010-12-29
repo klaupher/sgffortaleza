@@ -17,45 +17,42 @@
 
 	<fieldset>
 	
-		<legend>Histórico de troca de pneus</legend>
+		<legend>Histórico de Troca de Pneus</legend>
 
-			
-		<h:panelGrid id="gridUG" columns="2">
-			<h:outputLabel value="Órgão:" for="ugTrocaPneus">
-				<h:selectOneMenu id="ugTrocaPneus" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-					<f:selectItem itemLabel="Todos" itemValue="" />
-		    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-					<a4j:support event="onchange" action="#{relatorioBean.populateVeiculos}" reRender="paginaPrincipal" ajaxSingle="true"/>
-				</h:selectOneMenu>
-			</h:outputLabel>
-		</h:panelGrid>
-		
-		<h:panelGrid id="gridVeiculo"  columns="2">
-			<h:outputLabel value="veículos:" for="veiculo">
-				<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" disabled="#{empty relatorioBean.veiculos}" requiredMessage="Informe o veículo" converter="entityConverter">
-					<f:selectItem itemLabel="Todos" itemValue="" />
-					<t:selectItems value="#{relatorioBean.veiculos}" var="veiculo" itemLabel="#{veiculo.modelo.descricao}-#{veiculo.placa}" itemValue="#{veiculo}" />
-				</h:selectOneMenu>
-			</h:outputLabel>
-		</h:panelGrid>
+		<dt><label for="ug">Órgão:</label></dt>
+		<dd>
+			<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+				<c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue=""/>
+				</c:if>
+	    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+				<a4j:support event="onchange" action="#{relatorioBean.populateVeiculos}" reRender="paginaPrincipal" ajaxSingle="true"/>
+			</h:selectOneMenu>
+		</dd>
 
+		<dt><label for="veiculo">Veículos:</label></dt>
+		<dd>
+			<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" disabled="#{empty relatorioBean.veiculos}" requiredMessage="Informe o veículo" converter="entityConverter">
+				<f:selectItem itemLabel="Todos" itemValue="" />
+				<t:selectItems value="#{relatorioBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}" />
+			</h:selectOneMenu>
+		</dd>
 
-		<h:panelGrid  columns="6" style="padding-right:200px">
-
-			<h:outputLabel value="Data INºcio:" for="dataInicial">
-				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
-			</h:outputLabel>
+		<dt><label for="dataInicial">Data Início:</label></dt>
+		<dd>
+			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
 			<h:message for="dataInicial" styleClass="message"/>
-
-			<h:outputLabel value="Data Fim:" for="dataFinal">
-				<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px"/>
-			</h:outputLabel>
+		</dd>
+		
+		<dt><label for="dataFinal">Data Fim:</label></dt>
+		<dd>
+			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px"/>
 			<h:message for="dataFinal" styleClass="message"/>
+		</dd>
 
-			<h:commandButton action="#{relatorioBean.consultarHistoricoTrocaPneus}" value="Consultar">
-				<a4j:support event="onclick" reRender="dataTable" />
-			</h:commandButton>
-		</h:panelGrid>
+		<h:commandButton action="#{relatorioBean.consultarHistoricoTrocaPneus}" value="Consultar">
+			<a4j:support event="onclick" reRender="dataTable" />
+		</h:commandButton>
 
 		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}"  var="relatorio" rows="10" rowKeyVar="index"
 			onRowMouseOver="jQuery(this).addClass('trHover')"
@@ -76,7 +73,7 @@
 					<h:outputText value="Quant. trocas: #{relatorio.quantTrocaPneus}"/>
 				</rich:column>
 	
-				<rich:subTable id="subDataTable" headerClass="subHeader" value="#{relatorio.relatorios}" var="r" rows="10" rowKeyVar="k"
+				<rich:subTable id="subDataTable" headerClass="subHeader" value="#{relatorio.relatorios}" var="r" rowKeyVar="k"
 					rowClasses="odd,even"
 					onRowMouseOver="jQuery(this).addClass('trHover')"
 					onRowMouseOut="jQuery(this).removeClass('trHover')">
@@ -102,7 +99,7 @@
 					</rich:column>
 
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Quant.Trocas"/></f:facet>
+						<f:facet name="header"><h:outputLabel value="Qde.Trocas"/></f:facet>
 						<h:outputText value="#{r.quantTrocaPneus}" />
 					</rich:column>
 	

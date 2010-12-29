@@ -13,62 +13,71 @@
 
 	<div id="cadastro">
 
-	<h1 style="width:300px"> Relatórios de Multas de veículo</h1>
+	<h1 style="width:300px"> Relatório de Multas de Veículo</h1>
 
 	<fieldset>
 	
-		<legend>Relatórios de Multas de veículo</legend>
-	
-		<h:selectOneRadio id="options" value="#{relatorioBean.searchFlag}" style="width:50%">
-			<f:selectItem itemLabel="Por UG" itemValue="SEARCH_UG" />
-			<f:selectItem itemLabel="Por veículo" itemValue="SEARCH_VEICULO" />
-			<a4j:support event="onclick" action="#{relatorioBean.populateOption}" reRender="paginaPrincipal" ajaxSingle="true"/>
-		</h:selectOneRadio>
-		
-		<br clear="all"/>
+		<legend>Relatório de Multas de Veículo</legend>
 	
 		<h:panelGroup id="searchUG" rendered="#{!relatorioBean.mostrarVeiculos}">
-			<h:outputLabel value="UG:"/>
-			<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-				<c:if test="#{controlBean.administrador}">
-					<f:selectItem itemLabel="Todos" itemValue="" />
-				</c:if>
-	    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-				<a4j:support event="onchange" action="#{relatorioBean.populateMultas}" reRender="paginaPrincipal" ajaxSingle="true"/>
-			</h:selectOneMenu>
+			<dt><label for="ugList">Órgão:</label></dt>
+			<dd>
+				<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+					<c:if test="#{controlBean.administrador}">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+					</c:if>
+		    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+					<a4j:support event="onchange" action="#{relatorioBean.populateMultas}" reRender="paginaPrincipal" ajaxSingle="true"/>
+				</h:selectOneMenu>
+			</dd>
+
 		</h:panelGroup>
 		
 		<br clear="all"/>
 		
 		<h:panelGroup id="searchMotorista" rendered="false">
-			<h:outputLabel value="Motorista:" style="padding-right:8px"/>
-			<h:selectOneMenu id="motorista" value="#{relatorioBean.motorista}" requiredMessage="Informe a UG" converter="entityConverter">
-				<c:if test="#{controlBean.administrador}">
-					<f:selectItem itemLabel="Todos" itemValue="" />
-				</c:if>
-				<t:selectItems value="#{relatorioBean.motoristas}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}" />
-			</h:selectOneMenu>
-			<br/>
+			<dt><label for="ugList">Motorista::</label></dt>
+			<dd>
+				<h:selectOneMenu id="motorista" value="#{relatorioBean.motorista}" requiredMessage="Informe a UG" converter="entityConverter">
+					<c:if test="#{controlBean.administrador}">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+					</c:if>
+					<t:selectItems value="#{relatorioBean.motoristas}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}" />
+				</h:selectOneMenu>
+			</dd>
 		</h:panelGroup>
 		
 		<h:panelGroup id="searchVeiculo" rendered="#{relatorioBean.mostrarVeiculos}">
-			<h:outputLabel value="veículo:"  style="padding-right:14px"/>
-			<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
-				<c:if test="#{controlBean.administrador}">
-					<f:selectItem itemLabel="Todos" itemValue="" />
-				</c:if>
-				<t:selectItems value="#{relatorioBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa}-#{veiculo.modelo.descricao}" itemValue="#{veiculo}" />
-			</h:selectOneMenu>
+			<dt><label for="ugList">Veículo:</label></dt>
+			<dd>
+				<h:selectOneMenu id="veiculo" value="#{relatorioBean.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
+					<c:if test="#{controlBean.administrador}">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+					</c:if>
+					<t:selectItems value="#{relatorioBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}" />
+				</h:selectOneMenu>
+			</dd>
 		</h:panelGroup>
-		<p/>
 			
-		<h:outputLabel value="Data INºcio:" for="dataInicio"/>
-		<h:inputText id="dataInicio" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData"  style="width:80px"/>
-		<h:message for="dataInicio" styleClass="message"/>
+		<dt><label for="dataInicio">Data Início:</label></dt>
+		<dd>
+			<h:inputText id="dataInicio" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData"/>
+			<h:message for="dataInicio" styleClass="message"/>
+		</dd>
 		
-		<h:outputLabel value="Data Fim:" for="dataFim" style="padding-left:20px"/>
-		<h:inputText id="dataFim" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData" style="width:80px"/>
-		<h:message for="dataInicio" styleClass="message"/>
+		<dt><label for="dataFim">Data Fim:</label></dt>
+		<dd>
+			<h:inputText id="dataFim" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"/>
+			<h:message for="dataInicio" styleClass="message"/>
+		</dd>
+		
+		<dd>
+			<h:selectOneRadio id="options" value="#{relatorioBean.searchFlag}" style="width:50%">
+				<f:selectItem itemLabel="Por UG" itemValue="SEARCH_UG" />
+				<f:selectItem itemLabel="Por veículo" itemValue="SEARCH_VEICULO" />
+				<a4j:support event="onclick" action="#{relatorioBean.populateOption}" reRender="paginaPrincipal" ajaxSingle="true"/>
+			</h:selectOneRadio>
+		</dd>
 
 		<h:commandButton action="#{relatorioBean.consultarMultasVeiculo}" value="Consultar">
 			<a4j:support event="onclick" reRender="dataTable" />
@@ -105,12 +114,12 @@
 					</rich:column>
 		
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="veículo" /></f:facet>
+						<f:facet name="header"><h:outputLabel value="Veículo" /></f:facet>
 						<h:outputText value="#{sr.multa.veiculo.placa}" />
 					</rich:column>
 		
 					<rich:column>
-						<f:facet name="header"><h:outputLabel value="Nome" /></f:facet>
+						<f:facet name="header"><h:outputLabel value="Motorista" /></f:facet>
 						<h:outputText value="#{sr.multa.motorista.pessoa.nome}" />
 					</rich:column>
 		

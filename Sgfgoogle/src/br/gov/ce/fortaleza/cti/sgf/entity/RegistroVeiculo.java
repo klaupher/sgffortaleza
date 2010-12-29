@@ -38,10 +38,6 @@ public class RegistroVeiculo implements Serializable{
 	@Column(name="codregistroveiculo", nullable = false)
 	private Integer id;
 	
-//	@ManyToOne
-//	@JoinColumn(name="codsolveiculo", nullable = false)
-//	private SolicitacaoVeiculo solicitacaoVeiculo;
-	
 	@ManyToOne
 	@JoinColumn(name="codpessoausuario", nullable = false)
 	private User usuario;
@@ -96,14 +92,6 @@ public class RegistroVeiculo implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-//	public SolicitacaoVeiculo getSolicitacaoVeiculo() {
-//		return solicitacaoVeiculo;
-//	}
-//
-//	public void setSolicitacaoVeiculo(SolicitacaoVeiculo solicitacaoVeiculo) {
-//		this.solicitacaoVeiculo = solicitacaoVeiculo;
-//	}
 
 	public User getUsuario() {
 		return usuario;

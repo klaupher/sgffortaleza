@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +118,22 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	}
 
 	public Veiculo findByPlacaSingle(String placa){
-		return executeSingleResultQuery("findByPlaca", placa);
+		Veiculo veiculo = null;
+		try {
+			veiculo = executeSingleResultQuery("findByPlaca", placa);
+		} catch (NoResultException e) {
+			//e.printStackTrace();
+			return null;
+		}
+		return veiculo;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> veiculosAusentes(String placas){
+		Query query = entityManager.createQuery("SELECT v.placa FROM Veiculo v WHERE v.placa IN (?)");
+		query.setParameter(1, placas);
+		List<String> result = query.getResultList();
+		return result;
 	}
 
 	public List<Integer> veiculoIds(String ugId){

@@ -2,10 +2,13 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioMotoristaPontuacao" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.encoding" value="UTF-8"/>
 	<property name="ireport.scriptlethandling" value="0"/>
-	<style name="zebrado" isDefault="false">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -21,7 +24,7 @@
 	<group name="Orgao">
 		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
 		<groupHeader>
-			<band height="40">
+			<band height="38">
 				<staticText>
 					<reportElement x="1" y="2" width="60" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 					<textElement>
@@ -33,7 +36,7 @@
 					<reportElement x="0" y="18" width="555" height="1" forecolor="#990000"/>
 				</line>
 				<textField isBlankWhenNull="true">
-					<reportElement x="63" y="2" width="275" height="14"/>
+					<reportElement x="63" y="2" width="436" height="14"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
@@ -151,38 +154,38 @@
 	<detail>
 		<band height="17" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="1" y="2" width="197" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="zebrado" mode="Transparent" x="1" y="2" width="197" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{motorista}.getPessoa().getNome()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="284" y="2" width="171" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="zebrado" mode="Transparent" x="284" y="2" width="171" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{motorista}.getPessoa().getUa().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="200" y="2" width="83" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="zebrado" mode="Transparent" x="200" y="2" width="83" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{motorista}.getCnh()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="456" y="2" width="43" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="zebrado" mode="Transparent" x="456" y="2" width="43" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{motorista}.getPontosCnh()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="501" y="2" width="54" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement style="zebrado" mode="Transparent" x="501" y="2" width="54" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{motorista}.getStatus()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="5" splitType="Stretch"/>
+		<band height="2" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="28" splitType="Stretch">
@@ -197,7 +200,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="7" width="182" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="1" y="7" width="259" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>

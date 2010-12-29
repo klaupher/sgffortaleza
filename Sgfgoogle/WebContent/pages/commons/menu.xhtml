@@ -52,38 +52,38 @@
 				<rich:menuItem submitMode="server" value="Consolidado Mensal" action="#{relatorioBean.relatorioConsolidadoMensal}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_CONSOLIDADO_MENSAL')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Consumo de Combustível" action="#{relatorioBean.relatorioConsumoCombustivel}" 
+				<rich:menuItem submitMode="server" value="Abastecimentos Combustível" action="#{relatorioBean.relatorioConsumoCombustivel}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_CONSUMO_COMBUSTIVEL')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Diário bomba combustível" action="#{relatorioBean.relatorioDiarioBomba}" 
+				<rich:menuItem submitMode="server" value="Diário Bomba Combustível" action="#{relatorioBean.relatorioDiarioBomba}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_DIARIO_BOMBA')}" immediate="true"/>
 
 				<rich:menuItem submitMode="server" value="Histórico de Manutenção" action="#{relatorioBean.relatorioHistoricoVeiculoManutencao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_HISTORICO_VEICULO_MANUTENCAO')}" immediate="true"/>				 
 
-				<rich:menuItem submitMode="server" value="Histórico de Troca de Pneus" action="#{relatorioBean.relatorioHistoricoTrocaPneus}" 
+				<rich:menuItem submitMode="server" value="Histórico Troca de Pneus" action="#{relatorioBean.relatorioHistoricoTrocaPneus}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_HISTORICO_TROCA_PNEUS')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Informações de veículo" action="#{relatorioBean.relatorioInformacoesVeiculos}" 
+				<rich:menuItem submitMode="server" value="Informações de Veículo" action="#{relatorioBean.relatorioInformacoesVeiculos}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_INFORMACOES_VEICULOS')}" immediate="true"/>
 
-				<rich:menuItem submitMode="server" value="Multa de veículo" action="#{relatorioBean.relatorioMultasOrgao}" 
+				<rich:menuItem submitMode="server" value="Multa de Veículos" action="#{relatorioBean.relatorioMultasOrgao}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_VEICULO_MULTA')}" immediate="true"/>
 
 				<rich:menuItem submitMode="server" value="Pontuação de Motoristas" action="#{relatorioBean.relatorioMotoristaPontuacao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_PONTUACAO_MOTORISTA')}" immediate="true"/>
 				
 
-				<rich:menuItem submitMode="server" value="Solicitação de veículo" action="#{relatorioBean.relatorioSolicitacaoVeiculo}" 
+				<rich:menuItem submitMode="server" value="Solicitação de Veículo" action="#{relatorioBean.relatorioSolicitacaoVeiculo}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_SOLICITACAO_VEICULOS')}" immediate="true"/>
 				 
-				<rich:menuItem submitMode="server" value="veículos em Manutenção" action="#{relatorioBean.relatorioVeiculosEmManutencao}" 
+				<rich:menuItem submitMode="server" value="Veículos em Manutenção" action="#{relatorioBean.relatorioVeiculosEmManutencao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_VEICULOS_EM_MANUTENCAO')}" immediate="true"/>
 				 
-				<rich:menuItem submitMode="server" value="veículos sem Retorno" action="#{relatorioBean.relatorioVeiculosSemRetorno}" 
+				<rich:menuItem submitMode="server" value="Veículos sem Retorno" action="#{relatorioBean.relatorioVeiculosSemRetorno}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_VEICULOS_SEM_RETORNO_MANUTENCAO')}" immediate="true"/>
 				 
-				<rich:menuItem submitMode="server" value="Kms Rodados de veículo" action="#{relatorioBean.relatorioKilometrosRodadosVeiculo}" 
+				<rich:menuItem submitMode="server" value="Kms Rodados veículo" action="#{relatorioBean.relatorioKilometrosRodadosVeiculo}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_KILOMETROS_RODADOS_VEICULO')}" immediate="true"/>
 				 
 				 <rich:menuItem submitMode="server" value="Veículos Inconsistentes" action="#{veiculoInconsistenteBean.exibeInconsistencias}" 
@@ -98,11 +98,11 @@
 				<rich:menuItem value="Cotas Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
 				<rich:menuItem value="Infrações" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
 				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>	
-				<rich:menuItem value="Multas de veículo" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
-				<rich:menuItem value="Nº Motor de veículo" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
+				<rich:menuItem value="Multas Veículo" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
+				<rich:menuItem value="Nº Motor Veículo" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
 				<rich:menuItem value="Oficinas" action="#{oficinaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_OFICINA')}" immediate="true"/>
-				<rich:menuItem value="Tipos de Serviço" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
-				<rich:menuItem value="Veiculos" action="#{veiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
+				<rich:menuItem value="Tipos Serviço" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
+				<rich:menuItem value="Veículos" action="#{veiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
 
 			</rich:dropDownMenu>
 

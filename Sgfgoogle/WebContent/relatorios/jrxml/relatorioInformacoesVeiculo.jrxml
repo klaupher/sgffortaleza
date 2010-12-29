@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioInformacoesVeiculo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<style name="zebrado" isDefault="false">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioInformacoesVeiculo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -18,7 +21,7 @@
 		<groupHeader>
 			<band height="34">
 				<textField isBlankWhenNull="true">
-					<reportElement x="62" y="2" width="210" height="14"/>
+					<reportElement x="62" y="2" width="405" height="14"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
@@ -38,42 +41,42 @@
 				<staticText>
 					<reportElement mode="Opaque" x="1" y="18" width="75" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Placa]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="469" y="18" width="86" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="468" y="18" width="86" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Data cadastro]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="329" y="18" width="68" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Ano modelo]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="77" y="18" width="139" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Modelo]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="217" y="18" width="111" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Marca]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="398" y="18" width="69" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
-						<font fontName="Verdana" size="11" isBold="true"/>
+						<font fontName="Verdana" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Ano modelo]]></text>
 				</staticText>
@@ -181,7 +184,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="470" y="1" width="85" height="14"/>
+				<reportElement style="zebrado" x="468" y="1" width="86" height="14"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{veiculo}.getDataCadastro()]]></textFieldExpression>
 			</textField>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioVeiculosSemRetornoManutencao" language="groovy" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<style name="zebrado" isDefault="false">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioVeiculosSemRetornoManutencao" pageWidth="842" pageHeight="595" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -26,7 +29,7 @@
 		<fieldDescription><![CDATA[atraso]]></fieldDescription>
 	</field>
 	<group name="Orgao">
-		<groupExpression><![CDATA[$F{manutencao}]]></groupExpression>
+		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
 		<groupHeader>
 			<band height="43">
 				<staticText>
@@ -34,7 +37,7 @@
 					<textElement>
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Nome da Oficina]]></text>
+					<text><![CDATA[Oficina]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="563" y="25" width="115" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
@@ -64,7 +67,7 @@
 					<reportElement x="0" y="22" width="803" height="1" forecolor="#990000"/>
 				</line>
 				<textField>
-					<reportElement x="70" y="2" width="385" height="18"/>
+					<reportElement x="70" y="2" width="608" height="18"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
@@ -161,7 +164,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="28" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<staticText>
 				<reportElement x="1" y="1" width="101" height="18"/>
 				<textElement>
@@ -207,12 +210,12 @@
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{atraso}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+			<textField pattern="dd/MM/yyyy HH:mm" isBlankWhenNull="true">
 				<reportElement style="zebrado" x="563" y="2" width="115" height="14"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{manutencao}.getDataFim()]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+			<textField pattern="dd/MM/yyyy HH:mm" isBlankWhenNull="true">
 				<reportElement style="zebrado" x="457" y="2" width="105" height="14"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{manutencao}.getDataSaida()]]></textFieldExpression>

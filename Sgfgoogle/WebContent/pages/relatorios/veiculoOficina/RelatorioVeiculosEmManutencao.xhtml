@@ -17,33 +17,34 @@
 
 	<fieldset>
 	
-		<p/>
-	
 		<legend>Relatório Veículos em Manutenção</legend>
 
-		<h:panelGrid columns="2" id="searchUG">
-			<h:outputLabel value="UG:"/>
+		<dt><label for="ug">Órgão</label></dt>
+		<dd>
 			<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+				 <c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue="" />
+				</c:if>
 	    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 			</h:selectOneMenu>
-		</h:panelGrid>
+		</dd>
 
-		<h:panelGrid  columns="5" style="padding-right:100px">
-			<h:outputLabel value="Data Início:" for="dataInicial">
-				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:80px"/>
-			</h:outputLabel>
+		<dt><label for="dataInicial">Data Inícial:</label></dt>
+		<dd>
+			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData"/>
 			<h:message for="dataInicial" styleClass="message"/>
+		</dd>
 
-			<h:outputLabel value="Data Fim:" for="dataFinal">
-				<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px"/>
-			</h:outputLabel>
+		<dt><label for="dataFinal">Data Final:</label></dt>
+		<dd>
+			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px"/>
 			<h:message for="dataFinal" styleClass="message"/>
-			
-			<h:commandButton action="#{relatorioBean.consultarVeiculosEmManutencao}" value="Consultar">
-				<a4j:support event="onclick" reRender="dataTable" />
-			</h:commandButton> 
+		</dd>
+		
+		<h:commandButton action="#{relatorioBean.consultarVeiculosEmManutencao}" value="Consultar">
+			<a4j:support event="onclick" reRender="dataTable" />
+		</h:commandButton> 
 
-		</h:panelGrid>
 
 		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}"  var="relatorio"
 			onRowMouseOver="jQuery(this).addClass('trHover')"
@@ -58,9 +59,12 @@
 	
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 			
-				<rich:column colspan="5" style="font-weight: bold; background:#BBD14F">
-					<h:outputText value="Órgão: #{relatorio.orgao.descricao}  Total Manutenções:#{relatorio.numeroManutencoes}" 
-					style="padding-right:20px;"/>
+				<rich:column colspan="2" style="font-weight: bold;">
+					<h:outputText value="Órgão: #{relatorio.orgao.descricao}"/>
+				</rich:column>
+				
+				<rich:column colspan="3" style="font-weight: bold;">
+					<h:outputText value="Total Manutenções: #{relatorio.numeroManutencoes}"/>
 				</rich:column>
 	
 				<rich:subTable id="subDataTable" headerClass="subHeader" value="#{relatorio.relatorios}" var="r" rowKeyVar="k"
@@ -68,10 +72,9 @@
 					onRowMouseOver="jQuery(this).addClass('trHover')"
 					onRowMouseOut="jQuery(this).removeClass('trHover')">
 			
-					<rich:column colspan="5">
-						<h:outputText value="veículo: #{r.manutencao.veiculo.placa} - #{r.manutencao.veiculo.modelo.descricao}    
-						Oficina: #{r.manutencao.oficina.nome}" style="font-weight: bold"/>
-
+					<rich:column colspan="5" style="font-weight: bold; background:white">
+						<h:outputText value="Veículo: #{r.manutencao.veiculo.placa} #{r.manutencao.veiculo.modelo.descricao}    
+						Oficina: #{r.manutencao.oficina.nome}" style="font-weight: bold;"/>
 						Data saída:
 						<h:outputText value="#{r.manutencao.dataSaida}"  style="font-weight:bold; padding-left:10px">
 							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
@@ -102,8 +105,13 @@
 							<h:outputText value="#{item.quantidade}" style="padding-right:20px"/>
 						</rich:column>
 
-						<rich:column colspan="2">
-							<f:facet name="header"><h:outputLabel value="Valor" style="font-weight:bold;"/></f:facet>
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Valor Unit." style="font-weight:bold;"/></f:facet>
+							<h:outputText value="#{item.valorUnitario}"/>
+						</rich:column>
+
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Valor Total" style="font-weight:bold;"/></f:facet>
 							<h:outputText value="#{item.valorTotal}"/>
 						</rich:column>
 	
