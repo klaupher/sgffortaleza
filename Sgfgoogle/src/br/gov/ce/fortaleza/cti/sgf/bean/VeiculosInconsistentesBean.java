@@ -22,10 +22,12 @@ import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
 import br.gov.ce.fortaleza.cti.sgf.service.ModeloService;
 import br.gov.ce.fortaleza.cti.sgf.service.ParametroService;
 import br.gov.ce.fortaleza.cti.sgf.service.UAService;
+import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.ConnectOracle;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.RelatorioDTO;
+import br.gov.ce.fortaleza.cti.sgf.util.VeiculoDTO;
 
 /**
  * 
@@ -38,7 +40,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.RelatorioDTO;
  */
 @Component("veiculoInconsistenteBean")
 @Scope("session")
-public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO> {
+public class VeiculosInconsistentesBean extends EntityBean<Integer, VeiculoDTO> {
 
 	/**
 	 * Objeto que guarda os dados da conex�o e a realiza
@@ -76,6 +78,9 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO
 	 */
 	@Autowired
 	private UAService uaService;
+
+	@Autowired
+	private UGService ugService;
 	/**
 	 * Servi�o de acesso aos modelos na base do SGF
 	 */
@@ -88,26 +93,24 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO
 	 * 
 	 * @throws SQLException
 	 */
-	
+
 	@Override
-	protected BaseService<Integer, RelatorioDTO> retrieveEntityService() {
+	protected BaseService<Integer, VeiculoDTO> retrieveEntityService() {
 		return null;
 	}
 
 	@Override
-	protected Integer retrieveEntityId(RelatorioDTO entity) {
+	protected Integer retrieveEntityId(VeiculoDTO entity) {
 		return null;
 	}
 
 	@Override
-	protected RelatorioDTO createNewEntity() {
+	protected VeiculoDTO createNewEntity() {
 		return null;
 	}
-	
+
 	public void buscaVeiculosPatrimonio() throws SQLException {
 
-		String codUAPat;
-		String codUASgf;
 		/*
 		 * Verifica o c�digo da UG selecionada, caso seja uma das DTE's,
 		 * Zoonoses, NUCEM ou SAMU, faz o tratamento pois essas UG's s�o UA's no
@@ -125,7 +128,7 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO
 		 * ua selecionada
 		 */
 		String query = "select * from ("
-			+ "select cd_ua_atual,cd_bem_perm,"
+			+ "select cd_ua_atual,cd_bem_perm,cd_ug_atual,"
 			+ "(select ds_car_char  from BP_ENT_CAR_BEM bb"
 			+ "   where cd_caracteristica = '038'"
 			+ " and bb.sq_bem_perm = v.sq_bem_perm) placa,"
@@ -227,7 +230,9 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO
 		Connection connection = null;
 		Statement stmt = null;
 
-		String placas = "";
+		List<String> placas = new ArrayList<String>();
+
+		this.entities = new ArrayList<VeiculoDTO>();
 
 		try {
 			this.veiculos = new ArrayList<Veiculo>();
@@ -237,10 +242,9 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO
 			 * Conex�o utilizada para o acesso � base do Patrim�nio
 			 */
 			connection = conexaoPatrimonio.conectaOracle();
-			stmt = connection.createStatement();
+			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			// Executa a consulta do par�metro query
 			ResultSet rs = stmt.executeQuery(query);
-
 			/*
 			 * Itera pelo resultset que cont�m os ve�culos cadastrados no
 			 * patrim�nio e verifica se o ve�culo j� est� cadastrado na base de
@@ -251,52 +255,77 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, RelatorioDTO
 				if (rs.getString("placa") != null) {
 					placaValidada = rs.getString("placa").replace("-", "");
 					placaValidada = placaValidada.replace(" ", "");
-					placas += placaValidada.toUpperCase() + ",";
+					placas.add(placaValidada);
 				} else {
 					placaValidada = "";
 				}
 			}
-			
-			placas = placas.substring(0, placas.length() -1);
 
+			Map<UG, List<Veiculo>> mapVeiculos = new HashMap<UG, List<Veiculo>>();
 			List<String> result = veiculoService.veiculosAusentes(placas);
+			rs.first();
 
 			while (rs.next()) {
-
-				if (result.contains(rs.getString("placa").toUpperCase()) ){
-					if (rs.getString("modelo") != null && rs.getString("modelo") != "") {
-						try {
-							this.modelo = modeloService.findByDesc(rs.getString("modelo"));
-						} catch (Exception e) {
-							this.modelo = null;
+				if(rs.getString("placa") != null){
+					if (result.contains(rs.getString("placa").toUpperCase()) ){
+						if (rs.getString("modelo") != null && rs.getString("modelo") != "") {
+							try {
+								this.modelo = modeloService.findByDesc(rs.getString("modelo"));
+							} catch (Exception e) {
+								this.modelo = null;
+							}
 						}
-					}
-					
-					this.veiculo = new Veiculo();
-					//this.veiculo.setUa(ua);
-					this.veiculo.setNumeroPatrimonio(rs.getString("cd_bem_perm"));
-					this.veiculo.setPlaca(rs.getString("placa").toUpperCase());
-					this.veiculo.setNumeroPatrimonio(rs.getString("cd_bem_perm"));
-					this.veiculo.setChassi(rs.getString("chassi"));
-					this.veiculo.setRenavam(rs.getString("renavam"));
-					this.veiculo.setCombustivel(rs.getString("combustivel"));
-					this.veiculo.setModelo(modelo);
-					this.veiculo.setStatus(0);
-					this.veiculo.setTemSeguro(0);
-					if (rs.getString("anofabr") != null	&& rs.getString("anofabr") != "") {
-						this.veiculo.setAnoFabricacao(Integer.parseInt(rs.getString("anofabr")));
-					}
-					if (rs.getString("anomodelo") != null && rs.getString("anomodelo") != "") {
-						this.veiculo.setAnoModelo(Integer.parseInt(rs.getString("anomodelo")));
-					}
-					this.veiculo.setCor(rs.getString("cor"));
-					this.veiculos.add(this.veiculo);
-					this.veiculo = null;
-				}
 
-				if (this.veiculos.isEmpty()) {
-					JSFUtil.getInstance().addErrorMessage("msg.sinc.vazia");
+						this.veiculo = new Veiculo();
+						this.ua = uaService.retrieve(rs.getString("cd_ua_atual"));
+						if(this.ua == null){
+							this.ug = ugService.retrieve(rs.getString("cd_ug_atual"));
+						} else {
+							this.ug = ua.getUg();
+						}
+
+						this.veiculo.setUa(ua);
+						this.veiculo.setNumeroPatrimonio(rs.getString("cd_bem_perm"));
+						this.veiculo.setPlaca(rs.getString("placa").toUpperCase());
+						this.veiculo.setNumeroPatrimonio(rs.getString("cd_bem_perm"));
+						this.veiculo.setChassi(rs.getString("chassi"));
+						this.veiculo.setRenavam(rs.getString("renavam"));
+						this.veiculo.setCombustivel(rs.getString("combustivel"));
+						this.veiculo.setModelo(modelo);
+						this.veiculo.setStatus(0);
+						this.veiculo.setTemSeguro(0);
+						if (rs.getString("anofabr") != null	&& rs.getString("anofabr") != "") {
+							this.veiculo.setAnoFabricacao(Integer.parseInt(rs.getString("anofabr")));
+						}
+						if (rs.getString("anomodelo") != null && rs.getString("anomodelo") != "") {
+							this.veiculo.setAnoModelo(Integer.parseInt(rs.getString("anomodelo")));
+						}
+						this.veiculo.setCor(rs.getString("cor"));
+						this.veiculos.add(this.veiculo);
+
+						if(mapVeiculos.get(this.ug) != null){
+							mapVeiculos.get(this.ug).add(this.veiculo);
+						} else{
+							mapVeiculos.put(this.ug, new ArrayList<Veiculo>());
+							mapVeiculos.get(this.ug).add(this.veiculo);
+						}
+						this.ug = null;
+						this.ua = null;
+						this.veiculo = null;
+					}
 				}
+			}
+
+			for (UG ug : mapVeiculos.keySet()) {
+				List<Veiculo> veiculos = mapVeiculos.get(ug);
+				VeiculoDTO dto = new VeiculoDTO();
+				dto.setVeiculos(veiculos);
+				dto.setOrgao(ug);
+				this.entities.add(dto);
+			}
+
+			if (this.entities.isEmpty()) {
+				JSFUtil.getInstance().addErrorMessage("msg.sinc.vazia");
 			}
 
 		} catch (SQLException e) {

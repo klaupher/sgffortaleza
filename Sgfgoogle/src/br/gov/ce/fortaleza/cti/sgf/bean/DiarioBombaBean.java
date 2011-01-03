@@ -242,17 +242,20 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 				boolean existeDiaria = false;
 				Calendar calendar = Calendar.getInstance();
 				Calendar calendar2 = Calendar.getInstance();
-				calendar.setTime(new Date());
+				calendar.setTime(new Date()); // dia atual
 				Date ultimaDiaria = service.findUltimaDiariaByBomba(bomba.getId());
 				DiarioBomba diaria = service.findCurrentDiaryByBomba(bomba.getId());
+				
 				if(ultimaDiaria != null){
 					calendar2.setTime(ultimaDiaria);
+
 					if( (calendar2.get(Calendar.DAY_OF_MONTH) < calendar.get(Calendar.DAY_OF_MONTH)) || 
-							(calendar2.get(Calendar.MONTH) < calendar.get(Calendar.MONTH)) ){
+							(calendar2.get(Calendar.MONTH) < calendar.get(Calendar.MONTH)) || (calendar2.get(Calendar.YEAR) < calendar.get(Calendar.YEAR))){
 						existeDiaria = false;
 					} else {
 						existeDiaria = true;
 					}
+
 				}
 				if(existeDiaria){
 					diaria.setImageStatus("/images/tick.png");

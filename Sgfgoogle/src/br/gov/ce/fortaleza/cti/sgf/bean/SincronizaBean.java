@@ -57,7 +57,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	 */
 	private ConnectOracle conexaoPatrimonio;
 	/**
-	 * Serviï¿½o de acesso aos veículos na base do SGF
+	 * Serviï¿½o de acesso aos veï¿½culos na base do SGF
 	 */
 	@Autowired
 	private VeiculoService veiculoService;
@@ -118,11 +118,8 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	 * @return
 	 */
 	public String sincronizacao() {
-
 		this.ug = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
-
 		loadUAs();
-
 		return "SUCCESS";
 	}
 
@@ -293,12 +290,10 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 			 * dados do SGF, caso nï¿½o esteja cadastra o veï¿½culo
 			 */
 			while (rs.next()) {
-				if (rs.getString("placa").contains("-")) {
-					placaValidada = rs.getString("placa").replace("-", "");
-
-				} else {
-					placaValidada = rs.getString("placa");
-				}
+				
+				placaValidada = rs.getString("placa").replace("-", "");
+				placaValidada = rs.getString("placa").replace(" ", "");
+				placaValidada = rs.getString("placa").replace(".", "");
 
 				this.veiculo = veiculoService.findByPlacaSingle(placaValidada.toUpperCase());
 
@@ -338,15 +333,9 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 			}
 
 		} catch (SQLException e) {
-			StackTraceElement[] stack = e.getStackTrace();
-			String message = "Class:" + stack[0].getClassName() + "\nMethod:" + stack[0].getMethodName() + "\nLine:" + stack[0].getLineNumber() + "\n";
-			//Mail.sendMailSsl(Mail.FROM, Mail.TO, "Error: " + e.getCause(), message);
 			e.printStackTrace();
 			JSFUtil.getInstance().addErrorMessage("msg.error.sincronizacao");
 		} catch(Exception e2){
-			StackTraceElement[] stack = e2.getStackTrace();
-			String message = "Class:" + stack[0].getClassName() + "\nMethod:" + stack[0].getMethodName() + "\nLine:" + stack[0].getLineNumber() + "\n";
-			//Mail.sendMailSsl(Mail.FROM, Mail.TO, "Error: " + e2.getCause(), message);
 			e2.printStackTrace();
 			JSFUtil.getInstance().addErrorMessage("msg.error.sincronizacao");
 		} finally {
@@ -371,11 +360,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 				this.veiculoService.save(v);
 
 			} catch (DataIntegrityViolationException e) {
-				StackTraceElement[] stack = e.getStackTrace();
-				String message = "Class:" + stack[0].getClassName() + "\nMethod:" + stack[0].getMethodName() + "\nLine:" + stack[0].getLineNumber() + "\n";
-				String subject = this.ug.getDescricao() + "/ " + SgfUtil.usuarioLogado().getLogin() + "/ " + e.getCause().getMessage();
-				String msg = e.getStackTrace().toString();
-				//Mail.sendMailSsl(Mail.FROM, Mail.TO, subject, message);
+				e.printStackTrace();
 				JSFUtil.getInstance().addErrorMessage("msg.error.valorDuplicado");
 				return "FAIL";
 			} catch (Exception e) {
@@ -385,8 +370,6 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 			placs +=  "" + v.getPlaca() + "\n";
 		}
 
-		String infoVeiculos = "Veï¿½culo(s) atualizado(s):" + placs;
-		//Mail.sendMailSsl(Mail.FROM, Mail.TO, this.ug.getDescricao() + " incluiu "+ this.veiculos.size() + " veï¿½culo(s): ", infoVeiculos);
 		sincronizacao();
 		this.veiculos = new ArrayList<Veiculo>();
 		return "SUCCESS";

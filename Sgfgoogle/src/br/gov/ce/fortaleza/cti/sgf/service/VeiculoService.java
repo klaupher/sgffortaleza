@@ -129,13 +129,23 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<String> veiculosAusentes(String placas){
-		Query query = entityManager.createQuery("SELECT v.placa FROM Veiculo v WHERE v.placa IN (?)");
-		query.setParameter(1, placas);
+	public List<String> veiculosAusentes(List<String> placas){
+		
+		List<String> sql = new ArrayList<String>();
+		for (String s : placas) {
+			s = "\'" + s + "\'";
+			sql.add(s);
+		}
+		String str = sql.toString();
+		str = str.replace("[", "(").replaceAll("]", ")");
+		String sqlq = "SELECT v.placa FROM Veiculo v WHERE v.placa IN " + str;
+		Query query = entityManager.createQuery(sqlq);
 		List<String> result = query.getResultList();
-		return result;
+		placas.removeAll(result);
+		return placas;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Integer> veiculoIds(String ugId){
 		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE 1 = 1");
 		if(ugId != null){

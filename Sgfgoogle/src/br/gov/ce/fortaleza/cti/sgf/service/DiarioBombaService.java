@@ -32,7 +32,7 @@ public class DiarioBombaService extends BaseService<Integer, DiarioBomba>{
 	}
 
 	/**
-	 * Busca o registro da última diária da bomba
+	 * Busca o registro da ï¿½ltima diï¿½ria da bomba
 	 * @param bomba
 	 * @param day
 	 * @return
@@ -40,7 +40,8 @@ public class DiarioBombaService extends BaseService<Integer, DiarioBomba>{
 
 	public DiarioBomba findCurrentDiaryByBomba(Integer bombaId) {
 		try {
-			Query query = entityManager.createQuery("select d from DiarioBomba d where d.bomba.id = ? and d.horaInicial = (select max(db.horaInicial) from DiarioBomba db where db.bomba.id = ?)");
+			Query query = entityManager.createQuery("select d from DiarioBomba d where d.bomba.id = ? and " +
+					"d.horaInicial = (select max(db.horaInicial) from DiarioBomba db where db.bomba.id = ?)");
 			query.setParameter(1, bombaId);
 			query.setParameter(2, bombaId);
 			return (DiarioBomba) query.getSingleResult();
@@ -56,7 +57,7 @@ public class DiarioBombaService extends BaseService<Integer, DiarioBomba>{
 	}
 
 	/**
-	 * Esse método está trazendo todas as diárias e gerando desperdício de tráfego
+	 * Esse mï¿½todo estï¿½ trazendo todas as diï¿½rias e gerando desperdï¿½cio de trï¿½fego
 	 * @param bombaSelecionada
 	 * @return
 	 */
