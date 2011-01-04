@@ -33,87 +33,84 @@
 			
 		</fieldset>
 
-
 		<fieldset>
-		
-		<a4j:region id="regiaoEdit"> 
-		
-	      	<legend>Cadastro Cota de Abastecimento</legend>
-	      	<h:commandLink action="#{cotaBean.prepareSave}" value="Nova" styleClass="novo">
-				<a4j:support event="onclick" reRender="paginaPrincipal"/>
-			</h:commandLink>
 
-		    <p/>
-		  	<rich:dataTable id="dataTable"	value="#{cotaBean.entities}" var="cota" rows="10" rowKeyVar="index"
-				rowClasses="odd,even" 
-				onRowMouseOver="jQuery(this).addClass('trHover')" 
-				onRowMouseOut="jQuery(this).removeClass('trHover')"
-				width="100%">
-				
-	      		<c:if test="#{empty cotaBean.entities}">
-					<rich:column>
-						<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
-					</rich:column>
-				</c:if>
-				
-				<c:if test="#{not empty cotaBean.entities}">
+			<a4j:region id="regiaoEdit"> 
 
-					<rich:column width="2%" style="text-align: center;" > 
-						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
-						<h:outputText value="#{index+1}" style="color: black;"/>
-					</rich:column>
+		      	<legend>Cadastro Cota de Abastecimento</legend>
+		      	<h:commandLink action="#{cotaBean.prepareSave}" value="Nova" styleClass="novo">
+					<a4j:support event="onclick" reRender="paginaPrincipal"/>
+				</h:commandLink>
 
-					<rich:column width="50%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="veículo" /></f:facet>
-						<a4j:commandLink id="cotaVeiculo" action="#{cotaBean.prepareView}" value="#{cota.veiculo.placa} #{cota.veiculo.modelo.descricao}" 
-							style="color: black;text-decoration:none;" reRender="paginaPrincipal">
-							<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
-						</a4j:commandLink>	
-						<rich:toolTip value="Clique aqui para visualizar a cota" for="cotaVeiculo"/>	
-					</rich:column>
+			    <p/>
+			  	<rich:dataTable id="dataTable"	value="#{cotaBean.entities}" var="cota" rows="10" rowKeyVar="index"
+					rowClasses="odd,even" 
+					onRowMouseOver="jQuery(this).addClass('trHover')" 
+					onRowMouseOut="jQuery(this).removeClass('trHover')"
+					width="100%">
 
-					<rich:column width="15%" style="text-align: left;" > 
-						<f:facet name="header">	<h:outputText value="Valor da Cota" /></f:facet>
-						<h:outputText value="#{cota.cota}" style="color: black;"/>
-					</rich:column>
-					
-					<rich:column width="15%" style="text-align: left;" > 
-						<f:facet name="header">	<h:outputText value="Cota dispoNºvel" /></f:facet>
-						<h:outputText value="#{cota.cotaDisponivel}" style="color: black;"/>
-					</rich:column>
+		      		<c:if test="#{empty cotaBean.entities}">
+						<rich:column>
+							<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
+						</rich:column>
+					</c:if>
+
+					<c:if test="#{not empty cotaBean.entities}">
+
+						<rich:column width="2%" style="text-align: center;" > 
+							<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+							<h:outputText value="#{index+1}" style="color: black;"/>
+						</rich:column>
+
+						<rich:column width="50%" style="text-align: left;" > 
+							<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
+							<a4j:commandLink id="cotaVeiculo" action="#{cotaBean.prepareView}" value="#{cota.veiculo.placa} #{cota.veiculo.modelo.descricao}" 
+								style="color: black;text-decoration:none;" reRender="paginaPrincipal">
+								<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
+							</a4j:commandLink>	
+							<rich:toolTip value="Clique aqui para visualizar a cota" for="cotaVeiculo"/>	
+						</rich:column>
+
+						<rich:column width="15%" style="text-align: left;" > 
+							<f:facet name="header">	<h:outputText value="Valor da Cota" /></f:facet>
+							<h:outputText value="#{cota.cota}" style="color: black;"/>
+						</rich:column>
+
+						<rich:column width="15%" style="text-align: left;" > 
+							<f:facet name="header">	<h:outputText value="Cota disponível" /></f:facet>
+							<h:outputText value="#{cota.cotaDisponivel}" style="color: black;"/>
+						</rich:column>
+
+						<rich:column width="3%" style="text-align: center;">
+							<f:facet name="header"><h:outputText value="Editar" /></f:facet>
+							<h:commandLink styleClass="editar" value="Editar" action="#{cotaBean.prepareUpdate}">
+								<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
+							</h:commandLink>
+						</rich:column>
+
+						<rich:column width="3%" style="text-align: center;">
+							<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
+							<a4j:commandLink id="linkExcluir" styleClass="excluir"  action="#{cotaBean.delete}" value="Excluir"
+								onclick="if(!confirm('Tem certeza que deseja excluir?')) { document.getElementById('paginaPrincipal').reset();return false;}"
+								binding="#{cotaBean.botaoExcluir}" >
+								<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
+							</a4j:commandLink>
+						</rich:column>
+
+						<f:facet name="footer">
+							<rich:datascroller renderIfSinglePage="false" for="dataTable"/>
+		          	 	</f:facet>					
+
+					</c:if>
 	
-					<rich:column width="3%" style="text-align: center;">
-						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
-						<h:commandLink styleClass="editar" value="Editar" action="#{cotaBean.prepareUpdate}">
-							<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
-						</h:commandLink>
-					</rich:column>
+				</rich:dataTable>
+	
+				<rich:messages/>
 
-					<rich:column width="3%" style="text-align: center;">
-						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
-						<a4j:commandLink id="linkExcluir" styleClass="excluir"  action="#{cotaBean.delete}" value="Excluir"
-							onclick="if(!confirm('Tem certeza que deseja excluir?')) { document.getElementById('paginaPrincipal').reset();return false;}"
-							binding="#{cotaBean.botaoExcluir}" >
-							<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
-						</a4j:commandLink>
-					</rich:column>
-
-					<f:facet name="footer">
-						<rich:datascroller renderIfSinglePage="false" for="dataTable"/>
-	          	 	</f:facet>					
-
-				</c:if>
-
-			</rich:dataTable>
-
-			<rich:messages/>
-			
 			</a4j:region>
 
 		</fieldset>
 
 	</div>
-
-	
 
 </ui:composition>
