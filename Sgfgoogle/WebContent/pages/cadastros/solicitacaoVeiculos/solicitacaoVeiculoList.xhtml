@@ -14,149 +14,142 @@
 		<h1 style="width:250px"> Solicitação de veículo </h1>
 		<p/>
 
+		<h:commandLink action="#{solicitacaoVeiculoBean.prepareSave}" value="Nova" styleClass="novo">
+      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+      	</h:commandLink>
+	
 		<fieldset>
 		
-			<rich:simpleTogglePanel label="Lista de Solicitações de veículos" immediate="true" headerClass="simpleHeader">
+			<legend>Busca</legend>
+			<p/>
 
-				<a4j:region id="regionPesquisaSolicitacaoVeiculo" immediate="true">
-				
-					<h:commandLink action="#{solicitacaoVeiculoBean.prepareSave}" value="Nova" styleClass="novo">
-			      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
-			      	</h:commandLink>
-			      	<p/>
-				
-					<fieldset>
-					
-						<legend>Busca</legend>
-						<p/>
-	
-						<h:outputLabel value="UG:" for="ugSolicitacao" style="padding-right:20px;"/>
-						<h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador}">
-							<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList">
-								<f:selectItem itemLabel="Todas.." itemValue=""/>
-								<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-								<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}" reRender="paginaPrincipal"/>	
-							</h:selectOneMenu>
-						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{controlBean.chefeTransporte or controlBean.chefeSetor}">
-							<h:outputText value="#{solicitacaoVeiculoBean.orgaoSelecionado.descricao}" />
-						</h:panelGroup>
-						
-						<h:outputLabel value="Placa" for="placaVeiculo" style="padding-left:20px"/>
-						<h:inputText id="placaVeiculo" value="#{solicitacaoVeiculoBean.placaVeiculo}" style="color:black;width:80px"/>
-						<p/>
-						
-						<h:outputLabel value="Filtro:"/>
-						<h:selectOneRadio id="radioSolVeic" styleClass="checkbox" value="#{solicitacaoVeiculoBean.statusPesquisa}" style="width:80%;">
-							<f:selectItem itemLabel="Solicitado" itemValue="SOLICITADO"/>
-							<f:selectItem itemLabel="Autorizado" itemValue="AUTORIZADO"/>
-							<f:selectItem itemLabel="Negado" itemValue="NEGADO"/>
-							<f:selectItem itemLabel="Externo" itemValue="EXTERNO"/>
-							<f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
-						</h:selectOneRadio>
-						
-						<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.searchSolicitacaoByUG}" reRender="paginaPrincipal"
-							 onclick="Richfaces.showModalPanel('progress')" oncomplete="Richfaces.hideModalPanel('progress')" style="margin-left:50px">
-						</a4j:commandButton>
-					
-					</fieldset>
+			
+			<dt><label for="ugSolicitacao">Órgão:</label></dt>
+			<dd>
+				<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList">
+					<f:selectItem itemLabel="Todas.." itemValue=""/>
+					<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+					<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}" reRender="paginaPrincipal"/>	
+				</h:selectOneMenu>
+			</dd>
 
-					<rich:panel rendered="#{solicitacaoVeiculoBean.mostrarSolicitacoes}">
+			
+			<h:panelGroup rendered="#{controlBean.chefeTransporte or controlBean.chefeSetor}">
+				<h:outputText value="#{solicitacaoVeiculoBean.orgaoSelecionado.descricao}" />
+			</h:panelGroup>
+			
+			<dt><label for="placaVeiculo">Placa:</label></dt>
+			<dd>
+				<h:inputText id="placaVeiculo" value="#{solicitacaoVeiculoBean.placaVeiculo}"/>
+			</dd>
+			
+			<dt/>
+			<dd>
+				<h:selectOneRadio id="radioSolVeic" styleClass="checkbox" value="#{solicitacaoVeiculoBean.statusPesquisa}">
+					<f:selectItem itemLabel="Solicitado" itemValue="SOLICITADO"/>
+					<f:selectItem itemLabel="Autorizado" itemValue="AUTORIZADO"/>
+					<f:selectItem itemLabel="Negado" itemValue="NEGADO"/>
+					<f:selectItem itemLabel="Externo" itemValue="EXTERNO"/>
+					<f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
+				</h:selectOneRadio>
+			</dd>
 
-						<rich:dataTable id="dataTable"	value="#{solicitacaoVeiculoBean.entities}" var="solicitacao" rows="10" rowKeyVar="k"
-							rowClasses="even, odd"
-							onRowMouseOver="jQuery(this).addClass('trHover')"
-							onRowMouseOut="jQuery(this).removeClass('trHover')"
-							width="100%">
-
-							<rich:column width="2%" style="text-align: center;"> 
-								<f:facet name="header"><h:outputText value="Nº"/></f:facet>
-								<h:outputText value="#{k+1}" style="color: black;"/>
-							</rich:column>
-
-							<rich:column width="12%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
-								<a4j:commandLink id="veiculo" value="#{solicitacao.veiculo.placa} #{solicitacao.veiculo.modelo.descricao}" reRender="paginaPrincipal" immediate="true"
-									oncomplete="Richfaces.showModalPanel('solicitacaoVeiculoView', {width:700, height:400, top:40});" style="color: black;text-decoration:none;">
-									<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}"/>
-								</a4j:commandLink>
-								<rich:toolTip value="Clique aqui para visualizar os dados da Solicitação" for="veiculo"/>	
-							</rich:column>
-
-							<rich:column width="15%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="Destino"/></f:facet>
-								<h:outputText value="#{solicitacao.destino}" style="color: black;"/>
-							</rich:column>
-
-							<rich:column width="16%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="Solicitante"/></f:facet>
-								<h:outputText value="#{solicitacao.solicitante.pessoa.nome}" style="color: black;"/>
-							</rich:column>
-							
-							<rich:column width="10%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="prev.saída"/></f:facet>
-								<h:outputText value="#{solicitacao.dataHoraSaida}" style="color: black;">
-									<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
-								</h:outputText>
-							</rich:column>	
-							
-							<rich:column width="10%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="prev.retorno"/></f:facet>
-								<h:outputText value="#{solicitacao.dataHoraRetorno}" style="color: black;">
-									<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
-								</h:outputText>
-							</rich:column>
-
-							<rich:column width="4%" style="text-align: left;"> 
-								<f:facet name="header"><h:outputText value="Status" /></f:facet>
-								<h:outputText value="#{solicitacao.status}" style="color: black;"/>
-							</rich:column>
-
-
-							<rich:column width="5%" rendered="#{(controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte)}"  style="text-align: left;">
-
-								<a4j:commandButton value="Autorizar" action="#{solicitacaoVeiculoBean.prepareEdit}" reRender="paginaPrincipal" 
-									rendered="#{solicitacao.status == 'SOLICITADO'}" image="#{solicitacao.imagemURL}" style="color: black; text-align:center;">
-									<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}" />
-									<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.autorizar}" />	
-								</a4j:commandButton>
-
-								<a4j:commandButton value="Registrar saída" action="#{solicitacaoVeiculoBean.prepareEdit}"  image="#{solicitacao.imagemURL}"
-									 rendered="#{solicitacao.status == 'AUTORIZADO'}" reRender="paginaPrincipal" style="color: black; text-align:center;">
-									<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}" />
-									<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.registrar}" />
-								</a4j:commandButton>
-								
-								<a4j:commandButton value="Registrar Retorno" action="#{solicitacaoVeiculoBean.prepareEdit}" image="#{solicitacao.imagemURL}" 
-									rendered="#{solicitacao.status == 'EXTERNO'}" reRender="paginaPrincipal" style="color: black; text-align:center;">
-									<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}" />
-									<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.registrar}" />
-								</a4j:commandButton>
-
-								<a4j:commandButton value="Registrar" image="#{solicitacao.imagemURL}" rendered="#{solicitacao.status == 'FINALIZADO'}" 
-									reRender="paginaPrincipal" style="color: black; text-align:center;">
-								</a4j:commandButton>
-
-								<rich:toolTip value="Clique aqui p/ AUTORIZAR A Solicitação" rendered="#{solicitacao.status == 'SOLICITADO'}"/>
-								<rich:toolTip value="Clique aqui p/ REGISTRAR A saída do veículo" rendered="#{solicitacao.status == 'AUTORIZADO'}"/>
-								<rich:toolTip value="Clique aqui p/ REGISTRAR O RETORNO do veículo" rendered="#{solicitacao.status == 'EXTERNO'}"/>
-
-							</rich:column>
-
-							<f:facet name="footer">
-								<rich:datascroller renderIfSinglePage="false" reRender="dataTable" for="dataTable" />
-							</f:facet>
-
-						</rich:dataTable>
-
-					</rich:panel>
-
-				</a4j:region>
-
-			</rich:simpleTogglePanel>
-
+			
+			<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.searchSolicitacaoByUG}" reRender="paginaPrincipal"
+				 onclick="Richfaces.showModalPanel('progress')" oncomplete="Richfaces.hideModalPanel('progress')" style="margin-left:50px">
+			</a4j:commandButton>
+		
 		</fieldset>
+
+		<rich:panel rendered="#{solicitacaoVeiculoBean.mostrarSolicitacoes}">
+
+			<rich:dataTable id="dataTable"	value="#{solicitacaoVeiculoBean.entities}" var="solicitacao" rows="10" rowKeyVar="k"
+				rowClasses="even, odd"
+				onRowMouseOver="jQuery(this).addClass('trHover')"
+				onRowMouseOut="jQuery(this).removeClass('trHover')"
+				width="100%">
+
+				<rich:column width="2%" style="text-align: center;"> 
+					<f:facet name="header"><h:outputText value="Nº"/></f:facet>
+					<h:outputText value="#{k+1}" style="color: black;"/>
+				</rich:column>
+
+				<rich:column width="12%" style="text-align: left;"> 
+					<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
+					<a4j:commandLink id="veiculo" value="#{solicitacao.veiculo.placa} #{solicitacao.veiculo.modelo.descricao}" reRender="paginaPrincipal" immediate="true"
+						oncomplete="Richfaces.showModalPanel('solicitacaoVeiculoView', {width:700, height:400, top:40});" style="color: black;text-decoration:none;">
+						<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}"/>
+					</a4j:commandLink>
+					<rich:toolTip value="Clique aqui para visualizar os dados da Solicitação" for="veiculo"/>	
+				</rich:column>
+
+				<rich:column width="15%" style="text-align: left;"> 
+					<f:facet name="header"><h:outputText value="Destino"/></f:facet>
+					<h:outputText value="#{solicitacao.destino}" style="color: black;"/>
+				</rich:column>
+
+				<rich:column width="16%" style="text-align: left;"> 
+					<f:facet name="header"><h:outputText value="Solicitante"/></f:facet>
+					<h:outputText value="#{solicitacao.solicitante.pessoa.nome}" style="color: black;"/>
+				</rich:column>
+				
+				<rich:column width="10%" style="text-align: left;"> 
+					<f:facet name="header"><h:outputText value="prev.saída"/></f:facet>
+					<h:outputText value="#{solicitacao.dataHoraSaida}" style="color: black;">
+						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+					</h:outputText>
+				</rich:column>	
+				
+				<rich:column width="10%" style="text-align: left;"> 
+					<f:facet name="header"><h:outputText value="prev.retorno"/></f:facet>
+					<h:outputText value="#{solicitacao.dataHoraRetorno}" style="color: black;">
+						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+					</h:outputText>
+				</rich:column>
+
+				<rich:column width="4%" style="text-align: left;"> 
+					<f:facet name="header"><h:outputText value="Status" /></f:facet>
+					<h:outputText value="#{solicitacao.status}" style="color: black;"/>
+				</rich:column>
+
+
+				<rich:column width="5%" rendered="#{(controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte)}"  style="text-align: left;">
+
+					<a4j:commandButton value="Autorizar" action="#{solicitacaoVeiculoBean.prepareEdit}" reRender="paginaPrincipal" 
+						rendered="#{solicitacao.status == 'SOLICITADO'}" image="#{solicitacao.imagemURL}" style="color: black; text-align:center;">
+						<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}" />
+						<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.autorizar}" />	
+					</a4j:commandButton>
+
+					<a4j:commandButton value="Registrar saída" action="#{solicitacaoVeiculoBean.prepareEdit}"  image="#{solicitacao.imagemURL}"
+						 rendered="#{solicitacao.status == 'AUTORIZADO'}" reRender="paginaPrincipal" style="color: black; text-align:center;">
+						<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}" />
+						<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.registrar}" />
+					</a4j:commandButton>
+					
+					<a4j:commandButton value="Registrar Retorno" action="#{solicitacaoVeiculoBean.prepareEdit}" image="#{solicitacao.imagemURL}" 
+						rendered="#{solicitacao.status == 'EXTERNO'}" reRender="paginaPrincipal" style="color: black; text-align:center;">
+						<f:setPropertyActionListener value="#{solicitacao}" target="#{solicitacaoVeiculoBean.entity}" />
+						<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.registrar}" />
+					</a4j:commandButton>
+
+					<a4j:commandButton value="Registrar" image="#{solicitacao.imagemURL}" rendered="#{solicitacao.status == 'FINALIZADO'}" 
+						reRender="paginaPrincipal" style="color: black; text-align:center;">
+					</a4j:commandButton>
+
+					<rich:toolTip value="Clique aqui p/ AUTORIZAR A Solicitação" rendered="#{solicitacao.status == 'SOLICITADO'}"/>
+					<rich:toolTip value="Clique aqui p/ REGISTRAR A saída do veículo" rendered="#{solicitacao.status == 'AUTORIZADO'}"/>
+					<rich:toolTip value="Clique aqui p/ REGISTRAR O RETORNO do veículo" rendered="#{solicitacao.status == 'EXTERNO'}"/>
+
+				</rich:column>
+
+				<f:facet name="footer">
+					<rich:datascroller renderIfSinglePage="false" reRender="dataTable" for="dataTable" />
+				</f:facet>
+
+			</rich:dataTable>
+
+		</rich:panel>
 
 	</div>
 	

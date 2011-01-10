@@ -62,7 +62,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 	public List<Abastecimento> pesquisarPlaca(Date dataIni, Date dataFim, UG ug, String placa, StatusAbastecimento status) {
 
 		List<Abastecimento> result = new ArrayList<Abastecimento>();
-		String queryString = "SELECT a from Abastecimento a WHERE a.dataAutorizacao BETWEEN :dataIni AND :dataFim";
+		String queryString = "SELECT a from Abastecimento a WHERE a.dataAutorizacao <= :currentDate and a.dataAutorizacao BETWEEN :dataIni AND :dataFim";
 		StringBuffer queryBuffer = new StringBuffer(queryString);
 
 		if(status != null){
@@ -76,6 +76,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		}
 
 		Query query = entityManager.createQuery(queryBuffer.toString());
+		query.setParameter("currentDate", new Date());
 		query.setParameter("dataIni", dataIni);
 		query.setParameter("dataFim", dataFim);
 		
@@ -101,8 +102,9 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 	public List<Abastecimento> pesquisarPeriodo(Date dtInicial, Date dtFinal, UG orgao, StatusAbastecimento status) {
 
 		List<Abastecimento> abastecimentos = null;
-		Query query = entityManager.createQuery("select a from Abastecimento a where a.dataAutorizacao between :dataInicial and :dataFinal and " +
+		Query query = entityManager.createQuery("select a from Abastecimento a where a.dataAutorizacao <= :currentDate and a.dataAutorizacao between :dataInicial and :dataFinal and " +
 		"a.autorizador.pessoa.ua.ug = :orgao and a.status = :status order by a.dataAutorizacao desc");
+		query.setParameter("currentDate", new Date());
 		query.setParameter("dataInicial", dtInicial);
 		query.setParameter("dataFinal", dtFinal);
 		query.setParameter("orgao", orgao);
@@ -111,7 +113,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		return abastecimentos;
 	}
 	/**
-	 * verificar o veículo possui alguma autorizaçao de abstecimento para o dia
+	 * Verificar se o veículo possui alguma autorizaçao de abstecimento para o dia
 	 * @param v
 	 * @return
 	 */
@@ -134,7 +136,9 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 	public List<Abastecimento> pesquisarTodos(Date dtInicial, Date dtFinal, StatusAbastecimento status) {
 
 		List<Abastecimento> abastecimentos = null;
-		Query query = entityManager.createQuery("select a from Abastecimento a where a.dataAutorizacao between :dataInicial and :dataFinal and a.status = :status order by a.dataAutorizacao desc");
+		Query query = entityManager.createQuery("select a from Abastecimento a where (a.dataAutorizacao between :dataInicial and :dataFinal) and " +
+				"a.dataAutorizacao <= :currentDate  and a.status = :status order by a.dataAutorizacao desc");
+		query.setParameter("currentDate", new Date());
 		query.setParameter("dataInicial", dtInicial);
 		query.setParameter("dataFinal", dtFinal);
 		query.setParameter("status", status);

@@ -97,6 +97,14 @@
 		            </dd>
 	            </a4j:region>
 	            
+	            <dt><label for="dataInicio">Data do abastecimento</label></dt>
+				<dd>
+					<h:inputText id="data" value="#{abastecimentoBean.entity.dataAutorizacao}" styleClass="maskData">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+					</h:inputText>
+					<label style="color:red">(se abastecimento em data futura.)</label>
+				</dd>
+	            
 		        <c:if test="#{abastecimentoBean.negar}">
 					<dt><label for="justificativa"><h:outputText value="#{msg['abastecimento.justificativa']}:" /></label></dt>
 			        <dd>
@@ -120,15 +128,17 @@
 		                 <f:selectItem itemValue="" itemLabel="Informe a Bomba" />
 		                 <t:selectItems value="#{abastecimentoBean.bombas}" var="bomba" itemLabel="#{bomba.numero}" itemValue="#{bomba}" />
 		             </h:selectOneMenu>
+		             <h:message for="bomba" tooltip="true" styleClass="message"/>
 	         	</dd>
-	         	<h:message for="bomba" tooltip="true" styleClass="message"/>
+	         	
 	
 				<h:panelGroup rendered="#{!abastecimentoBean.vasilhame}">
 			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}:" /></label></dt>
 			        <dd>
 			        	<h:inputText id="kmAtendimento" value="#{abastecimentoBean.kmAtendimento}" maxlength="8" required="true" />
+			        	<h:message for="kmAtendimento" tooltip="true" id="messageKmAtendimento" styleClass="message"/>
 			        </dd>
-			        <h:message for="kmAtendimento" tooltip="true" id="messageKmAtendimento" styleClass="message"/>
+			        
 				
 					<dt><label for="saldoAtual"><h:outputText value="Saldo disponível:" /></label></dt>
 		          	<dd>
@@ -139,8 +149,8 @@
 		         <dt><label for="litrosAbastecidos"><h:outputText value="#{msg['abastecimento.litrosAbastecidos']}:" /></label></dt>
 		         <dd>
 		         	<h:inputText id="litrosAbastecidos" value="#{abastecimentoBean.quantidadeAbastecida}" maxlength="8" required="true" />
+		         	<h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
 		         </dd>
-		         <h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
 
 	       	<h:commandButton action="#{abastecimentoBean.update}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.atender}">
 	   			<a4j:support event="onclick" reRender="paginaPrincipal" />

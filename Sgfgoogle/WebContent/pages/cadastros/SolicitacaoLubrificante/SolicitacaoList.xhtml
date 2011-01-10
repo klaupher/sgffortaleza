@@ -16,55 +16,60 @@
 		<h1 style="width:300px"> Solicitações de Lubrificação </h1>
 
 		<h:messages globalOnly="true" styleClass="messages"/>
+		
+		<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
+	       	<h:commandLink action="#{solicitacaoLubrificanteBean.prepareSave}" value="Nova" styleClass="novo">
+	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+	      	</h:commandLink>
+      	</c:if>
 
 		<fieldset>
 
-		      <legend>Busca</legend>
-		      
-		      	<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
-			       	<h:commandLink action="#{solicitacaoLubrificanteBean.prepareSave}" value="Nova" styleClass="novo">
-			      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
-			      	</h:commandLink>
-		      	</c:if>
-		      	<p/>
+		      <legend>Consulta</legend>
 				
-				<h:outputLabel value="UG" for="ugAbastecimento"/>
-				<h:selectOneMenu id="ugAbastecimento" value="#{solicitacaoLubrificanteBean.orgao}" converter="entityConverter">
-					<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador}">
-						<f:selectItem itemLabel="Todas ..." itemValue=""/>
-					</c:if>
-					<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-				</h:selectOneMenu>
-				<p/>
-			
-				<h:outputLabel value="Placa:" />
-				<h:inputText value="#{solicitacaoLubrificanteBean.placa}"/>
-				
-		
-				<h:outputLabel value="Data inicial:" for="dtInicio" />
-				<h:inputText id="dtInicio" value="#{solicitacaoLubrificanteBean.dtInicial}" style="color: black;"
-					size="12" styleClass="maskData">
-					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-				</h:inputText>
-				
-				<h:outputLabel value="Data final:" for="dtFinal" />
-				<h:inputText id="dtFinal" value="#{solicitacaoLubrificanteBean.dtFinal}" style="color: black;"
-					size="12" styleClass="maskData">
-					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-				</h:inputText>
+				<dt><label for="ugAbastecimento">UG:</label></dt>
+				<dd>
+					<h:selectOneMenu id="ugAbastecimento" value="#{solicitacaoLubrificanteBean.orgao}" converter="entityConverter">
+						<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador}">
+							<f:selectItem itemLabel="Todas ..." itemValue=""/>
+						</c:if>
+						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+					</h:selectOneMenu>
+				</dd>
+
+				<dt><label for="placa">Placa:</label></dt>
+				<dd>
+					<h:inputText id="placa" value="#{solicitacaoLubrificanteBean.placa}"/>
+				</dd>
+
+				<dt><label for="dtInicio">Data inicial:</label></dt>
+				<dd>
+					<h:inputText id="dtInicio" value="#{solicitacaoLubrificanteBean.dtInicial}" style="color: black;" size="12" styleClass="maskData">
+						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+					</h:inputText>
+				</dd>
+
+				<dt><label for="dtFinal">Data final:</label></dt>
+				<dd>
+					<h:inputText id="dtFinal" value="#{solicitacaoLubrificanteBean.dtFinal}" style="color: black;" size="12" styleClass="maskData">
+						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+					</h:inputText>
+				</dd>
+
+				<dt/>
+				<dd>
+					<h:selectOneRadio id="radioSolicitacaoLub" value="#{solicitacaoLubrificanteBean.searchId}" style="width:80%;">
+				      	<f:selectItem itemLabel="Todos" itemValue="3"/>
+				      	<f:selectItem itemLabel="Autorizados" itemValue="1"/>
+						<f:selectItem itemLabel="Atendidos" itemValue="2"/>
+						<f:selectItem itemLabel="Negados" itemValue="0"/>
+					</h:selectOneRadio>
+				</dd>
 				
 				<h:commandButton action="#{solicitacaoLubrificanteBean.loadList}" value="Consultar" style="margin-left:30px">
 					<a4j:support event="onclick" reRender="dataTable"/>
 				</h:commandButton>
-				
-				<h:selectOneRadio id="radioSolicitacaoLub" value="#{solicitacaoLubrificanteBean.searchId}" style="width:60%;">
-			      	<f:selectItem itemLabel="Todos" itemValue="3"/>
-			      	<f:selectItem itemLabel="Autorizados" itemValue="1"/>
-					<f:selectItem itemLabel="Atendidos" itemValue="2"/>
-					<f:selectItem itemLabel="Negados" itemValue="0"/>
-				</h:selectOneRadio>
 
-			
 			</fieldset>
 
 	      	<rich:dataTable id="dataTable" value="#{solicitacaoLubrificanteBean.entities}" var="solicitacao" 

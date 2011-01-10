@@ -361,7 +361,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String save() {
 		if (validarAutorizacao()) {
-			this.entity.setDataAutorizacao(new Date());
+			if(this.entity.getDataAutorizacao() == null){
+				this.entity.setDataAutorizacao(new Date());
+			}
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			super.save();
 			return search();

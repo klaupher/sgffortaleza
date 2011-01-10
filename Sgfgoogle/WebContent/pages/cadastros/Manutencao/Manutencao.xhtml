@@ -40,7 +40,7 @@
 				</dd>
 					
 			
-				<dt><label for="veiculo">veículo</label></dt>
+				<dt><label for="veiculo">Veículo</label></dt>
 				<dd>
 					<h:selectOneMenu id="veiculo" value="#{requisicaoManutencaoBean.entity.veiculo}" disabled="#{empty requisicaoManutencaoBean.veiculos}" requiredMessage="Informe o veículo" converter="entityConverter">
 						<f:selectItem itemLabel="Todos" itemValue="" />
@@ -75,7 +75,7 @@
 						<dt><label for="dataInicio">Data inicial</label></dt>
 						<dd>
 							<h:inputText id="dataInicio" value="#{requisicaoManutencaoBean.entity.dataInicio}" required="true" styleClass="maskData"
-								requiredMessage="Informe a data de iNºcio.">
+								requiredMessage="Informe a data de início.">
 								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 							</h:inputText>
 							<h:message for="dataInicio" styleClass="message"/>
