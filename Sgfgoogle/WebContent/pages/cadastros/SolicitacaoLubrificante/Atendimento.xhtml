@@ -12,6 +12,8 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	
 	<h:inputHidden value="#{solicitacaoLubrificanteBean.entity.id}" rendered="#{solicitacaoLubrificanteBean.updateState}"/>
+	
+	<h:outputLabel id="kmCheck" value="Valor de Km inválido..."  rendered="#{solicitacaoLubrificanteBean.kmChecked}" style="color:red"/>
 
 	<div id="cadastro">
 
@@ -76,8 +78,6 @@
 					</c:choose>
 				</dd>
 			</dl>
-			
-			<h:outputLabel value="Verifique os dados informados."  rendered="#{solicitacaoLubrificanteBean.kmChecked}"/>
 
 			<dl>
 				<dt><label for="dataAutorizacao">Data da autorização</label></dt>
@@ -107,8 +107,6 @@
 			</dl>
 			</p>
 			
-			<h:outputLabel id="kmCheck" value="Valor de Km inválido..."  rendered="#{solicitacaoLubrificanteBean.kmChecked}" style="color:red"/>
-
 	   </fieldset>
 
 	</div>

@@ -76,7 +76,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		}
 
 		Query query = entityManager.createQuery(queryBuffer.toString());
-		query.setParameter("currentDate", new Date());
+		query.setParameter("currentDate", DateUtil.getDateStartDay(new Date()));
 		query.setParameter("dataIni", dataIni);
 		query.setParameter("dataFim", dataFim);
 		
@@ -104,7 +104,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		List<Abastecimento> abastecimentos = null;
 		Query query = entityManager.createQuery("select a from Abastecimento a where a.dataAutorizacao <= :currentDate and a.dataAutorizacao between :dataInicial and :dataFinal and " +
 		"a.autorizador.pessoa.ua.ug = :orgao and a.status = :status order by a.dataAutorizacao desc");
-		query.setParameter("currentDate", new Date());
+		query.setParameter("currentDate", DateUtil.getDateStartDay(new Date()));
 		query.setParameter("dataInicial", dtInicial);
 		query.setParameter("dataFinal", dtFinal);
 		query.setParameter("orgao", orgao);
@@ -138,7 +138,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		List<Abastecimento> abastecimentos = null;
 		Query query = entityManager.createQuery("select a from Abastecimento a where (a.dataAutorizacao between :dataInicial and :dataFinal) and " +
 				"a.dataAutorizacao <= :currentDate  and a.status = :status order by a.dataAutorizacao desc");
-		query.setParameter("currentDate", new Date());
+		query.setParameter("currentDate", DateUtil.getDateStartDay(new Date()));
 		query.setParameter("dataInicial", dtInicial);
 		query.setParameter("dataFinal", dtFinal);
 		query.setParameter("status", status);

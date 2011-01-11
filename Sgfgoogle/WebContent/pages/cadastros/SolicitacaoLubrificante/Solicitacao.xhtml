@@ -25,8 +25,7 @@
 
 	      	<dt><label for="ugList">UG</label></dt>
 	      	<dd>
-		      	<h:selectOneMenu id="ugList" value="#{solicitacaoLubrificanteBean.orgao}" 
-		      					requiredMessage="Informe a UG" converter="entityConverter">
+		      	<h:selectOneMenu id="ugList" value="#{solicitacaoLubrificanteBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
 		      		<f:selectItem itemLabel="Informe a UG" itemValue=""/>
 		   			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 		   			<a4j:support event="onchange" action="#{solicitacaoLubrificanteBean.loadMotoristas}" reRender="motorista,veiculo"/>
@@ -37,7 +36,7 @@
 		  	<dt><label for="motorista">Motoristas</label></dt>
 		  	<dd>
 			<h:selectOneMenu id="motorista" value="#{solicitacaoLubrificanteBean.motorista}"  required="true" 
-			requiredMessage="Motorista deve ser selecionado." converter="entityConverter">
+			requiredMessage="Informe o motorista." converter="entityConverter">
 				<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
 				<t:selectItems value="#{solicitacaoLubrificanteBean.motoristas}" var="m" itemLabel="#{m.pessoa.nome}" itemValue="#{m}"/>
 			</h:selectOneMenu>
@@ -73,10 +72,10 @@
 			</dl>
 
 			<dl>
-			  	<dt><label for="veiculo">veículo</label></dt>
+			  	<dt><label for="veiculo">Veículo</label></dt>
 			  	<dd>
 					<h:selectOneMenu id="veiculo" value="#{solicitacaoLubrificanteBean.entity.veiculo}" required="true"
-					requiredMessage="veículo deve ser selecionado."  converter="entityConverter">
+					requiredMessage="Informe o veículo."  converter="entityConverter">
 			 			<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
 			 			<t:selectItems value="#{solicitacaoLubrificanteBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 			 			<a4j:support event="onchange" rendered="#{solicitacaoLubrificanteBean.saveState}" action="#{solicitacaoLubrificanteBean.getUltimaAutorizacao}"/>
