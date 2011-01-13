@@ -35,7 +35,8 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusAbastecimento;
 	 * ) */
 	@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(o.id) from Abastecimento o) and a.veiculo.id = ?"),
 	@NamedQuery(name = "Abastecimento.findByPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc"),
-	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc") 
+	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where a.dataAutorizacao <= ? and " +
+			"a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc") 
 })
 public class Abastecimento implements Serializable {
 

@@ -130,7 +130,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
 		this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
 		this.status = StatusAbastecimento.AUTORIZADO;
-		this.entities = service.pesquisarTodos(this.dtInicial, this.dtFinal, this.status);
+		this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 	}
 
 	@Override
@@ -171,24 +171,35 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.dtFinal = DateUtil.getDateTime(this.dtFinal, "23:59:59");
 
 		if (DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
+
 			if (SgfUtil.isOperador(usuario)) {
+
 				if (this.placa != null && this.placa != "") {
-					this.entities = service.pesquisarPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
+
+					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
 				} else {
+
 					this.entities = service.findByPeriodoAndPosto(usuario.getPosto().getCodPosto(), this.dtInicial,this.dtFinal, status);
 				}
 			} else if (this.orgaoSelecionado != null&& this.orgaoSelecionado.getId() != null) {
+
 				if (this.placa != null && this.placa != "") {
-					this.entities = service.pesquisarPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
+
+					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
 				} else {
-					this.entities = service.pesquisarPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
+
+					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
 				}
 			} else {
-				this.entities = service.pesquisarTodos(this.dtInicial,this.dtFinal, this.status);
+
+				this.entities = service.pesquisarAbastecimentos(this.dtInicial,this.dtFinal, this.status);
 			}
 			return SUCCESS;
+
 		} else {
+
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
+
 			return FAIL;
 		}
 	}
@@ -308,53 +319,76 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	@Override
 	public String search() {
+
 		Set<Abastecimento> filtro = new HashSet<Abastecimento>(0);
+
 		this.entities = new ArrayList<Abastecimento>();
+
 		this.tiposServico.add(tipoServicoService.retrieve(1));
+
 		UA ua = usuario.getPessoa().getUa();
+
 		if (ua != null) {
+
 			this.orgaoSelecionado = ua.getUg();
 		}
 		this.autorizar = false;
 		this.atender = false;
 		this.atendimento = false;
 		this.status = StatusAbastecimento.AUTORIZADO;
+
 		if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
-			this.entities = service.pesquisarTodos(this.dtInicial,  this.dtFinal, this.status);
+
+			this.entities = service.pesquisarAbastecimentos(this.dtInicial,  this.dtFinal, this.status);
 		} else if (SgfUtil.isOperador(usuario)) {
+
 			this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
+
 			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
+
 			this.entities = service.findByPeriodoAndPosto(usuario.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
 		} else if (SgfUtil.isChefeTransporte(usuario)) {
+
 			this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
+
 			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
-			this.entities = service.pesquisarPeriodo(this.dtInicial,this.dtFinal, usuario.getPessoa().getUa().getUg(),this.status);
+
+			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, usuario.getPessoa().getUa().getUg(),this.status);
+
 			loadVeiculos();
 		}
 
 		for (Abastecimento abastecimento : this.entities) {
 
 			if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
+
 				this.autorizar = true;
 			} else if (usuario.getAutoriza() != null) {
+
 				this.autorizar = this.usuario.getAutoriza();
 			}
 
 			if (!this.atendimento) {
+
 				this.atendimento = SgfUtil.isOperador(usuario) && (abastecimento.getStatus().equals(StatusAbastecimento.AUTORIZADO));
 			}
 
 			if (this.autorizar || this.atendimento) {
+
 				this.negar = false;
+
 				this.atender = false;
+
 				filtro.add(abastecimento);
 			}
 		}
-		//this.entities.clear();
-		//this.entities.addAll(filtro);
+
 		setCurrentBean(currentBeanName());
+
 		setCurrentState(SEARCH);
+
 		this.interval = 2000000;
+
 		return SUCCESS;
 	}
 
@@ -439,7 +473,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.entity.setStatus(StatusAbastecimento.NEGADO);
 		return SUCCESS;
 	}
-	
+
 	public String confirmarNegacaoAbastecimento(){
 		service.update(this.entity);
 		return search();
