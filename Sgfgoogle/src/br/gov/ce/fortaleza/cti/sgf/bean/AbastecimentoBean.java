@@ -164,7 +164,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return SUCCESS;
 	}
 
-	public String pesquisarPeriodoOrgao() {
+	public String pesquisarAbastecimentosPorPeriodoPorOrgao() {
 
 		this.entities = new ArrayList<Abastecimento>();
 		this.dtInicial = DateUtil.getDateTime(this.dtInicial, "00:00:00");

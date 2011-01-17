@@ -39,7 +39,7 @@
 					<h:inputText id="placaVeiculo" value="#{abastecimentoBean.placa}" style="color: black;width:80px"/>
 				</dd>
 
-				<dt><label for="dtInicio">Data inicio:</label></dt>
+				<dt><label for="dtInicio">Data início:</label></dt>
 				<dd>
 					<h:inputText id="dtInicio" value="#{abastecimentoBean.dtInicial}" style="color: black;"
 						size="8" styleClass="maskData" required="true" requiredMessage="Informe a data inicial">
@@ -65,7 +65,7 @@
 					</h:selectOneRadio>
 				</dd>						
 
-				<a4j:commandButton action="#{abastecimentoBean.pesquisarPeriodoOrgao}" value="Pesquisar" reRender="dataTable"/>
+				<a4j:commandButton action="#{abastecimentoBean.pesquisarAbastecimentosPorPeriodoPorOrgao}" value="Pesquisar" reRender="dataTable"/>
 
 			</a4j:outputPanel>
 

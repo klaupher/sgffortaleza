@@ -162,7 +162,6 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 		
 		if(codUASgf == null){
 			codUAPat = this.ua.getId();
-			codUASgf = this.ua.getId();
 		}
 
 		/*
@@ -295,7 +294,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 				placaValidada = rs.getString("placa").replace(" ", "");
 				placaValidada = rs.getString("placa").replace(".", "");
 
-				this.veiculo = veiculoService.findByPlacaSingle(placaValidada.toUpperCase());
+				this.veiculo = veiculoService.findByPlacaSingle(placaValidada.toUpperCase()); // busca o veículo pela placa
 
 				this.ua = uaService.retrieve(codUASgf);
 				if (rs.getString("modelo") != null && rs.getString("modelo") != "") {
