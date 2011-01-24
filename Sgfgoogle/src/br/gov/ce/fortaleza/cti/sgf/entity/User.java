@@ -38,16 +38,16 @@ import org.springframework.security.userdetails.UserDetails;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name="TB_PESSOAUSUARIO" , schema = "SGF")
 @NamedQueries({
-	@NamedQuery(name = "User.findByLogin", query = "select o from User o where o.login = ?"),
-	@NamedQuery(name = "User.findByStatus", query = "select o from User o where o.status = ?"),
-	@NamedQuery(name = "User.findByLoginAndStatus", query = "select o from User o where o.login LIKE ? and o.status = ?"),
-	@NamedQuery(name = "User.findByUGAndLogin",   query = "select o from User o where o.pessoa.ua.ug.id = ? and o.login = ? and o.status = ?"),
+	@NamedQuery(name = "User.findByLogin", query = "select o from User o where o.login = ? and (o.status != ? and o.status != ?)"),
+	@NamedQuery(name = "User.findByStatus", query = "select o from User o where o.status = ? or o.status = ?"),
+	@NamedQuery(name = "User.findByLoginAndStatus", query = "select o from User o where o.login = ? and o.status = ?"),
+	@NamedQuery(name = "User.findByUGAndLogin",   query = "select o from User o where o.pessoa.ua.ug.id = ? and o.login = ? and (o.status = ? or o.status = ?)"),
 	@NamedQuery(name = "User.findByCpf", 	query = "select u from User u where u.pessoa.cpf = ?"),
 	@NamedQuery(name = "User.findByUGAndCpf", 	query = "select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.cpf = ?"),
 	@NamedQuery(name = "User.findByUA",     query = "select u from User u where u.pessoa.ua.id = ?"),
-	@NamedQuery(name = "User.findByName", query = "select u from User u where u.pessoa.nome LIKE ? and u.status = ?"),
-	@NamedQuery(name = "User.findByUG",   query = "select u from User u where u.pessoa.ua.ug.id = ? and u.status = ?"),
-	@NamedQuery(name = "User.findByUGAndName", query="select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.nome LIKE ? and u.status = ?")
+	@NamedQuery(name = "User.findByName", query = "select u from User u where u.pessoa.nome LIKE ? and (u.status = ? or u.status = ?)"),
+	@NamedQuery(name = "User.findByUG",   query = "select u from User u where u.pessoa.ua.ug.id = ? and (u.status = ? or u.status = ?)"),
+	@NamedQuery(name = "User.findByUGAndName", query="select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.nome LIKE ? and (u.status = ? or u.status = ?)")
 })
 public class User implements Serializable, UserDetails {
 
@@ -262,5 +262,5 @@ public class User implements Serializable, UserDetails {
 
 		return ((codPessoaUsuario == null && other.codPessoaUsuario == null) || (codPessoaUsuario != null && codPessoaUsuario.equals(other.codPessoaUsuario))) &&
 		((login == null && other.login == null) || (login != null && login.equals(other.login)));
-	}	
+	}
 }

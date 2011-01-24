@@ -77,7 +77,7 @@
 					<h:selectOneMenu id="veiculo" value="#{solicitacaoLubrificanteBean.entity.veiculo}" required="true"
 					requiredMessage="Informe o veículo."  converter="entityConverter">
 			 			<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
-			 			<t:selectItems value="#{solicitacaoLubrificanteBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
+			 			<t:selectItems value="#{solicitacaoLubrificanteBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}"/>
 			 			<a4j:support event="onchange" rendered="#{solicitacaoLubrificanteBean.saveState}" action="#{solicitacaoLubrificanteBean.getUltimaAutorizacao}"/>
 					</h:selectOneMenu>
 					<rich:message errorClass="error" for="veiculo"  styleClass="message"/>

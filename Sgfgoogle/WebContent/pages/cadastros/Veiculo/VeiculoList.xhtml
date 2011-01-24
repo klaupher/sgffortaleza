@@ -58,6 +58,11 @@
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
+					<rich:column width="20%" sortBy="#{veiculo.ua.ug.descricao}"> 
+						<f:facet name="header"><h:outputText value="UG" /></f:facet>
+						<h:outputText value="#{veiculo.ua.ug.descricao}" style="color: black;"/>
+					</rich:column>
+					
 					<rich:column width="20%" sortBy="#{veiculo.ua.descricao}"> 
 						<f:facet name="header"><h:outputText value="UA" /></f:facet>
 						<h:outputText value="#{veiculo.ua.descricao}" style="color: black;"/>
@@ -75,7 +80,7 @@
 
 					<rich:column width="14%" sortBy="#{veiculo.modelo.descricao}"> 
 						<f:facet name="header"><h:outputText value="Modelo" /></f:facet>
-						<h:outputText value="#{veiculo.modelo.descricao}" style="color: black;"/>
+						<h:outputText value="#{veiculo.modelo.descricao} #{veiculo.serie}" style="color: black;"/>
 					</rich:column>
 
 					<rich:column width="4%"> 

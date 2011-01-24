@@ -4,6 +4,7 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -80,7 +81,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private List<Bomba> bombas = new ArrayList<Bomba>();
 	private List<TipoCombustivel> combustiveis = new ArrayList<TipoCombustivel>();
 
-	private User usuario = SgfUtil.usuarioLogado();
+	private User usuario;
 	private Date dtInicial;
 	private Date dtFinal;
 	private UG orgaoCadSelecionado;
@@ -126,11 +127,18 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	@PostConstruct
 	public void init() {
-		this.orgaoSelecionado = usuario.getPessoa().getUa().getUg();
-		this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
-		this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
+		//this.orgaoSelecionado = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
+		this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+		this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
 		this.status = StatusAbastecimento.AUTORIZADO;
-		this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+		if(SgfUtil.isChefeTransporte(SgfUtil.usuarioLogado()) || SgfUtil.isChefeSetor(SgfUtil.usuarioLogado())){
+			
+			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, 
+					SgfUtil.usuarioLogado().getPessoa().getUa().getUg(), this.status);
+			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+		} else if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
+			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+		}
 	}
 
 	@Override
@@ -164,42 +172,45 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return SUCCESS;
 	}
 
+	/**
+	 * pesquisa os abastecimentos efetuados no período por perfil de usuario, período e orgão
+	 * @return
+	 */
 	public String pesquisarAbastecimentosPorPeriodoPorOrgao() {
 
+		User usuarioLogado = SgfUtil.usuarioLogado();
 		this.entities = new ArrayList<Abastecimento>();
 		this.dtInicial = DateUtil.getDateTime(this.dtInicial, "00:00:00");
 		this.dtFinal = DateUtil.getDateTime(this.dtFinal, "23:59:59");
 
 		if (DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 
-			if (SgfUtil.isOperador(usuario)) {
-
+			if (SgfUtil.isOperador(usuarioLogado)) {
 				if (this.placa != null && this.placa != "") {
-
 					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
 				} else {
-
-					this.entities = service.findByPeriodoAndPosto(usuario.getPosto().getCodPosto(), this.dtInicial,this.dtFinal, status);
+					this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial,this.dtFinal, status);
 				}
-			} else if (this.orgaoSelecionado != null&& this.orgaoSelecionado.getId() != null) {
-
+			} else if(SgfUtil.isChefeTransporte(usuarioLogado) || SgfUtil.isChefeSetor(usuarioLogado)){
 				if (this.placa != null && this.placa != "") {
-
+					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, 
+							usuarioLogado.getPessoa().getUa().getUg(), this.placa,this.status);
+				} else {
+					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, 
+							usuarioLogado.getPessoa().getUa().getUg(), this.status);
+				}
+			} else if (this.orgaoSelecionado != null && this.orgaoSelecionado.getId() != null) {
+				if (this.placa != null && this.placa != "") {
 					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
 				} else {
-
 					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
 				}
 			} else {
-
 				this.entities = service.pesquisarAbastecimentos(this.dtInicial,this.dtFinal, this.status);
 			}
 			return SUCCESS;
-
 		} else {
-
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
-
 			return FAIL;
 		}
 	}
@@ -235,6 +246,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
 			this.motoristas.addAll(motoristaService.findByUG(this.orgaoSelecionado.getId()));
+		} else {
+			this.veiculos.addAll(veiculoService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg()));
+			this.motoristas.addAll(motoristaService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId()));
 		}
 		this.tiposServico.add(tipoServicoService.retrieve(1));
 		if (this.entity.getPosto() != null) {
@@ -279,18 +293,24 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	/**
 	 * faz validações de autorizaçao existente, se veículo é vasilhame
 	 * se veículo possui cota
+	 * se veículo já possui autorizacao de abastecimento na data solicitada
 	 * @return
 	 */
 	public boolean validarAutorizacao() {
+
 		Veiculo veiculo = this.entity.getVeiculo();
 		boolean vasilhame = false;
 		boolean existeAutorizacao = false;
 		if(veiculo != null){
-			existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo);
-		}
-		if(existeAutorizacao){
-			JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
-			return false;
+			if(this.entity.getDataAutorizacao() == null){
+				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, DateUtil.getDateTime(new Date()));
+			} else {
+				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, this.entity.getDataAutorizacao());
+			}
+			if(existeAutorizacao){
+				JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
+				return false;
+			}
 		}
 
 		if(veiculo.getModelo() != null){
@@ -317,78 +337,62 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return SUCCESS;
 	}
 
+
 	@Override
 	public String search() {
-
+		User usuarioLogado = SgfUtil.usuarioLogado();
 		Set<Abastecimento> filtro = new HashSet<Abastecimento>(0);
-
 		this.entities = new ArrayList<Abastecimento>();
-
 		this.tiposServico.add(tipoServicoService.retrieve(1));
-
-		UA ua = usuario.getPessoa().getUa();
-
-		if (ua != null) {
-
-			this.orgaoSelecionado = ua.getUg();
+		if (SgfUtil.isChefeTransporte(usuarioLogado)  || SgfUtil.isChefeSetor(usuarioLogado)) {
+			this.orgaoSelecionado = usuarioLogado.getPessoa().getUa().getUg();
 		}
 		this.autorizar = false;
 		this.atender = false;
 		this.atendimento = false;
 		this.status = StatusAbastecimento.AUTORIZADO;
 
-		if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
+		//String result = pesquisarAbastecimentosPorPeriodoPorOrgao();
+		
+		this.dtInicial = DateUtil.getDateTime(this.dtInicial);
+		this.dtFinal = DateUtil.getDateTime(this.dtFinal);
 
-			this.entities = service.pesquisarAbastecimentos(this.dtInicial,  this.dtFinal, this.status);
-		} else if (SgfUtil.isOperador(usuario)) {
+		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
+			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
+			this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+			this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
 
-			this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
-
-			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
-
-			this.entities = service.findByPeriodoAndPosto(usuario.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
-		} else if (SgfUtil.isChefeTransporte(usuario)) {
-
-			this.dtInicial = DateUtil.getDateTime(new Date(), "00:00:00");
-
-			this.dtFinal = DateUtil.getDateTime(new Date(), "23:59:59");
-
-			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, usuario.getPessoa().getUa().getUg(),this.status);
-
-			loadVeiculos();
+		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
+			this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+			this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(),this.status);
+			//loadVeiculos();
 		}
 
 		for (Abastecimento abastecimento : this.entities) {
 
-			if (SgfUtil.isAdministrador(usuario) || SgfUtil.isCoordenador(usuario)) {
-
+			if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 				this.autorizar = true;
-			} else if (usuario.getAutoriza() != null) {
-
-				this.autorizar = this.usuario.getAutoriza();
+			} else if (usuarioLogado.getAutoriza() != null) {
+				this.autorizar = usuarioLogado.getAutoriza();
 			}
 
 			if (!this.atendimento) {
-
-				this.atendimento = SgfUtil.isOperador(usuario) && (abastecimento.getStatus().equals(StatusAbastecimento.AUTORIZADO));
+				this.atendimento = SgfUtil.isOperador(usuarioLogado) && (abastecimento.getStatus().equals(StatusAbastecimento.AUTORIZADO));
 			}
 
 			if (this.autorizar || this.atendimento) {
-
 				this.negar = false;
-
 				this.atender = false;
-
 				filtro.add(abastecimento);
 			}
 		}
 
 		setCurrentBean(currentBeanName());
-
 		setCurrentState(SEARCH);
-
 		this.interval = 2000000;
-
 		return SUCCESS;
 	}
 
@@ -396,7 +400,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	public String save() {
 		if (validarAutorizacao()) {
 			if(this.entity.getDataAutorizacao() == null){
-				this.entity.setDataAutorizacao(DateUtil.getDateStartDay(new Date()));
+				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
 			}
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			super.save();
@@ -506,8 +510,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			this.motoristas.add(e.getMotorista());
 		}
 
-		if (usuario.getPosto() != null) {
-			this.bombas.addAll(bombaService.findBombaByPosto(usuario.getPosto().getCodPosto()));
+		if (SgfUtil.usuarioLogado().getPosto() != null) {
+			this.bombas.addAll(bombaService.findBombaByPosto(SgfUtil.usuarioLogado().getPosto().getCodPosto()));
 		}
 		this.atendimento = true;
 		return super.prepareView();

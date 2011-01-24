@@ -23,18 +23,11 @@
 	    	<dl>
 	        	<dt><label for="cpf">CPF</label></dt>
 	        	<dd>
-	        		<h:inputText value="#{usuarioBean.cpf}" id="cpf" required="true" requiredMessage="Informe o filtro da pesquisa" styleClass="maskCpf"/>
-
-	        		<a4j:region>
-		        		<h:commandButton id="pesquisar" action="#{usuarioBean.searchByCpf}" value="Pesquisar" onclick="Richfaces.showModalPanel('progress')">
-		        			<a4j:support event="onclick" reRender="ajaxOutputPanel, panelDadosUsuario" oncomplete="Richfaces.hideModalPanel('progress')"/>
-		        		</h:commandButton>
-
-		        		<h:commandButton action="#{usuarioBean.search}" value="Voltar" immediate="true">
-							<a4j:support event="onclick" reRender="paginaPrincipal"/>
-						</h:commandButton>
-		        		<h:message styleClass="message" for="cpf"/>
-	        		</a4j:region>
+	        		<h:inputText value="#{usuarioBean.cpf}" id="cpf" required="true" requiredMessage="Informe o Nº do CPF" styleClass="maskCpf"/>
+	        		<h:commandButton id="pesquisar" action="#{usuarioBean.searchByCpf}" value="Pesquisar">
+	        			<a4j:support event="onclick" action="#{usuarioBean.prepareSave}" reRender="paginaPrincipal" immediate="true"/>
+	        			<a4j:support event="oncomplete" reRender="ajaxOutputPanel, panelDadosUsuario"/>
+	        		</h:commandButton>
 	        	</dd>
 	        </dl>
 
@@ -49,14 +42,41 @@
 			    <legend>Dados do Usuário</legend>
 
 			    <a4j:outputPanel id="panelDadosPessoa">
-			    	<dt><label for="nome">Nome</label></dt>
-				  	<dd><h:inputText value="#{usuarioBean.entity.pessoa.nome}" id="nome" disabled="true" size="50"/></dd>
+			    	<dt>
+			    		<label for="nome">Nome</label>
+			    	</dt>
+				  	<dd>
+				  		<h:inputText value="#{usuarioBean.entity.pessoa.nome}" id="nome" disabled="true" size="45"/>
+				  	</dd>
 
-				  	<dt><label for="matricula">Matrícula</label></dt>
-				  	<dd><h:inputText value="#{usuarioBean.entity.pessoa.matricula}" id="matricula" disabled="true"/></dd>				
+				  	<dt>
+				  		<label for="matricula">Matrícula</label>
+				  	</dt>
+				  	<dd>
+				  		<h:inputText value="#{usuarioBean.entity.pessoa.matricula}" id="matricula" disabled="true"/>
+				  	</dd>				
 
-				  	<dt><label for="tpPessoa">Tipo de pessoa</label></dt>
-				  	<dd><h:inputText value="#{usuarioBean.entity.pessoa.tpPessoa}" id="tpPessoa" disabled="true"/></dd>
+				  	<dt>
+				  		<label>Tipo de pessoa</label>
+				  	</dt>
+				  	<dd>
+				  		<h:inputText rendered="#{usuarioBean.entity.pessoa.tpPessoa == 1}" value="Pessoa Física" disabled="true"/>
+				  		<h:inputText rendered="#{usuarioBean.entity.pessoa.tpPessoa == 2}" value="Pessoa Jurídica" disabled="true"/>
+				  		<h:selectOneMenu id="tipoPessoa" value="#{usuarioBean.entity.pessoa.tpPessoa}" required="true"
+					    	 requiredMessage="Informe o tipo de pessoa" rendered="#{!usuarioBean.usuarioCadastrado}">
+					    	<f:selectItem itemValue="1" itemLabel="Pessoa Física"/>
+					    </h:selectOneMenu>
+				  	</dd>
+				  	 <a4j:outputPanel rendered="#{usuarioBean.usuarioCadastrado}">
+				  	 	<dt>
+				  			<label for="ugPessoa">UG atual</label>
+				  		</dt>
+				  		<dd>
+				  			<h:inputText value="#{usuarioBean.entity.pessoa.ua.ug.descricao}" id="ugPessoa" size="45" disabled="true"/>
+				  		</dd>
+				  	 </a4j:outputPanel>
+
+			    
 			    </a4j:outputPanel>
 
 			    <a4j:outputPanel id="panelDadosUsuario" rendered="#{!usuarioBean.usuarioCadastrado}">

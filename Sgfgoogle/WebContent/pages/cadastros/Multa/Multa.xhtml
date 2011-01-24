@@ -6,6 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
@@ -23,22 +24,24 @@
 
 	      	<legend>Cadastro de Multa</legend>
 
-	      	<dt><label for="ugVeiculo">UG</label></dt>
+	      	<dt><label for="ugVeiculo">Órgão:</label></dt>
 	    	<dd>
 	    		<h:selectOneMenu id="ugVeiculo" value="#{multaBean.ug}" required="true" requiredMessage="Informe a UG" converter="entityConverter" style="width:450px">
-	    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
+    				<c:if test="#{controlBean.administrador or controlBean.coordenador}">
+						<f:selectItem itemLabel="Todos ..." itemValue=""/>
+					</c:if>
 	    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
 	    			<a4j:support event="onchange" action="#{multaBean.loadVeiculos}" reRender="veiculo, motorista" ajaxSingle="true"/>
 	    		</h:selectOneMenu>
 	    		<rich:message for="ugVeiculo" styleClass="message"/>
 	    	</dd>
 
-		  	<dt><label for="veiculo">veículo</label></dt>
+		  	<dt><label for="veiculo">Veículo</label></dt>
 		  	<dd>
 				<h:selectOneMenu id="veiculo" value="#{multaBean.entity.veiculo}" required="true" requiredMessage="Selecione o veículo"  
 				converter="entityConverter">
 		 			<f:selectItem itemLabel="Selecione um veículo" itemValue=""/>
-		 			<t:selectItems value="#{multaBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}"/>
+		 			<t:selectItems value="#{multaBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}  #{veiculo.serie}" itemValue="#{veiculo}"/>
 				</h:selectOneMenu>
 				<label style="color:red">*</label>
 				<rich:message for="veiculo"  styleClass="message"/>

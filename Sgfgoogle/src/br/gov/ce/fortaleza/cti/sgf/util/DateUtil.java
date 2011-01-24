@@ -1,5 +1,6 @@
 package br.gov.ce.fortaleza.cti.sgf.util;
-import java.text.SimpleDateFormat;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -159,6 +160,17 @@ public class DateUtil {
 		cal.set(Calendar.MINUTE, minute);
 		cal.set(Calendar.SECOND, second);
 
+		return cal.getTime();
+	}
+	
+	public static Date getDateTime(Date date) {
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
 

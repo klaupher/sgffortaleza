@@ -203,23 +203,16 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	}
 
 	public String searchUsuarios(){
+		this.entities = new ArrayList<User>();
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
 			String str = this.status == true ? "TRUE" : "FALSE";
-			if(this.filter == ""){
-				this.entities = service.findByUGAndLogin(null, null, str);
-			} else {
-				this.entities = service.findByUGAndLogin(null, this.filter, str);
-			}
+			this.entities = service.findByUGAndLogin(null, this.filter, str);
 		} else {
 			UA ua = user.getPessoa().getUa();
 			if(ua != null){
 				String str = this.status == true ? "TRUE" : "FALSE";
-				if(this.filter == ""){
-					this.entities = service.findByUGAndLogin(ua.getUg().getId(), null, str);
-				} else {
-					this.entities = service.findByUGAndLogin(ua.getUg().getId(), this.filter, str);
-				}
+				this.entities = service.findByUGAndLogin(ua.getUg().getId(), this.filter, str);
 			}
 		}
 		Collections.sort(this.entities, new Comparator<User>() {
@@ -249,7 +242,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 			if(pessoa != null){
 				this.pessoaCadastrada = true;
 				this.pessoaNaoCadastrada = false;
-				
+
 				this.entity.setPessoa(pessoa);
 				this.ua = pessoa.getUa();
 				this.mostrarUA = false;
@@ -258,7 +251,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 					this.uas = uaService.retrieveByUG(this.ug.getId());
 					this.mostrarUA = true;
 				}
-				
+
 				if(SgfUtil.isAdministrador(user)){
 					this.usuarioCadastrado = service.findUserByCpf(pessoa.getCpf(), null);
 				} else {

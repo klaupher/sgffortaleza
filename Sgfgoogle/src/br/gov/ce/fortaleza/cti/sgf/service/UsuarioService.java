@@ -49,12 +49,12 @@ public class UsuarioService extends BaseService<Integer, User> {
 
 	@Transactional
 	public User findByLogin(String login) throws NonUniqueResultException{
-		return executeSingleResultQuery("findByLogin", login);
+		return executeSingleResultQuery("findByLogin", login, "FALSE", "false");
 	}
 
 	@Transactional
 	public List<User> findByStatus(String status) {
-		return executeResultListQuery("findByStatus", status);
+		return executeResultListQuery("findByStatus", status, status.toLowerCase());
 	}
 
 	@Transactional
@@ -65,19 +65,15 @@ public class UsuarioService extends BaseService<Integer, User> {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<User> findByLogin(String login, String status) {
-		if(status == null){
-			return executeResultListQuery("findByLogin", login);
-		} else {
-			Query query = entityManager.createQuery("select o from User o where o.login LIKE ? and o.status = ?");
-			query.setParameter(1, login);
-			query.setParameter(2, status);
-			return query.getResultList();
-			//return executeResultListQuery("findByLoginAndStatus", login, status);
-		}
+		Query query = entityManager.createQuery("select o from User o where o.login = ? and (o.status = ? or o.status = ?)");
+		query.setParameter(1, login);
+		query.setParameter(2, status);
+		query.setParameter(3, status.toLowerCase());
+		return query.getResultList();
 	}
 
 	public List<User> findUsuariosBloqueados() {
-		List<User> listaUsersBloqueados = executeResultListQuery("User.findByStatus", "FALSE");
+		List<User> listaUsersBloqueados = executeResultListQuery("User.findByStatus", "TRUE", "true");
 		return listaUsersBloqueados;
 	}
 
@@ -90,15 +86,13 @@ public class UsuarioService extends BaseService<Integer, User> {
 	public List<User> findByUGAndLogin(String ugid, String filter, String status){
 		List<User> users = new ArrayList<User>();
 		if(ugid == null){
-			if(filter != null){
-				filter = "%" + filter + "%";
+			if(filter != null && !filter.equals("")){
 				users = findByLogin(filter, status);
 			} else {
 				users = findByStatus(status);
 			}
 		} else {
-			if(filter != null){
-				filter = "%" + filter + "%";
+			if(filter != null && !filter.equals("")){
 				users = executeResultListQuery("findByUGAndLogin", ugid, filter, status);
 			} else {
 				users = findByUGStatus(ugid, status);
@@ -122,7 +116,7 @@ public class UsuarioService extends BaseService<Integer, User> {
 			query.setParameter(1,login);
 			query.setParameter(2, id);
 		} else {
-			query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = ?");
+			query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = ? and (o.status = ? or o.status = ?)");
 			query.setParameter(1, login);
 		}
 		return query.getResultList().isEmpty();

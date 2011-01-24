@@ -17,7 +17,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.User;
 
 /**
  * @author Deivid
- * @since 03/11/2009	
+ * @since 03/11/2009
  */
 
 @Component()
@@ -33,12 +33,9 @@ public class CustomUserDetailsService extends BaseService<Integer, User> impleme
 			try {
 				Query query = entityManager.createNamedQuery("User.findByLogin");
 				query.setParameter(1, username);
+				query.setParameter(2, "false");
+				query.setParameter(3, "FALSE");
 				user = (User) query.getSingleResult();
-				if(user.getStatus().equals("false")){
-					user = null;
-					return null;
-				}
-				
 			}catch (NoResultException e) {
 				user = null;
 			} catch (UsernameNotFoundException e) {
@@ -49,6 +46,6 @@ public class CustomUserDetailsService extends BaseService<Integer, User> impleme
 				user = null;
 			}
 		}
-		return user;  
+		return user;
 	}
 }

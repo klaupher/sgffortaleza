@@ -63,7 +63,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	private Boolean autorizar;
 	private Boolean retornoVeiculo;
 	private Boolean start = true;
-	private StatusSolicitacaoVeiculo statusPesquisa = StatusSolicitacaoVeiculo.SOLICITADO;
+	private StatusSolicitacaoVeiculo statusPesquisa;
 	private String imagemURL;
 	private String placaVeiculo;
 	private Date dataSaida;
@@ -156,10 +156,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 				}
 			}
 			this.mostrarSolicitacoes = true;
-		} else {
-			JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.sol.inexistentes");
-			this.mostrarSolicitacoes = false;
-		}
+		} 
+		//		else {
+		//			JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.sol.inexistentes");
+		//			this.mostrarSolicitacoes = false;
+		//		}
 		this.placaVeiculo = null;
 	}
 
@@ -275,18 +276,62 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	@Override
 	public String search() {
-		statusPesquisa = StatusSolicitacaoVeiculo.SOLICITADO;
+
+		if(this.statusPesquisa == null){
+
+			this.statusPesquisa = StatusSolicitacaoVeiculo.SOLICITADO;
+		}
 
 		if(SgfUtil.isChefeSetor(this.usuario) || SgfUtil.isChefeTransporte(this.usuario)){
 			this.orgaoSelecionado = this.usuario.getPessoa().getUa().getUg();
 		}
+		this.interval = 2000000;
 		this.flagNegar = false;
 		this.registrar = false;
 		this.autorizar = false;
-		searchSolicitacaoByUG();
+
+		if (SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)) {
+			if(this.placaVeiculo != null && this.placaVeiculo != ""){
+				this.entities = service.findSolicitacoesVeiculos(this.placaVeiculo, this.statusPesquisa);
+			} else {
+				if(this.orgaoSelecionado != null){
+					this.entities = service.findByUGAndStatus(this.orgaoSelecionado, this.statusPesquisa);
+				} else {
+					this.entities = this.service.executeResultListQuery("findByStatus",	this.statusPesquisa);
+				}
+			}
+		} else if (SgfUtil.isChefeTransporte(this.usuario)) {
+			if(this.placaVeiculo != null && this.placaVeiculo != ""){
+				this.entities = service.findSolicitacoesVeiculos(this.placaVeiculo, this.statusPesquisa);
+			} else {
+				this.entities = service.findByUGAndStatus(this.usuario.getPessoa().getUa().getUg(), this.statusPesquisa);
+			}
+		} else if (SgfUtil.isChefeSetor(this.usuario)) {
+			if(this.placaVeiculo != null && this.placaVeiculo != ""){
+				this.entities = service.findSolicitacoesVeiculos(this.placaVeiculo, this.statusPesquisa);
+			} else {
+				this.entities = service.findByUserAndStatus(this.usuario, this.statusPesquisa);
+			}
+		}
+
+		if (!this.entities.isEmpty()) {
+			for (SolicitacaoVeiculo s : this.entities) {
+				if (s.getStatus().equals(StatusSolicitacaoVeiculo.EXTERNO)) {
+					s.setImagemURL("/images/retorno.png");
+				} else if (s.getStatus().equals(StatusSolicitacaoVeiculo.FINALIZADO)) {
+					s.setImagemURL("/images/tick.png");
+				} else if (s.getStatus().equals(StatusSolicitacaoVeiculo.SOLICITADO)) {
+					s.setImagemURL("/images/tick.png");
+				} else if (s.getStatus().equals(StatusSolicitacaoVeiculo.AUTORIZADO)) {
+					s.setImagemURL("/images/saida.png");
+				}
+			}
+			this.mostrarSolicitacoes = true;
+		} 
+
+		this.placaVeiculo = null;
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
-		this.interval = 2000000;
 		return SUCCESS;
 	}
 

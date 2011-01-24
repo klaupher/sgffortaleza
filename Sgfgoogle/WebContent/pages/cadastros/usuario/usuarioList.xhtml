@@ -15,7 +15,7 @@
 
 		<fieldset>
 
-	      <legend>Listagem de usuários</legend>
+	      <legend>Usuários do sistema</legend>
 	      
 	      <h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador}">
 
@@ -31,7 +31,7 @@
 		 			<h:outputLabel value="Login:" />
 				    <h:inputText value="#{usuarioBean.filter}" />
 					<h:commandButton action="#{usuarioBean.searchUsuarios}" value="Pesquisar">
-						<a4j:support event="onclick" reRender="paginaPrincipal" />
+						<a4j:support event="oncomplete" action="usuarioBean.populate" reRender="dataTable" ajaxSingle="true"/>
 					</h:commandButton>
 		
 					<h:selectOneRadio id="radioStatus" styleClass="checkbox" value="#{usuarioBean.status}" label="ativoInativo" style="width:50%;">
@@ -91,19 +91,19 @@
 	
 						<f:facet name="header"><h:outputText>Bloqueio</h:outputText></f:facet>
 	
-						<h:commandLink id="bloq" styleClass="desbloquear" action="#{usuarioBean.bloquear}" value="Bloquear" rendered="#{usuario.status == 'TRUE'}"
+						<h:commandLink id="bloq" styleClass="desbloquear" action="#{usuarioBean.bloquear}" value="Bloquear" rendered="#{usuario.status == 'TRUE' or usuario.status == 'true'}"
 							onclick="if(!confirm('Tem certeza que deseja bloquear o usuário?')) { form.reset();return false;}">
 							<f:setPropertyActionListener target="#{usuarioBean.entity}" value="#{usuario}"/>
 							<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
 						</h:commandLink>
-						<rich:toolTip value="Usuário Desbloqueado" for="bloq" rendered="#{usuario.status == 'TRUE'}"/>
+						<rich:toolTip value="Usuário Desbloqueado" for="bloq" rendered="#{usuario.status == 'TRUE' or usuario.status == 'true'}"/>
 	
-						<h:commandLink id="desbloq" styleClass="bloquear" action="#{usuarioBean.desbloquear}" value="Desbloquear" rendered="#{usuario.status == 'FALSE'}"
+						<h:commandLink id="desbloq" styleClass="bloquear" action="#{usuarioBean.desbloquear}" value="Desbloquear" rendered="#{usuario.status == 'FALSE'or usuario.status == 'false'}"
 							onclick="if(!confirm('Tem certeza que deseja desbloquear o usuário?')) { form.reset();return false;}">
 							<f:setPropertyActionListener target="#{usuarioBean.entity}" value="#{usuario}"/>
 							<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
 						</h:commandLink>
-						<rich:toolTip value="Usuário Bloqueado" for="desbloq" rendered="#{usuario.status == 'FALSE'}"/>
+						<rich:toolTip value="Usuário Bloqueado" for="desbloq" rendered="#{usuario.status == 'FALSE' or usuario.status == 'false'}"/>
 	
 					</rich:column>
 	

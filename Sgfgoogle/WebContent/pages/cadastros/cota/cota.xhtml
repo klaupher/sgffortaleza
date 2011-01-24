@@ -17,7 +17,7 @@
 
       <fieldset>
 
-		<legend>Listagem de veículos sem cota</legend>
+		<legend>Veículos sem cota</legend>
 		
 	        <fieldset>
 
@@ -51,7 +51,7 @@
 	
 					<rich:column width="40%" style="text-align: left;" > 
 						<f:facet name="header"><h:outputText value="Placa/Modelo" /></f:facet>
-						<h:outputText value="#{veiculo.placa} #{veiculo.modelo.descricao}" style="color: black;"/>
+						<h:outputText value="#{veiculo.placa} #{veiculo.modelo.descricao} #{veiculo.serie}" style="color: black;"/>
 					</rich:column>
 	
 					<rich:column width="2%" style="text-align: center;" rendered="#{cotaBean.saveState}">

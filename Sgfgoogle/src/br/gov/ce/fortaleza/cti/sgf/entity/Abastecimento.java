@@ -35,7 +35,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusAbastecimento;
 	 * ) */
 	@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(o.id) from Abastecimento o) and a.veiculo.id = ?"),
 	@NamedQuery(name = "Abastecimento.findByPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc"),
-	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where a.dataAutorizacao <= ? and " +
+	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where " +
 			"a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc") 
 })
 public class Abastecimento implements Serializable {
@@ -100,6 +100,7 @@ public class Abastecimento implements Serializable {
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result	+ ((tipoServico == null) ? 0 : tipoServico.hashCode());
 		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
+		result = prime * result + ((dataAutorizacao == null) ? 0 : dataAutorizacao.hashCode());
 		return result;
 	}
 
@@ -112,45 +113,25 @@ public class Abastecimento implements Serializable {
 			return false;
 		}
 
-		if (getClass() != obj.getClass())
-			return false;
+		if (getClass() != obj.getClass()) return false;
 		Abastecimento other = (Abastecimento) obj;
 
-		if (getId() == null) {
-			if (other.getId() != null)
-				return false;
-		} else if (!getId().equals(other.getId()))
-			return false;
-		if (getMotorista() == null) {
-			if (other.getMotorista() != null)
-				return false;
-		} else if (!getMotorista().equals(other.getMotorista()))
-			return false;
-		if (getPosto() == null) {
-			if (other.getPosto() != null)
-				return false;
-		} else if (!getPosto().equals(other.getPosto()))
-			return false;
-		if (getQuilometragem() == null) {
-			if (other.getQuilometragem() != null)
-				return false;
-		} else if (!getQuilometragem().equals(other.getQuilometragem()))
-			return false;
-		if (getStatus() == null) {
-			if (other.getStatus() != null)
-				return false;
-		} else if (!getStatus().equals(other.getStatus()))
-			return false;
-		if (getTipoServico() == null) {
-			if (other.getTipoServico() != null)
-				return false;
-		} else if (!getTipoServico().equals(other.getTipoServico()))
-			return false;
-		if (getVeiculo() == null) {
-			if (other.getVeiculo() != null)
-				return false;
-		} else if (!getVeiculo().equals(other.getVeiculo()))
-			return false;
+		if (getId() == null) { if (other.getId() != null) return false;
+		} else if (!getId().equals(other.getId())) return false;
+		if (getMotorista() == null) { if (other.getMotorista() != null) return false;
+		} else if (!getMotorista().equals(other.getMotorista())) return false;
+		if (getPosto() == null) { if (other.getPosto() != null) return false;
+		} else if (!getPosto().equals(other.getPosto())) return false;
+		if (getQuilometragem() == null) { if (other.getQuilometragem() != null) return false;
+		} else if (!getQuilometragem().equals(other.getQuilometragem())) return false;
+		if (getStatus() == null) { if (other.getStatus() != null) return false;
+		} else if (!getStatus().equals(other.getStatus())) return false;
+		if (getTipoServico() == null) { if (other.getTipoServico() != null) return false;
+		} else if (!getTipoServico().equals(other.getTipoServico())) return false;
+		if (getDataAutorizacao() == null) { if (other.getDataAutorizacao() != null) return false;
+		} else if (!getDataAutorizacao().equals(other.getDataAutorizacao())) return false;
+		if (getVeiculo() == null) { if (other.getVeiculo() != null) return false;
+		} else if (!getVeiculo().equals(other.getVeiculo())) return false;
 		return true;
 	}
 

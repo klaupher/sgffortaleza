@@ -67,17 +67,23 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 		return multa;
 	}
 
+	public String prepareSave(){
+		loadVeiculos();
+		loadMotoristas();
+		return super.prepareSave();
+	}
+
 	public String prepareUpdate(){
 		this.dataInfracao = DateUtil.parseAsString("dd/MM/yyyy", this.entity.getDataInfracao());
 		return super.prepareUpdate();
 	}
 
 	public String save(){
-		Motorista m = motoristaService.retrieve(this.entity.getMotorista().getCodMotorista());
+		Motorista motorista = motoristaService.retrieve(this.entity.getMotorista().getCodMotorista());
 		this.entity.setVeiculo(veiculoService.retrieve(this.entity.getVeiculo().getId()));
 		this.entity.setInfracao(infracaoService.retrieve(this.entity.getInfracao().getId()));
-		m.setPontosCnh(m.getPontosCnh() + this.entity.getInfracao().getPontuacao());
-		this.entity.setMotorista(m);
+		motorista.setPontosCnh(motorista.getPontosCnh() + this.entity.getInfracao().getPontuacao());
+		this.entity.setMotorista(motorista);
 		this.entity.setUsuario(SgfUtil.usuarioLogado());
 		this.entity.setDataInfracao(DateUtil.parseStringAsDate("dd/MM/yyyy", this.dataInfracao));
 		this.entity.setDataCadastro(new Date());
@@ -102,24 +108,32 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 	}
 
 	/**
-	 * Retorna as multas dos últimos 6 meses
+	 * Retorna as multas dos Ãºltimos 6 meses
 	 * 
 	 */
 	public String searchSort(){
+
 		this.entities = new ArrayList<Multa>();
+
 		Date end = new Date();
+
 		Date start = DateUtil.adicionarOuDiminuir(end, -180*DateUtil.DAY_IN_MILLIS);
+
 		User user = SgfUtil.usuarioLogado();
+
 		if(SgfUtil.isAdministrador(user)){
+
 			if(this.ug != null){
+
 				this.entities = service.findByUG(ug, start, end);
 			} else {
+
 				this.entities = service.retrieveAll();
 			}
+
 		} else {
-			if(this.ug != null){
-				this.entities = service.findByUG(this.ug, start, end);
-			}
+
+			this.entities = service.findByUG(user.getPessoa().getUa().getUg(), start, end);
 		}
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
@@ -127,44 +141,62 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 	}
 
 	public String loadVeiculos(){
+
 		User user = SgfUtil.usuarioLogado();
+
 		this.veiculos = new ArrayList<Veiculo>();
+
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
-			this.veiculos = veiculoService.retrieveAll();
-		} else {
+
 			if(this.ug != null){
+
 				this.veiculos = veiculoService.findByUG(this.ug);
 			} else {
-				this.veiculos = veiculoService.findByUG(user.getPessoa().getUa().getUg());
+
+				this.veiculos = veiculoService.retrieveAll();
 			}
+		} else {
+
+			this.veiculos = veiculoService.findByUG(user.getPessoa().getUa().getUg());
 		}
-		
+
 		return loadMotoristas();
 	}
 
 	public String loadMotoristas() {
+
 		this.motoristas = new ArrayList<Motorista>();
+
 		User user = SgfUtil.usuarioLogado();
 
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
-			this.motoristas = motoristaService.retrieveAll();
-		} else {
+
 			if (this.ug != null) {
+
 				this.motoristas = motoristaService.findByUG(this.ug.getId());
 			} else {
-				this.motoristas = motoristaService.findByUG(user.getPessoa().getUa().getUg().getId());
+
+				this.motoristas = motoristaService.retrieveAll();
 			}
+		} else {
+
+			this.motoristas = motoristaService.findByUG(user.getPessoa().getUa().getUg().getId());
 		}
 		return SUCCESS;
 	}
 
 	public String searchByName(){
+
 		this.entities = new ArrayList<Multa>();
+
 		if(this.name != null && this.name.length() > 0){
+
 			this.entities.addAll(service.findByVeiculoMotorista(this.name, searchId));
 		} else {
+
 			return searchSort();
 		}
+
 		return SUCCESS;
 	}
 

@@ -38,15 +38,26 @@
 			<rich:dropDownMenu rendered="#{controlBean.hasPermission('RULE_ATIVIDADE')}">
 
 				<f:facet name="label"><h:outputText value="#{msg['menu.atividades']}" /></f:facet>
-			    <rich:menuItem value="#{msg['abastecimento.menu']}" action="#{abastecimentoBean.search}" rendered="#{controlBean.hasPermission('RULE_ABASTECIMENTO')}" immediate="true"/>
-				<rich:menuItem value="#{msg['diario.menu']}" action="#{diarioBombaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_DIARIO_BOMBA')}" immediate="true"/>
-				<rich:menuItem value="#{msg['lubrificante.menu']}" action="#{solicitacaoLubrificanteBean.search}" rendered="#{controlBean.hasPermission('RULE_LUBRIFICANTE')}" immediate="true"/>
-                <rich:menuItem value="#{msg['manutencao.menu']}" action="#{requisicaoManutencaoBean.searchStatus}" rendered="#{controlBean.hasPermission('RULE_MANUNTENCAO')}" immediate="true"/>
-                <rich:menuItem value="#{msg['solveiculo.menu']}" action="#{solicitacaoVeiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_SOLVEICULO')}" immediate="true"/>
+			    
+			    <rich:menuItem value="#{msg['abastecimento.menu']}" action="#{abastecimentoBean.search}" 
+			   		rendered="#{controlBean.hasPermission('RULE_ABASTECIMENTO')}" immediate="true"/>
+				
+				<rich:menuItem value="#{msg['diario.menu']}" action="#{diarioBombaBean.searchSort}" 
+					rendered="#{controlBean.hasPermission('RULE_DIARIO_BOMBA')}" immediate="true"/>
+				
+				<rich:menuItem value="#{msg['lubrificante.menu']}" action="#{solicitacaoLubrificanteBean.search}" 
+					rendered="#{controlBean.hasPermission('RULE_LUBRIFICANTE')}" immediate="true"/>
+                
+                <rich:menuItem value="#{msg['manutencao.menu']}" action="#{requisicaoManutencaoBean.searchStatus}" 
+                	rendered="#{controlBean.hasPermission('RULE_MANUNTENCAO')}" immediate="true"/>
+                
+                <rich:menuItem value="#{msg['solveiculo.menu']}" action="#{solicitacaoVeiculoBean.search}" 
+                	rendered="#{controlBean.hasPermission('RULE_SOLVEICULO')}" immediate="true"/>
 
 			</rich:dropDownMenu>
 		
 			<rich:dropDownMenu rendered="#{controlBean.hasPermission('RULE_RELATORIO')}">
+				
 				<f:facet name="label"><h:outputText value="#{msg['menu.relatorios']}" /></f:facet>
 
 				<rich:menuItem submitMode="server" value="Consolidado Mensal" action="#{relatorioBean.relatorioConsolidadoMensal}" 

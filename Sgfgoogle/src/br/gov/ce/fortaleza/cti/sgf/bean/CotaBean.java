@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
@@ -70,7 +67,7 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 	private String veiculoPesquisa;
 	private String placaPesquisa;
 	private String marcaPesquisa;
-	private Double cotaAtual; 
+	private Double cotaAtual;
 
 	@Override
 	protected Cota createNewEntity() {
@@ -114,31 +111,31 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 
 	public String pesquisar(){
 		Cota cota = new Cota();
-		if(StringUtils.hasText(veiculoPesquisa)){
+		if(StringUtils.hasText(this.veiculoPesquisa)){
 			cota.setVeiculo(new Veiculo());
 			cota.getVeiculo().setModelo(new Modelo());
-			cota.getVeiculo().getModelo().setDescricao(veiculoPesquisa);
+			cota.getVeiculo().getModelo().setDescricao(this.veiculoPesquisa);
 		}
-		if(StringUtils.hasText(placaPesquisa)){
+		if(StringUtils.hasText(this.placaPesquisa)){
 			if(cota.getVeiculo() != null){
-				cota.getVeiculo().setPlaca(placaPesquisa);
+				cota.getVeiculo().setPlaca(this.placaPesquisa);
 			} else {
 				cota.setVeiculo(new Veiculo());
-				cota.getVeiculo().setPlaca(placaPesquisa);
+				cota.getVeiculo().setPlaca(this.placaPesquisa);
 			}
 		}
 
-		if(StringUtils.hasText(marcaPesquisa)){
+		if(StringUtils.hasText(this.marcaPesquisa)){
 			if(cota.getVeiculo() != null){
 				if(cota.getVeiculo().getModelo() != null){
 					cota.getVeiculo().getModelo().setMarca(new Marca());
-					cota.getVeiculo().getModelo().getMarca().setDescricao(marcaPesquisa);
+					cota.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
 				}
 			} else {
 				cota.setVeiculo(new Veiculo());
 				cota.getVeiculo().setModelo(new Modelo());
 				cota.getVeiculo().getModelo().setMarca(new Marca());
-				cota.getVeiculo().getModelo().getMarca().setDescricao(marcaPesquisa);
+				cota.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
 			}
 		}
 		this.entities = cotaService.pesquisar(cota);
@@ -166,7 +163,7 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String delete(){
 		if(this.entity.getVeiculo().getStatus() == StatusVeiculo.LOCADO){
-			botaoExcluir.setOncomplete("alert('Não é permitido excluir cotas de um veículo ativo.')");
+			this.botaoExcluir.setOncomplete("alert('NÃ£o Ã© permitido excluir cotas de veÃ­culo ativo!')");
 			return FAIL;
 		} else if(this.entity.getVeiculo().getStatus() == StatusVeiculo.DISPONIVEL){
 			return super.delete();
@@ -177,10 +174,10 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 	public String veiculoSemCotaPorPlaca(){
 		if(this.placa != null && this.placa != ""){
 			if(cotaService.findByPlacaVeiculo(this.placa) == null){
-				veiculos = veiculoService.findByPlaca(this.placa);
+				this.veiculos = veiculoService.findByPlaca(this.placa);
 			}
 		} else {
-			veiculos = new ArrayList<Veiculo>();
+			this.veiculos = new ArrayList<Veiculo>();
 		}
 		return SUCCESS;
 	}
