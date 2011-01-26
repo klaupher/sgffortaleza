@@ -54,7 +54,7 @@ public class PostoBean extends EntityBean<Integer, Posto>{
 	public List<Posto> getPostos(){
 		List<Posto> postos = new ArrayList<Posto>();
 		User user = SgfUtil.usuarioLogado();
-		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
+		if(SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user) || SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
 			postos = service.retrieveAll();
 		} else if(SgfUtil.isOperador(user)){
 			postos.add(user.getPosto());

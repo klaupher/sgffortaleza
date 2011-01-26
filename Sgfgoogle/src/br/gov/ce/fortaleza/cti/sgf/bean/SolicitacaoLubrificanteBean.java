@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,7 @@ import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.DownloadFileUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusAbastecimento;
 
 import com.lowagie.text.DocumentException;
 
@@ -108,47 +111,36 @@ public class SolicitacaoLubrificanteBean extends
 	private Date dtFinal;
 
 	protected Integer retrieveEntityId(SolicitacaoLubrificante entity) {
-
 		return entity.getId();
 	}
 
 	protected SolicitacaoLubrificanteService retrieveEntityService() {
-
 		return this.service;
+	}
+	
+	@PostConstruct
+	public void init() {
+		this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+		this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
 	}
 
 	protected SolicitacaoLubrificante createNewEntity() {
 
 		SolicitacaoLubrificante solicitacao = new SolicitacaoLubrificante();
-
 		solicitacao.setVeiculo(new Veiculo());
-
 		solicitacao.setUsuarioAutorizacao(new User());
-
 		solicitacao.setTipoServico(new TipoServico());
-
 		solicitacao.setMotorista(new Motorista());
-
 		solicitacao.setPosto(new Posto());
-
 		this.ultimaAutorizacao = new SolicitacaoLubrificante();
-
 		this.veiculo = new Veiculo();
-
 		this.orgao = new UG();
-
 		this.dataAutorizacao = null;
-
 		this.justifRequired = true;
-
 		this.showInfo = false;
-
 		this.motoristas = new ArrayList<Motorista>();
-
 		this.servicos = new ArrayList<TipoServico>();
-
 		this.veiculos = new ArrayList<Veiculo>();
-
 		this.kmChecked = false;
 
 		return solicitacao;
@@ -156,12 +148,9 @@ public class SolicitacaoLubrificanteBean extends
 
 	public String prepareSave() {
 
-		this.orgao = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
-
-		loadVeiculos();
-
+		User user = SgfUtil.usuarioLogado();
+		this.orgao = user.getPessoa().getUa().getUg();
 		loadMotoristas();
-
 		return super.prepareSave();
 	}
 
@@ -170,48 +159,29 @@ public class SolicitacaoLubrificanteBean extends
 		return ATENDIMENTO.equals(getCurrentState());
 	}
 
-	public boolean isTipoServicoStatus() {
+	public boolean isTipoServicoStatus() { return this.servicos.size() <= 0; }
 
-		return this.servicos.size() <= 0;
-	}
+	public boolean isMotoristaStatus() {	return this.motoristas.size() <= 0; }
 
-	public boolean isMotoristaStatus() {
-
-		return this.motoristas.size() <= 0;
-	}
-
-	public boolean isVeiculoStatus() {
-
-		return this.veiculos.size() <= 0;
-	}
+	public boolean isVeiculoStatus() { return this.veiculos.size() <= 0; }
 
 	public String prepareAtendimento() {
 
 		this.ultimaAutorizacao = new SolicitacaoLubrificante();
-
 		setCurrentBean(currentBeanName());
-
 		setCurrentState(ATENDIMENTO);
-
 		buscarUltimaSolicitacao();
-
 		return SUCCESS;
 	}
 
 	public String save() {
 
 		this.entity.setUsuarioAutorizacao(SgfUtil.usuarioLogado());
-
 		this.entity.setDataAutorizacao(new Date());
-
 		this.entity.setStatus(1);
-
 		this.entity.setMotorista(this.motorista);
-
 		this.entity.setPosto(this.posto);
-
 		this.entity.setTipoServico(this.tipoServico);
-
 		return super.save();
 	}
 
@@ -219,48 +189,38 @@ public class SolicitacaoLubrificanteBean extends
 
 		// super.search();
 		setCurrentBean(currentBeanName());
-
 		setCurrentState(SEARCH);
 
 		// this.entities = service.findSolicitacoesDoDia();
-
 		this.kmChecked = false;
-
 		this.ultimaAutorizacao = new SolicitacaoLubrificante();
 
 		loadList();
-		
 		this.interval = 2000000;
-
 		return SUCCESS;
 	}
 
 	public String updateJustify() {
 
 		this.justifRequired = false;
-
 		this.entity.setKmTrocaAtual(null);
-
 		this.entity.setKmPrevProximaTroca(null);
-
 		return SUCCESS;
 	}
 
 	public String loadMotoristas() {
 
-		User user = SgfUtil.usuarioLogado();
-
 		this.motoristas = new ArrayList<Motorista>();
-
-		// if(SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user)){
-
-		this.motoristas = motoristaService.findByUG(this.orgao.getId());
-
-		// } else if(SgfUtil.isAdministrador(user) ||
-		// SgfUtil.isCoordenador(user)){
-
-		// this.motoristas = motoristaService.retrieveAll();
-		// }
+		User user = SgfUtil.usuarioLogado();
+		if(SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user)){
+			this.motoristas = motoristaService.findByUG(this.orgao.getId());
+		} else if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
+			if(this.orgao != null && this.orgao.getId() != null){
+				this.motoristas = motoristaService.findByUG(this.orgao.getId());
+			} else {
+				this.motoristas = motoristaService.retrieveAll();
+			}
+		}
 
 		Collections.sort(this.motoristas, new Comparator<Motorista>() {
 			public int compare(Motorista o1, Motorista o2) {
@@ -268,25 +228,18 @@ public class SolicitacaoLubrificanteBean extends
 						o2.getPessoa().getNome());
 			}
 		});
-
 		loadVeiculos();
-
 		return SUCCESS;
 	}
 
 	public String loadServicos() {
 
 		this.servicos = new ArrayList<TipoServico>();
-
-		List<PostoServico> postos = new ArrayList<PostoServico>(
-				postoServicoService.findByPosto(this.posto.getCodPosto()));
+		List<PostoServico> postos = new ArrayList<PostoServico>(postoServicoService.findByPosto(this.posto.getCodPosto()));
 
 		for (PostoServico p : postos) {
-
 			TipoServico t = p.getTipoServico();
-
 			if (t.getManutencao() == 0 && !t.getDescricao().equals("ABASTECIMENTO")) {
-				
 				this.servicos.add(t);
 			}
 		}
@@ -297,45 +250,37 @@ public class SolicitacaoLubrificanteBean extends
 	@Transactional
 	public void loadVeiculos() {
 
+		this.veiculos = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
-
-		// if(SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user) ||
-		// SgfUtil.isOperador(user)){
-
-		this.veiculos = veiculoService.retrieveByUG(this.orgao.getId());
-
-		// } else if(SgfUtil.isAdministrador(user) ||
-		// SgfUtil.isCoordenador(user)){
-
-		// this.veiculos = veiculoService.retrieveAll();
-		// }
+		if(SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user) || SgfUtil.isOperador(user)){
+			
+			if(this.orgao != null && this.orgao.getId() != null){
+				this.veiculos = veiculoService.retrieveByUG(this.orgao.getId());
+			}
+		} else if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
+			if( this.orgao != null && this.orgao.getId() != null){
+				this.veiculos = veiculoService.retrieveByUG(this.orgao.getId());
+			} else {
+				this.veiculos = veiculoService.retrieveAll();
+			}
+		}
 	}
 
 	public void buscarUltimaSolicitacao() {
 
-		Posto posto = SgfUtil.usuarioLogado().getPosto() != null ? SgfUtil
-				.usuarioLogado().getPosto() : new Posto();
+		Posto posto = SgfUtil.usuarioLogado().getPosto() != null ? SgfUtil.usuarioLogado().getPosto() : new Posto();
 
 		if (this.entity.getVeiculo().getId() != null) {
 
-			SolicitacaoLubrificante solicitacao = service
-					.findUltimoRegistroByVeiculo2(this.entity.getVeiculo()
-							.getId(), this.tipoServico.getCodTipoServico(),
-							posto.getCodPosto());
-
+			SolicitacaoLubrificante solicitacao = 
+				service.findUltimoRegistroByVeiculo2(this.entity.getVeiculo().getId(), this.tipoServico.getCodTipoServico(), posto.getCodPosto());
 			if (solicitacao != null) {
-
 				this.entity.setKmTrocaAnterior(solicitacao.getKmTrocaAtual());
-
 				this.entity.setKmTrocaAtual(null);
-
 				this.entity.setKmPrevProximaTroca(null);
-
 				this.ultimaAutorizacao = solicitacao;
-
 				this.showInfo = true;
 			} else {
-
 				this.showInfo = false;
 			}
 		}
@@ -350,7 +295,7 @@ public class SolicitacaoLubrificanteBean extends
 
 		if (SgfUtil.isOperador(user)) {
 			this.entities = service.findSolicitacoes(this.searchId, veiculo.getId(), posto.getCodPosto(), this.dtInicial, this.dtFinal, null);
-		} else if (SgfUtil.isChefeTransporte(user)) {
+		} else if (SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user)) {
 			this.orgao = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
 			this.entities = service.findSolicitacoes(this.searchId, veiculo	.getId(), null, this.dtInicial, this.dtFinal, this.orgao);
 		} else if (SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)) {
@@ -361,7 +306,7 @@ public class SolicitacaoLubrificanteBean extends
 
 	public String prepareUpdate() {
 
-		this.orgao = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
+		//this.orgao = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
 		this.ultimaAutorizacao = new SolicitacaoLubrificante();
 		this.veiculo = this.entity.getVeiculo();
 		this.motorista = this.entity.getMotorista();
@@ -369,10 +314,8 @@ public class SolicitacaoLubrificanteBean extends
 		this.tipoServico = this.entity.getTipoServico();
 		loadMotoristas();
 		loadServicos();
-		loadVeiculos();
 		if (this.entity.getDataAutorizacao() != null) {
-			this.dataAutorizacao = DateUtil.parseAsString("dd/MM/yyyy",
-					this.entity.getDataAutorizacao());
+			this.dataAutorizacao = DateUtil.parseAsString("dd/MM/yyyy", this.entity.getDataAutorizacao());
 		} else {
 			this.dataAutorizacao = null;
 		}
@@ -381,8 +324,7 @@ public class SolicitacaoLubrificanteBean extends
 
 	public String update() {
 		if (this.dataAutorizacao != null) {
-			this.entity.setDataAutorizacao(DateUtil.parseStringAsDate(
-					"dd/MM/yyyy", this.dataAutorizacao));
+			this.entity.setDataAutorizacao(DateUtil.parseStringAsDate("dd/MM/yyyy", this.dataAutorizacao));
 		}
 		this.kmChecked = false;
 		return super.update();
@@ -391,139 +333,89 @@ public class SolicitacaoLubrificanteBean extends
 	public String delete() {
 
 		this.entity.setStatus(-1);
-
 		return super.update();
 	}
 
 	public String verificarKM() {
 
-		if (this.entity.getKmPrevProximaTroca() != null
-				&& this.entity.getKmTrocaAtual() != null) {
+		if (this.entity.getKmPrevProximaTroca() != null	&& this.entity.getKmTrocaAtual() != null) {
 
 			if (this.entity.getKmTrocaAnterior() != null) {
-
-				if (this.entity.getKmTrocaAnterior() > this.entity
-						.getKmTrocaAtual()) {
+				if (this.entity.getKmTrocaAnterior() > this.entity.getKmTrocaAtual()) {
 					this.kmChecked = true;
 				}
 			}
-
-			if (this.entity.getKmPrevProximaTroca() < this.entity
-					.getKmTrocaAtual()) {
-
+			if (this.entity.getKmPrevProximaTroca() < this.entity.getKmTrocaAtual()) {
 				this.kmChecked = true;
 			}
 		}
-
 		return SUCCESS;
 	}
 
 	public String atenderAutorizacao() {
 
 		this.justifRequired = true;
-
-		if (this.entity.getKmPrevProximaTroca() != null
-				&& this.entity.getKmTrocaAtual() != null) {
-
+		if (this.entity.getKmPrevProximaTroca() != null && this.entity.getKmTrocaAtual() != null) {
 			if (this.entity.getKmTrocaAnterior() != null) {
-
-				if (this.entity.getKmTrocaAnterior() > this.entity
-						.getKmTrocaAtual()) {
-
+				if (this.entity.getKmTrocaAnterior() > this.entity.getKmTrocaAtual()) {
 					this.kmChecked = true;
-
 					return FAIL;
 				}
 			}
 
-			if (this.entity.getKmPrevProximaTroca() < this.entity
-					.getKmTrocaAtual()) {
-
+			if (this.entity.getKmPrevProximaTroca() < this.entity.getKmTrocaAtual()) {
 				this.kmChecked = true;
-
 				return FAIL;
 			}
 		}
 
 		this.entity.setDataAtendimento(new Date());
-
 		this.entity.setUsuarioAtendimento(SgfUtil.usuarioLogado());
-
 		this.entity.setStatus(2);
-
 		return super.update();
 	}
 
 	public String negarAutorizacao() {
 
 		Date data = new Date();
-
 		this.entity.setDataAutorizacao(data);
-
 		this.entity.setUsuarioAtendimento(SgfUtil.usuarioLogado());
-
 		this.entity.setKmTrocaAtual(null);
-
 		this.entity.setKmPrevProximaTroca(null);
-
 		this.entity.setStatus(0);
-
 		return super.update();
 	}
 
 	public String emitirAutorizacao() {
 
-		String justificativa = this.entity.getJustificativa() != null
-				&& this.entity.getJustificativa() != "" ? this.entity
-				.getJustificativa() : " ";
+		String justificativa = this.entity.getJustificativa() != null && 
+			this.entity.getJustificativa() != "" ? this.entity.getJustificativa() : " ";
 
 		Modelo modelo = this.entity.getVeiculo().getModelo();
-
 		String descricao = modelo == null ? "" : modelo.getDescricao();
-
 		String placa = this.entity.getVeiculo().getPlaca();
-
 		placa = placa == null || placa == "" ? "" : placa;
-
 		UA ua = this.entity.getVeiculo().getUa();
-
 		String descUa = ua == null ? "" : ua.getDescricao();
-
-		String dataAut = DateUtil.parseAsString("dd/MM/yyyy HH:mm", this.entity
-				.getDataAutorizacao());
-
+		String dataAut = DateUtil.parseAsString("dd/MM/yyyy HH:mm", this.entity.getDataAutorizacao());
 		String header = descricao + " - " + placa + "#" + descUa + "#" +
-
 		this.entity.getMotorista().getPessoa().getNome() + "#" +
-
 		this.entity.getPosto().getDescricao() + "#" +
-
 		this.entity.getTipoServico().getDescricao() + "#" +
-
 		this.entity.getUsuarioAutorizacao().getPessoa().getNome() + "#" +
-
 		dataAut + "#" + justificativa;
 
-		String body = "";
-
 		try {
-
 			if (header != null && header != "") {
-
-				DownloadFileUtil.getAutorizacaoSolTrocaLubrificantePDF(header,
-						null, "autorizacao_soltroca_lub", 1);
+				DownloadFileUtil.getAutorizacaoSolTrocaLubrificantePDF(header, null, "autorizacao_soltroca_lub", 1);
 			}
-
 			super.update();
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		} catch (DocumentException e) {
-
 			e.printStackTrace();
 		}
-
 		return SUCCESS;
 	}
 
@@ -544,9 +436,7 @@ public class SolicitacaoLubrificanteBean extends
 	}
 
 	public SolicitacaoLubrificante getUltimaAutorizacao() {
-
 		buscarUltimaSolicitacao();
-
 		return ultimaAutorizacao;
 	}
 
@@ -673,5 +563,4 @@ public class SolicitacaoLubrificanteBean extends
 	public void setDtFinal(Date dtFinal) {
 		this.dtFinal = dtFinal;
 	}
-
 }

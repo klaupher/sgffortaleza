@@ -11,153 +11,209 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:250px">Solicitação de veículos</h1>
+		<h1 style="width:250px">Solicitação de veículo</h1>
 
 		<fieldset>
 
 			<legend>
-				<h:outputLabel value="Cadastro da Solicitação de veículo" rendered="#{solicitacaoVeiculoBean.saveState}"/>
-				<h:outputLabel value="Alteração da Solicitação de veículo" rendered="#{solicitacaoVeiculoBean.editState and !solicitacaoVeiculoBean.veiculoDesignado}"/>
-				<h:outputLabel value="Registro da saída de veículo" rendered="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO' and solicitacaoVeiculoBean.entity.statusAtendimento == null}"/>
-				<h:outputLabel value="Registro do retorno de veículo" rendered="#{solicitacaoVeiculoBean.entity.statusAtendimento == 1}"/>
+				<h:outputLabel value="Cadastro - solicitação de veículo" rendered="#{solicitacaoVeiculoBean.saveState}"/>
+				<h:outputLabel value="Alteração - Solicitação de veículo" rendered="#{solicitacaoVeiculoBean.editState and !solicitacaoVeiculoBean.veiculoDesignado}"/>
+				<h:outputLabel value="Registro - saída de veículo" rendered="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO' and solicitacaoVeiculoBean.entity.statusAtendimento == null}"/>
+				<h:outputLabel value="Registro - retorno de veículo" rendered="#{solicitacaoVeiculoBean.entity.statusAtendimento == 1}"/>
 			</legend>
 			<p/>
 
 			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador}">
-				<h:outputLabel value="UG:" for="selectUgSolicitacaoVeiculo" rendered="#{controlBean.administrador or controlBean.coordenador}" 	styleClass="labelNegrito" style="padding-right:20px"/>
-				<h:selectOneMenu id="selectUgSolicitacaoVeiculo" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList" >
-					<f:selectItem itemLabel="Todas.." itemValue=""/>
-					<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-					<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}"  reRender="veiculoSolicitacao" ajaxSingle="true"/>
-				</h:selectOneMenu>
+			
+				<dt>
+					<h:outputLabel value="Órgão:" for="selectUgSolicitacaoVeiculo" 	styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:selectOneMenu id="selectUgSolicitacaoVeiculo" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList" >
+						<f:selectItem itemLabel="Selecione o órgão ..." itemValue=""/>
+						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+						<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}"  reRender="veiculoSolicitacao" ajaxSingle="true"/>
+					</h:selectOneMenu>
+				</dd>
+
 			</a4j:region>
-			<p/>
 
 			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
-				<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
-				<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.veiculo}" requiredMessage="Informe o veículo" style="margin-left:52px" converter="entityConverter">
-					<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
-		 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
-		 			<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.pesquisarSolicitacoesPendentes}"  reRender="panelSolicitacoesPendentes" ajaxSingle="true"/>
-				</h:selectOneMenu>
-				<h:message for="veiculoSolicitacao" styleClass="message"/>
+				<dt>
+					<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
+						<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
+			 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}"/>
+			 			<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.pesquisarSolicitacoesPendentes}"  reRender="panelSolicitacoesPendentes" ajaxSingle="true"/>
+					</h:selectOneMenu>
+					<h:message for="veiculoSolicitacao" styleClass="message"/>
+				</dd>
+
 			</a4j:region>
-			<p/>
 
-	        <h:outputLabel value="Data saída:" for="dtaInicial" styleClass="labelNegrito"/>
-			<h:inputText id="dtaInicial" value="#{solicitacaoVeiculoBean.dataSaida}" required="true" styleClass="maskData" 
-				requiredMessage="Informe a data saída" size="10" style="margin-left:26px" disabled="#{solicitacaoVeiculoBean.desabilita}">
-				<f:convertDateTime  pattern="dd/MM/yyyy"  timeZone="GMT-03:00"/>
-			</h:inputText>
-			<h:message for="dtaInicial" styleClass="message"/>
+			<dt>
+				<h:outputLabel value="Data saída:" for="dtaInicial" styleClass="labelNegrito"/>
+			</dt>
+	        <dd>
+				<h:inputText id="dtaInicial" value="#{solicitacaoVeiculoBean.dataSaida}" required="true" styleClass="maskData" 
+					requiredMessage="Informe a data saída" size="10" disabled="#{solicitacaoVeiculoBean.desabilita}">
+					<f:convertDateTime  pattern="dd/MM/yyyy"  timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="dtaInicial" styleClass="message"/>
+	        </dd>
 			
-			<h:outputLabel value="Hora prev. saída:" for="hrInicial" styleClass="labelNegrito"  style="margin-left:18px"/>
-			<h:inputText id="hrInicial" value="#{solicitacaoVeiculoBean.horaSaida}" size="4" styleClass="maskHora" required="true" 
-				requiredMessage="Informe hora saída prev" style="margin-left:20px" disabled="#{solicitacaoVeiculoBean.desabilita}">
-				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
-			</h:inputText>
-			<h:message for="hrInicial" styleClass="message"/>
+			<dt>
+				<h:outputLabel value="Hora prev. saída:" for="hrInicial" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:inputText id="hrInicial" value="#{solicitacaoVeiculoBean.horaSaida}" size="4" styleClass="maskHora" required="true" 
+					requiredMessage="Informe hora saída prev" disabled="#{solicitacaoVeiculoBean.desabilita}">
+					<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="hrInicial" styleClass="message"/>			
+			</dd>
 			
-			<h:outputLabel value="Hora saída:" for="hrInicialReal" styleClass="labelNegrito"  style="margin-left:20px"/>
-			<h:inputText id="hrInicialReal" value="#{solicitacaoVeiculoBean.horaSaidaReal}" styleClass="maskHora" required="true" 
-				requiredMessage="Informe hora saída" size="4" style="margin-left:18px" disabled="#{!solicitacaoVeiculoBean.autorizado}">
-				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
-			</h:inputText>
-			<h:message for="hrInicialReal" styleClass="message"/>
-			<p/>
+			<dt>
+				<h:outputLabel value="Hora saída:" for="hrInicialReal" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:inputText id="hrInicialReal" value="#{solicitacaoVeiculoBean.horaSaidaReal}" styleClass="maskHora" required="true" 
+					requiredMessage="Informe hora saída" size="4" disabled="#{!solicitacaoVeiculoBean.autorizado}">
+					<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="hrInicialReal" styleClass="message"/>			
+			</dd>
 
-			<h:outputLabel for="dtFinal" value="Data retorno:" styleClass="labelNegrito"/>
-			<h:inputText id="dtFinal" value="#{solicitacaoVeiculoBean.dataRetorno}" required="true" styleClass="maskData" 
-				requiredMessage="Informe a data retorno" size="10" style="margin-left:12px" disabled="#{solicitacaoVeiculoBean.desabilita}">
-				<f:convertDateTime pattern="dd/MM/yyyy"  timeZone="GMT-03:00"/>
-			</h:inputText>
-			<h:message for="dtFinal" styleClass="message"/>
+			<dt>
+				<h:outputLabel for="dtFinal" value="Data retorno:" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:inputText id="dtFinal" value="#{solicitacaoVeiculoBean.dataRetorno}" required="true" styleClass="maskData" 
+					requiredMessage="Informe a data retorno" size="10"  disabled="#{solicitacaoVeiculoBean.desabilita}">
+					<f:convertDateTime pattern="dd/MM/yyyy"  timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="dtFinal" styleClass="message"/>
+			</dd>
+			
+			<dt>
+				<h:outputLabel value="Hora prev. retorno:" for="hrFinal" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:inputText id="hrFinal" value="#{solicitacaoVeiculoBean.horaRetorno}" styleClass="maskHora" required="true" 
+					requiredMessage="Informe hora retorno prev." size="4" disabled="#{solicitacaoVeiculoBean.desabilita}">
+					<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="hrFinal" styleClass="message"/>			
+			</dd>
+			
+			<dt>
+				<h:outputLabel value="Hora retorno:" for="hrFinalReal" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:inputText id="hrFinalReal" value="#{solicitacaoVeiculoBean.horaRetornoReal}" styleClass="maskHora" required="true" 
+					requiredMessage="Informe hora retorno" size="4" disabled="#{!solicitacaoVeiculoBean.externo}">
+					<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="hrFinalReal" styleClass="message"/>			
+			</dd>
 
-			<h:outputLabel value="Hora prev. retorno:" for="hrFinal" styleClass="labelNegrito"  style="margin-left:20px"/>
-			<h:inputText id="hrFinal" value="#{solicitacaoVeiculoBean.horaRetorno}" styleClass="maskHora" required="true" 
-				requiredMessage="Informe hora retorno prev." size="4" style="margin-left:2px" disabled="#{solicitacaoVeiculoBean.desabilita}">
-				<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00"/>
-			</h:inputText>
-			<h:message for="hrFinal" styleClass="message"/>
-			
-			<h:outputLabel value="Hora retorno:" for="hrFinalReal" styleClass="labelNegrito"  style="margin-left:20px"/>
-			<h:inputText id="hrFinalReal" value="#{solicitacaoVeiculoBean.horaRetornoReal}" styleClass="maskHora" required="true" 
-				requiredMessage="Informe hora retorno" size="4" style="margin-left:2px" disabled="#{!solicitacaoVeiculoBean.externo}">
-				<f:convertDateTime pattern="HH:mm"  timeZone="GMT-03:00"/>
-			</h:inputText>
-			<h:message for="hrFinalReal" styleClass="message"/>
-			<p/>
-			
-			<h:outputLabel value="Destino:" for="destinoSol" styleClass="labelNegrito" style="padding-right:36px"/>
-			<h:inputText id="destinoSol" value="#{solicitacaoVeiculoBean.entity.destino}" required="true" requiredMessage="Informe o destino" style="width:350px"/>
-			<h:message for="destinoSol" styleClass="message"/>
-			<p/>
+			<dt>
+				<h:outputLabel value="Destino:" for="destinoSol" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:inputText id="destinoSol" value="#{solicitacaoVeiculoBean.entity.destino}" size="45" required="true" requiredMessage="Informe o destino"/>
+				<h:message for="destinoSol" styleClass="message"/>
+			</dd>
 			
 			<a4j:outputPanel rendered="#{!solicitacaoVeiculoBean.flagNegar}">
-				<h:outputLabel value="Justific. Solicitação:" for="justificativaSol" styleClass="labelNegrito"/>
-				<p/>
-
-				<h:inputTextarea id="justificativaSol" value="#{solicitacaoVeiculoBean.entity.justificativa}" rows="4" cols="56"/>
-				<h:message for="justificativaSol" styleClass="message"/>
-				<p/>
+				<dt>
+					<h:outputLabel value="Justificativa:" for="justificativaSol" styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:inputTextarea id="justificativaSol" value="#{solicitacaoVeiculoBean.entity.justificativa}" rows="2" cols="45"/>
+					<h:message for="justificativaSol" styleClass="message"/>
+				</dd>
+				
 			</a4j:outputPanel>
 
 			<a4j:outputPanel rendered="#{solicitacaoVeiculoBean.flagNegar}">
 				<h:outputLabel value="Justific. Negação:" for="justificativaNeg" styleClass="labelNegrito"/>
 				<p/>
-					<h:inputTextarea id="justificativaNeg" value="#{solicitacaoVeiculoBean.entity.justificativaNeg}" rows="4" cols="56" required="true" requiredMessage="Informe a justificativa"/>
+					<h:inputTextarea id="justificativaNeg" value="#{solicitacaoVeiculoBean.entity.justificativaNeg}" rows="2" cols="45" 
+						required="true" requiredMessage="Informe a justificativa"/>
 					<h:message for="justificativaNeg" styleClass="message"/>
 				<p/>
 			</a4j:outputPanel>
 
 			<a4j:outputPanel id="panelSaida" rendered="#{solicitacaoVeiculoBean.entity.status == 'AUTORIZADO'}">
-				<h:outputLabel value="Km saída:" for="kmSaida"  styleClass="labelNegrito"  style="padding-right:34px"/>
-				<h:inputText id="kmSaida" value="#{solicitacaoVeiculoBean.entity.kmSaida}"  style="width:60px"
-					required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
-				</h:inputText>	
-				<h:outputText value=" Últ. Kilometragem: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
-				<h:message for="kmSaida" styleClass="message"/>
-				<p/>
-
-				<h:outputLabel value="Motorista:" for="motorista"  styleClass="labelNegrito"  style="padding-right:36px"/>
-				<h:selectOneMenu id="motorista" value="#{solicitacaoVeiculoBean.entity.motorista}" converter="entityConverter"
-					required="true" requiredMessage="Selecione o motorista">
-					<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
-					<t:selectItems value="#{solicitacaoVeiculoBean.motoristas}" var="m" itemLabel="#{m.pessoa.nome}" itemValue="#{m}"/>
-				</h:selectOneMenu>	
-				<h:message for="motorista" styleClass="message"/>		
+				<dt>
+					<h:outputLabel value="Km saída:" for="kmSaida"  styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:inputText id="kmSaida" value="#{solicitacaoVeiculoBean.entity.kmSaida}" required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
+					</h:inputText>	
+					<h:outputText value=" Últ. Kilometragem: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
+					<h:message for="kmSaida" styleClass="message"/>
+				</dd>
+				
+				<dt>
+					<h:outputLabel value="Motorista:" for="motorista"  styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:selectOneMenu id="motorista" value="#{solicitacaoVeiculoBean.entity.motorista}" converter="entityConverter"
+						required="true" requiredMessage="Selecione o motorista">
+						<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
+						<t:selectItems value="#{solicitacaoVeiculoBean.motoristas}" var="m" itemLabel="#{m.pessoa.nome}" itemValue="#{m}"/>
+					</h:selectOneMenu>	
+					<h:message for="motorista" styleClass="message"/>
+				</dd>
+		
 			</a4j:outputPanel>
 
 			<a4j:outputPanel id="panelRetorno" rendered="#{solicitacaoVeiculoBean.entity.status == 'EXTERNO'}">
 
-				<h:outputLabel value="Km saída:" for="kmSaidaView"  styleClass="labelNegrito" style="padding-right:36px"/>
-				<h:inputText id="kmSaidaView" value="#{solicitacaoVeiculoBean.entity.kmSaida}" style="width:60px" 
-					requiredMessage="Informe Km de saída" disabled="true"/>
-				<h:message for="kmSaidaView" styleClass="message"/>
-				<p/>
+				<dt>
+					<h:outputLabel value="Km saída:" for="kmSaidaView"  styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:inputText id="kmSaidaView" value="#{solicitacaoVeiculoBean.entity.kmSaida}" requiredMessage="Informe Km de saída" disabled="true"/>
+					<h:message for="kmSaidaView" styleClass="message"/>		
+				</dd>
+				
+				<dt>
+					<h:outputLabel value="Motorista:" for="motoristaView"  styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:selectOneMenu id="motoristaView" value="#{solicitacaoVeiculoBean.entity.motorista}" converter="entityConverter"
+						required="true" requiredMessage="Informe o motorista" disabled="true">
+						<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
+						<t:selectItems value="#{motoristaBean.motoristas}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}"/>
+					</h:selectOneMenu>
+				</dd>
 
-				<h:outputLabel value="Motorista:" for="motoristaView"  styleClass="labelNegrito" style="padding-right:36px"/>
-				<h:selectOneMenu id="motoristaView" value="#{solicitacaoVeiculoBean.entity.motorista}" converter="entityConverter"
-					required="true" requiredMessage="Informe o motorista" disabled="true">
-					<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
-					<t:selectItems value="#{motoristaBean.motoristas}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}"/>
-				</h:selectOneMenu>
-				<p/>
+				<dt>
+					<h:outputLabel value="Km retorno:" for="kmRetorno"  styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:inputText id="kmRetorno" value="#{solicitacaoVeiculoBean.entity.kmRetorno}" required="true"
+						requiredMessage="Informe Km de retorno" styleClass="maskInteiro">
+					</h:inputText>	
+					<h:message for="kmRetorno" styleClass="message"/>
+				</dd>
 
-				<h:outputLabel value="Km retorno:" for="kmRetorno"  styleClass="labelNegrito" style="padding-right:23px"/>
-				<h:inputText id="kmRetorno" value="#{solicitacaoVeiculoBean.entity.kmRetorno}" required="true" style="width:60px"
-					requiredMessage="Informe Km de retorno" styleClass="maskInteiro">
-				</h:inputText>	
-				<h:message for="kmRetorno" styleClass="message"/>
-				<p/>	
 			</a4j:outputPanel>
 			
 			<a4j:outputPanel rendered="#{solicitacaoVeiculoBean.entity.status == 'EXTERNO'}">
-				<h:outputLabel value="Observações retorno:" for="justRetorno"  styleClass="labelNegrito"/>
-				<p/>
-				<h:inputTextarea id="justRetorno" value="#{solicitacaoVeiculoBean.entity.justificativaRetorno}" rows="4" cols="56" />
-				<h:message for="justRetorno" styleClass="message"/>
-				<p/>
+				<dt>
+					<h:outputLabel value="Observações retorno:" for="justRetorno"  styleClass="labelNegrito"/>
+				</dt>
+				<dd>
+					<h:inputTextarea id="justRetorno" value="#{solicitacaoVeiculoBean.entity.justificativaRetorno}" rows="2" cols="45" />
+					<h:message for="justRetorno" styleClass="message"/>
+				</dd>
+				
 			</a4j:outputPanel>
 			
 		</fieldset>

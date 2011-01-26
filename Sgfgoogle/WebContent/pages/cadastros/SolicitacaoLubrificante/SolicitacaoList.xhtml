@@ -27,11 +27,11 @@
 
 		      <legend>Consulta</legend>
 				
-				<dt><label for="ugAbastecimento">UG:</label></dt>
+				<dt><label for="ugAbastecimento">Órgão:</label></dt>
 				<dd>
-					<h:selectOneMenu id="ugAbastecimento" value="#{solicitacaoLubrificanteBean.orgao}" converter="entityConverter">
+					<h:selectOneMenu id="ugAbastecimento" value="#{solicitacaoLubrificanteBean.orgao}" style="width:420px" converter="entityConverter">
 						<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador}">
-							<f:selectItem itemLabel="Todas ..." itemValue=""/>
+							<f:selectItem itemLabel="Todos ..." itemValue=""/>
 						</c:if>
 						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 					</h:selectOneMenu>
@@ -92,7 +92,7 @@
 					</rich:column>
 
 					<rich:column sortBy="#{solicitacao.veiculo.placa}" width="12%" style="text-align: left;"> 
-						<f:facet name="header"><h:outputText value="veículo" /></f:facet>
+						<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
 						<a4j:commandLink id="descricao" action="#" 
 							value="#{solicitacao.veiculo.placa} #{solicitacao.veiculo.modelo.descricao} #{solicitacao.veiculo.serie}" 
 							style="color: black;text-decoration:none;font-weight: bold;" reRender="paginaPrincipal"

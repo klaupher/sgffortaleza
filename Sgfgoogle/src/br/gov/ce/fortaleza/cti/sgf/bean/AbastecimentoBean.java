@@ -199,14 +199,17 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, 
 							usuarioLogado.getPessoa().getUa().getUg(), this.status);
 				}
-			} else if (this.orgaoSelecionado != null && this.orgaoSelecionado.getId() != null) {
-				if (this.placa != null && this.placa != "") {
-					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
+			} else if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
+				
+				if(this.orgaoSelecionado != null && this.orgaoSelecionado.getId() != null){
+					if (this.placa != null && this.placa != "") {
+						this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
+					} else {
+						this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
+					}
 				} else {
-					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
+					this.entities = service.pesquisarAbastecimentos(this.dtInicial,this.dtFinal, this.status);
 				}
-			} else {
-				this.entities = service.pesquisarAbastecimentos(this.dtInicial,this.dtFinal, this.status);
 			}
 			return SUCCESS;
 		} else {

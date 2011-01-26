@@ -25,6 +25,7 @@ import br.gov.ce.fortaleza.cti.sgf.service.CotaService;
 import br.gov.ce.fortaleza.cti.sgf.service.PostoServicoVeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.service.TipoServicoService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
+import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 /**
@@ -106,6 +107,17 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 
 	public String update(){
 		this.entity.setCotaDisponivel(this.entity.getCotaDisponivel() + this.entity.getCota() - this.cotaAtual);
+		return super.update();
+	}
+	
+	public String atualizarCotaVeiculo(){
+		if(this.entity.getCota() < (this.cotaAtual - this.entity.getCotaDisponivel())){
+			JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
+			//JSFUtil.getInstance().addGlobalMessage("Valor não permitido. A cota só poderá ser diminuída em " + this.entity.getCotaDisponivel() + "(litros)");
+			return FAIL;
+		} else {
+			this.entity.setCotaDisponivel(this.entity.getCotaDisponivel() - (this.cotaAtual - this.entity.getCota()));
+		}
 		return super.update();
 	}
 

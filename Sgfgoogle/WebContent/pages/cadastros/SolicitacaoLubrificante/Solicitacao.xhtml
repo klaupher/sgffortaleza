@@ -12,9 +12,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	
 	<h:inputHidden value="#{solicitacaoLubrificanteBean.entity.id}" rendered="#{solicitacaoLubrificanteBean.updateState}"/>
-	
-	
-	
+
 	<div id="cadastro">
 
 		<h1 style="width:300px">Solicitação de Lubrificação </h1>
@@ -23,17 +21,26 @@
 
 	      	<legend>Cadastro de Autorização de Lubrificação</legend>
 
-	      	<dt><label for="ugList">UG</label></dt>
+	      	<dt><label for="ugList">Órgão:</label></dt>
 	      	<dd>
-		      	<h:selectOneMenu id="ugList" value="#{solicitacaoLubrificanteBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-		      		<f:selectItem itemLabel="Informe a UG" itemValue=""/>
+		      	<h:selectOneMenu id="ugList" value="#{solicitacaoLubrificanteBean.orgao}" requiredMessage="Informe a UG"  style="width:420px" converter="entityConverter">
+		      		<f:selectItem itemLabel="Informe o órgão" itemValue=""/>
 		   			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-		   			<a4j:support event="onchange" action="#{solicitacaoLubrificanteBean.loadMotoristas}" reRender="motorista,veiculo"/>
+		   			<a4j:support event="onchange" action="#{solicitacaoLubrificanteBean.loadMotoristas}" status="statusPreencher" reRender="motorista,veiculo" ajaxSingle="true"/>
 			   		</h:selectOneMenu>
 		   		<rich:message for="ugList"  styleClass="message"/>
 	   		</dd>
+	   		
+   		    <a4j:status id="statusPreencher">
+    			<f:facet name="start">
+    				<h:panelGroup style="align:center;">
+    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+	    				<h:outputText value="Processando..." styleClass="processando"/>
+					</h:panelGroup>
+				</f:facet>
+    		</a4j:status>
 
-		  	<dt><label for="motorista">Motoristas</label></dt>
+		  	<dt><label for="motorista">Motorista:</label></dt>
 		  	<dd>
 			<h:selectOneMenu id="motorista" value="#{solicitacaoLubrificanteBean.motorista}"  required="true" 
 			requiredMessage="Informe o motorista." converter="entityConverter">
@@ -45,7 +52,7 @@
 			
 			<a4j:region>
 			<dl>
-			  	<dt><label for="posto">Posto</label></dt>
+			  	<dt><label for="posto">Posto:</label></dt>
 			  	<dd>
 				<h:selectOneMenu id="posto" value="#{solicitacaoLubrificanteBean.posto}"  required="true" requiredMessage="Informe o posto." 
 				converter="entityConverter">
@@ -60,7 +67,7 @@
 			
 			<a4j:region>
 			<dl>
-			  	<dt><label for="tipoServico">Serviço</label></dt>
+			  	<dt><label for="tipoServico">Serviço:</label></dt>
 			  	<dd>
 				<h:selectOneMenu id="tipoServico" value="#{solicitacaoLubrificanteBean.tipoServico}" required="true" 
 				requiredMessage="Selecione o Tipo de Serviço" converter="entityConverter">
