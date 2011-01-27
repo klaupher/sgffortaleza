@@ -82,13 +82,13 @@ public class SgfUtil{
 
 	/**
 	 * EXEMPLO: 234.456.785-XX
-	 * SEJA S=S0,...,S10, A STRING Q REPRESENTA O CPF SEM OS PONTOS E O TRAÇO
-	 * Si SÃO OS NUMERAIS, ONDE i=[0,10]
+	 * SEJA S=S0,...,S10, A STRING Q REPRESENTA O CPF SEM OS PONTOS E O TRAï¿½O
+	 * Si Sï¿½O OS NUMERAIS, ONDE i=[0,10]
 	 * SOMA1 = (S1*10 + S2*9 + S3*8 + S4*7 + S5*6 + S6*5 + S7*4 + S8*3 + S9*2) .: SOMA1 = 209
-	 * V1 = SOMA1 % 11 (SE V1 < 2 V1 = 0 SENÃO V1 = SOMA2 % 11) .: V1 = 0
+	 * V1 = SOMA1 % 11 (SE V1 < 2 V1 = 0 SENï¿½O V1 = SOMA2 % 11) .: V1 = 0
 	 * SOMA2 = (S1*11 + S2*10 + S3*9 + S4*8 + S5*7 + S6*6 + S7*5 + S8*4 + S9*3 + V1*2) .: SOMA2 = 273
-	 * V2 = SOMA2 % 11 .: V2 = 9 (SE V2 < 2 V2 = 0 SENÃO V2 = SOMA2 % 11)
-	 * SE V1 = S10 E V2 = S11 ENTÃO DIGITO-VERIFICADOR ok
+	 * V2 = SOMA2 % 11 .: V2 = 9 (SE V2 < 2 V2 = 0 SENï¿½O V2 = SOMA2 % 11)
+	 * SE V1 = S10 E V2 = S11 ENTï¿½O DIGITO-VERIFICADOR ok
 	 * @param cpf
 	 * @return
 	 */
@@ -131,7 +131,7 @@ public class SgfUtil{
 			return false;
 		}
 	}
-	
+
 	public static String md5(String valor) {
 		MessageDigest md;
 		try {
@@ -145,10 +145,10 @@ public class SgfUtil{
 		}
 		return null;
 	}
-
+	
 	public static synchronized String sendMailToUser(String mail, User user) throws Exception{
-		String msg = "Sr. " + user.getPessoa().getNome() + "\n seu login atual é " + 
-		user.getLogin() + "\n sua senha atual é:" + user.getPassword();
-		return MailUtil.sendEmail(mail, "recuperação de login e senha", msg);
+		String msg = "Sr. " + user.getPessoa().getNome() + "\n seu login atual Ã© " + 
+		user.getLogin() + "\n sua senha atual Ã©:" + user.getPassword();
+		return MailUtil.sendEmail(mail, "recuperaÃ§Ã£o de login e senha", msg);
 	}
 }

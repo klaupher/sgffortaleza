@@ -96,7 +96,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private Boolean mostrarPosto;
 	private Long kmAtendimento;
 	private Double quantidadeAbastecida;
-	private Long ultimaQuilometragem;
+	private Long ultimaKilometragem;
 	private Bomba bomba;
 	private StatusAbastecimento status = StatusAbastecimento.AUTORIZADO;
 	private String placa;
@@ -128,21 +128,33 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@PostConstruct
 	public void init() {
 		//this.orgaoSelecionado = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
-		this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
-		this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+		//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+		//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+		this.entities = new ArrayList<Abastecimento>();
+		this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()));
+		this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()));
 		this.status = StatusAbastecimento.AUTORIZADO;
+
 		if(SgfUtil.isChefeTransporte(SgfUtil.usuarioLogado()) || SgfUtil.isChefeSetor(SgfUtil.usuarioLogado())){
-			
+
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, 
 					SgfUtil.usuarioLogado().getPessoa().getUa().getUg(), this.status);
-			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 		} else if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
-			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+
+			if(this.orgaoSelecionado != null){
+				this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
+			} else {
+				this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, 
+						SgfUtil.usuarioLogado().getPessoa().getUa().getUg(), this.status);
+			}
 		}
 	}
 
 	@Override
 	public String prepareSave() {
+		this.autorizar = false;
+		this.atender = false;
+		this.atendimento = false;
 		this.mostrarPosto = false;
 		refreshLists();
 		return super.prepareSave();
@@ -180,8 +192,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 		User usuarioLogado = SgfUtil.usuarioLogado();
 		this.entities = new ArrayList<Abastecimento>();
-		this.dtInicial = DateUtil.getDateTime(this.dtInicial, "00:00:00");
-		this.dtFinal = DateUtil.getDateTime(this.dtFinal, "23:59:59");
+		//this.dtInicial = DateUtil.getDateTime(this.dtInicial, "00:00:00");
+		//this.dtFinal = DateUtil.getDateTime(this.dtFinal, "23:59:59");
+		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
+		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 
 		if (DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 
@@ -200,7 +214,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 							usuarioLogado.getPessoa().getUa().getUg(), this.status);
 				}
 			} else if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
-				
+
 				if(this.orgaoSelecionado != null && this.orgaoSelecionado.getId() != null){
 					if (this.placa != null && this.placa != "") {
 						this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
@@ -208,7 +222,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 						this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
 					}
 				} else {
-					this.entities = service.pesquisarAbastecimentos(this.dtInicial,this.dtFinal, this.status);
+					//this.entities = service.pesquisarAbastecimentos(this.dtInicial,this.dtFinal, this.status);
+					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, null, this.status);
 				}
 			}
 			return SUCCESS;
@@ -241,7 +256,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.tiposServico.clear();
 		if (this.entity != null) {
 			if (entity.getQuilometragem() != null) {
-				this.ultimaQuilometragem = entity.getQuilometragem();
+				this.ultimaKilometragem = entity.getQuilometragem();
 			}
 		}
 		Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
@@ -264,11 +279,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private boolean validaQuilometragem() {
 
 		if (this.atendimento) {
-			Abastecimento last = service.executeSingleResultQuery("findLast", entity.getVeiculo().getId());
+			Abastecimento last = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
 			if (last != null) {
-				this.ultimaQuilometragem = last.getQuilometragem();
-				if (last.getQuilometragem() != null) {
-					if (last.getQuilometragem() > entity.getQuilometragem()) {
+				this.ultimaKilometragem = last.getQuilometragem();
+				if (this.ultimaKilometragem != null) {
+					if (this.ultimaKilometragem > this.kmAtendimento) {
 						JSFUtil.getInstance().addErrorMessage("msg.error.quilometragem.inconsistente");
 						return false;
 					}
@@ -356,7 +371,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.status = StatusAbastecimento.AUTORIZADO;
 
 		//String result = pesquisarAbastecimentosPorPeriodoPorOrgao();
-		
+
 		this.dtInicial = DateUtil.getDateTime(this.dtInicial);
 		this.dtFinal = DateUtil.getDateTime(this.dtFinal);
 
@@ -496,10 +511,13 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			if(this.entity.getVeiculo().getModelo().getId() != 75){
 				Cota cota = this.entity.getVeiculo().getCota();
 				this.saldoAtual = cota.getCotaDisponivel();
+				Abastecimento last = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
+				this.ultimaKilometragem = last.getQuilometragem();
 			} else {
 				this.vasilhame = true;
 			}
 		}
+
 		this.bombas = new ArrayList<Bomba>();
 		this.kmAtendimento = null;
 		this.quantidadeAbastecida = null;
@@ -648,12 +666,12 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return combustiveis;
 	}
 
-	public void setUltimaQuilometragem(Long ultimaQuilometragem) {
-		this.ultimaQuilometragem = ultimaQuilometragem;
+	public Long getUltimaKilometragem() {
+		return ultimaKilometragem;
 	}
 
-	public Long getUltimaQuilometragem() {
-		return ultimaQuilometragem;
+	public void setUltimaKilometragem(Long ultimaKilometragem) {
+		this.ultimaKilometragem = ultimaKilometragem;
 	}
 
 	public void setStart(Boolean start) {

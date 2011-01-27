@@ -40,13 +40,17 @@
 		
 		<dt><label for="dataInicial">Data Inicial</label></dt>
 		<dd>
-			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData" style="width:80px"/>
+			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData" style="width:80px">
+				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+			</h:inputText>
 		</dd>
 			
 
 		<dt><label for="dataFinal">Data Final</label></dt>
 		<dd>
-			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" styleClass="maskData"  style="width:80px"/>
+			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" styleClass="maskData"  style="width:80px">
+				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+			</h:inputText>
 		</dd>
 
 		<h:commandButton action="#{relatorioBean.consultarHistoricoVeiculoManutencao}" value="Consultar">

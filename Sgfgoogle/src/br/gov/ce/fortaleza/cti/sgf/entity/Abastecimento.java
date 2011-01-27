@@ -33,7 +33,11 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusAbastecimento;
 	 * "select sum(o.atendimento.quantidadeAbastecida) from " +
 	 * "Abastecimento o where o.veiculo.id = :id and (o.atendimento.data >= :inicio and o.atendimento.data <= :fim)"
 	 * ) */
-	@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(o.id) from Abastecimento o) and a.veiculo.id = ?"),
+	
+	// select * from tb_abastecimento a, tb_cadveiculo v where
+	// a.codveiculo = v.codveiculo and a.codsolabastecimento = 
+	//(select max(codsolabastecimento) from tb_abastecimento where v.codveiculo = 175)
+	@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(a1.id) from Abastecimento a1 where a1.veiculo.id = ? and a1.status = 2)"),
 	@NamedQuery(name = "Abastecimento.findByPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc"),
 	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where " +
 			"a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc") 

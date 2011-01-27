@@ -721,6 +721,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
+		
+		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
+		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 
 		Map<UG, List<AtendimentoAbastecimento>> atendimentos = null; // inicia lista de abastecimentos
 
@@ -865,6 +868,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 				return FAIL;
 			}
+			this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
+			this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
+
 		} else {
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.MONTH, 0); // JANEIRO

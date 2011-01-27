@@ -31,13 +31,17 @@
 
 		<dt><label for="dataInicial">Data Inícial:</label></dt>
 		<dd>
-			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData"/>
+			<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" required="true" requiredMessage="Informe a data inicial" styleClass="maskData">
+				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+			</h:inputText>
 			<h:message for="dataInicial" styleClass="message"/>
 		</dd>
 
 		<dt><label for="dataFinal">Data Final:</label></dt>
 		<dd>
-			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px"/>
+			<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:80px">
+				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+			</h:inputText>
 			<h:message for="dataFinal" styleClass="message"/>
 		</dd>
 		

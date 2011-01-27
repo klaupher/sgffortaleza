@@ -135,6 +135,7 @@
 			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}:" /></label></dt>
 			        <dd>
 			        	<h:inputText id="kmAtendimento" value="#{abastecimentoBean.kmAtendimento}" maxlength="8" required="true" />
+			        	<h:outputText value="Km Atual: #{abastecimentoBean.ultimaKilometragem}"  rendered="#{abastecimentoBean.ultimaKilometragem != null}"/>
 			        	<h:message for="kmAtendimento" tooltip="true" id="messageKmAtendimento" styleClass="message"/>
 			        </dd>
 

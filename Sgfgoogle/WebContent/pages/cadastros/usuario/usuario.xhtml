@@ -60,10 +60,8 @@
 				  		<label>Tipo de pessoa</label>
 				  	</dt>
 				  	<dd>
-				  		<h:inputText rendered="#{usuarioBean.entity.pessoa.tpPessoa == 1}" value="Pessoa Física" disabled="true"/>
-				  		<h:inputText rendered="#{usuarioBean.entity.pessoa.tpPessoa == 2}" value="Pessoa Jurídica" disabled="true"/>
-				  		<h:selectOneMenu id="tipoPessoa" value="#{usuarioBean.entity.pessoa.tpPessoa}" required="true"
-					    	 requiredMessage="Informe o tipo de pessoa" rendered="#{!usuarioBean.usuarioCadastrado}">
+				  		<h:selectOneMenu id="tipoPessoa" value="#{usuarioBean.entity.pessoa.tpPessoa}" required="true" disabled="true"
+					    	 requiredMessage="Informe o tipo de pessoa">
 					    	<f:selectItem itemValue="1" itemLabel="Pessoa Física"/>
 					    </h:selectOneMenu>
 				  	</dd>
@@ -86,12 +84,13 @@
 					    <a4j:region>
 					    	<dt><label for="ugUsuario">UG</label></dt>
 					    	<dd>
-					    		<h:selectOneMenu id="ugUsuario" value="#{usuarioBean.ug}" converter="entityConverter"
-					    			required="true" requiredMessage="Informe a UG" disabled="#{!controlBean.administrador and !controlBean.coordenador}">
+					    		<h:selectOneMenu id="ugUsuario" value="#{usuarioBean.ug}" converter="entityConverter" required="true" requiredMessage="Informe a UG" 
+					    			disabled="#{!controlBean.administrador and !controlBean.coordenador}" style="width:420px">
 					    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 					    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
 					    			<a4j:support event="onchange" action="#{usuarioBean.loadUas}" reRender="uaRegion" status="statusUA"/>
 					    		</h:selectOneMenu>
+					    		
 					    		<a4j:status id="statusUA">
 					    			<f:facet name="start">
 					    				<h:panelGroup style="align:center;">
@@ -139,9 +138,8 @@
 					    		<rich:message for="grupoUser" styleClass="message"/>
 							 </dd>
 						</a4j:region>
-	
+
 						<h:panelGroup id="postoRegion">
-							
 							<c:if test="#{usuarioBean.mostrarPosto}">
 						  		<dt><h:outputLabel id="postoLabel" value="Posto"/></dt>
 							  	<dd>
@@ -155,15 +153,15 @@
 						  	</c:if>
 
 					  	</h:panelGroup>
-	
+
 						<dt><label for="userLogin">Login</label></dt>
 					  	<dd>
-					  		<h:inputText id="userLogin" value="#{usuarioBean.entity.login}" required="true" requiredMessage="Informe o login" style="text-transform:none;"/>
+					  		<h:inputText id="userLogin" value="#{usuarioBean.entity.login}" required="true" disabled="#{!(controlBean.administrador or controlBean.coordenador)}" requiredMessage="Informe o login" style="text-transform:none;"/>
 					  		<h:message for="userLogin" styleClass="message"/>	
 					  	</dd>
-	
+
 					  	<dt><label for="userPasswd">Senha</label>
-	
+
 					  	</dt>
 				  		<dd>
 					  		<h:inputSecret id="userPasswd" value="#{usuarioBean.entity.senha}" onkeypress="passwordChanged();" required="true" requiredMessage="Informe a senha" redisplay="true"/>

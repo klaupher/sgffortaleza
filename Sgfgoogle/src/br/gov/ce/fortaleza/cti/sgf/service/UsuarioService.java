@@ -3,6 +3,7 @@ package br.gov.ce.fortaleza.cti.sgf.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
@@ -38,6 +39,14 @@ public class UsuarioService extends BaseService<Integer, User> {
 	public User desbloquear(Integer id) {
 		User user = retrieve(id);
 		user.setStatus("true");
+		update(user);
+		return user;
+	}
+	
+	@Transactional
+	public User alterarSenha(Integer id, String senha){
+		User user = retrieve(id);
+		user.setSenha(senha);
 		update(user);
 		return user;
 	}
@@ -102,13 +111,22 @@ public class UsuarioService extends BaseService<Integer, User> {
 	}
 
 	public Boolean findUserByCpf(String cpf, UG ug){
-		if(ug != null){
-			return executeSingleResultQuery("findByUGAndCpf", cpf, ug.getId()) != null;
-		} else {
-			return executeSingleResultQuery("findByCpf", cpf) != null;
+		try {
+			if(ug != null){
+				return executeSingleResultQuery("findByUGAndCpf", cpf, ug.getId()) != null;
+			} else {
+				return executeSingleResultQuery("findByCpf", cpf) != null;
+			}
+		} catch (NoResultException e) {
 		}
+		return null;
 	}
-
+	/**
+	 * Verifica se o usuário já existe entre os usuários válidos
+	 * @param login
+	 * @param id
+	 * @return
+	 */
 	public Boolean loginExistente(String login, Integer id){
 		Query query;
 		if(id != null){
@@ -116,9 +134,12 @@ public class UsuarioService extends BaseService<Integer, User> {
 			query.setParameter(1,login);
 			query.setParameter(2, id);
 		} else {
-			query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = ? and (o.status = ? or o.status = ?)");
+			query = entityManager.createQuery("SELECT u FROM User u WHERE u.login = ? and (u.status = ? or u.status = ?)");
 			query.setParameter(1, login);
+			query.setParameter(2, "TRUE");
+			query.setParameter(3, "true");
 		}
-		return query.getResultList().isEmpty();
+		List<User> users = query.getResultList();
+		return users.size() > 0;
 	}
 }

@@ -109,8 +109,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	}
 
 	public String prepareUpdate() {
-		this.pessoaCadastrada = false;
-		this.usuarioCadastrado = false;
+
 		if(this.entity.getPessoa().getUa() != null){
 			this.ua = this.entity.getPessoa().getUa();
 			this.ug = this.ua.getUg();
@@ -141,16 +140,19 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String save() {
-		boolean hasLoginUser = service.loginExistente(this.entity.getLogin(), null);
+		// se login já existe, o retorno será TRUE
+		Boolean hasLoginUser = service.loginExistente(this.entity.getLogin(), null);
 		if(validar()){
 			this.entity.setStatus("TRUE");
 			this.entity.getPessoa().setUa(this.ua);
 			this.entity.setSenha(SgfUtil.md5(this.entity.getSenha()));
-			this.pessoaService.update(this.entity.getPessoa());
-			if(!hasLoginUser){
+			if(hasLoginUser){
+				this.entity.setSenha(null);
+				this.confirmaSenha = null;
 				JSFUtil.getInstance().addErrorMessage("msg.error.login.existente");
 				return FAIL;
 			} else {
+				this.pessoaService.update(this.entity.getPessoa());
 				return super.save();
 			}
 		} else {
@@ -161,7 +163,9 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	@Transactional
 	public String update() {
 		boolean hasLoginUser = service.loginExistente(this.entity.getLogin(), this.entity.getCodPessoaUsuario());
-		if(!hasLoginUser){
+		if(hasLoginUser){
+			this.entity.setSenha(null);
+			this.confirmaSenha = null;
 			JSFUtil.getInstance().addErrorMessage("msg.error.login.existente");
 			return FAIL;
 		} else {
@@ -172,7 +176,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 				}
 				this.entity.setSenha(SgfUtil.md5(this.entity.getSenha()));
 				pessoaService.update(this.entity.getPessoa());
-				super.update();
+				service.update(this.entity);
 			} else {
 				return FAIL;
 			}

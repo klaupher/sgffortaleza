@@ -99,14 +99,26 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Abastecimento> pesquisarAbastecimentosPorPeriodo(Date dtInicial, Date dtFinal, UG orgao, StatusAbastecimento status) {
+	public List<Abastecimento> pesquisarAbastecimentosPorPeriodo(Date dtInicial, Date dtFinal, UG ug, StatusAbastecimento status) {
 
 		List<Abastecimento> abastecimentos = null;
-		Query query = entityManager.createQuery("select a from Abastecimento a where a.dataAutorizacao between :dataInicial and :dataFinal and " +
-		"a.veiculo.ua.ug.id = :orgao and a.status = :status order by a.dataAutorizacao desc");
+		String queryString = "select a from Abastecimento a where a.dataAutorizacao between :dataInicial and :dataFinal";
+		StringBuffer queryBuffer = new StringBuffer(queryString);
+		
+		if(ug != null){
+			queryBuffer.append(" and a.veiculo.ua.ug.id = :orgao");
+		}
+		
+		queryBuffer.append(" and a.status = :status order by a.dataAutorizacao desc");
+		
+		Query query = entityManager.createQuery(queryBuffer.toString());
 		query.setParameter("dataInicial", dtInicial);
 		query.setParameter("dataFinal", dtFinal);
-		query.setParameter("orgao", orgao.getId());
+		
+		if(ug != null){
+			query.setParameter("orgao", ug.getId());
+		}
+		
 		query.setParameter("status", status);
 		abastecimentos = query.getResultList();
 		return abastecimentos;
