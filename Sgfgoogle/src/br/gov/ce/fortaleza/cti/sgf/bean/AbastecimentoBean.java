@@ -102,6 +102,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private String placa;
 	private Double saldoAtual;
 	private boolean vasilhame = false;
+	private boolean kmValido = true;
 
 	@Override
 	protected Abastecimento createNewEntity() {
@@ -112,6 +113,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		setDtFinal(DateUtil.getDateTime(new Date(), "23:59:59"));
 		this.mostrarPosto = false;
 		this.bomba = new Bomba();
+		this.ultimaKilometragem = null;
 		return abastecimento;
 	}
 
@@ -130,6 +132,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		//this.orgaoSelecionado = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
 		//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
 		//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+		this.autorizar = false;
+		this.atender = false;
+		this.atendimento = false;
+		this.mostrarPosto = false;
+		this.ultimaKilometragem = null;
 		this.entities = new ArrayList<Abastecimento>();
 		this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()));
 		this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()));
@@ -156,6 +163,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.atender = false;
 		this.atendimento = false;
 		this.mostrarPosto = false;
+		this.ultimaKilometragem = null;
 		refreshLists();
 		return super.prepareSave();
 	}
@@ -163,10 +171,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String prepareUpdate() {
 		this.postos = new ArrayList<Posto>();
-		this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
 		if(this.orgaoSelecionado != null){
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
 			this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
+		} else {
+			this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
 		}
 		postoPorCombustivel();
 		//refreshLists();
@@ -304,8 +313,24 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 * 
 	 * @return Boolean
 	 */
-	private Boolean validaCota() {
+	public Boolean validaCota() {
 		return this.entity.getVeiculo().getCota().getCotaDisponivel() > 0 ? true : false;
+	}
+
+	public String validarKilometragemInformada(){
+		Abastecimento ultimoAbastecimento = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
+		if(ultimoAbastecimento != null){
+			if(this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
+				this.kmValido = false;
+				JSFUtil.getInstance().addErrorMessage("msg.error.quilometragem.inconsistente");
+			} else {
+				return update();
+			}
+		} else {
+			this.kmAtendimento = null;
+			return SUCCESS;
+		}
+		return SUCCESS;
 	}
 
 	/**
@@ -453,15 +478,14 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
 				atendimento.setAbastecimento(this.entity);
 				atendimentoService.save(atendimento);
-			} else if (validaQuilometragem()) {
+			} else {
 				Double cotaAtualizada = 0.0;
 				this.entity.setQuilometragem(kmAtendimento);
 				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-				Date now = new Date();
 				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 				atendimento.setBomba(this.bomba);
-				atendimento.setData(now);
-				atendimento.setHora(now);
+				atendimento.setData(new Date());
+				atendimento.setHora(new Date());
 				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 				cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
 				this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
@@ -471,10 +495,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				atendimento.setAbastecimento(this.entity);
 				this.cotaService.update(this.entity.getVeiculo().getCota());
 				atendimentoService.save(atendimento);
-			} else {
-				return FAIL;
 			}
-
 		}
 		return super.update();
 	}
@@ -506,17 +527,26 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 * @return
 	 */
 	public String atenderAbastecimento() {
+		this.kmValido = true;
 		this.vasilhame = false;
+		
 		if(this.entity.getVeiculo().getModelo() != null){
 			if(this.entity.getVeiculo().getModelo().getId() != 75){
 				Cota cota = this.entity.getVeiculo().getCota();
 				this.saldoAtual = cota.getCotaDisponivel();
-				Abastecimento last = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
-				this.ultimaKilometragem = last.getQuilometragem();
+				Abastecimento ultimaKilometragem = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
+				if(ultimaKilometragem != null){
+					this.ultimaKilometragem = ultimaKilometragem.getQuilometragem();
+				} else {
+					this.ultimaKilometragem = null;
+				}
+				this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
 			} else {
 				this.vasilhame = true;
 			}
 		}
+		Cota cota = this.entity.getVeiculo().getCota();
+		this.saldoAtual = cota.getCotaDisponivel();
 
 		this.bombas = new ArrayList<Bomba>();
 		this.kmAtendimento = null;
@@ -752,5 +782,13 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	public void setVasilhame(boolean vasilhame) {
 		this.vasilhame = vasilhame;
+	}
+
+	public boolean isKmValido() {
+		return kmValido;
+	}
+
+	public void setKmValido(boolean kmValido) {
+		this.kmValido = kmValido;
 	}
 }

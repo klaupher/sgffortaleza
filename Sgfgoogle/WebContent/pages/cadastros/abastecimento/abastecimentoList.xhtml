@@ -18,7 +18,7 @@
     			reRender="paginaPrincipal" immediate="true" styleClass="novo"/>
 
 		<fieldset>
-		
+
 			<legend>Consulta</legend>
 
 			<a4j:outputPanel rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador or  controlBean.operador}">
@@ -47,7 +47,7 @@
 					</h:inputText>
 					<h:message for="dtInicio" styleClass="message"/>
 				</dd>
-	
+
 				<dt><label for="dtFinal">Data final:</label></dt>
 				<dd>
 					<h:inputText id="dtFinal" value="#{abastecimentoBean.dtFinal}" style="color: black;"
@@ -63,7 +63,7 @@
 						<f:selectItem itemLabel="Autorizados" itemValue="AUTORIZADO"/>
 						<f:selectItem itemLabel="Atendidos" itemValue="ATENDIDO"/>
 					</h:selectOneRadio>
-				</dd>						
+				</dd>
 
 				<a4j:commandButton action="#{abastecimentoBean.pesquisarAbastecimentosPorPeriodoPorOrgao}" value="Pesquisar" reRender="dataTable"/>
 
@@ -85,13 +85,13 @@
 
 			<c:if test="#{not empty abastecimentoBean.entities}">
 
-				<rich:column width="3%"  style="text-align: center;" > 
+				<rich:column width="2%"  style="text-align: center;" > 
 					<f:facet name="header"><h:outputText value="#{msg['label.n']}" /></f:facet>
 					<h:outputText value="#{index+1}" style="color: black;"/>
 				</rich:column>
 
 				<rich:column width="20%" style="text-align: left;" > 
-                    <f:facet name="header"><h:outputText value="Veículo(Placa/Modelo)" /></f:facet>
+                    <f:facet name="header"><h:outputText value="Veículo"/></f:facet>
                     <a4j:commandLink id="descricao" value="#{abastecimento.veiculo.placa} #{abastecimento.veiculo.modelo.descricao} #{abastecimento.veiculo.serie}" reRender="paginaPrincipal" immediate="true"
                     	oncomplete="Richfaces.showModalPanel('acompanhamentoAbastecimento', {width:700, height:400, top:45});" style="color: black;text-decoration:none;">
                         <f:setPropertyActionListener value="#{abastecimento}" target="#{abastecimentoBean.entity}" />
@@ -100,16 +100,16 @@
                 </rich:column>
 
                 <rich:column width="10%" style="text-align: left;" > 
-                    <f:facet name="header"><h:outputText value="Cota disponível" /></f:facet>
+                    <f:facet name="header"><h:outputText value="Cota disp." /></f:facet>
                     <h:outputText value="#{abastecimento.veiculo.cota.cotaDisponivel}" style="color: black;"/>
                 </rich:column>
-
-               <rich:column width="45%" style="text-align: left;" > 
-                    <f:facet name="header"><h:outputText value="UG do veículo" /></f:facet>
+                
+               <rich:column sortBy="#{abastecimento.veiculo.ua.ug.descricao}" width="30%" style="text-align: left;" > 
+                    <f:facet name="header"><h:outputText value="Órgão" /></f:facet>
                     <h:outputText value="#{abastecimento.veiculo.ua.ug.descricao}" style="color: black;"/>
                 </rich:column>
 
-                <rich:column width="20%" style="text-align: left;" sortBy="#{abastecimento.dataAutorizacao}">
+                <rich:column width="16%" style="text-align: left;" sortBy="#{abastecimento.dataAutorizacao}">
                     <f:facet name="header"><h:outputText value="Data Autorização" /></f:facet>
                     <h:outputText value="#{abastecimento.dataAutorizacao}" style="color: black;">
                         <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>

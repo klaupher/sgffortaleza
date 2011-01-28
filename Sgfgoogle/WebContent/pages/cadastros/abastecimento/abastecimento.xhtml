@@ -120,7 +120,9 @@
 
 		<c:if test="#{abastecimentoBean.atender}">
 
-		<fieldset>
+			<fieldset>
+			
+				<legend>Atendimento</legend>
 
 	       		<dt><label for="bomba"><h:outputText value="#{msg['abastecimento.bomba']}:" /></label></dt>
 	         	<dd>
@@ -135,8 +137,10 @@
 			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}:" /></label></dt>
 			        <dd>
 			        	<h:inputText id="kmAtendimento" value="#{abastecimentoBean.kmAtendimento}" maxlength="8" required="true" />
-			        	<h:outputText value="Km Atual: #{abastecimentoBean.ultimaKilometragem}"  rendered="#{abastecimentoBean.ultimaKilometragem != null}"/>
-			        	<h:message for="kmAtendimento" tooltip="true" id="messageKmAtendimento" styleClass="message"/>
+			        	<label style="color:red"><h:outputText value="Km Abast. Anterior: #{abastecimentoBean.ultimaKilometragem}"  
+			        		rendered="#{abastecimentoBean.ultimaKilometragem != null}"/>
+			        	</label>
+			        	 <h:message for="kmAtendimento" tooltip="true" styleClass="message"/>
 			        </dd>
 
 					<dt><label for="saldoAtual"><h:outputText value="Saldo disponível:" /></label></dt>
@@ -151,21 +155,21 @@
 		         	<h:message for="litrosAbastecidos" tooltip="true" id="messageLitros" styleClass="message"/>
 		         </dd>
 
-	       	<h:commandButton action="#{abastecimentoBean.update}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.atender}">
-	   			<a4j:support event="onclick" reRender="paginaPrincipal" />
-	   			<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
-			</h:commandButton>
-
-			<a4j:commandButton value="#{msg['label.cancelar']}" reRender="paginaPrincipal" rendered="#{abastecimentoBean.negar or abastecimentoBean.atender}" immediate="true">
-	   			<f:setPropertyActionListener value="#{false}" target="#{abastecimentoBean.negar}" />
-	   			<f:setPropertyActionListener value="#{false}" target="#{abastecimentoBean.atender}" />
-			</a4j:commandButton>
-
 			</fieldset>
 
 	  	</c:if>
 
   	</div>
+  	
+    <h:commandButton action="#{abastecimentoBean.validarKilometragemInformada}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.atender and abastecimentoBean.kmValido}">
+  		<a4j:support event="onclick" reRender="paginaPrincipal" />
+  		<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
+	</h:commandButton>
+
+	<h:commandButton action="#{abastecimentoBean.update}" value="Confirmar Abastecimento" rendered="#{abastecimentoBean.atender and !abastecimentoBean.kmValido}">
+  			<a4j:support event="onclick" reRender="paginaPrincipal" />
+  			<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
+	</h:commandButton>
 
 	<h:commandButton value="#{msg['label.atender']}" action="#{abastecimentoBean.atenderAbastecimento}" 
 		rendered="#{(abastecimentoBean.atendimento and !abastecimentoBean.atender) and !abastecimentoBean.negar}">
@@ -194,6 +198,8 @@
 	</h:commandButton>
 
 	<h:commandButton action="#{abastecimentoBean.search}" value="#{msg['label.voltar']}" immediate="true">
+	  	<f:setPropertyActionListener value="#{false}" target="#{abastecimentoBean.negar}" />
+  		<f:setPropertyActionListener value="#{false}" target="#{abastecimentoBean.atender}" />
 		<a4j:support event="onclick" reRender="paginaPrincipal" />
 	</h:commandButton>
 
