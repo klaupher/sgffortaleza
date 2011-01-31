@@ -125,13 +125,13 @@ public class MotoristaBean extends EntityBean<Integer, Motorista>{
 	}
 
 	public void bloquear(){
-		this.entity.setAtivo("true");
+		this.entity.setAtivo("false");
 		this.motoristaService.update(this.entity);
 		search();
 	}
 
 	public void desbloquear(){
-		this.entity.setAtivo("false");
+		this.entity.setAtivo("true");
 		this.motoristaService.update(this.entity);
 		search();
 	}

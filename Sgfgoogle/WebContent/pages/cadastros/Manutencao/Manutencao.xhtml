@@ -44,7 +44,7 @@
 				<dd>
 					<h:selectOneMenu id="veiculo" value="#{requisicaoManutencaoBean.entity.veiculo}" disabled="#{empty requisicaoManutencaoBean.veiculos}" requiredMessage="Informe o veículo" converter="entityConverter">
 						<f:selectItem itemLabel="Todos" itemValue="" />
-						<t:selectItems value="#{requisicaoManutencaoBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao}" itemValue="#{veiculo}" />
+						<t:selectItems value="#{requisicaoManutencaoBean.veiculos}" var="veiculo" itemLabel="#{veiculo.placa} #{veiculo.modelo.descricao} #{veiculo.serie}" itemValue="#{veiculo}" />
 					</h:selectOneMenu>
 				</dd>
 				

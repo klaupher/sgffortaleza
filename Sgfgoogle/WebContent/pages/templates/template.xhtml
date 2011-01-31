@@ -25,13 +25,16 @@
 		<a4j:loadScript src="../scripts/jquery.alphanumeric.js" />
 		<a4j:loadScript src="../scripts/senha.js" />
 
-<!--	    <a4j:loadScript src="http://www.google.com/jsapi?key=ABQIAAAAmjdf8Alop0GKF_NBWArt3BQfc83Z1gFyDkNP596LdtND2K67-BR3wEzhWIGY33A3E9TmKuNsZk1OYA"/>-->
-<!--	    <script type="text/javascript">google.load("maps", "2.81");</script>-->
-<!--		<a4j:loadScript src="../scripts/map.js" />-->
+
+		<c:if test="#{controlBean.areaBean or controlBean.pontoBean}">
+		    <a4j:loadScript src="http://www.google.com/jsapi?key=ABQIAAAAmjdf8Alop0GKF_NBWArt3BQfc83Z1gFyDkNP596LdtND2K67-BR3wEzhWIGY33A3E9TmKuNsZk1OYA"/>
+		    <script type="text/javascript">google.load("maps", "2.81");</script>
+			<a4j:loadScript src="../scripts/map.js" />
+		</c:if>
 
 	</head>
 
-	<body>
+	<body onload="loadMaps();"  onunload="GUnload();">
 
 		<h:form id="paginaPrincipal" prependId="false">
 

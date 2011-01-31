@@ -24,14 +24,14 @@
 			<fieldset>
 
 		      	<legend><h:outputText value="#{msg['abastecimento.autorizacoes']}" /> </legend>
-
+		      	
 		      	<a4j:region>
 			      	<dt><label for="ugList"><h:outputText value="UG:" /></label></dt>
 			      	<dd>
 				      	<h:selectOneMenu id="ugList" value="#{abastecimentoBean.orgaoSelecionado}" requiredMessage="Informe a UG" converter="entityConverter"
 				      	   	disabled="#{abastecimentoBean.viewState or abastecimentoBean.entity.status == 'ATENDIDO'}" style="width:420px">
 				   			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-				   			<a4j:support event="onchange" action="#{abastecimentoBean.loadVeiculos}" reRender="veiculoAbastecimento,motorista"/>
+				   			<a4j:support event="onchange" action="#{abastecimentoBean.loadVeiculos}" reRender="veiculoAbastecimento,motorista" status="statusPreencherPostos"/>
 					   	</h:selectOneMenu>
 				   		<rich:message for="ugList"  styleClass="message"/>
 			   		</dd>
@@ -77,14 +77,7 @@
 	                </h:selectOneMenu>
 				</dd>
 
-                <a4j:status id="statusPreencherPostos">
-	    			<f:facet name="start">
-	    				<h:panelGroup style="align:center;">
-	    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-		    				<h:outputText value="Processando..." styleClass="processando"/>
-						</h:panelGroup>
-					</f:facet>
-	    		</a4j:status>
+
 
 	            <a4j:region id="panelUA" rendered="#{abastecimentoBean.mostrarPosto}">
 		            <dt><label for="posto"><h:outputText value="#{msg['abastecimento.posto']}:" /></label></dt>
@@ -202,6 +195,15 @@
   		<f:setPropertyActionListener value="#{false}" target="#{abastecimentoBean.atender}" />
 		<a4j:support event="onclick" reRender="paginaPrincipal" />
 	</h:commandButton>
+	
+	<a4j:status id="statusPreencherPostos">
+	 	<f:facet name="start">
+	 		<h:panelGroup style="align:center;">
+	 			<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+	  			<h:outputText value="Processando..." styleClass="processando"/>
+			</h:panelGroup>
+		</f:facet>
+	</a4j:status>
 
 </ui:composition>
 

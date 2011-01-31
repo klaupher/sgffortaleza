@@ -91,16 +91,51 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return result;
 	}
 
+//	@SuppressWarnings("unchecked")
+//	public List<Veiculo> findByPCR(String p, String c, String r){
+//		List<Veiculo> result = executeResultListGenericQuery("findByPCR", p, c, r);
+//		return result;
+//	}
+//
+//	@SuppressWarnings("unchecked")
+//	public List<Veiculo> findByUGPCR(String ugId, String p, String c, String r){
+//		List<Veiculo> result = executeResultListGenericQuery("findByUGPCR", ugId, p, c, r);
+//		return result;
+//	}
+	
 	@SuppressWarnings("unchecked")
-	public List<Veiculo> findByPCR(String p, String c, String r){
-		List<Veiculo> result = executeResultListGenericQuery("findByPCR", p, c, r);
-		return result;
-	}
+	public List<Veiculo> findByOrgaoPlacaChassiRenavam(String orgaoId, String placa, String chassi, String renavam){
+		
+		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
+		if(orgaoId != null){
+			sql.append(" and v.ua.ug.id = :id");
+		}
+		if(placa != null){
+			sql.append(" and v.placa = :placa");
+		}
+		if(chassi != null){
+			sql.append(" and v.chassi = :chassi");
+		}
+		if(renavam != null){
+			sql.append(" and v.renavam = :renavam");
+		}
+		
+		Query query = entityManager.createQuery(sql.toString());
 
-	@SuppressWarnings("unchecked")
-	public List<Veiculo> findByUGPCR(String ugId, String p, String c, String r){
-		List<Veiculo> result = executeResultListGenericQuery("findByUGPCR", ugId, p, c, r);
-		return result;
+		if(orgaoId != null){
+			query.setParameter("id", orgaoId);
+		}
+		if(placa != null){
+			query.setParameter("placa", placa);
+		}
+		if(chassi != null){
+			query.setParameter("chassi", chassi);
+		}
+		if(renavam != null){
+			query.setParameter("renavam", renavam);
+		}
+		
+		return query.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")

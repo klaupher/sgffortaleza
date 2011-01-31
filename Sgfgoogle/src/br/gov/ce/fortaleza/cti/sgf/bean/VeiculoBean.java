@@ -114,24 +114,26 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		List<Veiculo> veiculos =  new ArrayList<Veiculo>();
 		this.entities = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
+		
 		if(this.stringSearch != null && this.stringSearch.length() > 0){
+			
 			if(SgfUtil.isAdministrador(user) || SgfUtil.isChefeTransporte(user)){
 				if(this.searchId == 0){
-					veiculos = this.service.findByPCR(this.stringSearch, "", "");
+					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, this.stringSearch, null, null);
 				} else if(this.searchId == 1){
-					veiculos = this.service.findByPCR("", this.stringSearch, "");
+					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, this.stringSearch, null);
 				} else if(this.searchId == 2){
-					veiculos = this.service.findByPCR("", "", this.stringSearch);
+					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, null, this.stringSearch);
 				}
 			} else {
 				UA ua = user.getPessoa().getUa();
 				if(ua != null){
 					if(this.searchId == 0){
-						veiculos = this.service.findByUGPCR(ua.getUg().getId(), this.stringSearch, "", "");
+						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), this.stringSearch, null, null);
 					} else if(this.searchId == 1){
-						veiculos = this.service.findByUGPCR(ua.getUg().getId(),"", this.stringSearch, "");
+						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, this.stringSearch, null);
 					} else if(searchId == 2){
-						veiculos = this.service.findByUGPCR(ua.getUg().getId(),"", "",this. stringSearch);
+						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, null,this. stringSearch);
 					}
 				}
 			}

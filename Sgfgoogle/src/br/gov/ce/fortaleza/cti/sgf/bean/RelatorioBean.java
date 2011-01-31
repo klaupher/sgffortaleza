@@ -407,7 +407,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		User user = SgfUtil.usuarioLogado();
 		this.veiculos = new ArrayList<Veiculo>();
 		if (this.orgao != null) {
-			this.veiculos = veiculoService.retrieveByUG(this.orgao.getId());
+			this.veiculos = veiculoService.findByUG(this.orgao);
 		} else {
 			if(SgfUtil.isAdministrador(user)){
 				this.veiculos = veiculoService.retrieveAll();

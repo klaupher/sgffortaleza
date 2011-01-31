@@ -30,13 +30,13 @@
 							<f:selectItem itemLabel="Todos ..." itemValue=""/>
 						</c:if>
 						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-						<a4j:support event="onchange" action="#{abastecimentoBean.populate}" reRender="placaVeiculo"/>
+						<a4j:support event="onchange" action="#{abastecimentoBean.populate}"/>
 					</h:selectOneMenu>
 	      		</dd>
 
 				<dt><label for="placaVeiculo">Placa:</label></dt>
 				<dd>
-					<h:inputText id="placaVeiculo" value="#{abastecimentoBean.placa}" style="color: black;width:80px"/>
+					<h:inputText id="placaVeiculo" value="#{abastecimentoBean.placa}"/>
 				</dd>
 
 				<dt><label for="dtInicio">Data início:</label></dt>

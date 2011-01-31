@@ -253,13 +253,12 @@ public class SolicitacaoLubrificanteBean extends
 		this.veiculos = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user) || SgfUtil.isOperador(user)){
-			
 			if(this.orgao != null && this.orgao.getId() != null){
-				this.veiculos = veiculoService.retrieveByUG(this.orgao.getId());
+				this.veiculos = veiculoService.findByUG(this.orgao);
 			}
 		} else if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
 			if( this.orgao != null && this.orgao.getId() != null){
-				this.veiculos = veiculoService.retrieveByUG(this.orgao.getId());
+				this.veiculos = veiculoService.findByUG(this.orgao);
 			} else {
 				this.veiculos = veiculoService.retrieveAll();
 			}

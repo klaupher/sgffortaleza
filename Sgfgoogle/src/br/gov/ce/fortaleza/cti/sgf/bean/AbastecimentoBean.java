@@ -4,7 +4,6 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -129,9 +128,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	@PostConstruct
 	public void init() {
-		//this.orgaoSelecionado = SgfUtil.usuarioLogado().getPessoa().getUa().getUg();
-		//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
-		//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+
 		this.autorizar = false;
 		this.atender = false;
 		this.atendimento = false;
@@ -171,14 +168,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String prepareUpdate() {
 		this.postos = new ArrayList<Posto>();
-		if(this.orgaoSelecionado != null){
-			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
-			this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
-		} else {
-			this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
-		}
+		this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
+		loadVeiculos();
 		postoPorCombustivel();
-		//refreshLists();
 		return super.prepareUpdate();
 	}
 
@@ -201,18 +193,19 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 		User usuarioLogado = SgfUtil.usuarioLogado();
 		this.entities = new ArrayList<Abastecimento>();
-		//this.dtInicial = DateUtil.getDateTime(this.dtInicial, "00:00:00");
-		//this.dtFinal = DateUtil.getDateTime(this.dtFinal, "23:59:59");
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 
 		if (DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 
+			this.placa = this.placa.toUpperCase();
+
 			if (SgfUtil.isOperador(usuarioLogado)) {
 				if (this.placa != null && this.placa != "") {
 					this.entities = service.pesquisarAbastecimentoVeiculoPorPlaca(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.placa,this.status);
 				} else {
-					this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial,this.dtFinal, status);
+					this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial,this.dtFinal, this.orgaoSelecionado, this.status);
+					//this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial,this.dtFinal, status);
 				}
 			} else if(SgfUtil.isChefeTransporte(usuarioLogado) || SgfUtil.isChefeSetor(usuarioLogado)){
 				if (this.placa != null && this.placa != "") {
@@ -285,6 +278,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		}
 	}
 
+	/**
+	 * valida kilometragem e a cota informados no atendimento do abastecimento
+	 */
 	private boolean validaQuilometragem() {
 
 		if (this.atendimento) {
@@ -300,12 +296,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			}
 		}
 
-		if (validaCota()) {
-			return true;
-		} else {
-			JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
-			return false;
-		}
+		return validarQuantidadeAbastecimento();
 	}
 	/**
 	 * Valida a cota dispon�vel para o ve�culo durante o atendimento
@@ -317,6 +308,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return this.entity.getVeiculo().getCota().getCotaDisponivel() > 0 ? true : false;
 	}
 
+	/**
+	 * valida a kilometragem informada em relação ao abastecimento anterior. Caso exista inconsistencia, o sistema retorna para
+	 * a tela do cadastro e solicitar confirmação do operador, caso não exista, o sistema salva os dados do atendimento
+	 * @return
+	 */
 	public String validarKilometragemInformada(){
 		Abastecimento ultimoAbastecimento = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
 		if(ultimoAbastecimento != null){
@@ -328,9 +324,29 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			}
 		} else {
 			this.kmAtendimento = null;
-			return SUCCESS;
+			return update();
 		}
 		return SUCCESS;
+	}
+	/**
+	 * validar a quantidade a ser abastecida pela operador da bomba
+	 * @return
+	 */
+	public Boolean validarQuantidadeAbastecimento(){
+
+		Cota cota = this.entity.getVeiculo().getCota();
+		this.saldoAtual = cota.getCotaDisponivel();
+		if(this.saldoAtual > 0){
+			if(this.quantidadeAbastecida > this.saldoAtual){
+				JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
+			return false;
+		}
 	}
 
 	/**
@@ -395,23 +411,20 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.atendimento = false;
 		this.status = StatusAbastecimento.AUTORIZADO;
 
-		//String result = pesquisarAbastecimentosPorPeriodoPorOrgao();
-
 		this.dtInicial = DateUtil.getDateTime(this.dtInicial);
 		this.dtFinal = DateUtil.getDateTime(this.dtFinal);
 
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
-			this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
-			this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+			//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+			//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
 			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
 
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
-			this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
-			this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
+			//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
+			//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(),this.status);
-			//loadVeiculos();
 		}
 
 		for (Abastecimento abastecimento : this.entities) {
@@ -529,40 +542,33 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	public String atenderAbastecimento() {
 		this.kmValido = true;
 		this.vasilhame = false;
-		
-		if(this.entity.getVeiculo().getModelo() != null){
-			if(this.entity.getVeiculo().getModelo().getId() != 75){
-				Cota cota = this.entity.getVeiculo().getCota();
-				this.saldoAtual = cota.getCotaDisponivel();
-				Abastecimento ultimaKilometragem = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
-				if(ultimaKilometragem != null){
-					this.ultimaKilometragem = ultimaKilometragem.getQuilometragem();
-				} else {
-					this.ultimaKilometragem = null;
-				}
-				this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
+
+		if(this.entity.getVeiculo().getModelo() != null && this.entity.getVeiculo().getModelo().getId() == 75){
+			this.vasilhame = true;
+		} else {
+			Abastecimento ultimaKilometragem = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
+			if(ultimaKilometragem != null){
+				this.ultimaKilometragem = ultimaKilometragem.getQuilometragem();
 			} else {
-				this.vasilhame = true;
+				this.ultimaKilometragem = null;
 			}
+			this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
+			Cota cota = this.entity.getVeiculo().getCota();
+			this.saldoAtual = cota.getCotaDisponivel();
 		}
-		Cota cota = this.entity.getVeiculo().getCota();
-		this.saldoAtual = cota.getCotaDisponivel();
 
 		this.bombas = new ArrayList<Bomba>();
 		this.kmAtendimento = null;
 		this.quantidadeAbastecida = null;
-		this.bomba = null;
 		this.veiculos = new ArrayList<Veiculo>();
 		this.tiposServico = new ArrayList<TipoServico>();
 		this.tiposServico.add(tipoServicoService.retrieve(1));
 
-		for (Abastecimento e : this.entities) {
-			this.veiculos.add(e.getVeiculo());
-			this.motoristas.add(e.getMotorista());
-		}
+		User usuarioLogado = SgfUtil.usuarioLogado();
+		loadVeiculos();
 
-		if (SgfUtil.usuarioLogado().getPosto() != null) {
-			this.bombas.addAll(bombaService.findBombaByPosto(SgfUtil.usuarioLogado().getPosto().getCodPosto()));
+		if (usuarioLogado.getPosto() != null) {
+			this.bombas.addAll(bombaService.findBombaByPosto(usuarioLogado.getPosto().getCodPosto()));
 		}
 		this.atendimento = true;
 		return super.prepareView();
