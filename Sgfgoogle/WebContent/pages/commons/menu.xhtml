@@ -77,7 +77,7 @@
 
 				<rich:menuItem submitMode="server" value="Informações de Veículo" action="#{relatorioBean.relatorioInformacoesVeiculos}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_INFORMACOES_VEICULOS')}" immediate="true"/>
-
+de
 				<rich:menuItem submitMode="server" value="Multa de Veículos" action="#{relatorioBean.relatorioMultasOrgao}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_VEICULO_MULTA')}" immediate="true"/>
 
@@ -105,12 +105,12 @@
 			<rich:dropDownMenu rendered="#{controlBean.hasPermission('RULE_CADASTRO')}">
 
 				<f:facet name="label"><h:outputText value="#{msg['menu.cadastros']}" /></f:facet>
-				<rich:menuItem value="Bombas de Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
+				<rich:menuItem value="Bomba Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
 				<rich:menuItem value="Cotas Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
 				<rich:menuItem value="Infrações" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
 				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>	
-				<rich:menuItem value="Multas Veículo" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
-				<rich:menuItem value="Nº Motor Veículo" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
+				<rich:menuItem value="Multas" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
+				<rich:menuItem value="Nº Motor" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
 				<rich:menuItem value="Oficinas" action="#{oficinaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_OFICINA')}" immediate="true"/>
 				<rich:menuItem value="Tipos Serviço" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
 				<rich:menuItem value="Veículos" action="#{veiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
@@ -139,9 +139,11 @@
 				<h:commandLink value="Manual" action="#{downloadBean.download}" immediate="true" style="text-decoration: none; color:black" />
 			</rich:toolBarGroup>
 
-			<rich:dropDownMenu rendered="false">
+			<rich:dropDownMenu rendered="true">
 				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>  <!-- Tela de monitoramento de veículos -->
+				<rich:menuItem value="Pontos" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>
+				<rich:menuItem value="Áreas" action="#{areaBean.search}"  rendered="#{controlBean.administrador}" oncomplete="loadMaps();" immediate="true"/>
 			</rich:dropDownMenu>
 
 			 <rich:toolBarGroup location="right">
