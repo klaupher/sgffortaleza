@@ -24,7 +24,7 @@
 			<dt><label for="descricao">Descrição</label></dt>
 		  	<dd>
 				<h:inputText id="descricao" value="#{infracaoBean.entity.descricao}" required="true" 
-							 requiredMessage="Informe a Descrição." size="30" maxlength="150">
+							 requiredMessage="Informe a Descrição." size="60" maxlength="255">
 				</h:inputText>
 				<label style="color:red">*</label>
 				<rich:message errorClass="error" for="descricao" styleClass="message"/>
