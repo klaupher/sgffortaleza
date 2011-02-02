@@ -18,12 +18,10 @@ import org.springframework.stereotype.Component;
 import br.gov.ce.fortaleza.cti.sgf.entity.Area;
 import br.gov.ce.fortaleza.cti.sgf.entity.Especie;
 import br.gov.ce.fortaleza.cti.sgf.entity.Modelo;
-import br.gov.ce.fortaleza.cti.sgf.entity.Parametro;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
-import br.gov.ce.fortaleza.cti.sgf.service.ParametroService;
 import br.gov.ce.fortaleza.cti.sgf.service.UAService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
@@ -39,15 +37,12 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	@Autowired
 	private UAService uaService;
 	
-	@Autowired
-	private ParametroService parametroService;
-
 	private UG ug;
 	private List<UA> uas;
 	private Integer searchId = 0;
 	private String stringSearch = null;
 	private Area area;
-	private Boolean cadastraVeiculo = true;
+	
 
 	protected Integer retrieveEntityId(Veiculo entity) {
 		return entity.getId();
@@ -63,7 +58,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setEspecie(new Especie());
 		veiculo.setUa(new UA());
 		veiculo.setPropriedade("Locado");
-		veiculo.setTemSeguro(0);
+		veiculo.setTemSeguro(0);		
 		this.stringSearch = null;
 		return veiculo;
 	}
@@ -107,10 +102,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	@Override
 	public String search(){
-		Parametro parametro = parametroService.findByNome("CADASTRO_VEICULO");
-		if(parametro != null && parametro.getValor().equals("TRUE")){
-			this.cadastraVeiculo = false;
-		}
+
 		List<Veiculo> veiculos =  new ArrayList<Veiculo>();
 		this.entities = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
@@ -196,13 +188,5 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	public void setArea(Area area) {
 		this.area = area;
-	}
-
-	public Boolean getCadastraVeiculo() {
-		return cadastraVeiculo;
-	}
-
-	public void setCadastraVeiculo(Boolean cadastraVeiculo) {
-		this.cadastraVeiculo = cadastraVeiculo;
 	}
 }

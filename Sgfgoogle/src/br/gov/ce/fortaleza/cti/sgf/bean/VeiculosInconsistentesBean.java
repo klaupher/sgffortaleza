@@ -26,7 +26,6 @@ import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.ConnectOracle;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.RelatorioDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.VeiculoDTO;
 
 /**
@@ -109,6 +108,7 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, VeiculoDTO> 
 		return null;
 	}
 
+	@SuppressWarnings("static-access")
 	public void buscaVeiculosPatrimonio() throws SQLException {
 
 		/*
@@ -241,7 +241,7 @@ public class VeiculosInconsistentesBean extends EntityBean<Integer, VeiculoDTO> 
 			/**
 			 * Conex�o utilizada para o acesso � base do Patrim�nio
 			 */
-			connection = conexaoPatrimonio.conectaOracle();
+			connection = conexaoPatrimonio.connection();
 			stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			// Executa a consulta do par�metro query
 			ResultSet rs = stmt.executeQuery(query);

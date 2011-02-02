@@ -30,7 +30,7 @@
 				</dt>
 				<dd>
 					<h:selectOneMenu id="selectUgSolicitacaoVeiculo" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList" >
-						<f:selectItem itemLabel="Selecione o órgão ..." itemValue=""/>
+						<f:selectItem itemLabel="Informe o órgão ..." itemValue=""/>
 						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 						<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}"  reRender="veiculoSolicitacao" ajaxSingle="true"/>
 					</h:selectOneMenu>
@@ -44,7 +44,7 @@
 				</dt>
 				<dd>
 					<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
-						<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
+						<f:selectItem itemLabel="Informe o veículo ..." itemValue=""/>
 			 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}"/>
 			 			<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.pesquisarSolicitacoesPendentes}"  reRender="panelSolicitacoesPendentes" ajaxSingle="true"/>
 					</h:selectOneMenu>

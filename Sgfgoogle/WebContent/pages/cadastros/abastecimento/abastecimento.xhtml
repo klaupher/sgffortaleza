@@ -41,7 +41,7 @@
 					<dt><label for="veiculoAbastecimento"><h:outputText value="#{msg['abastecimento.veiculo']}:" /></label></dt>
 					<dd>
 					    <h:selectOneMenu id="veiculoAbastecimento" required="true" value="#{abastecimentoBean.entity.veiculo}" disabled="#{controlBean.operador}" converter="entityConverter"> 
-					         <f:selectItem itemValue="" itemLabel="Informe o veículo" />
+					         <f:selectItem itemValue="" itemLabel="Informe o veículo ..." />
 					         <t:selectItems value="#{abastecimentoBean.veiculos}" var="v" itemLabel="#{v.placa}  #{v.modelo.descricao} #{v.serie}" itemValue="#{v}" />
 					    </h:selectOneMenu>
 						<h:message for="veiculoAbastecimento" tooltip="true" styleClass="message" />
@@ -52,7 +52,7 @@
 		            <dt><label for="motorista"><h:outputText value="#{msg['abastecimento.motorista']}:" /></label></dt>
 		            <dd>
 		                <h:selectOneMenu id="motorista" value="#{abastecimentoBean.entity.motorista}" required="true" disabled="#{empty abastecimentoBean.motoristas or controlBean.operador}" converter="entityConverter" >
-		                    <f:selectItem itemValue="" itemLabel="Informe o Motorista" />
+		                    <f:selectItem itemValue="" itemLabel="Informe o motorista ..." />
 		                    <t:selectItems value="#{abastecimentoBean.motoristas}" var="m" itemLabel="#{m.pessoa.nome}" itemValue="#{m}" />
 		                </h:selectOneMenu>
 		                <h:message for="motorista" tooltip="true" styleClass="message"/>
@@ -62,7 +62,7 @@
 				<dt><label for="tipoServico"><h:outputText value="#{msg['abastecimento.tipo']}:" /></label></dt>
 	            <dd>
 	                <h:selectOneMenu id="tipoServico" value="#{abastecimentoBean.entity.tipoServico}" disabled="#{controlBean.operador}" converter="entityConverter" required="true">
-	                	<f:selectItem itemValue="" itemLabel="Informe o Servico" />
+	                	<f:selectItem itemValue="" itemLabel="Informe o serviço ..." />
 	                    <t:selectItems value="#{abastecimentoBean.tiposServico}" var="tipo" itemLabel="#{tipo.descricao}" itemValue="#{tipo}" />
 	                </h:selectOneMenu>
 	                <h:message for="tipoServico" tooltip="true" styleClass="message"/>
@@ -71,7 +71,7 @@
 	            <dt><label for="combustivel"><h:outputText value="#{msg['abastecimento.combustivel']}:" /></label></dt>
 	            <dd>
 	                <h:selectOneMenu id="combustivel" value="#{abastecimentoBean.entity.combustivel}" required="true" disabled="#{abastecimentoBean.viewState or abastecimentoBean.entity.status == 'ATENDIDO'}" converter="entityConverter" >
-	                    <f:selectItem itemValue="" itemLabel="Informe o Combustível" />
+	                    <f:selectItem itemValue="" itemLabel="Informe o combustível ..." />
 	                    <t:selectItems value="#{combustivelBean.combustiveis}" var="c" itemLabel="#{c.descricao}" itemValue="#{c}" />
 	                    <a4j:support event="onchange" action="#{abastecimentoBean.postoPorCombustivel}" status="statusPreencherPostos" reRender="paginaPrincipal"/>
 	                </h:selectOneMenu>
@@ -83,7 +83,7 @@
 		            <dt><label for="posto"><h:outputText value="#{msg['abastecimento.posto']}:" /></label></dt>
 		            <dd>
 		                <h:selectOneMenu id="posto" value="#{abastecimentoBean.entity.posto}" required="true" converter="entityConverter" disabled="#{abastecimentoBean.entity.status == 'ATENDIDO'}">
-		                    <f:selectItem itemValue="" itemLabel="Informe o Posto" />
+		                    <f:selectItem itemValue="" itemLabel="Informe o posto ..." />
 		                    <t:selectItems value="#{abastecimentoBean.postos}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
 		                </h:selectOneMenu>
 		                <h:message for="posto" tooltip="true" styleClass="message"/>

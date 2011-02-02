@@ -22,10 +22,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario;
 import br.gov.ce.fortaleza.cti.sgf.entity.Page;
+import br.gov.ce.fortaleza.cti.sgf.entity.Parametro;
 import br.gov.ce.fortaleza.cti.sgf.entity.Permissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.Role;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.service.LogUsuarioService;
+import br.gov.ce.fortaleza.cti.sgf.service.ParametroService;
 import br.gov.ce.fortaleza.cti.sgf.service.UsuarioService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
@@ -43,7 +45,11 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 
 	@Autowired
 	private LogUsuarioService logService;
+	
+	@Autowired
+	private ParametroService parametroService;
 
+	protected Boolean cadastraVeiculo = true;
 	public String userMail;
 	private User usuario;
 	private Role grupo;
@@ -64,6 +70,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 					this.permissoes.add(permissao.getNome());
 				}
 				this.usuario.setPermissoes(this.permissoes);
+				Parametro parametro = parametroService.findByNome("CADASTRO_VEICULO");
+				if(parametro != null && parametro.getValor().equals("TRUE")){
+					this.cadastraVeiculo = false;
+				}
 			}
 			return SUCCESS;
 		} else {
@@ -205,6 +215,32 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String enviarEmail(){
+		if ((userMail != null)&& (!"".equals(userMail.trim()))) {
+			List<User> list = usuarioService.retriveByMail(userMail);
+			if ((list != null)&& (list.size() > 0)) {
+				for (User usuario: list) {
+					try {
+						String str = SgfUtil.sendMailToUser(userMail, usuario);
+						if (str.equalsIgnoreCase(SUCCESS)) {
+							SgfUtil.getRequest().setAttribute("sendmail_msg", "A Senha foi enviada p/ o e-mail informado.");
+							return SUCCESS;
+						}
+					} catch (Exception e) {
+						logger.error(e.getMessage(), e);
+					}
+				}
+			} else {
+				SgfUtil.getRequest().setAttribute("sendmail_err", "Não foi encontrado usuário p/ o e-mail informado.");
+				return FAIL;
+			}
+		} else {
+			SgfUtil.getRequest().setAttribute("sendmail_wrn", "Por favor informe o e-mail!");
+			return FAIL;
+		}
+		return SUCCESS;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -396,32 +432,6 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		return true;
 	}
 
-	public String enviarEmail(){
-		if ((userMail != null)&& (!"".equals(userMail.trim()))) {
-			List<User> list = usuarioService.retriveByMail(userMail);
-			if ((list != null)&& (list.size() > 0)) {
-				for (User usuario: list) {
-					try {
-						String str = SgfUtil.sendMailToUser(userMail, usuario);
-						if (str.equalsIgnoreCase(SUCCESS)) {
-							SgfUtil.getRequest().setAttribute("sendmail_msg", "A Senha foi enviada p/ o e-mail informado.");
-							return SUCCESS;
-						}
-					} catch (Exception e) {
-						logger.error(e.getMessage(), e);
-					}
-				}
-			} else {
-				SgfUtil.getRequest().setAttribute("sendmail_err", "Não foi encontrado usuário p/ o e-mail informado.");
-				return FAIL;
-			}
-		} else {
-			SgfUtil.getRequest().setAttribute("sendmail_wrn", "Por favor informe o e-mail!");
-			return FAIL;
-		}
-		return SUCCESS;
-	}
-
 	public String getUserMail() {
 		return userMail;
 	}
@@ -453,16 +463,28 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	public void setPermissoes(Set<String> permissoes) {
 		this.permissoes = permissoes;
 	}
+
 	public Page getRolePageUrl() {
 		return rolePageUrl;
 	}
+
 	public void setRolePageUrl(Page rolePageUrl) {
 		this.rolePageUrl = rolePageUrl;
 	}
+
 	public Boolean getRolePage() {
 		return rolePage;
 	}
+
 	public void setRolePage(Boolean rolePage) {
 		this.rolePage = rolePage;
+	}
+
+	public Boolean getCadastraVeiculo() {
+		return cadastraVeiculo;
+	}
+
+	public void setCadastraVeiculo(Boolean cadastraVeiculo) {
+		this.cadastraVeiculo = cadastraVeiculo;
 	}
 }

@@ -49,7 +49,8 @@
 			<dl>
 			  	<dt><label for="placa">Placa</label></dt>
 			  	<dd>
-					 <h:inputText id="placa" value="#{veiculoBean.entity.placa}" required="true" disabled="#{veiculoBean.cadastraVeiculo}" requiredMessage="Informe a placa do veículo." size="10" maxlength="10">
+					 <h:inputText id="placa" value="#{veiculoBean.entity.placa}" required="true" disabled="#{controlBean.cadastraVeiculo}" 
+					 	requiredMessage="Informe a placa do veículo." size="10" maxlength="10">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
 					<label style="color:red">*</label>
@@ -60,14 +61,15 @@
 			<dl>
 			  	<dt><label for="cor">Cor</label></dt>
 			  	<dd>
-			  		<h:inputText id="cor" value="#{veiculoBean.entity.cor}" disabled="#{veiculoBean.cadastraVeiculo}" size="15" />
+			  		<h:inputText id="cor" value="#{veiculoBean.entity.cor}" disabled="#{controlBean.cadastraVeiculo}" size="15" />
 			  	</dd>
 			</dl>
 
 			<dl>
 			  	<dt><label for="chassi">Chassi</label></dt>
 			  	<dd>
-		  			<h:inputText id="chassi" value="#{veiculoBean.entity.chassi}" disabled="#{veiculoBean.cadastraVeiculo}" requiredMessage="Informe o chassi do veículo" size="20" maxlength="20">
+		  			<h:inputText id="chassi" value="#{veiculoBean.entity.chassi}" disabled="#{veiculoBean.cadastraVeiculo}" 
+		  				requiredMessage="Informe o chassi do veículo" size="20" maxlength="20">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
 					<rich:message errorClass="error" for="chassi" styleClass="message"/>
@@ -77,7 +79,8 @@
 			<dl>
 			  	<dt><label for="renavam">Renavam</label></dt>
 			  	<dd>
-			  		<h:inputText id="renavam" value="#{veiculoBean.entity.renavam}" disabled="#{veiculoBean.cadastraVeiculo}"  styleClass="maskInteiro" requiredMessage="Informe o renavam do veículo" size="10" maxlength="10">
+			  		<h:inputText id="renavam" value="#{veiculoBean.entity.renavam}" disabled="#{controlBean.cadastraVeiculo}"  styleClass="maskInteiro" 
+			  			requiredMessage="Informe o renavam do veículo" size="10" maxlength="10">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
 					<rich:message errorClass="error" for="renavam" styleClass="message"/>

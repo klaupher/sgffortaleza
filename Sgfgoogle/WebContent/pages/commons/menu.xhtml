@@ -126,8 +126,8 @@
 				<rich:menuItem value="Mensagens" action="#{messageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Páginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Pessoa Física" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{!veiculoBean.cadastraVeiculo}" immediate="true"/> <!-- Não se aplica a PMF -->
-				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{!veiculoBean.cadastraVeiculo}" immediate="true"/> <!-- Não se aplica a PMF -->
+				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{!controlBean.cadastraVeiculo}" immediate="true"/> <!-- Não se aplica a PMF -->
+				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{!controlBean.cadastraVeiculo}" immediate="true"/> <!-- Não se aplica a PMF -->
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}"  rendered="#{controlBean.administrador}" immediate="true"/>
 
 			</rich:dropDownMenu>
@@ -139,7 +139,7 @@
 				<h:commandLink value="Manual" action="#{downloadBean.download}" immediate="true" style="text-decoration: none; color:black" />
 			</rich:toolBarGroup>
 
-			<rich:dropDownMenu rendered="false">
+			<rich:dropDownMenu  rendered="#{!controlBean.cadastraVeiculo}">
 				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>  <!-- Tela de monitoramento de veículos -->
 				<rich:menuItem value="Pontos" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>

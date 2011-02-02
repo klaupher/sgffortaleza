@@ -106,9 +106,8 @@ public abstract class BaseService<Id extends Serializable, Entity extends Serial
 			return (Entity) executeQuery(queryName, parameterValues).getSingleResult();
 		} catch (NoResultException e) {
 			//e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			return null;
 		}
-		return null;
 	}
 
 	@Transactional(readOnly = true)

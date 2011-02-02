@@ -34,9 +34,9 @@ import br.gov.ce.fortaleza.cti.sgf.util.RelatorioDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
 
 /**
- * Bean que gerencia a sincroniza��o da base de dados do SGF com a base de dados
- * do Patrim�nio, atualizando os ve�culos do SGF de acordo com o que foi
- * cadastrado no Patrim�nio
+ * Bean que gerencia a sincronização da base de dados do SGF com a base de dados
+ * do Patrimônio, atualizando os veículos do SGF de acordo com o que foi
+ * cadastrado no Patrimônio
  * 
  * @author lafitte
  * @since 23/04/2010
@@ -51,46 +51,41 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	@Autowired
 	public ParametroService parametroService;
 
-
 	/**
-	 * Objeto que guarda os dados da conex�o e a realiza
-	 */
-	private ConnectOracle conexaoPatrimonio;
-	/**
-	 * Servi�o de acesso aos ve�culos na base do SGF
+	 * Serviço de acesso aos veículos na base do SGF
 	 */
 	@Autowired
 	private VeiculoService veiculoService;
 	/**
-	 * Servi�o de acesso �s UAS na base do SGF
+	 * Serviço de acesso às UAS na base do SGF
 	 */
 	@Autowired
 	private UAService uaService;
 	/**
-	 * Servi�o de acesso aos modelos na base do SGF
+	 * Serviço de acesso aos modelos na base do SGF
 	 */
 	@Autowired
 	private ModeloService modeloService;
 	/**
-	 * Lista que armazenar� os ve�culos cadastrados no SGF, utilizada para
-	 * verificar se o ve�culo encontrado no Patrim�nio j� est� cadastrado no SGF
+	 * Lista que armazenará os veículos cadastrados no SGF, utilizada para
+	 * verificar se o veículo encontrado no Patrimônio já está cadastrado no SGF
 	 */
 	private List<Veiculo> veiculosSGF;
 	/**
-	 * Ve�culos recuperados do patrim�nio
+	 * veículos recuperados do Patrimônio
 	 */
 	private List<Veiculo> veiculos;
 	/**
-	 * Ve�culo utilizado na inclus�o no banco do SGF,
+	 * veículo utilizado na inclusão no banco do SGF,
 	 */
 	private Veiculo veiculo;
 	/**
-	 * UA associada ao ve�culo que ser� cadastrado
+	 * UA associada ao veículo que serão cadastrado
 	 */
 	private UA ua;
 	/**
 	 * UG escolhida para que sejam listadas suas UA's e selecionada uma para que
-	 * seja feita a sincroniza��o dos ve�culos da UA escolhida
+	 * seja feita a sincronização dos veículos da UA escolhida
 	 */
 	private UG ug;
 	/**
@@ -98,7 +93,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	 */
 	private List<UA> uas;
 	/**
-	 * Modelo associado ao ve�culo que ser� cadastrado
+	 * Modelo associado ao veículo que será cadastrado
 	 */
 	private Modelo modelo;
 
@@ -112,8 +107,8 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	public void init() {
 	}
 	/**
-	 * Realiza as devidas inicializa��es e direciona para a p�gina
-	 * de sincroniza��o
+	 * Realiza as devidas inicializações e direciona para a página
+	 * de sincronização
 	 * 
 	 * @return
 	 */
@@ -124,7 +119,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	}
 
 	/**
-	 * Carrega as UA's associadas � UG selecionada
+	 * Carrega as UA's associadas a UG selecionada
 	 */
 	public void loadUAs() {
 		this.uas = this.uaService.retrieveByUG(this.ug.getId());
@@ -136,11 +131,12 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	}
 
 	/**
-	 * Busca os ve�culos do patrim�nio de acordo com a UA escolhida
-	 * e os insere na lista de ve�culos a serem litados na tela
+	 * Busca os veículos do Patrimônio de acordo com a UA escolhida
+	 * e os insere na lista de veículos a serem litados na tela
 	 * @throws SQLException 
 	 */
 
+	@SuppressWarnings("static-access")
 	public void buscaVeiculosPatrimonio() throws SQLException {
 
 		String codUAPat;
@@ -148,7 +144,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 		/*
 		 * Verifica o c�digo da UG selecionada, caso seja
 		 * uma das DTE's, Zoonoses, NUCEM ou SAMU, faz o tratamento
-		 * pois essas UG's s�o UA's no Patrim�nio.
+		 * pois essas UG's s�o UA's no Patrimônio.
 		 */
 		Map<String, String> mapParam = new HashMap<String, String>();
 		List<Parametro> parametros = parametroService.findByTipo("ID_UG");
@@ -160,12 +156,14 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 		codUAPat = this.ug.getId();
 		codUASgf = mapParam.get(this.ug.getId());
 		
-		if(codUASgf == null){
+		if(codUASgf.equals(null)){
 			codUAPat = this.ua.getId();
+		} else {
+			codUASgf = this.ua.getId();
 		}
 
 		/*
-		 * Consulta utilizada para buscar os ve�culos do patrim�nio
+		 * Consulta utilizada para buscar os veículos do Patrimônio
 		 * associados � ua selecionada
 		 */
 		String query = "select * from ("
@@ -274,19 +272,18 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 		try {
 			this.veiculos = new ArrayList<Veiculo>();
 			String placaValidada;
-			this.conexaoPatrimonio = new ConnectOracle();
 			/**
-			 * Conex�o utilizada para o acesso � base do Patrim�nio
+			 * Conex�o utilizada para o acesso � base do Patrimônio
 			 */
-			connection = conexaoPatrimonio.conectaOracle();
+			connection = ConnectOracle.connection();
 			stmt = connection.createStatement();
 			// Executa a consulta do par�metro query
 			ResultSet rs = stmt.executeQuery(query);
 
 			/*
-			 * Itera pelo resultset que cont�m os ve�culos cadastrados no
-			 * patrim�nio e verifica se o ve�culo j� est� cadastrado na base de
-			 * dados do SGF, caso n�o esteja cadastra o ve�culo
+			 * Itera pelo resultset que cont�m os veículos cadastrados no
+			 * Patrimônio e verifica se o veículo j� est� cadastrado na base de
+			 * dados do SGF, caso n�o esteja cadastra o veículo
 			 */
 			while (rs.next()) {
 				
@@ -347,7 +344,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 		}
 	}
 	/**
-	 * Realiza a sincroniza��o incluindo os ve�culos do patrim�nio no
+	 * Realiza a sincronização incluindo os veículos do Patrimônio no
 	 * banco de dados do SGF
 	 */
 	public String sincronizar() throws NonUniqueObjectException {

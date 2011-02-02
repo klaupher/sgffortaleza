@@ -3,6 +3,12 @@ package br.gov.ce.fortaleza.cti.sgf.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.activation.DataSource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 /**
  * Classe utilizada para realizar a conexão com o banco de dados do
@@ -13,33 +19,24 @@ import java.sql.SQLException;
  *
  */
 public class ConnectOracle {
-	
+
 	/**
-	 * Conexão que será utilizada para se comunicar com o banco de dados
-	 */
-	private Connection con = null;
-	
-	/**
-	 * Realiza a conexão com o banco de dados do Patrimônio
+	 * Retorna a conexão do pool de conexões do container. As configurações da conexão estão no 
+	 * arquivo de contexto
 	 * @return
+	 * @throws NamingException
+	 * @throws SQLException
 	 */
-	public Connection conectaOracle() {
-		String driverName = "oracle.jdbc.driver.OracleDriver";
+	public static Connection connection() throws NamingException, SQLException {
+
+		java.sql.Connection conection = null;
 		try {
-			// Carrega o driver JDBC do Oracle
-			Class.forName(driverName);
-			String url = "jdbc:oracle:thin:@172.31.2.9:1521:pmf";
-			//String url = "jdbc:oracle:thin:@172.30.116.22:1521:pmft";
-			String username = "asiweb";
-			String password = "asiweb";
-			con = DriverManager.getConnection(url, username, password);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			JSFUtil.getInstance().addErrorMessage("msg.error.acess.database");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JSFUtil.getInstance().addErrorMessage("msg.error.acess.database");
+			Context initContext = new InitialContext();
+			javax.sql.DataSource ds = (javax.sql.DataSource)   initContext.lookup("java:comp/env/jdbc/patrimonio");
+			conection = ds.getConnection();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		return this.con;
+		return conection;
 	}
 }

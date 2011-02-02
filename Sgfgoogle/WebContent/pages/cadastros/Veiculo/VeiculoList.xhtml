@@ -16,9 +16,9 @@
 		
 		<fieldset>
 
-	      	<legend>Listagem de veículos</legend>
+	      	<legend>Veículos</legend>
 
-	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{!veiculoBean.cadastraVeiculo}">
+	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{!controlBean.cadastraVeiculo}">
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	      	</h:commandLink>
 	      	<p></p>
@@ -53,7 +53,7 @@
 
 	      		<c:if test="#{veiculoBean.entitiesSize > 0}" >
 
-					<rich:column width="5%" style="text-align: center;" > 
+					<rich:column width="2%" style="text-align: center;" > 
 						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
@@ -68,12 +68,12 @@
 						<h:outputText value="#{veiculo.ua.descricao}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="5%" sortBy="#{veiculo.placa}"> 
+					<rich:column width="4%" sortBy="#{veiculo.placa}"> 
 						<f:facet name="header"><h:outputText value="Placa" /></f:facet>
 						<h:outputText value="#{veiculo.placa}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="5%"> 
+					<rich:column width="6%"> 
 						<f:facet name="header"><h:outputText value="Renavam" /></f:facet>
 						<h:outputText value="#{veiculo.renavam}" style="color: black;"/>
 					</rich:column>					
@@ -93,22 +93,22 @@
 						<h:outputText value="#{veiculo.kmAtual}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="5%" sortBy="#{veiculo.dataCadastro}"> 
-						<f:facet name="header"><h:outputText value="Data cadastro" /></f:facet>
+					<rich:column width="4%" sortBy="#{veiculo.dataCadastro}"> 
+						<f:facet name="header"><h:outputText value="Cadastro" /></f:facet>
 						<h:outputText value="#{veiculo.dataCadastro}" style="color: black;">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
 						</h:outputText>
 					</rich:column>
 
 					<rich:column width="2%" style="text-align: center;">
-						<f:facet name="header"><h:outputText value="Visualizar" /></f:facet>
+						<f:facet name="header"><h:outputText value="Ver" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{veiculoBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
 							<a4j:support event="onclick" reRender="paginaPrincipal"/>
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador and !veiculoBean.cadastraVeiculo}">
+					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador and !controlBean.cadastraVeiculo}">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 						<h:commandLink styleClass="excluir" action="#{veiculoBean.delete}" value="Excluir" onclick="if(!confirm('Confirmar Exclusão')){document.getElementById('paginaPrincipal').reset(); return false;}">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>

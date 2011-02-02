@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConferenciaConsumo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.zoom" value="1.610510000000002"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="zebrado">
@@ -52,9 +52,9 @@
 	<group name="Veiculo">
 		<groupExpression><![CDATA[$F{veiculo}]]></groupExpression>
 		<groupHeader>
-			<band height="38">
+			<band height="37">
 				<staticText>
-					<reportElement x="0" y="2" width="61" height="15"/>
+					<reportElement x="452" y="2" width="55" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
@@ -110,7 +110,7 @@
 					<text><![CDATA[Km]]></text>
 				</staticText>
 				<line>
-					<reportElement x="0" y="17" width="802" height="1" forecolor="#990000"/>
+					<reportElement x="0" y="18" width="802" height="1" forecolor="#990000"/>
 				</line>
 				<line>
 					<reportElement x="0" y="35" width="802" height="1" forecolor="#990000"/>
@@ -130,17 +130,17 @@
 					<text><![CDATA[Posto]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="61" y="2" width="128" height="14"/>
+					<reportElement x="507" y="2" width="132" height="14"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="299" y="2" width="66" height="14"/>
+					<reportElement x="714" y="2" width="66" height="15"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.Float"><![CDATA[$F{cota}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="208" y="2" width="91" height="15"/>
+					<reportElement x="641" y="2" width="72" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
@@ -149,6 +149,18 @@
 				<line>
 					<reportElement x="0" y="1" width="802" height="1" forecolor="#990000"/>
 				</line>
+				<staticText>
+					<reportElement x="2" y="3" width="46" height="14"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Orgão:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="50" y="3" width="402" height="14"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 	</group>
@@ -183,7 +195,7 @@
 				<textElement>
 					<font fontName="Verdana"/>
 				</textElement>
-				<text><![CDATA[Relatório de Conferência de Abastecimento]]></text>
+				<text><![CDATA[Relatório de Conferência de Abastecimentos]]></text>
 			</staticText>
 			<line>
 				<reportElement x="1" y="2" width="802" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
@@ -191,18 +203,6 @@
 					<pen lineWidth="3.0"/>
 				</graphicElement>
 			</line>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="703" y="58" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="673" y="58" width="30" height="20"/>
-				<textElement>
-					<font size="11" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Data:]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -220,13 +220,25 @@
 			<line>
 				<reportElement x="0" y="16" width="802" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
 			</line>
+			<staticText>
+				<reportElement x="4" y="1" width="44" height="15"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="55" y="1" width="92" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="3" splitType="Stretch"/>
+		<band height="8" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="17" splitType="Stretch">
 			<textField>
 				<reportElement style="zebrado" x="1" y="3" width="207" height="13"/>
 				<textElement/>
@@ -275,10 +287,10 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="3" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="41" splitType="Stretch">
+		<band height="17" splitType="Stretch">
 			<textField>
 				<reportElement x="680" y="2" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Right"/>
@@ -290,11 +302,11 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="227" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="0" y="2" width="227" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement>
 					<font fontName="Verdana"/>
 				</textElement>
-				<text><![CDATA[Relatório de Conferência de Abastecimento]]></text>
+				<text><![CDATA[Relatório de Conferência de Abastecimentos]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="341" y="0" width="100" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -302,7 +314,7 @@
 				<text><![CDATA[V. 1.0]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="2" width="802" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
+				<reportElement x="0" y="0" width="802" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
 			</line>
 		</band>
 	</pageFooter>

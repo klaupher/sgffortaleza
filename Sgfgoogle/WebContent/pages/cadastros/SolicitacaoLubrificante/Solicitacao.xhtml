@@ -24,7 +24,7 @@
 	      	<dt><label for="ugList">Órgão:</label></dt>
 	      	<dd>
 		      	<h:selectOneMenu id="ugList" value="#{solicitacaoLubrificanteBean.orgao}" requiredMessage="Informe a UG"  style="width:420px" converter="entityConverter">
-		      		<f:selectItem itemLabel="Informe o órgão" itemValue=""/>
+		      		<f:selectItem itemLabel="Informe o órgão ..." itemValue=""/>
 		   			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 		   			<a4j:support event="onchange" action="#{solicitacaoLubrificanteBean.loadMotoristas}" status="statusPreencher" reRender="motorista,veiculo" ajaxSingle="true"/>
 			   		</h:selectOneMenu>
@@ -44,7 +44,7 @@
 		  	<dd>
 			<h:selectOneMenu id="motorista" value="#{solicitacaoLubrificanteBean.motorista}"  required="true" 
 			requiredMessage="Informe o motorista." converter="entityConverter">
-				<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
+				<f:selectItem itemLabel="Informe o motorista..." itemValue=""/>
 				<t:selectItems value="#{solicitacaoLubrificanteBean.motoristas}" var="m" itemLabel="#{m.pessoa.nome}" itemValue="#{m}"/>
 			</h:selectOneMenu>
 			<rich:message for="motorista"  styleClass="message"/>
@@ -56,7 +56,7 @@
 			  	<dd>
 				<h:selectOneMenu id="posto" value="#{solicitacaoLubrificanteBean.posto}"  required="true" requiredMessage="Informe o posto." 
 				converter="entityConverter">
-		 			<f:selectItem itemLabel="Informe o Posto" itemValue=""/>
+		 			<f:selectItem itemLabel="Informe o posto ..." itemValue=""/>
 		 			<t:selectItems value="#{postoBean.postos}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
 		 			<a4j:support event="onchange" action="#{solicitacaoLubrificanteBean.loadServicos}" reRender="tipoServico"/>
 				</h:selectOneMenu>
@@ -71,7 +71,7 @@
 			  	<dd>
 				<h:selectOneMenu id="tipoServico" value="#{solicitacaoLubrificanteBean.tipoServico}" required="true" 
 				requiredMessage="Selecione o Tipo de Serviço" converter="entityConverter">
-					<f:selectItem itemLabel="Informe o Tipo de Serviçoo" itemValue=""/>
+					<f:selectItem itemLabel="Informe o serviço ..." itemValue=""/>
 		 			<t:selectItems value="#{solicitacaoLubrificanteBean.servicos}" var="servico" itemLabel="#{servico.descricao}" itemValue="#{servico}"/>
 				</h:selectOneMenu>
 				<rich:message for="tipoServico"  styleClass="message"/>
@@ -83,7 +83,7 @@
 			  	<dd>
 					<h:selectOneMenu id="veiculo" value="#{solicitacaoLubrificanteBean.entity.veiculo}" required="true"
 					requiredMessage="Informe o veículo."  converter="entityConverter">
-			 			<f:selectItem itemLabel="Informe o veículo" itemValue=""/>
+			 			<f:selectItem itemLabel="Informe o veículo ..." itemValue=""/>
 			 			<t:selectItems value="#{solicitacaoLubrificanteBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}"/>
 			 			<a4j:support event="onchange" rendered="#{solicitacaoLubrificanteBean.saveState}" action="#{solicitacaoLubrificanteBean.getUltimaAutorizacao}"/>
 					</h:selectOneMenu>

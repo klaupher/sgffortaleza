@@ -70,7 +70,7 @@ public class User implements Serializable, UserDetails {
 	@Column(name="LOGIN", nullable = false, length = 30)
 	private String login;
 
-	@Column(name="SENHA", nullable = false, length = 30)
+	@Column(name="SENHA", nullable = false, length = 230)
 	private String senha;
 
 	@Column(name="ATIVO")
