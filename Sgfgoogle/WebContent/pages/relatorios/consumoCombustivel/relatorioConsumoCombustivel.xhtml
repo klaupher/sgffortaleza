@@ -14,11 +14,11 @@
 	<div id="cadastro">
 
 		<h1 style="width:250px">Consumo de Combustível</h1>
-	
+
 		<fieldset>
-		
+
 			<legend>Relatório de Consumo de Combustível</legend>
-			
+
 			<dt><label for="ugList">Órgão</label></dt>
 			<dd>
 		      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter"  styleClass="ugList">
@@ -28,128 +28,128 @@
 		   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 		   		</h:selectOneMenu>
 		   	</dd>
-	
+
 			<dt><label for="dataInicial">Data Início</label></dt>
 			<dd>
 				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData">
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 				</h:inputText>
 			</dd>
-	
+
 			<dt><label for="dataFinal">Data Final</label></dt>
 			<dd>
 				<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" styleClass="maskData">
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 				</h:inputText>
 			</dd>
-		
+
 			<h:commandButton action="#{relatorioBean.consultarConsumoCombustivel}" value="Consultar">
 				<a4j:support event="onclick" reRender="dataTable" status="gerarRelatorio"/>
 			</h:commandButton> 
-			
+
 			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="10" rowKeyVar="index"
 				rowClasses="even,odd" 
 				onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')">
-		
+
 				<c:if test="#{relatorioBean.entitiesSize == 0}">
 					<rich:column>
 						<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
 					</rich:column>
 				</c:if>
-				
+
 				<rich:column colspan="10" style="font-weight: bold; background:white">
 					<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 				</rich:column>
-	
+
 				<c:if test="#{relatorioBean.entitiesSize > 0}">
-				
+
 					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="10" rowKeyVar="k"
 						headerClass="subHeader" 
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
 						onRowMouseOut="jQuery(this).removeClass('trHover')">
-						
+
 						<rich:column colspan="10" style="font-weight: bold; background:white">
-							<h:outputText value="Veículo: #{r.veiculo.modelo.descricao} - #{r.veiculo.placa}" />
+							<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
 							<h:outputText value="Consumo: #{r.consumo}" style="padding-left:20px"/>
 							<h:outputText value="Cota: #{r.cota}" style="padding-left:20px"/>
 						</rich:column>
-						
+
 						<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="10" rowKeyVar="k"
 							headerClass="subHeader" 
 							rowClasses="odd,even"
 							onRowMouseOver="jQuery(this).addClass('trHover')" 
 							onRowMouseOut="jQuery(this).removeClass('trHover')">
-							
+
 							<rich:column style="width:2%">
 								<f:facet name="header"><h:outputLabel value="Nº" /></f:facet>
 								<h:outputText value="#{k+1}" />
 							</rich:column>
-				
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Motorista"/></f:facet>
 								<h:outputText value="#{sr.abastecimento.motorista.pessoa.nome}" />
 							</rich:column>
-		
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Autorizador"/></f:facet>
 								<h:outputText value="#{sr.abastecimento.autorizador.pessoa.nome}" />
 							</rich:column>
-		
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Data Atend."/></f:facet>
 								<h:outputText value="#{sr.atendimento.data}">
 									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
 								</h:outputText>
 							</rich:column>
-				
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Hora Atend."/></f:facet>
 								<h:outputText value="#{sr.atendimento.data}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>
-							
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Quant."/></f:facet>
 								<h:outputText value="#{sr.consumo}"/>
 							</rich:column>
-				
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Saldo"/></f:facet>
 								<h:outputText value="#{sr.saldoCota}">
 									<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 								</h:outputText>
 							</rich:column>
-							
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Km"/></f:facet>
 								<h:outputText value="#{sr.kmAtual}"/>
 							</rich:column>
-		
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Operador"/></f:facet>
 								<h:outputText value="#{sr.atendimento.usuario.pessoa.nome}" />
 							</rich:column>
-		
+
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Posto"/></f:facet>
 								<h:outputText value="#{sr.abastecimento.posto.descricao}" />
 							</rich:column>
-		
+
 						</rich:subTable>
-			
+
 						<f:facet name="footer">
 							<rich:datascroller renderIfSinglePage="false" reRender="dataTable" />
 						</f:facet>
-					
+
 					</rich:subTable>
-				
+
 				</c:if>
-		
+
 			</rich:dataTable>
-			
+
 			<a4j:status id="gerarRelatorio">
 				<f:facet name="start">
 					<h:panelGroup style="align:center;">
@@ -158,15 +158,15 @@
 					</h:panelGroup>
 				</f:facet>
 			</a4j:status>
-		
+
 			<h:panelGroup id="report" rendered="#{relatorioBean.entitiesSize > 0}">
-		
+
 				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 					<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 				</h:commandLink>
-		
+
 			</h:panelGroup>
-		
+
 		</fieldset>
 
 	</div>
