@@ -10,11 +10,11 @@
    
 	<div id="cadastro">
 
-		<h1>Unid. Administrativa-UA </h1>
+		<h1 style="width:300px">Unid. Administrativa(UA)</h1>
 
 		<fieldset>
 
-	      <legend>Lista de UAs</legend>
+	      <legend>Unid. Administrativas</legend>
 	      
 	      	<h:commandLink action="#{uaBean.prepareSave}" value="Nova" styleClass="novo" immediate="true">
 				<a4j:support event="onclick" reRender="paginaPrincipal"/>
@@ -48,7 +48,7 @@
 					</rich:column>
 
 					<rich:column sortBy="#{ua.ug.descricao}" width="30%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="UG" /></f:facet>
+						<f:facet name="header"><h:outputText value="Órgão" /></f:facet>
 						<h:outputText value="#{ua.ug.descricao}" style="color: black;"/>
 					</rich:column>
 

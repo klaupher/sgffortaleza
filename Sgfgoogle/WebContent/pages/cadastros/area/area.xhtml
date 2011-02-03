@@ -12,8 +12,7 @@
      
 	<div id="cadastro">
 
-		<h1>Cadastro de Cerca</h1>
-		<p/>
+		<h1>Áreas</h1>
 		
 		<a4j:poll id="areaReload" action="#{areaBean.prepareUpdate}" rendered="false" interval="6000" reRender="polygon"  oncomplete="loadMaps();"/>
 
@@ -21,11 +20,14 @@
 		<h:inputHidden id="points" value="#{areaBean.geoms}"/>
 		<h:inputHidden value="#{areaBean.entity.id}" rendered="#{areaBean.updateState}" />
 		
-		<h:outputLabel value="Descrição:"  for="descricao"/><p/>
-		<h:inputText id="descricao" value="#{areaBean.entity.descricao}" requiredMessage="Informa a Descrição" required="true" style="width:360px"/>
-		<h:message for="descricao" styleClass="message"/>
+		<dd>
+			<label for="descricao">Nome para à área:</label>
+			<h:inputText id="descricao" value="#{areaBean.entity.descricao}" requiredMessage="Informa uma descrição para a área" 
+				required="true" style="width:360px"/>
+			<h:message for="descricao" styleClass="message"/>
+		</dd>
 		<p/>
-
+		
 		<div id="maparea" class="maparea" style="width:100%; height:600px"></div>
 
 		<h:commandButton value="Gravar" action="#{areaBean.save}" rendered="#{areaBean.saveState}" styleClass="button">

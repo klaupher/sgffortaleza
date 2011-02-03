@@ -28,142 +28,120 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 	private VeiculoService veiculoService;
 
 	private PontoDTO ponto;
-
 	private Veiculo veiculoAction;
-
 	private List<PontoDTO> pontos;
-
 	private List<Integer> veiculosIds;
-
 	private Boolean autoCamera = true;
-
 	private Date dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -DateUtil.HOUR_IN_MILLIS);
-
 	private Float velocidadeMaxima = 60F;
-
 	private String veiculo;
 
 	@Override
 	protected PontoDTO createNewEntity() {
-
 		return new PontoDTO();
 	}
 
 	@Override
 	protected Integer retrieveEntityId(PontoDTO entity) {
-
-		throw new IllegalStateException("N�o implementado");
+		throw new IllegalStateException("Não implementado");
 	}
 
 	@Override
 	protected BaseService<Integer, PontoDTO> retrieveEntityService() {
-
-		throw new IllegalStateException("N�o implementado");
+		throw new IllegalStateException("Não implementado");
 	}
 
-
-
 	public boolean isTempoMonitoramento() {
-
 		return this.pontos != null && this.pontos.size() > 0 ? true : false;
 	}
 
+	/**
+	 * Busca os veículos com rastreamento para mostrar na tela de monitoramento
+	 * @return
+	 */
 	public String searchMonitoramentoVeiculos() {
 
 		User user = SgfUtil.usuarioLogado();
-
 		List<Veiculo> veiculos = null;
-
 		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -DateUtil.HOUR_IN_MILLIS);
-
 		if(SgfUtil.isAdministrador(user)){
-
 			veiculos = veiculoService.retrieveAll();
 		} else {
-
 			veiculos = veiculoService.findByUG(user.getPessoa().getUa().getUg());
 		}
 
-		veiculosIds = new ArrayList<Integer>();
-
+		this.veiculosIds = new ArrayList<Integer>();
 		for (Veiculo veiculo : veiculos) {
-
 			veiculosIds.add(veiculo.getId());
 		}
-		//this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
+		this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
 		this.interval = 2000000;
-
 		return SUCCESS;
 	}
 
+	/**
+	 * Monta arquivo com as ultimas posições dos veículos rastreados e exporta como arquivo
+	 * padrão para o google earth
+	 * @return
+	 * @throws Exception
+	 */
 	public String downloadGoogleEarthFile() throws Exception {
 
 		List<Integer> veiculosIds = new ArrayList<Integer>();
-
 		for (PontoDTO p : pontos) {
-
 			if (p.getSelecionado()) {
-
 				veiculosIds.add(p.getId());
 			}
 		}
-
 		String url = retrieveURLMonitoramento(veiculosIds);
-
 		if (url != null) {
-
 			byte[] bytes = VelocityUtil.merge("reload.vm", new String[]{"url", "autoCamera"}, new Object[]{url, autoCamera});
-
 			return DownloadFileUtil.downloadKMLFile(bytes);
-
 		} else {
-
 			return FAIL;
 		}
 	}
 
+	/**
+	 * Monta arquivo com as ultimas posições dos veículos rastreados e exporta como arquivo
+	 * padrão para o google earth
+	 * @return
+	 * @throws Exception
+	 */
 	public String downloadSelectedGoogleEarthFile() throws Exception {
 
 		List<Integer> veiculosIds = new ArrayList<Integer>();
-
 		veiculosIds.add(this.ponto.getId());
-
 		String url = retrieveURLMonitoramento(veiculosIds);
 
 		if (url != null ) {
-
 			byte[] bytes = VelocityUtil.merge("reload.vm", new String[]{"url", "autoCamera"}, new Object[]{url, autoCamera});
-
 			return DownloadFileUtil.downloadKMLFile(bytes);
-
 		} else {
-
 			return FAIL;
 		}
 	}
 
 	public Veiculo getVeiculoAction() {
-
 		return veiculoAction;
 	}
 
 	public PontoDTO getPonto() {
-
 		if (ponto == null) {
-
 			ponto  = new PontoDTO();
 		}
 		return ponto;
 	}
 
+	/**
+	 * constroi pontos para renderização na tela de monitoramento
+	 * @return
+	 */
 	public List<PontoDTO> getPontosMonitoramento() {
 
 		if (this.pontos == null) {
-
 			searchMonitoramentoVeiculos();
-
 			for (PontoDTO ponto : this.pontos) {
-
 				ponto.setSelecionado(true);
 			}
 		}

@@ -10,11 +10,11 @@
    
 	<div id="cadastro">
 
-		<h1> Unid. Gestora - UG </h1>
+		<h1 style="width:300px"> Unid. Gestão(UG) </h1>
 
 		<fieldset>
 
-	      <legend>Lista de UGs</legend>
+	      <legend>Unidades de Gestão</legend>
 	      
 	      	<h:commandLink action="#{ugBean.prepareSave}"  value="Nova" rendered="#{controlBean.administrador or controlBean.coordenador}" styleClass="novo" immediate="true">
 				<a4j:support event="onclick" reRender="paginaPrincipal"/>
@@ -45,7 +45,7 @@
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column sortBy="#{ug.descricao}" width="50%" style="text-align: left;" > 
+					<rich:column sortBy="#{ug.descricao}" width="70%" style="text-align: left;" > 
 						<f:facet name="header"><h:outputText value="Nome" /></f:facet>
 						<h:outputText value="#{ug.descricao}" style="color: black;"/>
 					</rich:column>

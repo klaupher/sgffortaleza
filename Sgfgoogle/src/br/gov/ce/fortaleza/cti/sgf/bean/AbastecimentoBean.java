@@ -360,35 +360,36 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		Veiculo veiculo = this.entity.getVeiculo();
 		boolean vasilhame = false;
 		boolean existeAutorizacao = false;
+		
 		if(veiculo != null){
+			
 			if(this.entity.getDataAutorizacao() == null){
-				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, DateUtil.getDateTime(new Date()));
+				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, DateUtil.getDateTime(new Date()), this.entity.getCombustivel().getId());
 			} else {
-				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, this.entity.getDataAutorizacao());
+				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, this.entity.getDataAutorizacao(), this.entity.getCombustivel().getId());
 			}
 			if(existeAutorizacao){
 				JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
 				return false;
 			}
-		}
-
-		if(veiculo.getModelo() != null){
-			vasilhame = veiculo.getModelo().getId() == 75;
-		}
-
-		if (veiculo.getCota() != null || vasilhame) {
-			if(vasilhame){
-				return true;
-			} else if (veiculo.getCota().getCotaDisponivel() > 0) {
-				return true;
+			if(veiculo.getModelo() != null){
+				vasilhame = veiculo.getModelo().getId() == 75;
+			}
+			if (veiculo.getCota() != null || vasilhame) {
+				if(vasilhame){
+					return true;
+				} else if (veiculo.getCota().getCotaDisponivel() > 0) {
+					return true;
+				} else {
+					JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
+					return false;
+				}
 			} else {
-				JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
+				JSFUtil.getInstance().addErrorMessage("msg.error.cota.indisponivel");
 				return false;
 			}
-		} else {
-			JSFUtil.getInstance().addErrorMessage("msg.error.cota.indisponivel");
-			return false;
 		}
+		return false;
 	}
 
 	public String populate() {
@@ -417,13 +418,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
-			//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
-			//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
 			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
-
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
-			//this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "00:00:00");
-			//this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(new Date()), "23:59:59");
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(),this.status);
 		}
 

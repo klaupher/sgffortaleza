@@ -99,8 +99,8 @@
                     <rich:toolTip value="Clique aqui para acompanhar o andamento desta solicitação" for="descricao"/>
                 </rich:column>
 
-                <rich:column width="10%" style="text-align: left;" > 
-                    <f:facet name="header"><h:outputText value="Cota disp." /></f:facet>
+                <rich:column width="5%" style="text-align: left;" > 
+                    <f:facet name="header"><h:outputText value="Disp." /></f:facet>
                     <h:outputText value="#{abastecimento.veiculo.cota.cotaDisponivel}" style="color: black;"/>
                 </rich:column>
                 
@@ -109,20 +109,25 @@
                     <h:outputText value="#{abastecimento.veiculo.ua.ug.descricao}" style="color: black;"/>
                 </rich:column>
 
-                <rich:column width="16%" style="text-align: left;" sortBy="#{abastecimento.dataAutorizacao}">
-                    <f:facet name="header"><h:outputText value="Data Autorização" /></f:facet>
+               <rich:column width="7%" style="text-align: left;" > 
+                    <f:facet name="header"><h:outputText value="Combust." /></f:facet>
+                    <h:outputText value="#{abastecimento.combustivel.descricao}" style="color: black;"/>
+                </rich:column>
+
+                <rich:column width="10%" style="text-align: left;" sortBy="#{abastecimento.dataAutorizacao}">
+                    <f:facet name="header"><h:outputText value="Data Aut." /></f:facet>
                     <h:outputText value="#{abastecimento.dataAutorizacao}" style="color: black;">
                         <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
                     </h:outputText>
                 </rich:column>
 
-                <rich:column width="10%" style="text-align: left;">
+                <rich:column width="5%" style="text-align: left;">
                     <f:facet name="header"><h:outputText value="Status" /></f:facet>
                     <h:outputText value="#{abastecimento.status}" rendered="#{abastecimento.status == 'AUTORIZADO'}" style="color: blue;" />
                     <h:outputText value="#{abastecimento.status}" rendered="#{abastecimento.status == 'ATENDIDO'}" style="color: black;" />
                 </rich:column>
 
-                <rich:column rendered="#{controlBean.operador}" width="3%" style="text-align: center;">
+                <rich:column rendered="#{controlBean.operador}" width="2%" style="text-align: center;">
                     <f:facet name="header"><h:outputText value="Atender" /></f:facet>
                     <a4j:commandLink styleClass="confirmar" rendered="#{controlBean.operador and abastecimento.status == 'AUTORIZADO'}"
                     	reRender="paginaPrincipal" action="#{abastecimentoBean.atenderAbastecimento}" value="Atender" immediate="true">
@@ -130,7 +135,7 @@
                     </a4j:commandLink>
                 </rich:column>
 
-                <rich:column width="3%" style="text-align: center;"
+                <rich:column width="1%" style="text-align: center;"
                 	rendered="#{controlBean.administrador or controlBean.coordenador}">
                     <f:facet name="header"><h:outputText value="Editar" /></f:facet>
                     <a4j:commandLink styleClass="editar" action="#{abastecimentoBean.prepareUpdate}" reRender="paginaPrincipal" value="Editar" immediate="true">
@@ -138,7 +143,7 @@
                     </a4j:commandLink>
                 </rich:column>
 
-                <rich:column width="3%" style="text-align: center;" rendered="#{controlBean.administrador}">
+                <rich:column width="1%" style="text-align: center;" rendered="#{controlBean.administrador}">
                     <f:facet name="header"><h:outputText value="Excluir" /></f:facet>
                     <a4j:commandLink styleClass="excluir"  action="#{abastecimentoBean.delete}" 
                     	reRender="paginaPrincipal" value="Excluir" immediate="true"

@@ -23,7 +23,7 @@
 			<dl>
 				<dt><label for="ugVeiculo">UG</label></dt>
 		    	<dd>
-		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" disabled="#{veiculoBean.cadastraVeiculo}" converter="entityConverter"
+		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" disabled="#{controlBean.cadastraVeiculo}" converter="entityConverter"
 		    			>
 		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
@@ -36,7 +36,7 @@
 	    	<h:panelGroup id="uaRegion">
 				<dt><label for="uaVeiculo">UA</label></dt>
 				<dd>
-					<h:selectOneMenu id="uaVeiculo" disabled="#{veiculoBean.cadastraVeiculo}" value="#{veiculoBean.entity.ua}" required="true"  
+					<h:selectOneMenu id="uaVeiculo" disabled="#{controlBean.cadastraVeiculo}" value="#{veiculoBean.entity.ua}" required="true"  
 					requiredMessage="Informe a UA" converter="entityConverter"  style="width:380px">
 						<f:selectItem itemLabel="Informe a UA" itemValue=""/>
 	 					<t:selectItems value="#{veiculoBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}"/>
@@ -68,7 +68,7 @@
 			<dl>
 			  	<dt><label for="chassi">Chassi</label></dt>
 			  	<dd>
-		  			<h:inputText id="chassi" value="#{veiculoBean.entity.chassi}" disabled="#{veiculoBean.cadastraVeiculo}" 
+		  			<h:inputText id="chassi" value="#{veiculoBean.entity.chassi}" disabled="#{controlBean.cadastraVeiculo}" 
 		  				requiredMessage="Informe o chassi do veículo" size="20" maxlength="20">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
@@ -90,7 +90,7 @@
 			<dl>
 			  	<dt><label for="serie">Série</label></dt>
 			  	<dd>
-			  		<h:inputText id="serie" value="#{veiculoBean.entity.serie}" disabled="#{veiculoBean.cadastraVeiculo}"  styleClass="maskInteiro" requiredMessage="Informe o renavam do veículo" size="10" maxlength="10">
+			  		<h:inputText id="serie" value="#{veiculoBean.entity.serie}" disabled="#{controlBean.cadastraVeiculo}"  styleClass="maskInteiro" requiredMessage="Informe o renavam do veículo" size="10" maxlength="10">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
 					<rich:message errorClass="error" for="serie" styleClass="message"/>
@@ -99,7 +99,7 @@
 
 			<dl>
 			  	<dt><label for="especie">Espécie</label></dt>
-				<dd><h:selectOneMenu id="especie" value="#{veiculoBean.entity.especie}" disabled="#{veiculoBean.cadastraVeiculo}" required="true" 
+				<dd><h:selectOneMenu id="especie" value="#{veiculoBean.entity.especie}" disabled="#{controlBean.cadastraVeiculo}" required="true" 
 									 requiredMessage="Informe a Espécie" converter="entityConverter">
 					<f:selectItem itemLabel="Selecione a espécie." itemValue=""/>
 		 			<t:selectItems value="#{especieBean.especies}" var="especie" itemLabel="#{especie.descricao}" itemValue="#{especie}"/>
@@ -111,7 +111,7 @@
 
 			<dl>
 				<dt><label for="modelo">Modelo</label></dt>
-				<dd><h:selectOneMenu id="modelo" value="#{veiculoBean.entity.modelo}" disabled="#{veiculoBean.cadastraVeiculo}" requiredMessage="Informe o Modelo" 
+				<dd><h:selectOneMenu id="modelo" value="#{veiculoBean.entity.modelo}" disabled="#{controlBean.cadastraVeiculo}" requiredMessage="Informe o Modelo" 
 									 required="true" converter="entityConverter">
 					<f:selectItem itemLabel="Selecione o modelo." itemValue=""/>
 		 			<t:selectItems value="#{modeloBean.modelos}" var="modelo" itemLabel="#{modelo.descricao}" itemValue="#{modelo}"/>
@@ -123,7 +123,7 @@
 
 			<dl>
 				<dt><label for="combustivel">Combustível</label></dt>
-				<dd><h:selectOneMenu id="combustivel" disabled="#{veiculoBean.cadastraVeiculo}" value="#{veiculoBean.entity.combustivel}">
+				<dd><h:selectOneMenu id="combustivel" disabled="#{controlBean.cadastraVeiculo}" value="#{veiculoBean.entity.combustivel}">
 					<f:selectItem itemLabel="Diesel" itemValue="Diesel"/>
 					<f:selectItem itemLabel="Gasolina" itemValue="Gasolina"/>
 					<f:selectItem itemLabel="Etanol" itemValue="Etanol"/>
@@ -134,7 +134,7 @@
 
 			<dl>
 				<dt><label for="anoFabricacao">Ano Fabriacação</label></dt>
-				<dd><h:inputText id="anoFabricacao" required="true" disabled="#{veiculoBean.cadastraVeiculo}" requiredMessage="Informe o ano de fabricação" 
+				<dd><h:inputText id="anoFabricacao" required="true" disabled="#{controlBean.cadastraVeiculo}" requiredMessage="Informe o ano de fabricação" 
 				 				value="#{veiculoBean.entity.anoFabricacao}" size="5"  styleClass="maskInteiro">
 					<rich:ajaxValidator event="onblur"/>
 				</h:inputText>
@@ -146,7 +146,7 @@
 			<dl>
 				<dt><label for="anoModelo">Ano Modelo</label></dt>
 				<dd>
-				<h:inputText id="anoModelo" value="#{veiculoBean.entity.anoModelo}" disabled="#{veiculoBean.cadastraVeiculo}" required="true" requiredMessage="Informe o ano do modelo" 
+				<h:inputText id="anoModelo" value="#{veiculoBean.entity.anoModelo}" disabled="#{controlBean.cadastraVeiculo}" required="true" requiredMessage="Informe o ano do modelo" 
 				size="5"   styleClass="maskInteiro">
 					<rich:ajaxValidator event="onblur"/>
 				</h:inputText>
@@ -158,7 +158,7 @@
 			<dl>
 				<dt><label for="numTombamento">Nº Tombamento</label></dt>
 				<dd>
-			  		<h:inputText id="numTombamento" value="#{veiculoBean.entity.numeroTombamento}" disabled="#{veiculoBean.cadastraVeiculo}"  required="true"  styleClass="maskInteiro"
+			  		<h:inputText id="numTombamento" value="#{veiculoBean.entity.numeroTombamento}" disabled="#{controlBean.cadastraVeiculo}"  required="true"  styleClass="maskInteiro"
 			  			requiredMessage="Informe o Nºmero de tombamento." size="10" maxlength="10">
 					</h:inputText>
 					<label style="color:red">*</label>
@@ -169,7 +169,7 @@
 			<dl>
 				<dt><label for="numTombamento">Nº Patrimônio</label></dt>
 				<dd>
-			  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" disabled="#{veiculoBean.cadastraVeiculo}" size="10" maxlength="10">
+			  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" disabled="#{controlBean.cadastraVeiculo}" size="10" maxlength="10">
 					</h:inputText>
 					<label style="color:red">*</label>
 				</dd>
@@ -178,7 +178,7 @@
 			<dl>
 				<dt><label for="propriedade">Propriedade</label></dt>
 				<dd>
-					<h:selectOneMenu id="propriedade" value="#{veiculoBean.entity.propriedade}" disabled="#{veiculoBean.cadastraVeiculo}">
+					<h:selectOneMenu id="propriedade" value="#{veiculoBean.entity.propriedade}" disabled="#{controlBean.cadastraVeiculo}">
 			 			<f:selectItems value="#{veiculoBean.proprietarioList}" />
 					</h:selectOneMenu>
 				</dd>
@@ -186,13 +186,13 @@
 
 			<dl>
 				<dt><label for="estacionamento">Estacionamento</label></dt>
-				<dd><h:inputText id="estacionamento" value="#{veiculoBean.entity.estacionamento}" disabled="#{veiculoBean.cadastraVeiculo}" maxlength="50" size="20"/></dd>
+				<dd><h:inputText id="estacionamento" value="#{veiculoBean.entity.estacionamento}" disabled="#{controlBean.cadastraVeiculo}" maxlength="50" size="20"/></dd>
 			</dl>
 
 			<dl>
 				<dt><label for="temSeguro">Possui seguro</label></dt>
 				<dd>
-					<h:selectOneRadio id="temSeguro" value="#{veiculoBean.entity.temSeguro}" disabled="#{veiculoBean.cadastraVeiculo}" style="width:36%">
+					<h:selectOneRadio id="temSeguro" value="#{veiculoBean.entity.temSeguro}" disabled="#{controlBean.cadastraVeiculo}" style="width:36%">
 						<f:selectItem itemLabel="Sim" itemValue="1"/>
 						<f:selectItem itemLabel="Não" itemValue="0"/>
 					</h:selectOneRadio>
@@ -232,7 +232,7 @@
 
 	</div>
 	
-    <h:commandButton action="#{veiculoBean.save}" value="Gravar" rendered="#{veiculoBean.saveState and !veiculoBean.cadastraVeiculo}">
+    <h:commandButton action="#{veiculoBean.save}" value="Gravar" rendered="#{veiculoBean.saveState and !controlBean.cadastraVeiculo}">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 	
@@ -240,7 +240,7 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 
-	<h:commandButton action="#{veiculoBean.update}" value="Alterar" rendered="#{veiculoBean.updateState and !veiculoBean.cadastraVeiculo}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{veiculoBean.update}" value="Alterar" rendered="#{veiculoBean.updateState and !vcontrolBean.cadastraVeiculo}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
 	</h:commandButton>
 

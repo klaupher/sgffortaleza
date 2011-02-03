@@ -124,16 +124,19 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		return abastecimentos;
 	}
 	/**
-	 * Verificar se o veículo possui alguma autorizaçao de abstecimento para o dia
+	 * Verificar se o veículo possui alguma autorizaçao de abstecimento para o dia e como o mesmo tipo
+	 * de combustível
 	 * @param v
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Boolean validarAutorizacaoVeiculo(Veiculo v, Date data){
+	public Boolean validarAutorizacaoVeiculo(Veiculo v, Date data, Integer tipoCombustivel){
 		List<Abastecimento> result;
-		Query query = entityManager.createQuery("select a from Abastecimento a where a.veiculo.id = :veiculoId and a.dataAutorizacao = :currentDate");
+		Query query = entityManager.createQuery("select a from Abastecimento a where a.veiculo.id = :veiculoId and " +
+				"a.dataAutorizacao = :currentDate and a.combustivel.id = :tipoCombustivel");
 		query.setParameter("veiculoId", v.getId());
 		query.setParameter("currentDate", data);
+		query.setParameter("tipoCombustivel", tipoCombustivel);
 		result = query.getResultList();
 		if(result != null){
 			return result.size() > 0;
