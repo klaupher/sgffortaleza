@@ -21,29 +21,17 @@ var regexCpf = /^(\d{3}.\d{3}.\d{3}-\d{2})|(\d{11})$/;
 
 
 function passwordChanged() {
-	
 	var strength = document.getElementById('password');
-	
 	var medium = /([a-z].*[A-Z])|([A-Z].*[a-z])/;
-	
 	var strong = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/;
-	
 	var pwd = document.getElementById("userPasswd").value;
-	
 	if (pwd.length == 0) {
-	
 		strength.innerHTML = '';
-
 	} else if (pwd.match(medium)) {
-		
-		strength.innerHTML = '<span style="color:blue">Médio</span>';
-
+		strength.innerHTML = '<span style="color:blue">MÃ©dio</span>';
 	} else if (pwd.match(strong)) {
-		
 		strength.innerHTML = '<span style="color:green">Forte</span>';
-
 	} else {
-		
 		strength.innerHTML = '<span style="color:orange">Fraca</span>';
 	}
 }
@@ -54,7 +42,6 @@ function loadcurrentIpAddress(){
 }
 
 function exibirAvaliacao(){
-
 	$(function() {
 	$('#userPasswd').pstrength();
 	});
