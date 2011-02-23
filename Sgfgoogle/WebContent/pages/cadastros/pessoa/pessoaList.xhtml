@@ -16,7 +16,7 @@
 
 		<fieldset>
 
-	      <legend>Cadastro de Pessoa Física</legend>
+	      <legend>Pessoa Física</legend>
 	      
 	      	<h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador}">
 		      	<h:commandLink action="#{pessoaBean.prepareSave}" value="Nova" styleClass="novo" immediate="true">
@@ -28,7 +28,7 @@
 			
 			<fieldset>
 			
-			 <legend>Filtro</legend>
+			 <legend>Busca</legend>
 
 		      	<h:outputLabel value="CPF:" />
 			    <h:inputText value="#{pessoaBean.cpf}"  styleClass="maskCpf"/>

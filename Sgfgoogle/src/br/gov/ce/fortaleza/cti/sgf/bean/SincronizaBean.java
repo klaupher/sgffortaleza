@@ -142,29 +142,34 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 		String codUAPat;
 		String codUASgf;
 		/*
-		 * Verifica o c�digo da UG selecionada, caso seja
+		 * Verifica o código da UG selecionada, caso seja
 		 * uma das DTE's, Zoonoses, NUCEM ou SAMU, faz o tratamento
-		 * pois essas UG's s�o UA's no Patrimônio.
+		 * pois essas UG's são UA's no Patrimônio.
 		 */
 		Map<String, String> mapParam = new HashMap<String, String>();
 		List<Parametro> parametros = parametroService.findByTipo("ID_UG");
 
+		/**
+		 * hashmap dos parâmetros de configuração do banco de dados
+		 */
 		for (Parametro p : parametros) {
 			mapParam.put(p.getNome(), p.getValor());
 		}
 
-		codUAPat = this.ug.getId();
-		codUASgf = mapParam.get(this.ug.getId());
-		
-		if(codUASgf.equals(null)){
+
+		codUAPat = this.ug.getId(); // UG SELECIONADA PELO USER
+		codUASgf = mapParam.get(this.ug.getId()); // Verifica se a UA está mapeada como UA no SGF
+
+		if(codUASgf == null){ // se codUASgf = NULL, então o mapeamento não existe
 			codUAPat = this.ua.getId();
+			codUASgf = codUAPat;
 		} else {
 			codUASgf = this.ua.getId();
 		}
 
 		/*
 		 * Consulta utilizada para buscar os veículos do Patrimônio
-		 * associados � ua selecionada
+		 * associados à ua selecionada
 		 */
 		String query = "select * from ("
 			+ "select cd_ua_atual,cd_bem_perm,"
@@ -285,15 +290,14 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 			 * Patrimônio e verifica se o veículo j� est� cadastrado na base de
 			 * dados do SGF, caso n�o esteja cadastra o veículo
 			 */
+			this.ua = uaService.retrieve(codUASgf);
+
 			while (rs.next()) {
-				
+
 				placaValidada = rs.getString("placa").replace("-", "");
 				placaValidada = rs.getString("placa").replace(" ", "");
 				placaValidada = rs.getString("placa").replace(".", "");
-
 				this.veiculo = veiculoService.findByPlacaSingle(placaValidada.toUpperCase()); // busca o veículo pela placa
-
-				this.ua = uaService.retrieve(codUASgf);
 				if (rs.getString("modelo") != null && rs.getString("modelo") != "") {
 					try {
 						this.modelo = modeloService.findByDesc(rs.getString("modelo"));

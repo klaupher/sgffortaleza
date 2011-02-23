@@ -4,6 +4,8 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +22,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Bomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
+import br.gov.ce.fortaleza.cti.sgf.entity.Pessoa;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
 import br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel;
 import br.gov.ce.fortaleza.cti.sgf.entity.TipoServico;
@@ -235,6 +238,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		}
 	}
 
+	/**
+	 * Para povoar a lista de veículos nos campos do tipo select e chama o métodos para 
+	 * povoar a lista de motoristas.
+	 */
 	public void loadVeiculos() {
 		this.veiculos = new ArrayList<Veiculo>();
 		Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
@@ -242,14 +249,27 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
 		}
+		Collections.sort(this.veiculos, new Comparator<Veiculo>() {
+			public int compare(Veiculo p1, Veiculo p2) {
+				return p1.getPlaca().compareTo(p2.getPlaca());
+			}
+		});
 		loadMotoristas();
 	}
 
+	/**
+	 * Para povoar a lista de motoristas nos campos do tipo select e chama o métodos para 
+	 */
 	public void loadMotoristas() {
 		this.motoristas = new ArrayList<Motorista>();
 		if (this.orgaoSelecionado != null) {
 			this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
 		}
+		Collections.sort(this.motoristas, new Comparator<Motorista>() {
+			public int compare(Motorista p1, Motorista p2) {
+				return p1.getPessoa().getNome().compareTo(p2.getPessoa().getNome());
+			}
+		});
 	}
 
 	private void refreshLists() {
@@ -316,6 +336,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	public String validarKilometragemInformada(){
 		Abastecimento ultimoAbastecimento = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
 		if(ultimoAbastecimento != null){
+			if(ultimoAbastecimento.getQuilometragem() == null){
+				ultimoAbastecimento.setQuilometragem(0L);
+			}
 			if(this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
 				this.kmValido = false;
 				JSFUtil.getInstance().addErrorMessage("msg.error.quilometragem.inconsistente");
@@ -360,9 +383,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		Veiculo veiculo = this.entity.getVeiculo();
 		boolean vasilhame = false;
 		boolean existeAutorizacao = false;
-		
+
 		if(veiculo != null){
-			
+
 			if(this.entity.getDataAutorizacao() == null){
 				existeAutorizacao = service.validarAutorizacaoVeiculo(veiculo, DateUtil.getDateTime(new Date()), this.entity.getCombustivel().getId());
 			} else {

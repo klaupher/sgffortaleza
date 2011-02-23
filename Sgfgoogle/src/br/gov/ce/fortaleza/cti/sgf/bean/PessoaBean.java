@@ -74,12 +74,13 @@ public class PessoaBean extends EntityBean<Integer, Pessoa>{
 	public String search(){
 		this.entities = new ArrayList<Pessoa>();
 		User user = SgfUtil.usuarioLogado();
+
 		if(this.cpf != "" && this.cpf != null){
 			Pessoa pessoa = null;
 			if(SgfUtil.isAdministrador(user)){
 				pessoa = service.findByCPF(this.cpf, null);
 			} else {
-				pessoa = service.findByCPF(this.cpf, user.getPessoa().getUa().getUg());
+				pessoa = service.findByCPF(this.cpf, this.ug);
 			}
 			if(pessoa != null){
 				this.entities.add(pessoa);

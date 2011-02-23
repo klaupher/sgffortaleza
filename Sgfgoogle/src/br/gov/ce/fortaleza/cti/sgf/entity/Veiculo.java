@@ -85,7 +85,7 @@ import org.postgis.Geometry;
 	@Column(name = "TEMSEGURO", nullable = true)
 	private Integer temSeguro;
 
-	@Column(name = "STATUS", nullable = false)
+	@Column(name = "STATUS")
 	private Integer status;
 
 	@Column(name = "COMBUSTIVEL", length = 50)

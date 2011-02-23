@@ -12,7 +12,7 @@
      
 	<div id="cadastro">
 
-		<h1>Áreas</h1>
+		<h1>Área do Veículo</h1>
 		
 		<a4j:poll id="areaReload" action="#{areaBean.prepareUpdate}" rendered="false" interval="6000" reRender="polygon"  oncomplete="loadMaps();"/>
 
@@ -21,7 +21,7 @@
 		<h:inputHidden value="#{areaBean.entity.id}" rendered="#{areaBean.updateState}" />
 		
 		<dd>
-			<label for="descricao">Nome para à área:</label>
+			<label for="descricao">Descrição da área:</label>
 			<h:inputText id="descricao" value="#{areaBean.entity.descricao}" requiredMessage="Informa uma descrição para a área" 
 				required="true" style="width:360px"/>
 			<h:message for="descricao" styleClass="message"/>

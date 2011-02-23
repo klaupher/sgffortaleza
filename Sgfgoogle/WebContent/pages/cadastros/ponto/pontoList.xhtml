@@ -11,36 +11,44 @@
      
 	<div id="cadastro">
 
-		<h1>Localização veículo</h1>
-		
+		<h1>Simulação</h1>
+
 		<h:outputText value="Veiculo:"/>
 		<h:selectOneMenu id="veiculo" value="#{pontoBean.veiculo}" converter="entityConverter">
 			<f:selectItem itemLabel="Todos ..." itemValue=""/>
  			<t:selectItems value="#{veiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 		</h:selectOneMenu>
-		
-		<a4j:commandButton value="Mostrar Rota" action="#{pontoBean.mostrarRotaVeiculo}" reRender="vehicleRoute" styleClass="button">
+
+		<a4j:commandButton value="Rota" action="#{pontoBean.mostrarRotaVeiculo}" reRender="vehicleRoute" styleClass="button">
 			<a4j:support event="oncomplete" oncomplete="showVeiculoRoute()"/>
 		</a4j:commandButton>
-		
+
 		<p/>
 		<a4j:poll id="clockReload" action="#{pontoBean.search}" rendered="#{pontoBean.reload}" 
 				  interval="24000" reRender="points"  oncomplete="loadMaps();"/>
-		
-		<h:outputText value="Posição:"/>
-		<h:inputText id="endereco" maxlength="50" size="36"/>
-		
-		<h:outputText value="Vel:"/>
-		<h:inputText id="velocidade" value="#{pontoBean.velocidade}" maxlength="10" size="4"/>
-		
-		<h:outputText value="Odometro:"/>
-		<h:inputText id="odometro" value="#{pontoBean.odometro}" maxlength="10" size="4"/>
-		
-		<label>Ignição:</label>
-		<h:selectOneRadio id="ignicao" value="#{pontoBean.ignicao}" style="width:20%;">
-	      	<f:selectItem itemLabel="ON" itemValue="true"/>
-	      	<f:selectItem itemLabel="OFF" itemValue="false"/>
-		</h:selectOneRadio>
+		<dd>
+			<label for="endereco">Ponto:</label>
+			<h:inputText id="endereco" maxlength="50" size="36" style="text-transform:none;"/>
+		</dd>
+
+		<dd>
+		<label for="velocidade">Velocidade:</label>
+			<h:inputText id="velocidade" value="#{pontoBean.velocidade}" maxlength="10" size="4"/>
+		</dd>
+
+		<dd>
+		<label for="odometro">Odometro:</label>
+			<h:inputText id="odometro" value="#{pontoBean.odometro}" maxlength="10" size="4"/>
+		</dd>
+
+		<dt>
+			<label for="ignicao">Ignição:</label>
+			<h:selectOneRadio id="ignicao" value="#{pontoBean.ignicao}" style="width:20%;">
+		      	<f:selectItem itemLabel="LIG" itemValue="true"/>
+		      	<f:selectItem itemLabel="DESL" itemValue="false"/>
+			</h:selectOneRadio>
+		</dt>
+
 
 		<a4j:commandButton value="Ver Ponto" styleClass="button" onclick="showAddress()"/>
 		<a4j:commandButton value="Salvar" action="#{pontoBean.salvarLocalizacaoVeiculo}"  styleClass="button">

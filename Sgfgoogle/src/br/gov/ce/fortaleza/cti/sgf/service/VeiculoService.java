@@ -213,17 +213,19 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
+	@Transactional
 	public List<Veiculo> veiculos(){
 		Query query = null;
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v and v.status != -1");
+			query = entityManager.createQuery("select v from Veiculo v where v.status > :st");
+			query.setParameter("st", -1);
 			result = query.getResultList();
 		} else {
-			query = entityManager.createQuery("select v from Veiculo v where v.ua.ug.id = :ug and v.status != -1");
+			query = entityManager.createQuery("select v from Veiculo v where v.ua.ug.id = :ug and v.status != :st");
 			query.setParameter("ug", user.getPessoa().getUa().getUg().getId());
+			query.setParameter("st", -1);
 			result = query.getResultList();
 		}
 		return result;

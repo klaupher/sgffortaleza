@@ -164,7 +164,7 @@
 
 					  	</dt>
 				  		<dd>
-					  		<h:inputSecret id="userPasswd" value="#{usuarioBean.entity.senha}" onkeypress="passwordChanged();" required="true" requiredMessage="Informe a senha" redisplay="true"/>
+					  		<h:inputSecret id="userPasswd" value="#{usuarioBean.entity.senha}" onkeypress="passwordChanged()" required="true" requiredMessage="Informe a senha" redisplay="true"/>
 					  		<label id="password"></label>
 					  		<h:message for="userPasswd" styleClass="message"/>
 				  		</dd>
@@ -176,7 +176,7 @@
 					  	</dd>
 	
 						<dt>
-					  		<label for="autoriza">Autoriza Abastecimento ?</label>
+					  		<label for="autoriza">Autoriza Abastecimento?</label>
 				  		</dt>
 	
 				  		<dd>	
