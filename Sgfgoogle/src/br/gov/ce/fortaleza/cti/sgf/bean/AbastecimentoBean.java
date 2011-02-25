@@ -239,13 +239,15 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	}
 
 	/**
-	 * Para povoar a lista de veÃ­culos nos campos do tipo select e chama o mÃ©todos para 
+	 * O método loadVeiculos, povoa a lista de veí­culos do órgão selecionado e chama o método para 
 	 * povoar a lista de motoristas.
 	 */
 	public void loadVeiculos() {
 		this.veiculos = new ArrayList<Veiculo>();
 		Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
-		this.veiculos.add(vasilhame);
+		if(vasilhame != null){
+			this.veiculos.add(vasilhame);
+		}
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
 		}
@@ -258,7 +260,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	}
 
 	/**
-	 * Para povoar a lista de motoristas nos campos do tipo select e chama o mÃ©todos para 
+	 * O método loadMotoristas, povoa a lista de motoristas do órgão selecionado 
 	 */
 	public void loadMotoristas() {
 		this.motoristas = new ArrayList<Motorista>();
