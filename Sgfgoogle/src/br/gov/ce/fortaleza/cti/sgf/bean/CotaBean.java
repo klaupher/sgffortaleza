@@ -100,10 +100,17 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 		return super.search();
 	}
 	
+	@Override
+	public String prepareSave() {
+		this.veiculos = veiculoService.executeResultListQuery("findVeiculosSemCota");
+		return super.prepareSave();
+	}
+	
 	public String prepareUpdate(){
 		this.cotaAtual = this.entity.getCota();
 		return super.prepareUpdate();
 	}
+
 
 	public String update(){
 		this.entity.setCotaDisponivel(this.entity.getCotaDisponivel() + this.entity.getCota() - this.cotaAtual);
@@ -113,7 +120,6 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 	public String atualizarCotaVeiculo(){
 		if(this.entity.getCota() < (this.cotaAtual - this.entity.getCotaDisponivel())){
 			JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
-			//JSFUtil.getInstance().addGlobalMessage("Valor não permitido. A cota só poderá ser diminuída em " + this.entity.getCotaDisponivel() + "(litros)");
 			return FAIL;
 		} else {
 			this.entity.setCotaDisponivel(this.entity.getCotaDisponivel() - (this.cotaAtual - this.entity.getCota()));
@@ -154,12 +160,6 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;
-	}
-
-	@Override
-	public String prepareSave() {
-		this.veiculos = veiculoService.executeResultListQuery("findVeiculosSemCota");
-		return super.prepareSave();
 	}
 
 	@Override

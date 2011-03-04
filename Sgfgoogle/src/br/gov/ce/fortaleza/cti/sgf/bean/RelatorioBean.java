@@ -884,6 +884,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		Map<UG, List<AtendimentoAbastecimento>> atendimentosMap = new HashMap<UG, List<AtendimentoAbastecimento>>();
 
 		if(this.orgao != null){
+			
+			List<Veiculo> veiculosOrgao = veiculoService.findByUG(this.orgao);
 
 			atendimentosMap = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
 		} else {
@@ -904,6 +906,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
 
 			novo.setOrgao(ug);
+			
+			if(ug.getId() == "000003"){
+				System.out.println(ug.getDescricao());
+			}
 
 			List<AtendimentoAbastecimento> atendimentos = atendimentosMap.get(ug);
 

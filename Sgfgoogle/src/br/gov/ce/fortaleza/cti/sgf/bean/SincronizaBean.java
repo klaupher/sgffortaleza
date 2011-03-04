@@ -278,7 +278,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 			this.veiculos = new ArrayList<Veiculo>();
 			String placaValidada;
 			/**
-			 * Conex�o utilizada para o acesso � base do Patrimônio
+			 * Conexao utilizada para o acesso à base do Patrimônio
 			 */
 			connection = ConnectOracle.connection();
 			stmt = connection.createStatement();
@@ -354,6 +354,8 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 	public String sincronizar() throws NonUniqueObjectException {
 
 		String placs = "\n";
+		List<Veiculo> naoSincronizados = new ArrayList<Veiculo>();
+		
 		for (Veiculo v : veiculos) {
 
 			try {
@@ -361,13 +363,17 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 
 			} catch (DataIntegrityViolationException e) {
 				e.printStackTrace();
-				JSFUtil.getInstance().addErrorMessage("msg.error.valorDuplicado");
-				return "FAIL";
-			} catch (Exception e) {
-				JSFUtil.getInstance().addErrorMessage("msg.error.saveSincroniza");
-				return "FAIL";
+				//JSFUtil.getInstance().addErrorMessage("msg.error.valorDuplicado");
+				naoSincronizados.add(v);
+				continue;
+				//return "FAIL";
 			}
 			placs +=  "" + v.getPlaca() + "\n";
+		}
+		
+		if(naoSincronizados.size() > 0){
+			JSFUtil.getInstance().addErrorMessage("msg.error.valorDuplicado");
+			//return FAIL;
 		}
 
 		sincronizacao();

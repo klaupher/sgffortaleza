@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.persistence.Query;
 
 import org.hibernate.mapping.Array;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,9 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	 * @param dataFim
 	 * @return
 	 */
+	@Autowired
+	private UGService ugservice;
+	
 	@SuppressWarnings("unchecked")
 	public List<AtendimentoAbastecimento> findByPeriodo(String ug, String veiculo, Date dataInicio, Date dataFim){
 
@@ -62,7 +66,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 
 	@SuppressWarnings("unchecked")
 	public Map<UG, List<AtendimentoAbastecimento>> findByPeriodoHashMap(String ug, String veiculo, Date dataInicio, Date dataFim){
-
+		
 		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.data between ? and ?");
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = :ug");
@@ -70,6 +74,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = :veiculo");
 		}
+		str.append(" and o.abastecimento.veiculo.status > -1");
 		str.append(" order by o.data asc");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
