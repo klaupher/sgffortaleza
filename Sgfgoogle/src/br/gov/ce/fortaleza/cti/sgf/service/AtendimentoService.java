@@ -148,4 +148,57 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		result = (Double) query.getSingleResult();
 		return result;
 	}
+
+
+	@SuppressWarnings("unchecked")
+	public List<UG> findAtendimentoByUG(String ug, String veiculo, Date dataInicio, Date dataFim) {
+		StringBuffer str = new StringBuffer("select distinct(o.abastecimento.veiculo.ua.ug) from AtendimentoAbastecimento o where o.data between ? and ?");
+		if(ug != null){
+			str.append(" and o.abastecimento.veiculo.ua.ug.id = '"+ug+"'");
+		}
+		if(veiculo != null){
+			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
+		}
+		str.append(" and o.abastecimento.veiculo.status > -1");
+		str.append(" order by o.abastecimento.veiculo.ua.ug.descricao");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter(1, dataInicio);
+		query.setParameter(2, dataFim);
+		return query.getResultList();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findAtendimentoByVeiculo(String ug, String veiculo, Date dataInicio, Date dataFim) {
+		StringBuffer str = new StringBuffer("select distinct(o.abastecimento.veiculo) from AtendimentoAbastecimento o where o.data between ? and ?");
+		if(ug != null){
+			str.append(" and o.abastecimento.veiculo.ua.ug.id = '"+ug+"'");
+		}
+		if(veiculo != null){
+			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
+		}
+		str.append(" and o.abastecimento.veiculo.status > -1");
+		str.append(" order by o.abastecimento.veiculo.placa");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter(1, dataInicio);
+		query.setParameter(2, dataFim);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Abastecimento> findAtendimentoByVeiculoAbastecimento(String ug, String veiculo, Date dataInicio, Date dataFim) {
+		StringBuffer str = new StringBuffer("select o.abastecimento from AtendimentoAbastecimento o where o.data between ? and ?");
+		if(ug != null){
+			str.append(" and o.abastecimento.veiculo.ua.ug.id = '"+ug+"'");
+		}
+		if(veiculo != null){
+			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
+		}
+		str.append(" and o.abastecimento.veiculo.status > -1");
+		str.append(" order by o.data");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter(1, dataInicio);
+		query.setParameter(2, dataFim);
+		return query.getResultList();
+	}
 }

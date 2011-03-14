@@ -80,6 +80,16 @@ public class CotaService extends BaseService<Integer, Cota>{
 			return map;
 		}
 	}
+	
+	
+	public Cota retrieveVeiculoCota(Veiculo veiculo) {
+		Cota cota = null;
+		if (veiculo != null) {
+			Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.tipoServico.codTipoServico = 1 and c.veiculo.id = " + veiculo.getId());
+			cota = (Cota) query.getSingleResult();
+		}
+		return cota;
+	}
 
 
 	@SuppressWarnings("unchecked")

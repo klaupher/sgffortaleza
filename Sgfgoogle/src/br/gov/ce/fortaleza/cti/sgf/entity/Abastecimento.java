@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -54,6 +55,9 @@ public class Abastecimento implements Serializable {
 	@SequenceGenerator(name = "seq_abastecimento", sequenceName = "sgf.abastecimento_seq", allocationSize = 1)
 	@Column(name = "CODSOLABASTECIMENTO", nullable = false)
 	private Integer id;
+	
+	@OneToOne(mappedBy="abastecimento")
+	private AtendimentoAbastecimento atendimentoAbastecimento;
 
 	@ManyToOne
 	@JoinColumn(name = "CODVEICULO", nullable = false)
@@ -225,6 +229,14 @@ public class Abastecimento implements Serializable {
 
 	public TipoCombustivel getCombustivel() {
 		return combustivel;
+	}
+
+	public void setAtendimentoAbastecimento(AtendimentoAbastecimento atendimentoAbastecimento) {
+		this.atendimentoAbastecimento = atendimentoAbastecimento;
+	}
+
+	public AtendimentoAbastecimento getAtendimentoAbastecimento() {
+		return atendimentoAbastecimento;
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;
@@ -881,118 +883,70 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
 		}
 
-		Map<UG, List<AtendimentoAbastecimento>> atendimentosMap = new HashMap<UG, List<AtendimentoAbastecimento>>();
-
-		if(this.orgao != null){
-			
-			List<Veiculo> veiculosOrgao = veiculoService.findByUG(this.orgao);
-
-			atendimentosMap = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
-		} else {
-
-			atendimentosMap = atendimentoService.findByPeriodoHashMap(null, null, this.dtInicial, this.dtFinal);
-		}
-
 		this.entities = new ArrayList<RelatorioDTO>();
 
 		List<Integer> ids = new ArrayList<Integer>();
 
 		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >();
+		
+		List<UG> ugs = null;
+		
+		if(this.orgao != null){
+			ugs = (List<UG>) atendimentoService.findAtendimentoByUG(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
+		}else{
+			ugs = (List<UG>) atendimentoService.findAtendimentoByUG(null, null, this.dtInicial, this.dtFinal);
+		}
 
-		for (UG ug : atendimentosMap.keySet()) {
-
+		for (UG ug : ugs) {
+			
 			RelatorioDTO novo = new RelatorioDTO();
-
+			
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
 
 			novo.setOrgao(ug);
 			
-			if(ug.getId() == "000003"){
-				System.out.println(ug.getDescricao());
-			}
+			List<Veiculo> veiculos = atendimentoService.findAtendimentoByVeiculo(ug.getId(), null, this.dtInicial, this.dtFinal);
 
-			List<AtendimentoAbastecimento> atendimentos = atendimentosMap.get(ug);
-
-			for (AtendimentoAbastecimento a : atendimentos) {
-
-				Veiculo v = a.getAbastecimento().getVeiculo();
-
-				if(map.containsKey(v) == false){
-
-					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
-
-					list.add(a);
-
-					map.put(v, list);
-
-					ids.add(v.getId());
-				} else {
-
-					map.get(v).add(a);
-				}
-			}
-
-			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids);
-
-			for (Veiculo v : map.keySet()) {
-
-				RelatorioDTO dto = new RelatorioDTO();
-
-				dto.setVeiculo(v);
-
-				dto.setOrgao(v.getUa().getUg());
-
-				dto.setRelatorios(new ArrayList<RelatorioDTO>());
-
+			for (Veiculo veiculo : veiculos) {
 				Float total = 0F;
-
 				Float kmInicial = 0F;
-
 				Float kmFinal = 0F;
-
-				List<AtendimentoAbastecimento> list = map.get(v);
-
-				for (int j = 0; j < list.size(); j++) {
-
-					AtendimentoAbastecimento a = list.get(j);
-
-					total += a.getQuantidadeAbastecida() != null ? a.getQuantidadeAbastecida().floatValue() : 0F;
-
-					if(j == 0){
-
-						Float aux = (a.getQuilometragem() == null)?0f:a.getQuilometragem();
-
-						kmInicial = aux;
-					}
-					if(j == (list.size() - 1)){
-
-						if(a.getQuilometragem() != null){
-
-							kmFinal = (float)a.getQuilometragem();
+				int nrAbastecimentos = 0;
+				RelatorioDTO dto = new RelatorioDTO();
+				dto.setOrgao(ug);
+				dto.setRelatorios(new ArrayList<RelatorioDTO>());
+				dto.setVeiculo(veiculo);
+				
+				List<Abastecimento> abastecimentos = atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
+				
+				for (Abastecimento abastecimento : abastecimentos) {
+					if(abastecimento.getAtendimentoAbastecimento() != null){
+						AtendimentoAbastecimento atendimento = abastecimento.getAtendimentoAbastecimento();
+						total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0F;
+						Float aux = (atendimento.getQuilometragem() == null)?0f:atendimento.getQuilometragem();
+						if(kmInicial == 0F){
+							kmInicial = aux;
 						}
+						if(atendimento.getQuilometragem() != null){
+							kmFinal = (float)atendimento.getQuilometragem();
+						}
+						nrAbastecimentos++;
 					}
-
-					dto.setCombustivel(a.getAbastecimento().getCombustivel().getDescricao());
+					dto.setCombustivel(abastecimento.getCombustivel().getDescricao());
 				}
-
-				dto.setConsumo(total);
-
-				dto.setKmRodados(kmFinal - kmInicial);
-
-				dto.setKmPorLitro((kmFinal - kmInicial)/total);
-
-				if(mapCota.get(v) != null){
-
-					dto.setCota(mapCota.get(v).getCota().floatValue());
-
-					dto.setSaldoCota(mapCota.get(v).getCota().floatValue() - total);
+				
+				Cota cota = cotaService.retrieveVeiculoCota(veiculo);
+				if(cota != null){
+					dto.setCota(cota.getCota().floatValue());
+					dto.setSaldoCota(cota.getCota().floatValue() - total);
 				} else {
-
 					dto.setCota(0F);
 				}
-
-				dto.setNumeroAbastecimentos(list.size());
-
+				
+				dto.setConsumo(total);
+				dto.setKmRodados(kmFinal - kmInicial);
+				dto.setKmPorLitro((kmFinal - kmInicial)/total);
+				dto.setNumeroAbastecimentos(nrAbastecimentos);
 				novo.getRelatorios().add(dto);
 			}
 
