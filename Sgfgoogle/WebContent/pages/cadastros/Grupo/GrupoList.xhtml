@@ -20,7 +20,7 @@
 		<a4j:commandButton value="Pesquisar por" action="#{grupoBean.search}" styleClass="button" reRender="listaGrupo"/>
 		<a4j:commandButton value="Novo grupo" action="#{grupoBean.prepareSave}" styleClass="button" reRender="listaGrupo"/>
 
-		<rich:dataTable id="listaGrupo" value="#{grupoBean.entities}" var="grupo" rows="10" 
+		<rich:dataTable id="listaGrupo" value="#{grupoBean.entities}" var="grupo" rows="50" 
 			onRowMouseOver="jQuery(this).addClass('trHover')" 
 			onRowMouseOut="jQuery(this).removeClass('trHover')" 
 			rowClasses="even,odd">

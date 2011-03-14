@@ -21,7 +21,7 @@
 
 				<rich:simpleTogglePanel id="simple#{index}" value="#{posto}" switchType="ajax" label="#{posto.descricao}"  headerClass="simpleHeader" >
 
-					<rich:dataTable id="dataTableBombas" value="#{posto.listaBomba}" var="bomba" rows="10" rowKeyVar="index"
+					<rich:dataTable id="dataTableBombas" value="#{posto.listaBomba}" var="bomba" rows="50" rowKeyVar="index"
 						rowClasses="even,odd" 
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
 						onRowMouseOut="jQuery(this).removeClass('trHover')" 

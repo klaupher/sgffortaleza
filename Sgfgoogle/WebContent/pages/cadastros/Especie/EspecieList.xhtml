@@ -29,7 +29,7 @@
 	      	</h:commandButton>
 
 	      	<rich:dataTable id="dataTable" value="#{especieBean.entities}" rowClasses="even,odd" onRowMouseOver="jQuery(this).addClass('trHover')" 
-				onRowMouseOut="jQuery(this).removeClass('trHover')" var="especie" width="100%" rows="10" rowKeyVar="index">
+				onRowMouseOut="jQuery(this).removeClass('trHover')" var="especie" width="100%" rows="50" rowKeyVar="index">
 
 	      		 <c:if test="#{especieBean.entitiesSize == 0}">
 					<rich:column>

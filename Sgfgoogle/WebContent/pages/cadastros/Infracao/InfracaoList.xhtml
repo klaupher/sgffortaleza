@@ -36,7 +36,7 @@
 	      	</fieldset>
 
 	      	<rich:dataTable id="dataTable" value="#{infracaoBean.entities}" rowClasses="even,odd" onRowMouseOver="jQuery(this).addClass('trHover')" 
-				onRowMouseOut="jQuery(this).removeClass('trHover')" var="infracao" width="100%" rows="10" rowKeyVar="index">
+				onRowMouseOut="jQuery(this).removeClass('trHover')" var="infracao" width="100%" rows="50" rowKeyVar="index">
 
 	      		<c:if test="#{infracaoBean.entitiesSize == 0}">
 					<rich:column>

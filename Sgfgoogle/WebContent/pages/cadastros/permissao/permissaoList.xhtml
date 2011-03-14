@@ -39,7 +39,7 @@
 			
 			</fieldset>
 
-			<rich:dataTable id="dataTable" value="#{permissaoBean.entities}" var="permissao" width="100%" rows="10" rowKeyVar="index"
+			<rich:dataTable id="dataTable" value="#{permissaoBean.entities}" var="permissao" width="100%" rows="50" rowKeyVar="index"
 				rowClasses="even,odd" 
 				onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')" rendered="#{not empty permissaoBean.entities}">

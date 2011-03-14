@@ -29,7 +29,7 @@
 	      	</h:commandButton>
 
 	      	<rich:dataTable id="dataTable" rowClasses="even,odd" onRowMouseOver="jQuery(this).addClass('trHover')" 
-				onRowMouseOut="jQuery(this).removeClass('trHover')" value="#{marcaBean.entities}" var="marca" width="100%" rows="10" rowKeyVar="index">
+				onRowMouseOut="jQuery(this).removeClass('trHover')" value="#{marcaBean.entities}" var="marca" width="100%" rows="50" rowKeyVar="index">
 
 	      		<c:if test="#{marcaBean.entitiesSize == 0}">
 					<rich:column>

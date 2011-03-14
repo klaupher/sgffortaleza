@@ -24,7 +24,7 @@
 			<h:outputLabel value="Busca"/>
 			<h:inputText value="#{uaBean.filter}"></h:inputText>
 
-	      	<rich:dataTable id="dataTable"	value="#{uaBean.entities}" var="ua" rows="10" rowKeyVar="index"
+	      	<rich:dataTable id="dataTable"	value="#{uaBean.entities}" var="ua" rows="50" rowKeyVar="index"
 	      		rowClasses="even,odd" 
 	      		onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')" width="100%">

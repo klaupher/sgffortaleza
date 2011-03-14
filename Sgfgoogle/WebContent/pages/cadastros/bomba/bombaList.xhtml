@@ -63,7 +63,7 @@
       		<a4j:commandLink id="novaBomba" action="#{bombaBean.prepareSave}" value="Nova" reRender="paginaPrincipal" immediate="true" styleClass="novo"/>
 		    <p/>
 
-			<rich:dataTable id="dataTable"	value="#{bombaBean.entities}" var="bomba" rows="10" rowKeyVar="index"
+			<rich:dataTable id="dataTable"	value="#{bombaBean.entities}" var="bomba" rows="50" rowKeyVar="index"
 				rowClasses="even,odd"
 				onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')"
