@@ -40,22 +40,20 @@
 				onRowMouseOut="jQuery(this).removeClass('trHover')"
 				rowClasses="even,odd">
 	
-				<c:if test="#{relatorioBean.entitiesSize == 0}">
-					<rich:column>
-						<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
-					</rich:column>
-				</c:if>
+				<rich:column rendered="#{empty relatorioBean.entities}">
+					<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
+				</rich:column>
+				
 	
-				<c:if test="#{relatorioBean.entitiesSize > 0}">
-
-					<rich:column colspan="10" style="font-weight: bold; background:white">
+					<rich:column colspan="10" style="font-weight: bold; background:white" rendered="#{not empty relatorioBean.entities}">
 						<h:outputText value="Órgão: #{r.orgao.descricao}"/>
 					</rich:column>
 	
 					<rich:subTable id="subDataTable" headerClass="subHeader" value="#{r.relatorios}" var="sr" rowKeyVar="k"
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')"
-						onRowMouseOut="jQuery(this).removeClass('trHover')">
+						onRowMouseOut="jQuery(this).removeClass('trHover')"
+						rendered="#{not empty relatorioBean.entities}">
 	
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="Nº"/></f:facet>
@@ -86,7 +84,7 @@
 							<f:facet name="header"><h:outputLabel value="Ano fabric."/></f:facet>
 							<h:outputText value="#{sr.veiculo.anoFabricacao}"/>
 						</rich:column>
-	
+						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="Data cadastro"/></f:facet>
 							<h:outputText value="#{sr.veiculo.dataCadastro}">
@@ -95,9 +93,7 @@
 						</rich:column>
 	
 					</rich:subTable>
-	
-				</c:if>
-	
+
 			</rich:dataTable>
 	
 			<p/>

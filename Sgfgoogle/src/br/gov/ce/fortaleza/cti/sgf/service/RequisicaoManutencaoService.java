@@ -8,8 +8,10 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao;
 import br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
+import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 
 @Repository
 @Transactional
@@ -129,5 +131,84 @@ public class RequisicaoManutencaoService extends BaseService<Integer, Requisicao
 	public  List<RequisicaoManutencao> findByVeiculoLivre(Integer vid, Date dataInicio, Date dataFim){
 		List<RequisicaoManutencao>  result = executeResultListQuery("findByVeiculoLivre", vid, dataInicio, dataInicio, dataInicio, dataFim, dataFim, dataFim);
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<UG> findUgsByManutencao(String ug, Integer veiculo, Date dataInicio, Date dataFim) {
+		List<UG> orgaos = null;
+		StringBuffer str = new StringBuffer("select distinct(o.veiculo.ua.ug) from RequisicaoManutencao o where o.dataSaida between :di and :df");
+		if(ug != null){
+			str.append(" and o.veiculo.ua.ug.id = :ug");
+		}
+		if(veiculo != null){
+			str.append(" and o.veiculo.id = :veiculo");
+		}
+		str.append(" order by o.veiculo.ua.ug.descricao ");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter("di", dataInicio);
+		query.setParameter("df", dataFim);
+		if(ug != null){
+			query.setParameter("ug", ug);
+		}
+		if(veiculo != null){
+			query.setParameter("veiculo", veiculo);
+		}
+		orgaos = query.getResultList(); 
+		return orgaos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findVeiculosUGByManutencao(String ug, Integer veiculo, Date dataInicio, Date dataFim) {
+		List<Veiculo> veiculos = null;
+		StringBuffer str = new StringBuffer("select distinct(o.veiculo) from RequisicaoManutencao o where o.dataSaida between ? and ?");
+		if(ug != null){
+			str.append(" and o.veiculo.ua.ug.id = '"+ug+"'");
+		}
+		if(veiculo != null){
+			str.append(" and o.veiculo.id = "+veiculo);
+		}
+		str.append(" order by o.veiculo.placa ");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter(1, dataInicio);
+		query.setParameter(2, dataFim);
+		
+		veiculos = query.getResultList(); 
+		return veiculos;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<RequisicaoManutencao> findManutencaoVeiculos(String ug, Integer veiculo, Date dataInicio, Date dataFim) {
+		List<RequisicaoManutencao> manutencoes = null;
+		StringBuffer str = new StringBuffer("select o from RequisicaoManutencao o where o.dataSaida between :di and :df");
+		if(ug != null){
+			str.append(" and o.veiculo.ua.ug.id = :ug");
+		}
+		if(veiculo != null){
+			str.append(" and o.veiculo.id = :veiculo");
+		}
+		str.append(" order by o.dataInicio ");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter("di", dataInicio);
+		query.setParameter("df", dataFim);
+		if(ug != null){
+			query.setParameter("ug", ug);
+		}
+		if(veiculo != null){
+			query.setParameter("veiculo", veiculo);
+		}
+		manutencoes = query.getResultList(); 
+		return manutencoes;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ItemRequisicao> findItensRequisicao(Integer id) {
+		List<ItemRequisicao> itens = null;
+		StringBuffer str = new StringBuffer("select o from ItemRequisicao o where o.requisicaoManutencao.id = ?");
+		Query query = entityManager.createQuery(str.toString());
+		if (id != null) {
+			query.setParameter(1, id);
+		}
+		itens = query.getResultList();
+		return itens;
 	}
 }

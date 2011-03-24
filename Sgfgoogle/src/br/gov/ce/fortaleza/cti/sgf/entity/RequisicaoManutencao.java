@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /* EXEMPLO:
 select rm.veiculo.id, rm.dataInicio, rm.dataFim from RequisicaoManutencao rm
@@ -82,7 +83,7 @@ public class RequisicaoManutencao implements Serializable{
 	@OneToMany(mappedBy = "requisicaoManutencao", cascade=CascadeType.ALL)
 	@JoinColumn(name="CODREQMANUTENCAO")
 	private List<ItemRequisicao> itensRequisicao;
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -193,4 +194,5 @@ public class RequisicaoManutencao implements Serializable{
 
 		return ((id == null && other.id == null) || (id != null && id.equals(other.id)));
 	}
+	
 }

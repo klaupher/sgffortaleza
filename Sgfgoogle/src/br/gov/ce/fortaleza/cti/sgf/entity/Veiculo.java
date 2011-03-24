@@ -112,6 +112,9 @@ import org.postgis.Geometry;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DT_CADASTRO")
 	private Date dataCadastro;
+	
+	@Transient
+	private Float valorTotal;
 
 	@ManyToOne
 	@JoinColumn(name = "COD_UA_ASI")
@@ -143,6 +146,8 @@ import org.postgis.Geometry;
 	@Cascade( { org.hibernate.annotations.CascadeType.SAVE_UPDATE,org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
 	private Set<SolicitacaoVeiculo> solicitacoesVeiculo;
 	
+	@Transient
+	private List<RequisicaoManutencao> manutencoes; 
 
 	@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
 	@Column(name = "GEOM", table = "TB_ULTIMATRANSMISSAO")
@@ -492,4 +497,21 @@ import org.postgis.Geometry;
 		&& ((placa == null && other.placa == null) || (placa != null && placa.equals(other.placa)))
 		&& ((ua == null && other.ua == null) || (ua != null && ua.equals(other.ua)));
 	}
+
+	public void setManutencoes(List<RequisicaoManutencao> manutencoes) {
+		this.manutencoes = manutencoes;
+	}
+
+	public List<RequisicaoManutencao> getManutencoes() {
+		return manutencoes;
+	}
+
+	public void setValorTotal(Float valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public Float getValorTotal() {
+		return valorTotal;
+	}
+	
 }

@@ -124,7 +124,7 @@
 							<h:outputText value="#{sr.combustivel}" />
 						</rich:column>
 						
-						<rich:column  style="width:3%">
+						<rich:column  style="width:3%" rendered="false">
 							<f:facet name="header"><h:outputLabel value="Custo(R$)"/></f:facet>
 							<h:outputText value="#{sr.custo}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>

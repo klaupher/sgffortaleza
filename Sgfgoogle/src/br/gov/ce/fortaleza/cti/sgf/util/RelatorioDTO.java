@@ -45,6 +45,7 @@ public class RelatorioDTO implements Serializable {
 	private AtendimentoAbastecimento atendimento;
 	private RequisicaoManutencao manutencao;
 	private ItemRequisicao itemManutencao;
+	private List<ItemRequisicao> itensManutencao;
 	private SolicitacaoVeiculo solicitacaoVeiculo;
 	private RegistroVeiculo registroSolicitacao;
 	private Float consumo;
@@ -359,5 +360,13 @@ public class RelatorioDTO implements Serializable {
 
 	public void setAtraso(Date atraso) {
 		this.atraso = atraso;
+	}
+
+	public void setItensManutencao(List<ItemRequisicao> itensManutencao) {
+		this.itensManutencao = itensManutencao;
+	}
+
+	public List<ItemRequisicao> getItensManutencao() {
+		return itensManutencao;
 	}
 }

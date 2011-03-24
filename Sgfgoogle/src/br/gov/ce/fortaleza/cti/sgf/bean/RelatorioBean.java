@@ -1000,49 +1000,55 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
-		List<RequisicaoManutencao> result = null;
+		RelatorioDTO relatorio = new RelatorioDTO();
 		this.entities = new ArrayList<RelatorioDTO>();
 		this.result = new ArrayList<RelatorioDTO>();
+		
+		List<UG> orgaos = null;
 		if(this.orgao == null && this.veiculo == null){
-			result = manutencaoService.findByPeriodo(null, null, this.dtInicial, this.dtFinal);
+			orgaos = manutencaoService.findUgsByManutencao(null, null, this.dtInicial, this.dtFinal);
 		}
 		if(this.orgao != null && this.veiculo == null){
 			this.searchId = 2;
-			result = manutencaoService.findByPeriodo(this.orgao.getId(), null, DateUtil.getDateStartDay(this.dtInicial), DateUtil.getDateEndDay(this.dtFinal));
+			orgaos = manutencaoService.findUgsByManutencao(this.orgao.getId(), null, DateUtil.getDateStartDay(this.dtInicial), DateUtil.getDateEndDay(this.dtFinal));
 		} else if(this.orgao != null && this.veiculo != null){
 			this.searchId = 1;
-			result = manutencaoService.findByPeriodo(this.orgao.getId(), this.veiculo.getId(), this.dtInicial, this.dtFinal);
+			orgaos = manutencaoService.findUgsByManutencao(this.orgao.getId(), this.veiculo.getId(), this.dtInicial, this.dtFinal);
 		}
-
-		Map<Veiculo, List<RequisicaoManutencao>> map = new HashMap<Veiculo, List<RequisicaoManutencao>>();
-		for (RequisicaoManutencao req : result) {
-			if(map.containsKey(req.getVeiculo()) == false){
-				List<RequisicaoManutencao> list = new ArrayList<RequisicaoManutencao>();
-				list.add(req);
-				map.put(req.getVeiculo(), list);
-			} else {
-				map.get(req.getVeiculo()).add(req);
-			}
-		}
-		for (Veiculo v : map.keySet()) {
-			List<RequisicaoManutencao> list = map.get(v);
-			RelatorioDTO relatorio = new RelatorioDTO();
-			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-			relatorio.setVeiculo(v);
-			relatorio.setOrgao(this.orgao);
-			for (RequisicaoManutencao r : list) {
-				RelatorioDTO dto = new RelatorioDTO();
-				dto.setManutencao(r);
-				dto.setOrgao(r.getVeiculo().getUa() != null ? r.getVeiculo().getUa().getUg() : null);
-				dto.setVeiculo(v);
-				if(r.getDataRetorno() != null && r.getDataSaida() != null){
-					dto.setDuracaoManutencao(DateUtil.tempoEntreDatas(r.getDataRetorno(), r.getDataSaida()));
-				}
-				relatorio.getRelatorios().add(dto);
+		
+		relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+		
+		for (UG ug : orgaos) {
+			relatorio.setOrgao(ug);
+			List<Veiculo> veiculos = manutencaoService.findVeiculosUGByManutencao(ug.getId(), null, this.dtInicial, this.dtFinal);
+			ug.setVeiculos(veiculos);
+			for (Veiculo veiculo : veiculos) {
+				relatorio.setVeiculo(veiculo);
+				List<RequisicaoManutencao> manutencoes = manutencaoService.findManutencaoVeiculos(ug.getId(), veiculo.getId(), this.dtInicial, this.dtFinal);
+				veiculo.setManutencoes(manutencoes);
+				for (RequisicaoManutencao manutencao : manutencoes) {
+					RelatorioDTO dto = new RelatorioDTO();
+					dto.setOrgao(ug);
+					dto.setVeiculo(veiculo);
+					dto.setManutencao(manutencao);
+					if(manutencao.getDataRetorno() != null && manutencao.getDataSaida() != null){
+						dto.setDuracaoManutencao(DateUtil.tempoEntreDatas(manutencao.getDataRetorno(), manutencao.getDataSaida()));
+					}
+					List<ItemRequisicao> itens = manutencaoService.findItensRequisicao(manutencao.getId());
+					manutencao.setItensRequisicao(itens);
+					relatorio.setItensManutencao(itens);
+					Float manuValorTotal = 0F;
+					for (ItemRequisicao item : itens) {
+						manuValorTotal += item.getValorTotal();
+					}
+					veiculo.setValorTotal(manuValorTotal);
+					relatorio.getRelatorios().add(dto);
+				}				
 			}
 			this.entities.add(relatorio);
 			this.result.addAll(relatorio.getRelatorios());
 		}
+		
 		return SUCCESS;
 	}
 
@@ -1217,9 +1223,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.result = new ArrayList<RelatorioDTO>();
 		List<Veiculo> veiculos = null;
 		if(this.orgao == null){
-			veiculos = veiculoService.retrieveAll();
+			veiculos = veiculoService.findAllVeiculosAtivos("placa");
 		} else {
-			veiculos = veiculoService.findByUG(this.orgao);
+			veiculos = veiculoService.findVeiculosAtivosByUG(this.orgao);
 		}
 		Map<UG, List<Veiculo>> map = new HashMap<UG, List<Veiculo>>();
 		for (Veiculo veiculo : veiculos) {
@@ -1319,7 +1325,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 			} else if (this.nomeRelatorio.equals(this.relHistoricoVeiculoManutencao)) {
 
-				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
+//				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
+				parametros.put("dtInicial", this.dtInicial);
+				parametros.put("dtFinal", this.dtFinal);
+				gerarRelatorioBD(parametros, this.nomeRelatorio);
 
 			} else if (this.nomeRelatorio.equals(this.relMotoristaPontuacao)) {
 
@@ -1364,10 +1373,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			}  else if (this.nomeRelatorio.equals(this.relVeiculosEmManutencao)) {
 
 				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
-
-			}  else if (this.nomeRelatorio.equals(this.relHistoricoVeiculoManutencao)) {
-
-				gerarRelatorioCollection(parametros, this.entities, this.nomeRelatorio);
 
 			}  else if (this.nomeRelatorio.equals(this.relHistoricoTrocaPneus)) {
 
@@ -1416,6 +1421,29 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		ServletOutputStream servletOutputStream = res.getOutputStream();
 		servletOutputStream.write(array);
 		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+	public void gerarRelatorioBD(Map<String, Object> parametros, String filePropertie) throws IOException, JRException{
+		// Gerando relatorio
+		// Montando jasper path
+		String jasperPath = RelatorioUtil.getInstance().retornarJasperPath(filePropertie);
+//		byte[] array = GeradorRelatorio.gerarPdfCollection(parametros, colecao, jasperPath);
+		byte[] array = GeradorRelatorio.gerarPdfBD(parametros, jasperPath);
+
+		// Resgatando response
+		HttpServletResponse res = JSFUtil.getInstance().getResponse(FacesContext.getCurrentInstance());
+
+		// Configurando cabeçalho
+		res.setContentType("application/pdf");
+		res.setHeader("Pragma", "public");
+		res.setHeader("Cache-control", "must-revalidate");
+		res.setHeader("Content-Disposition", "attachment;filename=" + nomeRelatorio + ".pdf");
+
+		// Enviando o pdf para o navegador
+		ServletOutputStream servletOutputStream = res.getOutputStream();
+		servletOutputStream.write(array);
+		FacesContext.getCurrentInstance().responseComplete();
+
 	}
 
 	public UG getOrgao() {

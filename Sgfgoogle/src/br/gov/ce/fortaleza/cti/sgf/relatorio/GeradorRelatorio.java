@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
@@ -18,11 +19,11 @@ import net.sf.jasperreports.engine.util.JRLoader;
 import org.hibernate.Session;
 
 public class GeradorRelatorio {
-
+	
 	@SuppressWarnings("deprecation")
 	public static byte[] gerarPdfBD(Map<?, ?> parametros, String jasperPath)
 			throws IOException, JRException {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory("SGF");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
 		EntityManager em = factory.createEntityManager();
 		Session session = (Session) em.getDelegate();
 		Connection con = session.connection();
