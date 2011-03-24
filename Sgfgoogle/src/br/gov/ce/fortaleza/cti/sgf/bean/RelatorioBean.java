@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
@@ -1324,10 +1325,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
 
 			} else if (this.nomeRelatorio.equals(this.relHistoricoVeiculoManutencao)) {
-
+				
+				ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 //				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
 				parametros.put("dtInicial", this.dtInicial);
 				parametros.put("dtFinal", this.dtFinal);
+				parametros.put("SUBREPORT_DIR", servletContext.getRealPath("/relatorios/jasper/"));
 				gerarRelatorioBD(parametros, this.nomeRelatorio);
 
 			} else if (this.nomeRelatorio.equals(this.relMotoristaPontuacao)) {
