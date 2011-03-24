@@ -1,100 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioHistoricoVeiculoManutencao" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<style name="zebrado" isDefault="false">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioHistoricoVeiculoManutencao" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\workspace\\sgffortaleza\\Sgfgoogle\\WebContent\\relatorios\\jasper\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dtInicial" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dtFinal" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[SELECT
+     ug."nm_ug",
+     v."placa",
+     mod."descmodelo",
+     m."codreqmanutencao"
+FROM
+     "tb_requisicaomanutencao" m INNER JOIN "tb_cadveiculo" v ON m."codveiculo" = v."codveiculo"
+     INNER JOIN "tb_modelo" mod ON v."codmodelo" = mod."codmodelo"
+     INNER JOIN "tb_ua" ua ON v."cod_ua_asi" = ua."cod_ua"
+     INNER JOIN "tb_ug" ug ON ua."cod_ug" = ug."cod_ug"
+WHERE
+     m.data_saida between $P{dtInicial} and $P{dtFinal}
+ORDER BY
+     ug."nm_ug"]]>
 	</queryString>
-	<field name="veiculo" class="br.gov.ce.fortaleza.cti.sgf.entity.Veiculo">
-		<fieldDescription><![CDATA[veiculo]]></fieldDescription>
-	</field>
-	<field name="orgao" class="br.gov.ce.fortaleza.cti.sgf.entity.UG">
-		<fieldDescription><![CDATA[orgao]]></fieldDescription>
-	</field>
-	<field name="periodo" class="java.util.Date">
-		<fieldDescription><![CDATA[periodo]]></fieldDescription>
-	</field>
-	<field name="manutencao" class="br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao">
-		<fieldDescription><![CDATA[manutencao]]></fieldDescription>
-	</field>
-	<field name="itemManutencao" class="br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao">
-		<fieldDescription><![CDATA[itemManutencao]]></fieldDescription>
-	</field>
-	<field name="duracaoManutencao" class="java.util.Date">
-		<fieldDescription><![CDATA[duracaoManutencao]]></fieldDescription>
-	</field>
+	<field name="nm_ug" class="java.lang.String"/>
+	<field name="placa" class="java.lang.String"/>
+	<field name="descmodelo" class="java.lang.String"/>
+	<field name="codreqmanutencao" class="java.lang.Integer"/>
 	<group name="Orgao">
-		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
+		<groupExpression><![CDATA[$F{nm_ug}]]></groupExpression>
 		<groupHeader>
-			<band height="38">
+			<band height="19">
+				<line>
+					<reportElement x="0" y="17" width="802" height="1" forecolor="#990000"/>
+				</line>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="21" width="95" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement x="0" y="1" width="61" height="15"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Orgão:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="61" y="2" width="252" height="15" printWhenGroupChanges="Orgao"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nm_ug}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="veiculos" keepTogether="true">
+		<groupExpression><![CDATA[$F{placa}]]></groupExpression>
+		<groupHeader>
+			<band height="51">
+				<staticText>
+					<reportElement x="0" y="0" width="61" height="15"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Veículo:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="123" y="1" width="17" height="14"/>
+					<textElement textAlignment="Justified"/>
+					<text><![CDATA[-]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="63" y="1" width="45" height="14" printWhenGroupChanges="veiculos"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{placa}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="146" y="1" width="137" height="14" printWhenGroupChanges="veiculos"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{descmodelo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="18" width="157" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Placa]]></text>
+					<text><![CDATA[Oficina]]></text>
 				</staticText>
+				<line>
+					<reportElement x="0" y="33" width="802" height="1" forecolor="#990000"/>
+				</line>
+				<line>
+					<reportElement x="0" y="16" width="802" height="1" forecolor="#990000"/>
+				</line>
 				<staticText>
-					<reportElement mode="Opaque" x="97" y="21" width="171" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="681" y="18" width="120" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Modelo]]></text>
+					<text><![CDATA[Data/hora retorno]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="430" y="21" width="115" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="602" y="18" width="77" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Data/Hora saída]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="547" y="21" width="123" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="159" y="18" width="168" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Data/hora retorno]]></text>
+					<text><![CDATA[Tipo de serviço]]></text>
 				</staticText>
-				<line>
-					<reportElement x="0" y="19" width="802" height="1" forecolor="#990000"/>
-				</line>
-				<line>
-					<reportElement x="0" y="36" width="802" height="1" forecolor="#990000"/>
-				</line>
-				<line>
-					<reportElement x="0" y="1" width="802" height="1" forecolor="#990000"/>
-				</line>
+				<subreport>
+					<reportElement style="zebrado" x="1" y="36" width="800" height="12"/>
+					<subreportParameter name="manutencao_id">
+						<subreportParameterExpression><![CDATA[$F{codreqmanutencao}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "relatorioHistoricoVeiculoManutencao_itens.jasper"]]></subreportExpression>
+				</subreport>
 				<staticText>
-					<reportElement mode="Opaque" x="271" y="21" width="157" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="329" y="18" width="85" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Oficina]]></text>
+					<text><![CDATA[Quantidade]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="672" y="21" width="129" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="415" y="18" width="85" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Tempo manutenção]]></text>
+					<text><![CDATA[Valor Unit]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="2" width="61" height="15"/>
-					<textElement>
-						<font size="11" isBold="true"/>
+					<reportElement mode="Opaque" x="501" y="18" width="100" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Orgão:]]></text>
+					<text><![CDATA[Valor Unit]]></text>
 				</staticText>
-				<textField isBlankWhenNull="true">
-					<reportElement x="61" y="2" width="251" height="15"/>
-					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
-				</textField>
 			</band>
 		</groupHeader>
 	</group>
@@ -102,7 +157,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="83" splitType="Stretch">
+		<band height="82" splitType="Stretch">
 			<image>
 				<reportElement x="1" y="4" width="245" height="74" forecolor="#000000" backcolor="#FFFFFF"/>
 				<imageExpression class="java.lang.String"><![CDATA[$P{IMAGEM_URI}+"fortaleza-bela.gif"]]></imageExpression>
@@ -168,42 +223,8 @@
 			</line>
 		</band>
 	</pageHeader>
-	<columnHeader>
-		<band height="5" splitType="Stretch"/>
-	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="0" y="0" width="95" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="96" y="0" width="172" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="271" y="0" width="157" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{manutencao}.getOficina().getNome()]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="430" y="0" width="115" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{manutencao}.getDataSaida()]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="547" y="0" width="123" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{manutencao}.getDataRetorno()]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="HH:mm" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="671" y="0" width="130" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{duracaoManutencao}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="12" splitType="Stretch"/>
 	</detail>
 	<columnFooter>
 		<band splitType="Stretch"/>
