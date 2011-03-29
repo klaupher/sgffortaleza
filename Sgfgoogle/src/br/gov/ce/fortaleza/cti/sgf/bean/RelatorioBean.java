@@ -1001,7 +1001,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
-		RelatorioDTO relatorio = new RelatorioDTO();
 		this.entities = new ArrayList<RelatorioDTO>();
 		this.result = new ArrayList<RelatorioDTO>();
 		
@@ -1017,9 +1016,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			orgaos = manutencaoService.findUgsByManutencao(this.orgao.getId(), this.veiculo.getId(), this.dtInicial, this.dtFinal);
 		}
 		
-		relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-		
 		for (UG ug : orgaos) {
+			RelatorioDTO relatorio = new RelatorioDTO();
+			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
 			relatorio.setOrgao(ug);
 			List<Veiculo> veiculos = manutencaoService.findVeiculosUGByManutencao(ug.getId(), null, this.dtInicial, this.dtFinal);
 			ug.setVeiculos(veiculos);
