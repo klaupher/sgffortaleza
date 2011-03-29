@@ -148,7 +148,7 @@ public class SgfUtil{
 	
 	public static synchronized String sendMailToUser(String mail, User user) throws Exception{
 		String msg = "Sr. " + user.getPessoa().getNome() + "\n seu login atual é " + 
-		user.getLogin() + "\n sua senha atual é:" + user.getPassword();
+		user.getLogin() + "\n sua senha atual �:" + user.getPassword();
 		return MailUtil.sendEmail(mail, "recuperação de login e senha", msg);
 	}
 }

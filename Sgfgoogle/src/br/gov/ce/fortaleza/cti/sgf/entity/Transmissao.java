@@ -31,32 +31,32 @@ public class Transmissao implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="CODTRANSMISSAO", nullable = false)
+	@Column(name="CODTRANSMISSAO")
 	private Long id;
 
 
 	@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
-	@Column(name = "GEOM", nullable = false)
+	@Column(name = "GEOMPONTO", nullable = false)
 	private Geometry geometry;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DAT_TRANSMISSAO", nullable = false)
+	@Column(name="DATA_TRANSMISSAO", nullable = false)
 	private Date dataTransmissao;
 
-	@Column(name="DISTANCIA_PONTOPROX")
+	@Column(name="DIST_PONTO")
 	private Float distancia;
 
 	@Column(name="VELOCIDADE")
 	private Float velocidade;
 	
-	@Column(name="IGNICAO")
-	private Boolean ignicao;
-
 	@Column(name="TEMPERATURA")
 	private Float temperatura;
 
 	@Column(name="ODOMETRO")
 	private Float odometro;
+	
+	@Column(name="STA_IGNICAO")
+	private Boolean ignicao;
 
 	@Column(name="CODVEICULO")
 	private Integer veiculoId;

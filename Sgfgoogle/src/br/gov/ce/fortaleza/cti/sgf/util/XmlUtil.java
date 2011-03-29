@@ -1,4 +1,4 @@
-package br.gov.ce.fortaleza.cti.sgf.webservice;
+package br.gov.ce.fortaleza.cti.sgf.util;
 
 import java.io.StringReader;
 import java.util.List;
@@ -15,7 +15,6 @@ public class XmlUtil {
 	public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
 
 	public static Element parse(String xml) {
-
 		try {
 			SAXReader sb = new SAXReader();
 			Document document = sb.read(new StringReader(xml));
@@ -26,7 +25,6 @@ public class XmlUtil {
 	}
 
 	public static List<Element> retrieveElements(Element element, String path) {
-
 		if (element != null) {
 			XPath xpathSelector = DocumentHelper.createXPath(path);
 			return xpathSelector.selectNodes(element);

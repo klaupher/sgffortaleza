@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.VelocityUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.XmlUtil;
 
 public class RastreamentoService {
 
@@ -497,30 +498,6 @@ public class RastreamentoService {
 
 	private static String getMacAddress() {
 		String result = "00-1C-C0-EA-92-26";
-		//try {
-			//InetAddress address = InetAddress.getLocalHost();
-
-			/*
-			 * Get NetworkInterface for the current host and then read the
-			 * hardware address.
-			 */
-			//NetworkInterface ni = NetworkInterface.getByInetAddress(address);
-			//byte[] mac = ni.getHardwareAddress();
-
-			/*
-			 * Extract each array of mac address and convert it to hexa with the
-			 * following format 08-00-27-DC-4A-9E.
-			 */
-			//for (int i = 0; i < mac.length; i++) {
-				//result += String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : "");
-			//}
-
-			//result = out.toString();
-		//} catch (UnknownHostException e) {
-		//	logger.error(e.getMessage(), e);
-		//} catch (SocketException e) {
-			//logger.error(e.getMessage(), e);
-		//}
 		return result;
 	}
 
