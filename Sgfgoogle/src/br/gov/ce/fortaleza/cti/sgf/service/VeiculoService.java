@@ -231,7 +231,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v where v.status > :st");
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status > :st");
 			query.setParameter("st", -1);
 			result = query.getResultList();
 		} else {

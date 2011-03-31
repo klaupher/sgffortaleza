@@ -150,14 +150,14 @@ import org.postgis.Geometry;
 	private List<RequisicaoManutencao> manutencoes; 
 
 	@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
-	@Column(name = "GEOM", table = "TB_ULTIMATRANSMISSAO")
+	@Column(name = "GEOMPONTO", table = "TB_ULTIMATRANSMISSAO")
 	private Geometry geometry;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DAT_TRANSMISSAO", table = "TB_ULTIMATRANSMISSAO")
+	@Column(name="DATA_TRANSMISSAO", table = "TB_ULTIMATRANSMISSAO")
 	private Date dataTransmissao;
 
-	@Column(name="DISTANCIA_PONTOPROX", table = "TB_ULTIMATRANSMISSAO")
+	@Column(name="DIST_PONTO", table = "TB_ULTIMATRANSMISSAO")
 	private Float distancia;
 
 	@Column(name="VELOCIDADE", table = "TB_ULTIMATRANSMISSAO")
@@ -173,7 +173,7 @@ import org.postgis.Geometry;
 	private Boolean ignicao;
 
 	@ManyToOne
-	@JoinColumn(name="CODPONTOPROX", table = "TB_ULTIMATRANSMISSAO")
+	@JoinColumn(name="CODPONTO", table = "TB_ULTIMATRANSMISSAO")
 	private Ponto pontoProximo;
 	
 	@ManyToMany(fetch=FetchType.LAZY)

@@ -13,7 +13,7 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 	
 	<div id="topo">
-    	<img src="../images/fortaleza-bela.gif" alt="Logo da Administração" width="250" height="80" />
+    	<img src="../images/fortaleza-bela.gif" alt="Logo da PMF" width="250" height="80" />
     	<h1>Sistema de Gestão de Frotas - SGF</h1>
     	<h2><h:outputText value="#{msg['sistema.label.prefeitura']}"/></h2>
    	</div>
@@ -142,7 +142,7 @@
 			<rich:dropDownMenu  rendered="#{false}">
 				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>  <!-- Tela de monitoramento de veículos -->
-				<rich:menuItem value="Pontos" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>
+				<rich:menuItem value="Visualiar mapa" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>
 				<rich:menuItem value="Áreas" action="#{areaBean.search}"  rendered="#{controlBean.administrador}" oncomplete="loadMaps();" immediate="true"/>
 			</rich:dropDownMenu>
 

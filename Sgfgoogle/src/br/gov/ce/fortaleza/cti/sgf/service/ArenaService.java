@@ -20,6 +20,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.XmlUtil;
 
 public class ArenaService {
 	
+	public static Integer CODVEICULO_TESTE = 19;
 	public static final Logger log = Logger.getLogger(ArenaService.class);
 
 	private HttpClient client;
@@ -40,10 +41,10 @@ public class ArenaService {
 		xml.append("</USER>");
 		String result = connection.requestHttpService("login", xml.toString());
 		if (result != null && result.contains("ERROR")) {
-			log.info("Erro de autenticação...");
+			log.info("Autenticação: ERROR ...");
 			return null;
 		}
-		log.info("Autenticação OK...");
+		log.info("Autenticação: OK...");
 		return connection;
 	}
 
@@ -92,8 +93,6 @@ public class ArenaService {
 			xml.append("</USER>");
 			requestHttpService("login", xml.toString());
 			throw new RuntimeException(result);
-		} else {
-			System.out.println("Veículo " + id + " OK");
 		}
 
 		Element root = XmlUtil.parse(result);
@@ -103,11 +102,13 @@ public class ArenaService {
 			List<Element> positions = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE[ID = " + element.elementText("ID") + "]/POSITION");
 			for (Element position : positions) {
 				Transmissao t = new Transmissao();
-				t.setVeiculoId(19);
+				t.setVeiculoId(CODVEICULO_TESTE);
 				t.setIgnicao(position.elementText("IGNITION").equals("0") ? false : true);
 				t.setVelocidade(Float.valueOf(position.elementText("VEL")));
-				t.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
+				t.setX(Double.valueOf(position.elementText("X")));
+				t.setY(Double.valueOf(position.elementText("Y")));
 				t.setGeometry(new Point(Double.valueOf(position.elementText("X")), Double.valueOf(position.elementText("X"))));
+				t.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
 				transmissoes.add(t);
 			}
 		}
@@ -170,12 +171,13 @@ public class ArenaService {
 	for (Element element : elements) {
 			List<Element> positions = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE[ID = " + element.elementText("ID") + "]/POSITION");
 			for (Element position : positions) {
-				Transmissao transmissao = new Transmissao();
-				transmissao.setVeiculoId(Integer.valueOf(position.elementText("ID")));
-				transmissao.setIgnicao(position.elementText("IGNITION").equals("0") ? false : true);
-				transmissao.setVelocidade(Float.valueOf(position.elementText("VEL")));
-				transmissao.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
-				transmissoes.add(transmissao);
+				Transmissao t = new Transmissao();
+				t.setVeiculoId(Integer.valueOf(position.elementText("ID")));
+				t.setIgnicao(position.elementText("IGNITION").equals("0") ? false : true);
+				t.setVelocidade(Float.valueOf(position.elementText("VEL")));
+				t.setOdometro(Float.valueOf(position.elementText("VEL")));
+				t.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
+				transmissoes.add(t);
 			}
 		}
 

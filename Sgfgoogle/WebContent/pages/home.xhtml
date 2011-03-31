@@ -298,20 +298,14 @@
 				</c:if>
 		
 				<c:if test="#{controlBean.monitoramentoBean}">
-					<c:if test="#{monitoramentoBean.saveState}">
-						<ui:include src="cadastros/commons/monitoramento.xhtml" />
+					<c:if test="#{monitoramentoBean.searchState}">
+						<ui:include src="commons/monitoramento.xhtml" />
 					</c:if>
 				</c:if>
 		
 				<c:if test="#{controlBean.messageBean}">
 					<c:if test="#{messageBean.searchState}">
 						<ui:include src="cadastros/messages/messageList.xhtml" />
-					</c:if>
-				</c:if>
-		
-				<c:if test="#{controlBean.mapUtilBean}">
-					<c:if test="#{mapUtilBean.searchAddress}">
-						<ui:include src="util/mapUtil.xhtml" />
 					</c:if>
 				</c:if>
 				

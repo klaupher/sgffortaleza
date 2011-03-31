@@ -88,7 +88,7 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 		if(this.veiculo != null){
 			Veiculo v = veiculoService.retrieve(veiculo.getId());
 			Date current = new Date();
-			List<Transmissao> transmissoes = transmissaoService.findByVeiculo(veiculo.getId(), DateUtil.adicionarOuDiminuir(current, -DateUtil.DAY_IN_MILLIS), current);
+			List<Transmissao> transmissoes = transmissaoService.findByVeiculo(veiculo.getId(), DateUtil.adicionarOuDiminuir(current, -5*DateUtil.DAY_IN_MILLIS), current);
 			if(transmissoes.size() > 0){
 				for (Transmissao transmissao : transmissoes) {
 					Float vel = transmissao.getVelocidade() == null ? 0F : transmissao.getVelocidade();

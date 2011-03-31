@@ -76,6 +76,8 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 		}
 		this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
 		this.interval = 2000000;
+		setCurrentBean(MonitoramentoBean.class.getSimpleName());
+		setCurrentState(SEARCH);
 		return SUCCESS;
 	}
 

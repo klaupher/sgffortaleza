@@ -15,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.postgis.Geometry;
@@ -22,8 +23,10 @@ import org.postgis.Geometry;
 @Entity
 @Table(name="TB_TRANSMISSAO", schema = "SGF")
 @NamedQueries({
-	@NamedQuery(name = "Transmissao.findByVeiculo", query = "SELECT p FROM Transmissao p WHERE p.veiculoId = ?  AND p.dataTransmissao between ? AND ? ORDER BY p.dataTransmissao desc"),
-	@NamedQuery(name = "Transmissao.findByVeiculoVelocidade",	query = "SELECT p FROM Transmissao p WHERE p.ponto.id != 0 AND p.veiculoId = ?  AND p.dataTransmissao between ? AND ? AND p.velocidade >= ? ORDER BY p.dataTransmissao")
+	@NamedQuery(name = "Transmissao.findByVeiculo", query = "SELECT p FROM Transmissao p WHERE p.veiculoId = ?  AND " +
+			"p.dataTransmissao between ? AND ? ORDER BY p.dataTransmissao desc"),
+	@NamedQuery(name = "Transmissao.findByVeiculoVelocidade",	query = "SELECT p FROM Transmissao p WHERE p.ponto.id != 0 AND " +
+			"p.veiculoId = ?  AND p.dataTransmissao between ? AND ? AND p.velocidade >= ? ORDER BY p.dataTransmissao")
 })
 public class Transmissao implements Serializable {
 
@@ -64,6 +67,12 @@ public class Transmissao implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="CODPONTO")
 	private Ponto ponto;
+	
+	@Transient
+	private Double x;
+	
+	@Transient
+	private Double y;
 
 	public Long getId() {
 		return id;
@@ -143,6 +152,22 @@ public class Transmissao implements Serializable {
 
 	public void setIgnicao(Boolean ignicao) {
 		this.ignicao = ignicao;
+	}
+
+	public Double getX() {
+		return x;
+	}
+
+	public void setX(Double x) {
+		this.x = x;
+	}
+
+	public Double getY() {
+		return y;
+	}
+
+	public void setY(Double y) {
+		this.y = y;
 	}
 
 	public int hashCode() {
