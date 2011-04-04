@@ -10,6 +10,9 @@ import java.util.Map;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.postgis.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +23,14 @@ import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.PontoDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.PontoDTO;
 
 @Repository
 @Transactional
 public class VeiculoService extends BaseService<Integer, Veiculo>{
+	
+	private static final Log logger = LogFactory.getLog(VeiculoService.class);
 
 	@Autowired
 	private TransmissaoService transmissaoService;
@@ -97,11 +102,12 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 //		return result;
 //	}
 //
-//	@SuppressWarnings("unchecked")
-//	public List<Veiculo> findByUGPCR(String ugId, String p, String c, String r){
-//		List<Veiculo> result = executeResultListGenericQuery("findByUGPCR", ugId, p, c, r);
-//		return result;
-//	}
+	@SuppressWarnings("unchecked")
+	public List<Integer> retrieveIdsVeiculos(){
+		Query query = entityManager.createQuery("SELECT v.id FROM Veiculo WHERE v.dataTransmissao != null");
+		List<Integer> result = query.getResultList();
+		return result;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findByOrgaoPlacaChassiRenavam(String orgaoId, String placa, String chassi, String renavam){
@@ -231,7 +237,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status > :st");
+			query = entityManager.createQuery("select v from Veiculo v where  v.status > :st");
 			query.setParameter("st", -1);
 			result = query.getResultList();
 		} else {
@@ -242,9 +248,29 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Veiculo> veiculosRastreados(){
+		Query query = null;
+		List<Veiculo> result = null;
+		User user = SgfUtil.usuarioLogado();
+		if(SgfUtil.isAdministrador(user)){
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status > :st");
+			query.setParameter("st", -1);
+			result = query.getResultList();
+		} else {
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and v.ua.ug.id = :ug and v.status != :st");
+			query.setParameter("ug", user.getPessoa().getUa().getUg().getId());
+			query.setParameter("st", -1);
+			result = query.getResultList();
+		}
+		return result;
+	}
 
 	/**
-	 * Método quer gera as últimas transmissões dos veículos, configuradas para mostrar na tela de monitoramento
+	 * Método quer gera as últimas transmissões dos veículos que possuem rastreamento. As informações serão
+	 * mostradad na tela de monitoramento
 	 * @param veiculos
 	 * @param exibirPontos
 	 * @param velocidadeMaxima
@@ -252,7 +278,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public List<PontoDTO> searchPontosMonitoramento(List<Veiculo> veiculos, boolean exibirPontos, Float velocidadeMaxima, Date init) {
+	public List<PontoDTO> searchPontosMonitoramento(List<Veiculo> veiculos, boolean exibirPontos, boolean exibirRastro, Float velocidadeMaxima, Date init) {
 
 		Map<Integer, List<Transmissao>> mapTransmissoes = null;
 		List<Integer> veiculoIds = new ArrayList<Integer>();
@@ -261,7 +287,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 
 		if (exibirPontos) {
-			Date end = DateUtil.getDateEndDay();
+			Date end = DateUtil.getDateNow();
 			mapTransmissoes  = transmissaoService.findByVeiculoList(veiculoIds, init, end);
 		}
 
@@ -272,66 +298,74 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 			for (Veiculo veiculo : veiculos) {
 				if (veiculo.getDataTransmissao() != null) {
 					PontoDTO m = new PontoDTO();
-
 					try {
 						m.setId(veiculo.getId());
 						m.setNome(veiculo.getModelo().getDescricao().replace("|", ":"));
 						m.setPlaca(veiculo.getPlaca());
 						m.setVelocidade(veiculo.getVelocidade());
-						m.setOdometro(veiculo.getOdometro());
+						m.setOdometro(veiculo.getOdometro() != null ? veiculo.getOdometro() : 0);
+						
 						Float kmAtual = veiculo.getOdometro() == null ? 0f: veiculo.getOdometro();
 						m.setKmAtual(kmAtual);
 						m.setDataTransmissao(veiculo.getDataTransmissao());
+						
 						String pontoNome = veiculo.getPontoProximo() == null ? "" : veiculo.getPontoProximo().getDescricao();
-						m.setPontoMaisProximo(pontoNome);
-						m.setDistPontoMaisProximo(veiculo.getDistancia());
+						m.setPontoProximo(pontoNome);
+						m.setDistPontoProximo(veiculo.getDistancia() != null ? veiculo.getDistancia() : 0);
+						
 						String marcaDescricao = veiculo.getModelo() == null ? "" : veiculo.getModelo().getMarca().getDescricao();
 						m.setMarca(marcaDescricao);
 						m.setCor(veiculo.getCor());
+						
 						String modeloDescricao = veiculo.getModelo() == null ? "" : veiculo.getModelo().getDescricao();
 						m.setModelo(modeloDescricao);
 						m.setAno(veiculo.getAnoFabricacao());
+						if(veiculo.getIgnicao() != null){
+							m.setIgnicao(veiculo.getIgnicao());
+						}
+						if (veiculo.getGeometry() != null) {
+							m.setLng((float) ((Point)veiculo.getGeometry()).x);
+							m.setLat((float) ((Point)veiculo.getGeometry()).y);
+						}
+						
+						if (exibirPontos) {
 
-					} catch (Exception e) {
-						//logger.error(e.getMessage(), e);
-					}
+							m.setVelocidadeMaxima(velocidadeMaxima);
 
-					if (veiculo.getGeometry() != null) {
-						//m.setLat((float) ((Point)veiculo.getGeometry()).x);
-						//m.setLng((float) ((Point)veiculo.getGeometry()).y);
-					}
+							List<PontoDTO> rastro = new ArrayList<PontoDTO>();
+							List<Transmissao> historicoTransmissoes = mapTransmissoes.get(veiculo.getId());
 
-					if (exibirPontos) {
-						m.setVelocidadeMaxima(velocidadeMaxima);
-						List<PontoDTO> rastro = new ArrayList<PontoDTO>();
-						List<Transmissao> historicoTransmissoes = mapTransmissoes.get(veiculo.getId());
+							if (historicoTransmissoes != null && historicoTransmissoes.size() > 0) {
 
-						if (historicoTransmissoes != null && historicoTransmissoes.size() > 0) {
-							for (Transmissao transmissao : historicoTransmissoes) {
-								try {
-									PontoDTO ponto = new PontoDTO();
-									ponto.setNome(veiculo.getModelo().getDescricao());
-									ponto.setPlaca(veiculo.getPlaca());
-									ponto.setPontoMaisProximo(transmissao.getPonto().getDescricao());
-									ponto.setDistPontoMaisProximo(transmissao.getDistancia());
-									ponto.setVelocidade(transmissao.getVelocidade());
-									ponto.setDataTransmissao(transmissao.getDataTransmissao());
-									//ponto.setLat((float) transmissao.getGeometry().getX());
-									//ponto.setLng((float) transmissao.getGeometry().getY());
-									//ponto.setLat((float) ((Point)veiculo.getGeometry()).x);
-									//ponto.setLng((float) ((Point)veiculo.getGeometry()).y);
-									ponto.setVelocidadeMaxima(velocidadeMaxima);
-									rastro.add(ponto);
-								} catch (Exception e) {
-									//logger.error(e.getMessage(), e);
+								for (Transmissao t : historicoTransmissoes) {
+
+									try {
+										PontoDTO pdto = new PontoDTO();
+										pdto.setNome("" + veiculo.getId());
+										pdto.setPlaca(veiculo.getPlaca());
+										pdto.setPontoProximo(t.getPonto().getDescricao());
+										pdto.setDistPontoProximo(t.getDistancia());
+										pdto.setVelocidade(t.getVelocidade());
+										pdto.setDataTransmissao(t.getDataTransmissao());
+										pdto.setLng((float) ((Point)veiculo.getGeometry()).x);
+										pdto.setLat((float) ((Point)veiculo.getGeometry()).y);
+										pdto.setVelocidadeMaxima(velocidadeMaxima);
+										rastro.add(pdto);
+									} catch (Exception e) {
+										logger.error(e.getMessage(), e);
+									}
 								}
 							}
-						}
-						m.setRastro(rastro);
-					}
 
-					m.setIndex(k++);
-					pontos.add(m);
+							m.setRastro(rastro);
+						}
+						
+						m.setIndex(k++);
+						pontos.add(m);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 

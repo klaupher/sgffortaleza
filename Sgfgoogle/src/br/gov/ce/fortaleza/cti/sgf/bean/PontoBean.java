@@ -21,8 +21,8 @@ import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.MapUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.PontoDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.PontoDTO;
 
 
 @Scope("session")
@@ -51,6 +51,7 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 	private List<PontoDTO> pontos;
 	private List<Veiculo> veiculos;
 	private String geoms = new String("");
+	private String veiculosPontos;
 	private boolean show = false;
 	private Veiculo veiculo;
 	private String route = new String("");
@@ -72,23 +73,18 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 		return ponto;
 	}
 
-	@Override
-	public String search(){
-		this.geoms = new String("");
-		String result = mostrarVeiculoMap();
-		setCurrentBean(currentBeanName());
-		setCurrentState(SEARCH);
-		this.timeReload = 12000;
-		return result;
-	}
-
+	/**
+	 * monta uma string de saida para cosntrução da rota de uma veículo
+	 * @return
+	 */
 	public String mostrarRotaVeiculo(){
 		this.reload = false;
-		this.route = "";
+		String tmp = "";
 		if(this.veiculo != null){
 			Veiculo v = veiculoService.retrieve(veiculo.getId());
 			Date current = new Date();
-			List<Transmissao> transmissoes = transmissaoService.findByVeiculo(veiculo.getId(), DateUtil.adicionarOuDiminuir(current, -5*DateUtil.DAY_IN_MILLIS), current);
+			Date initialDate = DateUtil.adicionarOuDiminuir(current, -8*DateUtil.HOUR_IN_MILLIS); // dimuinui 4 horas
+			List<Transmissao> transmissoes = transmissaoService.findByVeiculo(veiculo.getId(), initialDate, current);
 			if(transmissoes.size() > 0){
 				for (Transmissao transmissao : transmissoes) {
 					Float vel = transmissao.getVelocidade() == null ? 0F : transmissao.getVelocidade();
@@ -96,10 +92,10 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 					Double x = ((Point)transmissao.getGeometry()).x;
 					Double y = ((Point)transmissao.getGeometry()).y;
 					String placa = v.getPlaca();
-					String pprox = transmissao.getPonto() == null ? "--" : transmissao.getPonto().getDescricao();
+					String pprox = transmissao.getPonto() != null ? transmissao.getPonto().getDescricao() : "";
 					Float dist = transmissao.getDistancia() == null ? 0F : transmissao.getDistancia();
-					this.route += x + "#%" + y + "#%" + transmissao.getVeiculoId() + "#%" +  placa + "#%" + vel + "#%" + odometro + 
-					"#%" + pprox + "#%" + dist + "#%" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "$*@";
+					tmp += y + "#%" + x + "#%" + transmissao.getVeiculoId() + "#%" +  placa + "#%" + vel + "#%" + odometro + 
+					"#%" + pprox + "#%" + dist + "#%" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "$####";
 				}
 			} else {
 				JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.sem.rota");
@@ -108,16 +104,20 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 		} else {
 			return FAIL;
 		}
+		this.route = tmp;
 		return SUCCESS;
 	}
 
-	public String mostrarVeiculoMap(){
-		this.reload = true;
+	/**
+	 * construi uma string de saída com o posicionamentos dos veículos para visualização dos veículos no mapa
+	 * @return
+	 */
+	public String mostrarVeiculosMapa(){
 		this.veiculos = new ArrayList<Veiculo>();
 		this.geoms = new String("");
 		if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
-			this.veiculos = veiculoService.veiculos();
-			this.geoms = MapUtil.parseVeiculosMap(this.veiculos);
+			this.veiculos = veiculoService.veiculosRastreados();
+			this.geoms = MapUtil.parseVeiculosMap(this.veiculos);   
 		} else if(this.veiculo == null){
 			this.veiculos = veiculoService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg());
 			this.geoms = MapUtil.parseVeiculosMap(this.veiculos);
@@ -282,4 +282,21 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 	public void setOdometro(Float odometro) {
 		this.odometro = odometro;
 	}
+
+	public List<Veiculo> getVeiculos() {
+		return veiculos;
+	}
+
+	public void setVeiculos(List<Veiculo> veiculos) {
+		this.veiculos = veiculos;
+	}
+
+	public String getVeiculosPontos() {
+		return veiculosPontos;
+	}
+
+	public void setVeiculosPontos(String veiculosPontos) {
+		this.veiculosPontos = veiculosPontos;
+	}
+	
 }

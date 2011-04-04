@@ -46,7 +46,6 @@ function loadMaps() {
 				var p = points[j].split('#%');
 				var mark = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], true);
 				map.addOverlay(mark);
-				//getCirclePoints(new GLatLng(p[0], p[1]), 0.2);
 			}
 		}
 	}
@@ -56,20 +55,25 @@ function showVeiculoRoute(){
 	map.clearOverlays();
 	createMapPoints();
 	var elem = document.getElementById('vehicleRoute').value;
-	var points = elem.split('$*@');
+	var points = elem.split('$####');
 	var markers = new Array();
 	var polyline;
+	var param = 1;
 	for (var j = 0; j < points.length; j++) {
 		var p = points[j].split('#%');
-		if(p[0]){
+		if(p[0] && p[1]){
 			var marker = new GLatLng(p[0], p[1]);
-			var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], false);
+			if(j == 0) {
+				param = 2
+			} else {param = 1};
+			var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], false, param);
 			markers.push(marker);
 			map.addOverlay(markerPoint);
 		}
 	}
 	polyline = new GPolyline(markers);
 	map.addOverlay(polyline);
+	calculateBoundsRoute(markers);
 }
 
 function showAddress() {
@@ -98,35 +102,31 @@ function getAddress(overlay, latlng) {
 
 /*
  */
-function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist,dataHora, markerOption) {
-	var markerIcon = createIcon();
+function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist,dataHora, markerOption, param) {
+	var markerIcon = createIcon(param);
 	var markerOptions = { icon:markerIcon };
 	var marker;
-	if(markerOption){
-		marker = new GMarker(new GLatLng(lat, lng), markerOptions);
-	} else {
-		marker = new GMarker(new GLatLng(lat, lng));
-	}
+	marker = new GMarker(new GLatLng(lat, lng), markerOptions);
 	GEvent.addListener(marker, "click", function() {
-		getCirclePoints(new GLatLng(lat, lng), 0.2);
-		var html = "<table style='width:230px'>" +
+	var html = "<table style='width:230px'>" +
 				"<td>Veiculo: <b>" + modelo + 
 				"</b><br/>Placa:<b>" + placa + 
-				"</b><br/>Km Atual:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
-				"</b><br/>Veloc:<b> " +  velocidade.substring(0, velocidade.length-2).replace(".", ",") +  "(Km/h)"+
-				"</b><br/>Ponto próx:<b>" + pprox + 
-				"</b><br/>Dist. Ponto Próx:<b>" + dist.substring(0, dist.length-2) + "(m)" +
-				"</b><br/>Data/Hora:<b>" + dataHora + 
-				"</b></td></tr></table><br/>";
+				"</b><br/>Velocimetro:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
+				"</b><br/>Velocidade:<b> " +  velocidade.substring(0, velocidade.length-2).replace(".", ",") +  "(Km/h)"+
+				"</b><br/>Ponto referência.:<b>" + pprox + 
+				"</b><br/>Dist. referência:<b>" + dist.substring(0, dist.length-2) + "(m)" +
+				"</b><br/>Data/Hora transmissão:<b>" + dataHora + 
+				"</b></td></tr>" +
+				"</table><br/>";
 		marker.openInfoWindowHtml(html);
 	});
 	return marker;
 }
 
-function createIcon() {
+function createIcon(param) {
 	var icon = new GIcon();
-	icon.image = "../images/cars/car.png";
-	icon.iconSize = new GSize(32, 32);
+	icon.image = "../images/cars/car"+ param +".png";
+	icon.iconSize = new GSize(20, 20);
 	icon.iconAnchor = new GPoint(16, 16);
 	icon.infoWindowAnchor = new GPoint(16, 16);
 	return icon;
@@ -134,7 +134,6 @@ function createIcon() {
 
 function createMapPoints(){
 	map = new google.maps.Map2(document.getElementById("mapp"), {draggableCursor:"crosshair"});
-//	map = new GMap2(document.getElementById("mapp"), {draggableCursor:"crosshair"});
 	map.setCenter(new GLatLng(-3.7325370241018394, -38.51085662841797), 14);
 	map.addControl(new GMapTypeControl());
 	map.addControl(new GSmallMapControl());
@@ -263,6 +262,18 @@ function calculateBoundsRoute(){
 			var mbr = new GLatLngBounds();
 			for(var i = 0; i < markerRoute.length; i++) {
 				mbr.extend(markerRoute[i]);
+			}
+			map.setCenter(mbr.getCenter(), map.getBoundsZoomLevel(mbr));
+		}
+	}
+}
+
+function calculateBoundsRoute(markers){
+	if(markers){
+		if (markers.length > 0) {
+			var mbr = new GLatLngBounds();
+			for(var i = 0; i < markers.length; i++) {
+				mbr.extend(markers[i]);
 			}
 			map.setCenter(mbr.getCenter(), map.getBoundsZoomLevel(mbr));
 		}

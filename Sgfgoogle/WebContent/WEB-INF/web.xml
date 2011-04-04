@@ -4,14 +4,17 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<display-name>SGF - Sistema de Gestão de Frotas</display-name>
+
 	<context-param>
 		<param-name>persistence_unit_name</param-name>
 		<param-value>sgf</param-value>
 	</context-param>
+
 	<context-param>
 		<param-name>properties_file</param-name>
 		<param-value>sgf_relatorios.properties</param-value>
 	</context-param>
+
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>sgf.root</param-value>
@@ -107,20 +110,35 @@
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+
 	<session-config>
 		<session-timeout>15</session-timeout>
 	</session-config>
+
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/error.jsp</location>
 	</error-page>
+	
+	<servlet>
+		<servlet-name>Google Servlet</servlet-name>
+		<servlet-class>br.gov.ce.fortaleza.cti.sgf.servlet.GoogleServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Google Servlet</servlet-name>
+		<url-pattern>/reload</url-pattern>
+	</servlet-mapping>
+
 	<security-constraint>
 		<display-name>Bloqueio de acesso aos arquivos com extenção xhtml</display-name>
 		<web-resource-collection>
@@ -129,7 +147,9 @@
 		</web-resource-collection>
 		<auth-constraint/>
 	</security-constraint>
+
 	<login-config>
 		<auth-method>BASIC</auth-method>
 	</login-config>
+
 </web-app>

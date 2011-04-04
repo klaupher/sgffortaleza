@@ -7,43 +7,29 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:c="http://java.sun.com/jstl/core">
+	
 
 	<a4j:poll id="poolMonitor" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" interval="120000" reRender="m, alert, dataInicio" oncomplete="updateMap()" ajaxSingle="true"/>
 
-	<div id="contentMonitoramento" class="contentMonitoramento" style="display: none;">
+	<div id="cadastro" class="contentMonitoramento">
+	
+		<dl>
+			<dt>
+				<h:outputText styleClass="text" value="Início:"/>
+				<h:inputText id="dataInicio" styleClass="hora" value="${monitoramentoBean.dataInicio}">
+					<f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-03:00"/>
+					<a4j:support action="#{monitoramentoBean.searchMonitoramentoVeiculos}" event="onchange"/>
+				</h:inputText>
 
-		<table class="monitoramentoBar">
-			<tr valign="middle">
-				<td style="padding: 2px;" valign="middle">
-					<h:outputText styleClass="text" value="Hr.Inicio:"/>
-					<h:inputText id="dataInicio" styleClass="hora" value="${monitoramentoBean.dataInicio}">
-						<f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-03:00"/>
-					</h:inputText>
-				</td>
-				<td style="padding: 2px;" valign="middle">
-					<h:outputText styleClass="text" value="Vel:"/>
-					<h:inputText styleClass="vel" value="${monitoramentoBean.velocidadeMaxima}"/>
-					<h:outputText styleClass="text" value="Km/h"/>
-				</td>
+				<h:outputText styleClass="text" value="Vel:"/>
+				<h:inputText styleClass="vel" value="${monitoramentoBean.velocidadeMaxima}"/>
+				<h:outputText styleClass="text" value="Km/h" style="padding-right:50px"/>
 
-				<td style="padding: 2px;" valign="middle">
-					<h:commandLink action="#{monitoramentoBean.downloadGoogleEarthFile}" styleClass="coord">
-						<h:graphicImage url="/images/icons/google-earth.png" width="18px" height="18px" styleClass="coord"/>
-					</h:commandLink>
-				</td>
-			</tr>
-		</table>
-
-		<table class="monitoramentoBar">
-			<tr valign="middle">
-				<td>
-					<h:outputText styleClass="text" value="Busca por veículo: " style="font-size:10pt; font-weight: bold"/>
-					<h:inputText id="Veiculo" value="#{monitoramentoBean.veiculo}" styleClass="hora" style="width:90px; height:15px"/>
-					<a4j:commandButton value="Consultar" action="#{monitoramentoBean.searchMonitoramento}" style="height:19px" styleClass="button" reRender="m, alert, dataInicio" oncomplete="updateMap()"/>
-				</td>
-				<td><h:outputLabel value="Para plotar rotas, focalize o veículo." style="color:green; font-size:10pt"/></td>
-			</tr>
-		</table>
+				<h:commandLink action="#{monitoramentoBean.downloadGoogleEarthFile}" styleClass="coord">
+					<h:graphicImage url="/images/icons/googleearth.png" width="18px" height="18px" styleClass="coord"/>
+				</h:commandLink>
+			</dt>
+		</dl>
 
 		<div id="monitoramentoTable" class="monitoramentoTable">
 
@@ -51,158 +37,55 @@
 
 			<rich:dataTable id="m" value="#{monitoramentoBean.pontosMonitoramento}" var="ponto" style="margin-top: 0px;" rowKeyVar="row">
 
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header">
-
-						<input type="hidden" id="pointsToView" title="Pontos Cliente" value="${monitoramentoBean.pontosMapa}"/>
-
-					</f:facet>
-
-				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}">
-
+				<rich:column width="1%" styleClass="#{ponto.rowColor}">
 					<input type="hidden" id="m:${row}" value="${ponto.dataString}"/>
-
-					<input type="hidden" id="r:${row}" value="${ponto.rastroString}"/>
-
-					<input type="hidden" id="r:${ponto.id}" value="${ponto.rotaVeiculoString}"/>
-
 					<input type="radio" id="m:#{ponto.id}:current" name="m:current" onclick="showAndSelect(#{ponto.id});"/>
-
 				</rich:column>
 
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header"><h:selectBooleanCheckbox id="selectAll" title="Marcar/Desmarcar todos" onclick="showAllOnMap(this.checked)"/></f:facet>
-
-					<h:selectBooleanCheckbox id="select" title="Marcar/Desmarcar" value="${ponto.selecionado}" onclick="showOnMap(#{ponto.id}, this.checked)"/>
-
+				<rich:column width="1%" styleClass="#{ponto.rowColor}">
+					<f:facet name="header"><h:selectBooleanCheckbox id="selectAll" title="Todos" onclick="showAllOnMap(this.checked)"/></f:facet>
+					<h:selectBooleanCheckbox id="select" title="Marcar/Desmarcar" value="${ponto.selecionado}"/>
 				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<h:graphicImage id="tipoVeiculo" url="/images/carros/img#{ponto.tipo}.png" width="24px" height="24px"/>
-
+				
+				<rich:column width="1%" styleClass="#{ponto.rowColor}">
+					<h:graphicImage id="tipoVeiculo" url="/images/cars/car#{1}.png" width="24px" height="24px"/>
 				</rich:column>
+				
+				<rich:column width="40%" styleClass="#{ponto.rowColor}">
 
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header">Descrição</f:facet>
-
-					<h:outputText id="descricaoVeiculo" value="#{ponto.nome}" style="font-weight: bold; color: #000000; font-size: 11px;"/>
-					<br/>
-
-					<h:outputText id="pontoMaisProximoVeiculo" value="#{ponto.pontoMaisProximo} - #{ponto.distPontoMaisProximo}m"/>
-					<br/>
-
-					<h:outputLabel style="font-weight: bold; color: #000000; font-size: 11px; padding-right:5px" rendered="#{ponto.statusOdometro == true}">Km Atual:</h:outputLabel>
-					<h:outputText id="kmAtual" value="#{ponto.kmAtual}" rendered="#{ponto.statusOdometro == true}">
+					<f:facet name="header">Veículo</f:facet>
+					<h:outputText id="placa" value="Placa: #{ponto.placa}" style="font-weight: bold; color: #000000; font-size: 11px;"/><br/>
+					<h:outputText id="modelo" value="Modelo: #{ponto.modelo}" style="font-weight: bold; color: #000000; font-size: 11px;"/><br/>
+					<h:outputText id="hodometro" value="Velocímetro: #{ponto.kmAtual}" style="font-weight: bold; color: #000000; font-size: 11px;">
 						<f:convertNumber maxFractionDigits="1"/>
 					</h:outputText>
-					<c:if test="#{ponto.hasNivelCombustivel == true}">
-					<table id="fuelbar" cellspacing="0" cellpadding="0" border="0" width="160">
-						<tr><td style="padding-right:5px">Combustível</td>
-							<td id="leftbar" height="10" bgcolor="#FF0000" width="#{ponto.percentualCombustivel}%"/>
-							<td id="rightbar" height="10" bgcolor="#E0E0E0" width="#{100 - ponto.percentualCombustivel}%"/>
-						</tr>
-					</table>
-					</c:if>
 
 				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header">we</f:facet>
-
-					<h:outputText value="#{ponto.numeroBloqueioAberto}" rendered="#{ponto.existeBloqueioAberto}" style="font-weight: bold; color: #FF0000; font-size: 12px;"/>
-
-					<h:graphicImage url="/images/icons/combustivel.png" width="20px" height="20px"  rendered="#{ponto.existeBloqueioAberto}"/>
-
+				
+				<rich:column width="3%" styleClass="#{ponto.rowColor}">
+					<f:facet name="header"><h:graphicImage url="/images/icons/velocidade.png" width="20px" height="20px"/></f:facet>
+					<h:outputText value="#{ponto.velocidade}">
+						<f:convertNumber maxFractionDigits="1" maxIntegerDigits="3"/>
+					</h:outputText>
 				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}" rendered="#{monitoramentoBean.quantidadePanico > 0}">
-
-					<f:facet name="header">
-					<h:panelGroup id="alert" layout="block" rendered="#{monitoramentoBean.quantidadePanico > 0}">
-					<c:if test="#{!monitoramentoBean.MSIE}">
-						<object type="audio/wav" data="panico.wav" width="0" height="0"/>
-					</c:if>
-					<c:if test="#{monitoramentoBean.MSIE}">
-						<embed src="panico.wav" autoplay="true" hidden="true" loop="false" />
-						<noembed>
-							<bgsound src="panico.wav" loop="1" />
-						</noembed>
-					</c:if>
-
-					<h:graphicImage url="/images/icons/voitures-05.gif" width="20px" height="18px"  rendered="#{monitoramentoBean.quantidadePanico > 0}"/>
-					</h:panelGroup></f:facet>
-
-					<h:outputText value="#{ponto.numeroPanicoAberto}" rendered="#{ponto.existePanicoAberto}" style="font-weight: bold; color: #FF0000; font-size: 12px;"/>
-
-					<h:graphicImage url="/images/icons/voitures-05.gif" width="20px" height="18px"  rendered="#{ponto.existePanicoAberto}"/>
-
+				
+				<rich:column width="4%" styleClass="#{ponto.rowColor}">
+					<f:facet name="header"><h:graphicImage url="/images/icons/key.png" width="24px" height="24px"/></f:facet>
+					<h:outputText value="ON" rendered="#{ponto.ignicao}"/>
+					<h:outputText value="OFF" rendered="#{!ponto.ignicao}"/>
 				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}" rendered="#{monitoramentoBean.existeMensagemNaoLida}">
-
-					<f:facet name="header"><h:graphicImage url="/images/icons/mail.png" width="24px" height="16px" style="padding-left: 3px; padding-right: 3px;"/></f:facet>
-
-					<h:outputText value="#{ponto.quantidadeMensagemNaoLida}" rendered="#{ponto.existeMensagemNaoLida}" style="font-weight: bold; color: #0000FF; font-size: 12px;"/>
-
-					<h:graphicImage url="/images/icons/mail.png" width="15px" height="10px" rendered="#{ponto.existeMensagemNaoLida}"/>
-
-				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header"><h:graphicImage url="/images/icons/key.png" width="20px" height="20px"/></f:facet>
-
-					<h:graphicImage url="/images/icons/key.png" width="16px" height="16px" rendered="#{ponto.ignicao}" style="padding: 2px 2px;"/>
-
-				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header"><h:graphicImage url="/images/icons/alert.png" width="20px" height="20px"/></f:facet>
-
-					<h:outputText value="#{ponto.numeroOcorrenciasAbertas}" rendered="#{ponto.existeOcorrenciasAbertas and controlBean.monitoramentoOcorrencia}" style="font-weight: bold; color: #FF0000; font-size: 12px;"/>
-
-				</rich:column>
-
-				<rich:column headerClass="headerMonitoramento" styleClass="#{ponto.rowColor}">
-
-					<f:facet name="header"><h:graphicImage url="/images/icons/velocidade.png" width="24px" height="24px"/></f:facet>
-
-					<h:outputText value="#{ponto.velocidade}"><f:convertNumber maxFractionDigits="1" maxIntegerDigits="3"/></h:outputText>
-
-				</rich:column>
-
-				<rich:column headerClass="headerMonitoramento" styleClass="#{ponto.rowColor}" rendered="#{monitoramentoBean.existeTemperatura and controlBean.monitoramentoTemperatura}">
-
-					<f:facet name="header"><h:graphicImage url="/images/icons/thermometer.png" width="24px" height="24px"/></f:facet>
-
-					<h:outputText value="#{ponto.temperatura}" rendered="#{ponto.existeTemperatura}"><f:convertNumber integerOnly="true"/></h:outputText>
-
-					<h:outputText value="ºC" rendered="#{ponto.existeTemperatura}"/>
-
-				</rich:column>
-
-				<rich:column headerClass="headerMonitoramento" styleClass="#{ponto.rowColor}" width="45px">
-
+				
+				<rich:column width="8%" styleClass="#{ponto.rowColor}">
 					<f:facet name="header"><h:graphicImage url="/images/icons/calendar.png" width="24px" height="24px"/></f:facet>
-
-					<h:outputText value="#{ponto.dataTransmissao}"><f:convertDateTime pattern="HH:mm:ss dd/MM/yy" timeZone="GMT-03:00"/></h:outputText>
-
+					<h:outputText value="#{ponto.dataTransmissao}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-03:00"/>
+					</h:outputText>
 				</rich:column>
-
-				<rich:column styleClass="#{ponto.rowColor}"  rendered="#{controlBean.cadastroRota}">
-
-					<h:graphicImage id="routeId" url="/images/icons/tick.png" width="16px" height="16px"  rendered="#{ponto.hasRoute}"/>
-
+				
+				<rich:column styleClass="#{ponto.rowColor}" width="45px">
+					<h:outputText id="pontoprox" value="#{ponto.pontoProximo}(#{ponto.distPontoProximo}m)"/>
 				</rich:column>
-
+				
 				<rich:componentControl event="onRowContextMenu" for="menu" operation="show">
 					<f:param name="id" value="#{ponto.id}"/>
 					<f:param name="nome" value="#{ponto.nome}"/>
@@ -211,116 +94,17 @@
 					<f:param name="modelo" value="#{ponto.modelo}"/>
 					<f:param name="ano" value="#{ponto.ano}"/>
 					<f:param name="cor" value="#{ponto.cor}"/>
-					<f:param name="procedimento" value="#{ponto.procedimentos}"/>
-					<f:param name="nomeResponsavel" value="#{ponto.nomeResponsavel}"/>
-					<f:param name="celularResponsavel" value="#{ponto.celularResponsavel}"/>
-				</rich:componentControl>
+				</rich:componentControl>				
 
 			</rich:dataTable>
 
 		</div>
 
 		<div  id="monitoramentoTableLegend" class="monitoramentoTable">
-
-			<h:graphicImage url="/images/default/aviso_transmissao.JPG" width="100%" height="22"/>
-
+			<h:graphicImage url="/images/aviso_transmissao.JPG" width="70%" height="20"/>
 		</div>
 
-		<rich:contextMenu id="menu" submitMode="ajax" attached="false">
-
-			<rich:menuItem value="Localizar no Mapa" onclick="showAndSelect({id})" submitMode="none" ajaxSingle="true"/>
-
-			<rich:menuItem value="Localizar {nome} no Google Earth" action="#{monitoramentoBean.downloadSelectedGoogleEarthFile}" icon="/images/icons/google-earth.png" submitMode="server">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-
-			<rich:menuSeparator/>
-
-			<rich:menuItem value="Bloquear Veículo" action="#{monitoramentoBean.prepareBloquearVeiculo}" reRender="popup" ajaxSingle="true">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-
-			<rich:menuItem value="Desbloquear Veículo" action="#{monitoramentoBean.prepareDesbloquearVeiculo}" reRender="popup" ajaxSingle="true">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-
-			<rich:menuItem value="Habilitar Escuta" action="#{monitoramentoBean.prepareHabilitarEscuta}" reRender="popup" ajaxSingle="true">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-
-			<rich:menuItem value="Acionar Sirene" action="#{monitoramentoBean.prepareAcionarSirene}" reRender="popup" icon="/images/icons/sound.png" ajaxSingle="true">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-
-			<rich:menuItem value="Desligar Sirene" action="#{monitoramentoBean.prepareDesligarSirene}" reRender="popup" icon="/images/icons/sound-off.png" ajaxSingle="true">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-
-			<rich:menuSeparator/>
-
-			<rich:menuItem value="Detalhes do Veículo"  reRender="popup" ajaxSingle="true" style="font-weight: bold; color: #000000; font-size: 11px;">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="Descrção: {nome}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="Placa: {placa}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="Marca: {marca}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="Modelo: {modelo}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="Cor: {cor}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="Ano: {ano}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuSeparator/>
-
-			<rich:menuItem value="Detalhes do Resposável"  reRender="popup" ajaxSingle="true" style="font-weight: bold; color: #000000; font-size: 11px;">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="{nomeResponsavel}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="{celularResponsavel}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuSeparator/>
-
-			<rich:menuItem value="Procedimentos"  reRender="popup" ajaxSingle="true" style="font-weight: bold; color: #000000; font-size: 11px;">
-
-			</rich:menuItem>
-
-			<rich:menuItem value="{procedimento}"  reRender="popup" ajaxSingle="true">
-
-			</rich:menuItem>
-
-			<rich:menuSeparator/>
-
-			<!--
-			<rich:menuItem value="Enviar Mensagem Texto" action="#{monitoramentoBean.prepareEnviarMsgTexto}" rendered="popup" ajaxSingle="true">
-				<a4j:actionparam assignTo="#{monitoramentoBean.ponto.id}" value="{id}"/>
-			</rich:menuItem>
-			-->
-			<rich:menuSeparator/>
-		</rich:contextMenu>
-
-
 	</div>
+	
 
 </ui:composition>

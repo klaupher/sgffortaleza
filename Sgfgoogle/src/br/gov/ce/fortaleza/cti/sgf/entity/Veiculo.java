@@ -169,7 +169,7 @@ import org.postgis.Geometry;
 	@Column(name="ODOMETRO", table = "TB_ULTIMATRANSMISSAO")
 	private Float odometro;
 	
-	@Column(name="IGNICAO", table = "TB_ULTIMATRANSMISSAO")
+	@Column(name="STA_IGNICAO", table = "TB_ULTIMATRANSMISSAO")
 	private Boolean ignicao;
 
 	@ManyToOne

@@ -64,7 +64,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	}
 	
 	public List<Veiculo> getVeiculos(){
-		return service.veiculos();
+		return service.veiculosRastreados();
 	}
 
 	public List<SelectItem> getVeiculoList(){

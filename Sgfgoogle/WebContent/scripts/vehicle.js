@@ -160,7 +160,7 @@ function createMarker(latlng, modelo, placa, velocidade, odometro, dataHora) {
 	GEvent.addListener(marker, "click", function() {
 		var html = "<table><td>Veiculo: <b>" + 
 		modelo + "</b><br/>Placa:<b>"+ 
-		placa.replace(".",",") + "(m)</b><br/>Odômetro.:<b>" + 
+		placa.replace(".",",") + "(m)</b><br/>OdÃ´metro.:<b>" + 
 		odometro + "</b><br/>Velocidade:<b> " + 
 		velocidade.substring(0, velocidade.length-2).replace(".", ",") + " (Km/h)</b><br/>Data/Hora:<b>" + 
 		dataHora + "</b></td></tr></table>";
@@ -171,8 +171,8 @@ function createMarker(latlng, modelo, placa, velocidade, odometro, dataHora) {
 
 function createIcon() {
 	var icon = new GIcon();
-	icon.image = "../images/cars/car.png";
-	icon.iconSize = new GSize(32, 32);
+	icon.image = "../images/cars/car1.png";
+	icon.iconSize = new GSize(20, 20);
 	icon.iconAnchor = new GPoint(16, 16);
 	icon.infoWindowAnchor = new GPoint(16, 16);
 	return icon;

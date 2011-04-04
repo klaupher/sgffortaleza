@@ -16,9 +16,9 @@ import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.DownloadFileUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.PontoDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.VelocityUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.PontoDTO;
 
 @Scope("session")
 @Component("monitoramentoBean")
@@ -32,7 +32,9 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 	private List<PontoDTO> pontos;
 	private List<Integer> veiculosIds;
 	private Boolean autoCamera = true;
-	private Date dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -DateUtil.HOUR_IN_MILLIS);
+	private Boolean exibirRota = true;
+	private Boolean exibirPontosRota = true;
+	private Date dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -4*DateUtil.HOUR_IN_MILLIS);
 	private Float velocidadeMaxima = 60F;
 	private String veiculo;
 
@@ -63,10 +65,11 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 		User user = SgfUtil.usuarioLogado();
 		List<Veiculo> veiculos = null;
-		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -DateUtil.HOUR_IN_MILLIS);
+		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -24*DateUtil.HOUR_IN_MILLIS);
 		if(SgfUtil.isAdministrador(user)){
-			veiculos = veiculoService.retrieveAll();
+			veiculos = veiculoService.veiculosRastreados();
 		} else {
+			//veiculos = veiculoService.veiculosRastreadosByUG(user.getPessoa().getUa().getUg());
 			veiculos = veiculoService.findByUG(user.getPessoa().getUa().getUg());
 		}
 
@@ -74,7 +77,8 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 		for (Veiculo veiculo : veiculos) {
 			veiculosIds.add(veiculo.getId());
 		}
-		this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, velocidadeMaxima, dataInicio);
+		this.pontos = veiculoService.searchPontosMonitoramento(veiculos, true, true, velocidadeMaxima, dataInicio);
+		
 		this.interval = 2000000;
 		setCurrentBean(MonitoramentoBean.class.getSimpleName());
 		setCurrentState(SEARCH);
@@ -87,7 +91,7 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 	 * @return
 	 * @throws Exception
 	 */
-	public String downloadGoogleEarthFile() throws Exception {
+	public String downloadGoogleEarthFile2() throws Exception {
 
 		List<Integer> veiculosIds = new ArrayList<Integer>();
 		for (PontoDTO p : pontos) {
@@ -95,6 +99,24 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 				veiculosIds.add(p.getId());
 			}
 		}
+		String url = retrieveURLMonitoramento(veiculosIds);
+		if (url != null) {
+			byte[] bytes = VelocityUtil.merge("rotas.vm", new String[]{"url", "autoCamera"}, new Object[]{url, autoCamera});
+			return DownloadFileUtil.downloadKMLFile(bytes);
+		} else {
+			return FAIL;
+		}
+	}
+	
+	public String downloadGoogleEarthFile() throws Exception {
+
+		List<Integer> veiculosIds = new ArrayList<Integer>();
+		for (PontoDTO pontoDTO : pontos) {
+			if (pontoDTO.getSelecionado()) {
+				veiculosIds.add(pontoDTO.getId());
+			}
+		}
+
 		String url = retrieveURLMonitoramento(veiculosIds);
 		if (url != null) {
 			byte[] bytes = VelocityUtil.merge("reload.vm", new String[]{"url", "autoCamera"}, new Object[]{url, autoCamera});
@@ -110,19 +132,6 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 	 * @return
 	 * @throws Exception
 	 */
-	public String downloadSelectedGoogleEarthFile() throws Exception {
-
-		List<Integer> veiculosIds = new ArrayList<Integer>();
-		veiculosIds.add(this.ponto.getId());
-		String url = retrieveURLMonitoramento(veiculosIds);
-
-		if (url != null ) {
-			byte[] bytes = VelocityUtil.merge("reload.vm", new String[]{"url", "autoCamera"}, new Object[]{url, autoCamera});
-			return DownloadFileUtil.downloadKMLFile(bytes);
-		} else {
-			return FAIL;
-		}
-	}
 
 	public Veiculo getVeiculoAction() {
 		return veiculoAction;
@@ -152,6 +161,7 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 	private String retrieveURLMonitoramento(List<Integer> pontos) {
 		String ids = "";
+		
 		if( pontos.size() > 0 ){
 			for (Integer id : pontos) {
 				ids += id + ",";
@@ -161,11 +171,11 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 			String url =  "?id=" + ponto.getId();
 			url +=  "&di=" + DateUtil.parseTimeAsString(dataInicio);
 			url +=  velocidadeMaxima != null && velocidadeMaxima != 0 ? "&vm=" + velocidadeMaxima : "&vm=60";
-			//url +=  exibirPontosRastro ? "&epr=true" : "";
-			//url +=  exibirRastro ? "&er=true" : "";
+			url +=  exibirPontosRota ? "&epr=true" : "";
+			url +=  exibirRota ? "&er=true" : "";
 			url +=  autoCamera ? "&ac=true" : "";
 			url +=  "&ids=" + ids;
-			return "http://" + request.getLocalName() + request.getContextPath() + "/reload" + url;
+			return "http://" + request.getLocalName() + ":" + request.getLocalPort() + request.getContextPath() + "/reload" + url;
 		} else {
 			return null;
 		}
@@ -181,6 +191,14 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 	public void setAutoCamera(Boolean autoCamera) {
 		this.autoCamera = autoCamera;
+	}
+	
+	public Boolean getExibirRota() {
+		return exibirRota;
+	}
+
+	public void setExibirRota(Boolean exibirRota) {
+		this.exibirRota = exibirRota;
 	}
 
 	public Date getDataInicio() {

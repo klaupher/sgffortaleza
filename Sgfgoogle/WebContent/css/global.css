@@ -165,3 +165,19 @@
 	width: 100%;
 	text-align: center;
 }
+
+.contentMonitoramento .monitoramentoTable td.verde, label.verde {
+	background-color: #CCFFCC;
+}
+
+.contentMonitoramento .monitoramentoTable td.amarelo, label.amarelo {
+	background-color: #FFFF99;
+}
+
+.contentMonitoramento .monitoramentoTable td.vermelho, label.vermelho {
+	background-color: #FF9191;
+}
+
+.contentMonitoramento .monitoramentoTable td.cinza, label.cinza {
+	background-color: #C0C0C0;
+}

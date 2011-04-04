@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
-import br.gov.ce.fortaleza.cti.sgf.util.MapDTO;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.MapDTO;
 
 @Scope("session")
 @Component("mapUtilBean")
@@ -17,12 +17,12 @@ public class MapUtilBean extends EntityBean<Integer, MapDTO>  {
 
 	@Override
 	protected Integer retrieveEntityId(MapDTO entity) {
-		throw new IllegalStateException("Não implementado");
+		throw new IllegalStateException("Nï¿½o implementado");
 	}
 
 	@Override
 	protected BaseService<Integer, MapDTO> retrieveEntityService() {
-		throw new IllegalStateException("Não implementado");
+		throw new IllegalStateException("Nï¿½o implementado");
 	}
 	
 	public String searchAddress() {

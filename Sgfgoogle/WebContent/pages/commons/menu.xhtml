@@ -118,7 +118,6 @@
 			</rich:dropDownMenu>
 
 			<rich:dropDownMenu>
-
 				<f:facet name="label"><h:outputText value="#{msg['menu.administracao']}" /></f:facet>
 				<rich:menuItem value="Perfil" action="#{roleBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Permissão" action="#{permissaoBean.searchSort}" rendered="#{controlBean.administrador}" immediate="true"/>
@@ -129,8 +128,14 @@
 				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{!controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
 				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{!controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}" rendered="#{controlBean.administrador}"  immediate="true"/>
-
 			</rich:dropDownMenu>
+			
+			<rich:dropDownMenu  rendered="#{true}" location="left">
+				<f:facet name="label"><h:outputText value="Rastreamento"/></f:facet>
+				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>  <!-- Tela de monitoramento de veículos -->
+				<rich:menuItem value="Visualiar mapa" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>
+				<rich:menuItem value="Áreas" action="#{areaBean.search}"  rendered="#{controlBean.administrador}" oncomplete="loadMaps();" immediate="true"/>
+			</rich:dropDownMenu>			
 
 			<rich:toolBarGroup location="left">
 				<a4j:commandLink id="sobre" value="Sobre" reRender="paginaPrincipal" immediate="true" style="text-decoration: none; color:black"
@@ -139,19 +144,10 @@
 				<h:commandLink value="Manual" action="#{downloadBean.download}" immediate="true" style="text-decoration: none; color:black" />
 			</rich:toolBarGroup>
 
-			<rich:dropDownMenu  rendered="#{false}">
-				<f:facet name="label"><h:outputText value="Rastreamento" /></f:facet>
-				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>  <!-- Tela de monitoramento de veículos -->
-				<rich:menuItem value="Visualiar mapa" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>
-				<rich:menuItem value="Áreas" action="#{areaBean.search}"  rendered="#{controlBean.administrador}" oncomplete="loadMaps();" immediate="true"/>
-			</rich:dropDownMenu>
-
 			 <rich:toolBarGroup location="right">
-
 			 	<h:outputLink value="../j_spring_security_logout" style="text-decoration: none; color:black">Sair
 			 		<a4j:support event="onclick" action="#{controlBean.logout}" ajaxSingle="true"/>
 			 	</h:outputLink>
-
             </rich:toolBarGroup>
 
 		</rich:toolBar>
@@ -161,7 +157,6 @@
 	<hr/>
 	
 	<a4j:include viewId="sobre.xhtml"/>
-
 	<ui:include src="processando.xhtml"/>
 	<ui:include src="/pages/cadastros/cota/cotaPostosModal.xhtml" />
 	<ui:include src="/pages/cadastros/cota/selecionarServicos.xhtml" />

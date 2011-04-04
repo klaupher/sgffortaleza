@@ -1,24 +1,28 @@
-package br.gov.ce.fortaleza.cti.sgf.util;
+package br.gov.ce.fortaleza.cti.sgf.util.dto;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import br.gov.ce.fortaleza.cti.sgf.util.ColorUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.IndexTableDecorator;
+
 public class PontoDTO  implements Serializable {
 
 	private static final long serialVersionUID = 4561331928131040072L;
-	
 
 	private int index;
 	private int id;
+	private int codigoExterno;
 	private int tipo;
+	private int ordem;
+	private Integer ano;
 	private String nome;
 	private String placa;
 	private String marca;
 	private String modelo;
-	private Integer ano;
 	private String cor;
-	private int ordem;
 	private float velocidadeMaxima;
 	private float lat;
 	private float lng;
@@ -26,15 +30,29 @@ public class PontoDTO  implements Serializable {
 	private float temperatura;
 	private float odometro;
 	private float horimetro;
-	private boolean ignicao;
-	private boolean selecionado;
-	private Date dataTransmissao;
-	private String pontoMaisProximo;
-	private float distPontoMaisProximo;
+	private float distPontoProximo;
 	private float kmAtual;
-	private float nivelCombustivel;
-	private float capacidadeTanque;
+	private boolean ignicao;
+	private boolean panico;
+	private boolean bloqueio;
+	private boolean sirene;
+	private boolean escuta;
+	private boolean selecionado;
+	private boolean statusOdometro;
+	private Boolean existeTemperatura;
+	private Boolean existeOdometro;
+	private String pontoProximo;
 	private List<PontoDTO> rastro;
+	private List<PontoDTO> rota;
+	private Date dataTransmissao;
+
+	public boolean isStatusOdometro() {
+		return statusOdometro;
+	}
+
+	public void setStatusOdometro(boolean statusOdometro) {
+		this.statusOdometro = statusOdometro;
+	}
 
 	public float getKmAtual() {
 		return kmAtual;
@@ -188,6 +206,38 @@ public class PontoDTO  implements Serializable {
 		this.ignicao = ignicao;
 	}
 
+	public boolean getPanico() {
+		return panico;
+	}
+
+	public void setPanico(boolean panico) {
+		this.panico = panico;
+	}
+
+	public boolean getBloqueio() {
+		return bloqueio;
+	}
+
+	public void setBloqueio(boolean bloqueio) {
+		this.bloqueio = bloqueio;
+	}
+
+	public boolean getSirene() {
+		return sirene;
+	}
+
+	public void setSirene(boolean sirene) {
+		this.sirene = sirene;
+	}
+
+	public boolean getEscuta() {
+		return escuta;
+	}
+
+	public void setEscuta(boolean escuta) {
+		this.escuta = escuta;
+	}
+
 	public boolean getSelecionado() {
 		return selecionado;
 	}
@@ -202,22 +252,6 @@ public class PontoDTO  implements Serializable {
 
 	public void setDataTransmissao(Date dataTransmissao) {
 		this.dataTransmissao = dataTransmissao;
-	}
-
-	public String getPontoMaisProximo() {
-		return pontoMaisProximo;
-	}
-
-	public void setPontoMaisProximo(String pontoMaisProximo) {
-		this.pontoMaisProximo = pontoMaisProximo;
-	}
-
-	public float getDistPontoMaisProximo() {
-		return distPontoMaisProximo;
-	}
-
-	public void setDistPontoMaisProximo(float distPontoMaisProximo) {
-		this.distPontoMaisProximo = distPontoMaisProximo;
 	}
 
 	public List<PontoDTO> getRastro() {
@@ -236,6 +270,14 @@ public class PontoDTO  implements Serializable {
 		return DateUtil.parseAsString("dd/MM/yyyy", dataTransmissao);
 	}
 
+	public String getColor() {
+		return ColorUtil.getColor(index);
+	}
+
+	public String getRowColor() {
+		return IndexTableDecorator.selectRowClass(dataTransmissao);
+	}
+
 	public boolean isExcessoVelocidade() {
 		return velocidade > velocidadeMaxima;
 	}
@@ -245,7 +287,7 @@ public class PontoDTO  implements Serializable {
 	}
 
 	public String getDataString() {
-		return id + "|" + nome + "|" + tipo + "|" + lat + "|" + lng + "|" + pontoMaisProximo + "|" + distPontoMaisProximo + "|" + velocidade + "|" + DateUtil.parseAsString("dd/MM/yyyy HH:mm:ss", dataTransmissao) + "|" + placa +" |||";
+		return id + "|" + nome + "|" + tipo + "|" + lat + "|" + lng + "|" + pontoProximo + "|" + distPontoProximo + "|" + velocidade + "|" + DateUtil.parseAsString("dd/MM/yyyy HH:mm:ss", dataTransmissao) + "|" + placa +" |||";
 	}
 
 	public String getRastroString() {
@@ -256,19 +298,75 @@ public class PontoDTO  implements Serializable {
 		return result.length() > 0 ? result.substring(0, result.length() - 1) : "";
 	}
 
-	public float getNivelCombustivel() {
-		return nivelCombustivel;
+	public String getRotaVeiculoString() {
+		String result = "";
+		if(rota != null ){
+		for (PontoDTO ponto : rota) {
+			result += ponto.getLat() + "|" + ponto.getLng() + "|" + ponto.getPontoProximo()+ "|" + ponto.getNome() + "|" + ponto.getOrdem() + "|" + ponto.getDataTransmissaoDMY() + "|";
+		}
+		return result.length() > 0 ? result.substring(0, result.length() - 1) : "";
+		} else {
+			return null;
+		}
+	}
+	
+	public float getDistPontoProximo() {
+		return distPontoProximo;
 	}
 
-	public void setNivelCombustivel(float nivelCombustivel) {
-		this.nivelCombustivel = nivelCombustivel;
+	public void setDistPontoProximo(float distPontoProximo) {
+		this.distPontoProximo = distPontoProximo;
 	}
 
-	public float getCapacidadeTanque() {
-		return capacidadeTanque;
+	public String getPontoProximo() {
+		return pontoProximo;
 	}
 
-	public void setCapacidadeTanque(float capacidadeTanque) {
-		this.capacidadeTanque = capacidadeTanque;
+	public void setPontoProximo(String pontoProximo) {
+		this.pontoProximo = pontoProximo;
+	}
+
+	public List<PontoDTO> getRota() {
+		return rota;
+	}
+
+	public void setRota(List<PontoDTO> rota) {
+		this.rota = rota;
+	}
+
+	public int getCodigoExterno() {
+		return codigoExterno;
+	}
+
+	public void setCodigoExterno(int codigoExterno) {
+		this.codigoExterno = codigoExterno;
+	}
+
+	public Boolean getExisteTemperatura() {
+		return existeTemperatura;
+	}
+
+	public void setExisteTemperatura(Boolean existeTemperatura) {
+		if (existeTemperatura == null) {
+			this.existeTemperatura = false;
+		} else {
+			this.existeTemperatura = existeTemperatura;
+		}
+	}
+
+	public Boolean getExisteOdometro() {
+		return existeOdometro;
+	}
+
+	public void setExisteOdometro(Boolean existeOdometro) {
+		if (existeOdometro == null) {
+			this.existeOdometro = false;
+		} else {
+			this.existeOdometro = existeOdometro;
+		}
+	}
+
+	public Boolean getHasRoute(){
+		return rota.size() > 0;
 	}
 }

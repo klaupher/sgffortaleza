@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.quartz.Job;
@@ -25,13 +26,15 @@ public class JobArena implements Job {
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
 	EntityManager entityManager = factory.createEntityManager();
 
-	public static Integer CODVEICULO_ARENA = 4774;
+	public static Integer VEICULO_ID_ARENA = 4481; // Equipamento teste PMF
+	public static Integer VEICULO_ID_SGF = 246;
 
 	@Override
 	@Transactional
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 
 		List<Transmissao> transmissoes;
+		//veiculoids.add(VEICULO_ID_SGF);
 		EntityTransaction transaction = entityManager.getTransaction();
 
 		try {
@@ -39,16 +42,25 @@ public class JobArena implements Job {
 			ArenaService arena = ArenaService.login();
 			log.info("Conexão Arena: OK");
 			Date fim = DateUtil.getDateNow();
-			Date ini = DateUtil.adicionarOuDiminuir(fim, -2*DateUtil.MINUTE_IN_MILLIS);
+			Date ini; //DateUtil.adicionarOuDiminuir(fim, -2*DateUtil.MINUTE_IN_MILLIS);
+			
+			Query query = entityManager.createQuery("SELECT max(t.dataTransmissao) FROM Transmissao t WHERE t.veiculoId = ?");
+			query.setParameter(1, VEICULO_ID_SGF);
+			Date dataUltimaTransmissao =  (Date) query.getSingleResult();
+			
+			if(dataUltimaTransmissao != null){
+				ini = DateUtil.adicionarOuDiminuir(dataUltimaTransmissao, DateUtil.SECOND_IN_MILLIS);
+			} else {
+				ini = DateUtil.adicionarOuDiminuir(fim, -20*DateUtil.DAY_IN_MILLIS);
+			}
+			
 			transaction.begin();
-			transmissoes = arena.retrieveTransmissions(ini, fim, CODVEICULO_ARENA);
+			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);
 
 			for (Transmissao transmissao : transmissoes) {
 				entityManager.persist(transmissao);
 			}
 
-			ini = DateUtil.adicionarOuDiminuir(fim, -1L*DateUtil.MINUTE_IN_MILLIS);
-			fim = DateUtil.getDateNow();
 			transaction.commit();
 			log.info("Transmissões retornadas " + transmissoes.size());
 			log.info("Execução finalizada...");

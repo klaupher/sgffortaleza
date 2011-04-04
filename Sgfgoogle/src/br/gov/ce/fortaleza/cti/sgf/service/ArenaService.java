@@ -19,8 +19,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.XmlUtil;
 
 public class ArenaService {
-	
-	public static Integer CODVEICULO_TESTE = 19;
+
 	public static final Logger log = Logger.getLogger(ArenaService.class);
 
 	private HttpClient client;
@@ -35,27 +34,27 @@ public class ArenaService {
 		ArenaService connection = new ArenaService();
 		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
 		xml.append("<USER>");
-		xml.append("  <LOGIN>lucas</LOGIN>");
-		xml.append("  <PASSWORD>lucas</PASSWORD>");
+		xml.append("  <LOGIN>pmf</LOGIN>");
+		xml.append("  <PASSWORD>pmf</PASSWORD>");
 		xml.append("  <FORCELOGIN>0</FORCELOGIN>");
 		xml.append("</USER>");
 		String result = connection.requestHttpService("login", xml.toString());
 		if (result != null && result.contains("ERROR")) {
-			log.info("Autenticação: ERROR ...");
+			log.info("Autenticaï¿½ï¿½o: ERROR ...");
 			return null;
 		}
-		log.info("Autenticação: OK...");
+		log.info("Autenticaï¿½ï¿½o: OK...");
 		return connection;
 	}
 
-	public List<Transmissao> retrieveTransmissions(Date ini, Date fim, Integer id) throws Exception {
+	public List<Transmissao> retrieveTransmissions(Date ini, Date fim, Integer veiculoIdArena, Integer veiculoIdSgf) throws Exception {
 
 		List<Transmissao> transmissoes = new ArrayList<Transmissao>();
 		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
 
 		xml.append("<COURSES>");
 		xml.append("	<VEHICLES>");
-		xml.append("		<VEHICLE_ID>" + id + "</VEHICLE_ID>");
+		xml.append("		<VEHICLE_ID>" + veiculoIdArena + "</VEHICLE_ID>");
 		xml.append("	</VEHICLES>");
 		xml.append("	<START>" + DateUtil.parseArenaDateAsString(ini) + "</START>");
 		xml.append("	<END>" + DateUtil.parseArenaDateAsString(fim) + "</END>");
@@ -87,8 +86,8 @@ public class ArenaService {
 		if (result != null && result.contains("ERROR")) {
 			xml = new StringBuffer(XmlUtil.XML_HEADER);
 			xml.append("<USER>");
-			xml.append("<LOGIN>lucas</LOGIN>");
-			xml.append("<PASSWORD>lucas</PASSWORD>");
+			xml.append("<LOGIN>pmf</LOGIN>");
+			xml.append("<PASSWORD>pmf</PASSWORD>");
 			xml.append("<FORCELOGIN>0</FORCELOGIN>");
 			xml.append("</USER>");
 			requestHttpService("login", xml.toString());
@@ -98,16 +97,16 @@ public class ArenaService {
 		Element root = XmlUtil.parse(result);
 		List<Element> elements = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE");
 
-	for (Element element : elements) {
+		for (Element element : elements) {
 			List<Element> positions = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE[ID = " + element.elementText("ID") + "]/POSITION");
 			for (Element position : positions) {
 				Transmissao t = new Transmissao();
-				t.setVeiculoId(CODVEICULO_TESTE);
+				t.setVeiculoId(veiculoIdSgf);
 				t.setIgnicao(position.elementText("IGNITION").equals("0") ? false : true);
 				t.setVelocidade(Float.valueOf(position.elementText("VEL")));
 				t.setX(Double.valueOf(position.elementText("X")));
 				t.setY(Double.valueOf(position.elementText("Y")));
-				t.setGeometry(new Point(Double.valueOf(position.elementText("X")), Double.valueOf(position.elementText("X"))));
+				t.setGeometry(new Point(Double.valueOf(position.elementText("X")), Double.valueOf(position.elementText("Y"))));
 				t.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
 				transmissoes.add(t);
 			}
@@ -116,74 +115,75 @@ public class ArenaService {
 		return transmissoes;
 	}
 
-	public List<Transmissao> retrieveTransmissions(Date ini, Date fim, List<Integer> ids) throws Exception {
+//	public List<Transmissao> retrieveTransmissions(Date ini, Date fim, List<Integer> ids) throws Exception {
+//
+//		List<Transmissao> transmissoes = new ArrayList<Transmissao>();
+//		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
+//
+//		xml.append("<COURSES>");
+//		xml.append("	<VEHICLES>");
+//		for (Integer id : ids) {
+//			xml.append("	<VEHICLE_ID>" + id + "</VEHICLE_ID>");
+//		}
+//		xml.append("	</VEHICLES>");
+//		xml.append("	<START>" + DateUtil.parseArenaDateAsString(ini) + "</START>");
+//		xml.append("	<END>" + DateUtil.parseArenaDateAsString(fim) + "</END>");
+//		xml.append("	<PERIOD_PER_DAY>1</PERIOD_PER_DAY>");
+//		xml.append("	<PERIOD_START>" + DateUtil.parseTimeAsString(ini) + "</PERIOD_START>");
+//		xml.append("	<PERIOD_END>" + DateUtil.parseTimeAsString(fim) + "</PERIOD_END>");
+//		xml.append("	<DECREASING>0</DECREASING>");
+//		xml.append("	<SHOW_FIELDS>");
+//		xml.append("		<ID>1</ID>");
+//		xml.append("		<Y>1</Y>");
+//		xml.append("		<X>1</X>");
+//		xml.append("		<DATE_TIME>21</DATE_TIME>");
+//		xml.append("		<VEL>1</VEL>");
+//		xml.append("		<IGNITION>1</IGNITION>");
+//		xml.append("		<IN1>1</IN1>");
+//		xml.append("		<IN2>1</IN2>");
+//		xml.append("		<IN3>1</IN3>");
+//		xml.append("		<IN4>1</IN4>");
+//		xml.append("		<ODOMETER>1</ODOMETER>");
+//		xml.append("		<HOURMETER>1</HOURMETER>");
+//		xml.append("		<TEMPERATURE>1</TEMPERATURE>");
+//		xml.append("		<COUNT1>1</COUNT1>");
+//		xml.append("		<COUNT2>1</COUNT2>");
+//		xml.append("		<COUNT3>1</COUNT3>");
+//		xml.append("	</SHOW_FIELDS>");
+//		xml.append("</COURSES>");
+//
+//		String result = requestHttpService("mapcourses", xml.toString());
+//		if (result != null && result.contains("ERROR")) {
+//			xml = new StringBuffer(XmlUtil.XML_HEADER);
+//			xml.append("<USER>");
+//			xml.append("<LOGIN>lucas</LOGIN>");
+//			xml.append("<PASSWORD>lucas</PASSWORD>");
+//			xml.append("<FORCELOGIN>0</FORCELOGIN>");
+//			xml.append("</USER>");
+//			requestHttpService("login", xml.toString());
+//			throw new RuntimeException(result);
+//		}
+//
+//		Element root = XmlUtil.parse(result);
+//		List<Element> elements = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE");
+//
+//		for (Element element : elements) {
+//			List<Element> positions = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE[ID = " + element.elementText("ID") + "]/POSITION");
+//			for (Element position : positions) {
+//				Transmissao t = new Transmissao();
+//				t.setVeiculoId(veiculoIdSgf);
+//				t.setIgnicao(position.elementText("IGNITION").equals("0") ? false : true);
+//				t.setVelocidade(Float.valueOf(position.elementText("VEL")));
+//				t.setX(Double.valueOf(position.elementText("X")));
+//				t.setY(Double.valueOf(position.elementText("Y")));
+//				t.setGeometry(new Point(Double.valueOf(position.elementText("X")), Double.valueOf(position.elementText("Y"))));
+//				t.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
+//				transmissoes.add(t);
+//			}
+//		}
+//		return transmissoes;
+//	}
 
-		List<Transmissao> transmissoes = new ArrayList<Transmissao>();
-		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
-
-		xml.append("<COURSES>");
-		xml.append("	<VEHICLES>");
-		for (Integer id : ids) {
-			xml.append("	<VEHICLE_ID>" + id + "</VEHICLE_ID>");
-		}
-		xml.append("	</VEHICLES>");
-		xml.append("	<START>" + DateUtil.parseArenaDateAsString(ini) + "</START>");
-		xml.append("	<END>" + DateUtil.parseArenaDateAsString(fim) + "</END>");
-		xml.append("	<PERIOD_PER_DAY>1</PERIOD_PER_DAY>");
-		xml.append("	<PERIOD_START>" + DateUtil.parseTimeAsString(ini) + "</PERIOD_START>");
-		xml.append("	<PERIOD_END>" + DateUtil.parseTimeAsString(fim) + "</PERIOD_END>");
-		xml.append("	<DECREASING>0</DECREASING>");
-		xml.append("	<SHOW_FIELDS>");
-		xml.append("		<ID>1</ID>");
-		xml.append("		<Y>1</Y>");
-		xml.append("		<X>1</X>");
-		xml.append("		<DATE_TIME>21</DATE_TIME>");
-		xml.append("		<VEL>1</VEL>");
-		xml.append("		<IGNITION>1</IGNITION>");
-		xml.append("		<IN1>1</IN1>");
-		xml.append("		<IN2>1</IN2>");
-		xml.append("		<IN3>1</IN3>");
-		xml.append("		<IN4>1</IN4>");
-		xml.append("		<ODOMETER>1</ODOMETER>");
-		xml.append("		<HOURMETER>1</HOURMETER>");
-		xml.append("		<TEMPERATURE>1</TEMPERATURE>");
-		xml.append("		<COUNT1>1</COUNT1>");
-		xml.append("		<COUNT2>1</COUNT2>");
-		xml.append("		<COUNT3>1</COUNT3>");
-		xml.append("	</SHOW_FIELDS>");
-		xml.append("</COURSES>");
-
-		String result = requestHttpService("mapcourses", xml.toString());
-		if (result != null && result.contains("ERROR")) {
-			xml = new StringBuffer(XmlUtil.XML_HEADER);
-			xml.append("<USER>");
-			xml.append("<LOGIN>lucas</LOGIN>");
-			xml.append("<PASSWORD>lucas</PASSWORD>");
-			xml.append("<FORCELOGIN>0</FORCELOGIN>");
-			xml.append("</USER>");
-			requestHttpService("login", xml.toString());
-			throw new RuntimeException(result);
-		}
-
-		Element root = XmlUtil.parse(result);
-		List<Element> elements = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE");
-
-	for (Element element : elements) {
-			List<Element> positions = XmlUtil.retrieveElements(root, "/COURSES/VEHICLE[ID = " + element.elementText("ID") + "]/POSITION");
-			for (Element position : positions) {
-				Transmissao t = new Transmissao();
-				t.setVeiculoId(Integer.valueOf(position.elementText("ID")));
-				t.setIgnicao(position.elementText("IGNITION").equals("0") ? false : true);
-				t.setVelocidade(Float.valueOf(position.elementText("VEL")));
-				t.setOdometro(Float.valueOf(position.elementText("VEL")));
-				t.setDataTransmissao(DateUtil.parseStringAsDate("yyyy-MM-dd HH:mm:ss", position.elementText("DATE_TIME")));
-				transmissoes.add(t);
-			}
-		}
-
-		return transmissoes;
-	}
-	
 	public void showVehicles() throws Exception{
 		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
 		xml.append("<FILTER>");
@@ -196,7 +196,7 @@ public class ArenaService {
 			System.out.println(element.elementText("CLIENT_ID"));
 		}
 	}
-	
+
 	public void showRoutes() throws Exception{
 		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
 		xml.append("<FILTER>");
@@ -208,7 +208,7 @@ public class ArenaService {
 			System.out.println(element.elementText("ID"));
 		}
 	}
-	
+
 	public void showClients(Integer id) throws Exception{
 		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
 		xml.append("<FILTER>");
@@ -227,20 +227,20 @@ public class ArenaService {
 			System.out.println(element.elementText("CITY"));
 		}
 	}
-	
-	
+
+
 	public void describeVehicle(Integer id) throws Exception{
-		
+
 		StringBuffer xml = new StringBuffer(XmlUtil.XML_HEADER);
 		xml.append("<ITEM>");
 		xml.append("	<ID>" + id + "</ID>");
 		xml.append("</ITEM>");
-		
+
 		String result = requestHttpService("describevehicle", xml.toString());
 		Element root = XmlUtil.parse(result);
-		
+
 		List<Element> elements = XmlUtil.retrieveElements(root, "/VEHICLE");
-		
+
 		for (Element element : elements) {
 			System.out.println(element.elementText("ID"));
 			System.out.println(element.elementText("EQUIPMENT_SERIAL"));
@@ -250,7 +250,7 @@ public class ArenaService {
 			System.out.println(element.elementText("COLOR"));
 			System.out.println(element.elementText("YEAR"));
 		}
-		
+
 	}
 
 	public String requestHttpService(String url, String data) throws Exception {

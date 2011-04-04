@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -57,9 +56,9 @@ import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.Constants;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.RelatorioDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.RelatorioUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
 @Scope("session")
 @Component("relatorioBean")

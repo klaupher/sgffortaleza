@@ -30,8 +30,8 @@ import br.gov.ce.fortaleza.cti.sgf.service.UAService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.ConnectOracle;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.RelatorioDTO;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
 /**
  * Bean que gerencia a sincronização da base de dados do SGF com a base de dados

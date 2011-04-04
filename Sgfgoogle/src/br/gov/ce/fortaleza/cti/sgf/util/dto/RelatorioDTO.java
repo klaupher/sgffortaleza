@@ -1,4 +1,4 @@
-package br.gov.ce.fortaleza.cti.sgf.util;
+package br.gov.ce.fortaleza.cti.sgf.util.dto;
 
 import java.io.Serializable;
 import java.util.Date;
