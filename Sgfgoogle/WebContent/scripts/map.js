@@ -26,6 +26,7 @@ var color = ["#0000FF","#8A2BE2","#A52A2A","#DEB887","#5F9EA0","#7FFF00", "#D269
 var pointInterval = 30;
 
 function loadMaps() {
+
 	if (document.getElementById("maparea")) {
 		createEditablePolygon();
 		var pontos = document.getElementById('points').value;
@@ -40,10 +41,13 @@ function loadMaps() {
 	} else if (document.getElementById("mapp")) {
 		createMapPoints();
 		showVehiclesOnMap();
+	} else if (document.getElementById("mapEditablePoint")) {
+		createEditablePoint();
 	}
 }
 
 function showPointsOnMap(){
+	map.clearOverlays();
 	createMapPoints();
 	var pontos = document.getElementById('points').value;
 	var markers = new Array();
@@ -55,7 +59,7 @@ function showPointsOnMap(){
 			if(p[0] && p[1]){
 				var marker = new GLatLng(p[0], p[1]);
 				markers.push(marker);
-				var markerPoint = createMarker(p[0], p[1], p[2]);
+				var markerPoint = createMarkerSimple(p[0], p[1], p[2]);
 				map.addOverlay(markerPoint);
 			}
 		}
@@ -65,7 +69,7 @@ function showPointsOnMap(){
 }
 
 function showVehiclesOnMap(){
-
+	map.clearOverlays();
 	var pontos = document.getElementById('vehiclesPoints').value;
 	var markers = new Array();
 	var param = 1;
@@ -149,7 +153,7 @@ function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist
 	var marker;
 	marker = new GMarker(new GLatLng(lat, lng), markerOptions);
 	GEvent.addListener(marker, "click", function() {
-	var html = "<table style='width:230px'>" +
+	var html = "<table style='width:280px'>" +
 				"<td>Veiculo: <b>" + modelo + 
 				"</b><br/>Placa:<b>" + placa + 
 				"</b><br/>Odômetro:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
@@ -158,15 +162,15 @@ function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist
 				"</b><br/>Dist. referência:<b>" + dist.substring(0, dist.length-2) + "(m)" +
 				"</b><br/>Data/Hora transmissão:<b>" + dataHora + 
 				"</b></td></tr>" +
-				"</table><br/>";
+				"</table><br/><br/>";
 		marker.openInfoWindowHtml(html);
 	});
 	return marker;
 }
 
-function createMarker(lat, lng, desc) {
+function createMarkerSimple(lat, lng, desc) {
 	var marker;
-	marker = new GMarker(new GLatLng(lat, lng), markerOptions);
+	marker = new GMarker(new GLatLng(lat, lng));
 	GEvent.addListener(marker, "click", function() {
 	var html = "<table style='width:230px'>" +
 				"<td><b>" + modelo + 
@@ -198,6 +202,36 @@ function createMapPoints(){
 	map.checkResize();
 	geocoder = new GClientGeocoder();
 	google.setOnLoadCallback(createMapPoints);
+}
+
+function createEditablePoint() {
+
+	mapp = new google.maps.Map2(document.getElementById("mapEditablePoint"), {draggableCursor:"crosshair"});
+	mapp.addControl(new GMapTypeControl());
+	mapp.addControl(new GSmallMapControl());
+	geocoder = new GClientGeocoder();
+	mapp.disableDoubleClickZoom();
+	var lat = document.getElementById("lat");
+	var lng = document.getElementById("lng");
+
+	GEvent.addListener(mapp, "click", function(overlay, point) {
+	mapp.clearOverlays();
+		if(point) {
+			pointToRemove = point;
+			lat.value = point.lat();
+			lng.value = point.lng();
+			mapp.setCenter(new GLatLng(lat.value, lng.value), 15);
+			mapp.addOverlay(new GMarker(new GLatLng(lat.value, lng.value)));
+		}
+	});
+
+	if (lat.value && lng.value) {
+		mapp.setCenter(new GLatLng(lat.value, lng.value), 15);
+		mapp.addOverlay(new GMarker(new GLatLng(lat.value, lng.value)));
+	} else {
+		mapp.setCenter(new GLatLng(-3.7325370241018394, -38.51085662841797), 13);
+	}
+	google.setOnLoadCallback(createEditablePoint);
 }
 
 function getCirclePoints(center, radius){
@@ -621,7 +655,7 @@ function getProximity(mouseLatLng, marker) {
 	}
 }
 
-function createEditablePoint() {
+function createEditablePoint23() {
 	mapp = new google.maps.Map2(document.getElementById("mapponto"));
 	mapp.addControl(new GMapTypeControl());
 	mapp.addControl(new GSmallMapControl());

@@ -84,9 +84,12 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 	public String showVehiclesOnMap(){		
 		List<Veiculo> veiculos = veiculoService.veiculosRastreados();
 		String line = new String("");
+		
 		for (Veiculo v : veiculos) {
+			Float odometro = v.getOdometro() != null ? v.getOdometro() : 0F;
+			Float dist = v.getDistancia() != null ? v.getDistancia() : 0F;
 			line += ((Point)v.getGeometry()).y + "##" +  ((Point)v.getGeometry()).x + "##" + v.getId() + "##" + v.getPlaca() + "##" + v.getVelocidade() + "##"
-			+ v.getOdometro() + "##" + v.getPontoProximo().getDescricao() + "##" + v.getDistancia() + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
+			+ odometro + "##" + v.getPontoProximo().getDescricao() + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
 		}
 		this.pontos = line;
 		return SUCCESS;

@@ -11,7 +11,7 @@
       xmlns:sec="http://www.springframework.org/security/tags"
       xmlns:a4j="http://richfaces.org/a4j">
       
-     <a4j:poll id="reloader" action="#{mapBean.showVehiclesRouteOnMap}" interval="6000" reRender="vehicleRoute" oncomplete="showVeiculoRoute();" ajaxSingle="true"/>
+     <a4j:poll id="reloader" action="#{mapBean.showVehiclesRouteOnMap}" interval="60000" reRender="vehicleRoute" oncomplete="showVeiculoRoute();" ajaxSingle="true"/>
       
 	<div id="cadastro">
 

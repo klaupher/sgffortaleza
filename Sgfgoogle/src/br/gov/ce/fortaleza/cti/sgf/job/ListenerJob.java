@@ -22,7 +22,7 @@ public class ListenerJob implements ServletContextListener{
 	}
 
 	/**
-	 * Agendamento do fechamento automático de bombas para as 18:00
+	 * Agendamento do fechamento automï¿½tico de bombas para as 18:00
 	 */
 	@SuppressWarnings("static-access")
 	@Override

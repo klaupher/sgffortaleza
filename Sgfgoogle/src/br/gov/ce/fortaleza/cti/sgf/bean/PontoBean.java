@@ -1,7 +1,5 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.postgis.Point;
@@ -11,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Ponto;
 import br.gov.ce.fortaleza.cti.sgf.service.PontoService;
-import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 
 
 @Scope("session")
@@ -65,20 +61,20 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 			this.entity.setGeometry(new Point(this.lat, this.lng));
 			return super.update();
 		} else {
-			JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.localizacao.nao.encontrada");
+			//JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.localizacao.nao.encontrada");
 			return FAIL;
 		}
 	}
 	
-	public String search(){
-		String temp = new String("");
-		List<Ponto> result = service.retrieveAll();
-		for (Ponto p : result) {
-			temp += ((Point)p.getGeometry()).y + "##" +  ((Point)p.getGeometry()).x + "##" +  p.getDescricao() + "##$##";
-		}
-		this.points = temp;
-		return super.search();
-	}
+//	public String search(){
+//		String temp = new String("");
+//		List<Ponto> result = service.retrieveAll();
+//		for (Ponto p : result) {
+//			temp += ((Point)p.getGeometry()).y + "##" +  ((Point)p.getGeometry()).x + "##" +  p.getDescricao() + "##$##";
+//		}
+//		this.points = temp;
+//		return super.search();
+//	}
 
 	public Double getLat() {
 		return lat;

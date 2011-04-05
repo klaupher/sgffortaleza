@@ -39,6 +39,14 @@ public class TransmissaoService extends BaseService<Long, Transmissao> {
 		}
 		return result;
 	}
+	
+	
+	public Date dataUltTransmissao(){
+		
+		Query query = entityManager.createNamedQuery("SELECT max(t.dataTransmissao) FROM Transmissao t");
+		Date d = (Date)query.getSingleResult();
+		return d;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)

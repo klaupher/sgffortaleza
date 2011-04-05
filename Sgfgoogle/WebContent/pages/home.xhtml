@@ -280,6 +280,9 @@
 		
 				<c:if test="#{controlBean.pontoBean}">
 					<c:if test="#{pontoBean.searchState}">
+						<ui:include src="cadastros/ponto/pontoList.xhtml" />
+					</c:if>
+					<c:if test="#{pontoBean.updateState || pontoBean.saveState}">
 						<ui:include src="cadastros/ponto/ponto.xhtml" />
 					</c:if>
 				</c:if>
