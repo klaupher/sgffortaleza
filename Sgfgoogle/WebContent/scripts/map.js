@@ -39,33 +39,74 @@ function loadMaps() {
 		}
 	} else if (document.getElementById("mapp")) {
 		createMapPoints();
-		var pontos = document.getElementById('points').value;
-		if(pontos){
-			var points = pontos.split('$*@');
-			for ( var j = 0; j < points.length; j++) {
-				var p = points[j].split('#%');
-				var mark = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], true);
-				map.addOverlay(mark);
+		showVehiclesOnMap();
+	}
+}
+
+function showPointsOnMap(){
+	createMapPoints();
+	var pontos = document.getElementById('points').value;
+	var markers = new Array();
+	if(pontos){
+		var points = pontos.split('##$##');
+		var param = 1;
+		for (var j = 0; j < points.length; j++) {
+			var p = points[j].split('##');
+			if(p[0] && p[1]){
+				var marker = new GLatLng(p[0], p[1]);
+				markers.push(marker);
+				var markerPoint = createMarker(p[0], p[1], p[2]);
+				map.addOverlay(markerPoint);
 			}
 		}
 	}
+	calculateBoundsRoute(markers);
+	
+}
+
+function showVehiclesOnMap(){
+
+	var pontos = document.getElementById('vehiclesPoints').value;
+	var markers = new Array();
+	var param = 1;
+	if(pontos){
+		var points = pontos.split('##$##');
+		var param = 1;
+		for (var j = 0; j < points.length; j++) {
+			var p = points[j].split('##');
+			if(p[0] && p[1]){
+				var marker = new GLatLng(p[0], p[1]);
+				markers.push(marker);
+				if(j == 0) {
+					param = 2
+				} else {
+					param = 1
+				};
+				var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], false, param);
+				map.addOverlay(markerPoint);
+			}
+		}
+	}
+	calculateBoundsRoute(markers);
 }
 
 function showVeiculoRoute(){
 	map.clearOverlays();
 	createMapPoints();
 	var elem = document.getElementById('vehicleRoute').value;
-	var points = elem.split('$####');
+	var points = elem.split('##$##');
 	var markers = new Array();
 	var polyline;
 	var param = 1;
 	for (var j = 0; j < points.length; j++) {
-		var p = points[j].split('#%');
+		var p = points[j].split('##');
 		if(p[0] && p[1]){
 			var marker = new GLatLng(p[0], p[1]);
 			if(j == 0) {
 				param = 2
-			} else {param = 1};
+			} else {
+				param = 1
+			};
 			var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], false, param);
 			markers.push(marker);
 			map.addOverlay(markerPoint);
@@ -111,11 +152,24 @@ function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist
 	var html = "<table style='width:230px'>" +
 				"<td>Veiculo: <b>" + modelo + 
 				"</b><br/>Placa:<b>" + placa + 
-				"</b><br/>Velocimetro:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
+				"</b><br/>Odômetro:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
 				"</b><br/>Velocidade:<b> " +  velocidade.substring(0, velocidade.length-2).replace(".", ",") +  "(Km/h)"+
 				"</b><br/>Ponto referência.:<b>" + pprox + 
 				"</b><br/>Dist. referência:<b>" + dist.substring(0, dist.length-2) + "(m)" +
 				"</b><br/>Data/Hora transmissão:<b>" + dataHora + 
+				"</b></td></tr>" +
+				"</table><br/>";
+		marker.openInfoWindowHtml(html);
+	});
+	return marker;
+}
+
+function createMarker(lat, lng, desc) {
+	var marker;
+	marker = new GMarker(new GLatLng(lat, lng), markerOptions);
+	GEvent.addListener(marker, "click", function() {
+	var html = "<table style='width:230px'>" +
+				"<td><b>" + modelo + 
 				"</b></td></tr>" +
 				"</table><br/>";
 		marker.openInfoWindowHtml(html);

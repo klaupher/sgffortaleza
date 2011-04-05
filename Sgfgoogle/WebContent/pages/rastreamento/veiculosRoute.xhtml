@@ -11,27 +11,24 @@
       xmlns:sec="http://www.springframework.org/security/tags"
       xmlns:a4j="http://richfaces.org/a4j">
       
+     <a4j:poll id="reloader" action="#{mapBean.showVehiclesRouteOnMap}" interval="6000" reRender="vehicleRoute" oncomplete="showVeiculoRoute();" ajaxSingle="true"/>
+      
 	<div id="cadastro">
 
-		<h1>Mapa de pontos</h1>
+		<h1>Rota de veículo</h1>
 
 		<h:outputText value="Veiculo:"/>
-		<h:selectOneMenu id="veiculo" value="#{pontoBean.veiculo}" converter="entityConverter">
+		<h:selectOneMenu id="veiculo" value="#{mapBean.veiculo}" converter="entityConverter">
 			<f:selectItem itemLabel="Todos ..." itemValue=""/>
- 			<t:selectItems value="#{veiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
+ 			<t:selectItems value="#{veiculoBean.veiculosRastreados}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 		</h:selectOneMenu>
 
-		<a4j:commandButton id="veiculoRota" value="Rota" action="#{pontoBean.mostrarRotaVeiculo}" reRender="vehicleRoute" styleClass="button">
+		<a4j:commandButton id="veiculoRota" value="Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="vehicleRoute" styleClass="button">
 			<a4j:support event="oncomplete" oncomplete="showVeiculoRoute()"/>
 		</a4j:commandButton>
 
 
-		<h:inputHidden id="points" value="#{pontoBean.geoms}"/>
-		<h:inputHidden id="vehicleRoute" value="#{pontoBean.route}"/>
-		<h:inputHidden id="vehiclesMap" value="#{pontoBean.veiculosPontos}"/>
-
-		<h:inputHidden id="lat" value="#{pontoBean.lat}"/>
-		<h:inputHidden id="lng" value="#{pontoBean.lng}"/>
+		<h:inputHidden id="vehicleRoute" value="#{mapBean.route}"/>
 
 		<div id="mapp" style="width:100%; height:600px"></div>
 

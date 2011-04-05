@@ -130,11 +130,16 @@
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}" rendered="#{controlBean.administrador}"  immediate="true"/>
 			</rich:dropDownMenu>
 			
-			<rich:dropDownMenu  rendered="#{true}" location="left">
+			<rich:dropDownMenu  rendered="#{controlBean.administrador and controlBean.roleCanViewMap}" location="left">
 				<f:facet name="label"><h:outputText value="Rastreamento"/></f:facet>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>  <!-- Tela de monitoramento de veículos -->
-				<rich:menuItem value="Visualiar mapa" action="#{pontoBean.search}"  rendered="#{controlBean.administrador}" immediate="true" oncomplete="loadMaps();"/>
-				<rich:menuItem value="Áreas" action="#{areaBean.search}"  rendered="#{controlBean.administrador}" oncomplete="loadMaps();" immediate="true"/>
+				<rich:menuItem value="Veículos mapa" action="#{mapBean.veiculosMap}" immediate="true" oncomplete="showVehiclesOnMap();" ajaxSingle="true"/>
+				<rich:menuItem value="Rota de veículo" action="#{mapBean.veiculosRoute}" immediate="true" oncomplete="loadMaps();"/>
+				<rich:menuItem value="Pontos" action="#{pontoBean.search}"  oncomplete="loadMaps();" immediate="true"/>
+				<rich:menuItem value="Área de movimentação" action="#{areaBean.search}"  oncomplete="loadMaps();" immediate="true"/>
+				<rich:menuItem value="Relatório de posições" immediate="true"/>
+				<rich:menuItem value="Relatório de velocidades" immediate="true"/>
+				<rich:menuItem value="Relatório de ocorrências" immediate="true"/>
 			</rich:dropDownMenu>			
 
 			<rich:toolBarGroup location="left">

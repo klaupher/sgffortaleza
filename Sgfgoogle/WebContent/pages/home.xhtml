@@ -9,8 +9,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:c="http://java.sun.com/jstl/core"
-	xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:c="http://java.sun.com/jstl/core">
 
 	<ui:define name="conteudo">
 
@@ -281,7 +280,7 @@
 		
 				<c:if test="#{controlBean.pontoBean}">
 					<c:if test="#{pontoBean.searchState}">
-						<ui:include src="cadastros/ponto/pontoList.xhtml" />
+						<ui:include src="cadastros/ponto/ponto.xhtml" />
 					</c:if>
 				</c:if>
 		
@@ -299,8 +298,17 @@
 		
 				<c:if test="#{controlBean.monitoramentoBean}">
 					<c:if test="#{monitoramentoBean.searchState}">
-						<ui:include src="commons/monitoramento.xhtml" />
+						<ui:include src="rastreamento/veiculosMonitoramento.xhtml" />
 					</c:if>
+				</c:if>
+				
+				<c:if test="#{controlBean.mapBean}">
+					<c:if test="#{mapBean.veiculosMapState}">
+						<ui:include src="rastreamento/veiculosMap.xhtml" />
+					</c:if>
+					<c:if test="#{mapBean.veiculosRouteState}">
+						<ui:include src="rastreamento/veiculosRoute.xhtml" />
+					</c:if>					
 				</c:if>
 		
 				<c:if test="#{controlBean.messageBean}">

@@ -36,13 +36,13 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	@Autowired
 	private UAService uaService;
-	
+
 	private UG ug;
 	private List<UA> uas;
 	private Integer searchId = 0;
 	private String stringSearch = null;
 	private Area area;
-	
+
 
 	protected Integer retrieveEntityId(Veiculo entity) {
 		return entity.getId();
@@ -62,10 +62,14 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		this.stringSearch = null;
 		return veiculo;
 	}
-	
+
 	public List<Veiculo> getVeiculos(){
-		return service.veiculosRastreados();
+		return service.veiculos();
 	}
+
+	public List<Veiculo> getVeiculosRastreados(){
+		return service.veiculosRastreados();
+	}	
 
 	public List<SelectItem> getVeiculoList(){
 		List<Veiculo> list = service.findAll();
@@ -106,9 +110,9 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		List<Veiculo> veiculos =  new ArrayList<Veiculo>();
 		this.entities = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
-		
+
 		if(this.stringSearch != null && this.stringSearch.length() > 0){
-			
+
 			if(SgfUtil.isAdministrador(user) || SgfUtil.isChefeTransporte(user)){
 				if(this.searchId == 0){
 					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, this.stringSearch, null, null);

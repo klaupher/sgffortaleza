@@ -258,6 +258,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	public boolean isAdministrador() {
 		return SgfUtil.isAdministrador(this.usuario);
 	}
+	
+	public boolean isRoleCanViewMap() {
+		return SgfUtil.isRoleViewMap(this.usuario);
+	}
 
 	public boolean isCoordenador() {
 		return SgfUtil.isCoordenador(this.usuario);
@@ -400,8 +404,8 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		return MonitoramentoBean.class.getSimpleName().equals(getCurrentBean());
 	}
 
-	public boolean isMapUtilBean(){
-		return MapUtilBean.class.getSimpleName().equals(getCurrentBean());
+	public boolean isMapBean(){
+		return MapBean.class.getSimpleName().equals(getCurrentBean());
 	}
 
 	public boolean isRelatorioBean(){

@@ -27,7 +27,7 @@ public class JobArena implements Job {
 	EntityManager entityManager = factory.createEntityManager();
 
 	public static Integer VEICULO_ID_ARENA = 4481; // Equipamento teste PMF
-	public static Integer VEICULO_ID_SGF = 246;
+	public static Integer VEICULO_ID_SGF = 19;
 
 	@Override
 	@Transactional
@@ -51,7 +51,7 @@ public class JobArena implements Job {
 			if(dataUltimaTransmissao != null){
 				ini = DateUtil.adicionarOuDiminuir(dataUltimaTransmissao, DateUtil.SECOND_IN_MILLIS);
 			} else {
-				ini = DateUtil.adicionarOuDiminuir(fim, -20*DateUtil.DAY_IN_MILLIS);
+				ini = DateUtil.adicionarOuDiminuir(fim, -4*DateUtil.DAY_IN_MILLIS);
 			}
 			
 			transaction.begin();
