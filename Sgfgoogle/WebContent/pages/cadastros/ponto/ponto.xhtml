@@ -9,26 +9,29 @@
       xmlns:a4j="http://richfaces.org/a4j">
 
 	<div id="cadastro">
-	
-		<h1>Cadastro de ponto</h1>
 
-		<h:inputHidden id="lat" value="#{pontoBean.lat}" required="true" valueChangeListener="#{pontoBean.latitudeChanged}"/>
+		<h1>Ponto</h1>
+
+		<h:inputHidden id="lat" value="#{pontoBean.lat}" required="true"/>
 		<h:inputHidden id="lng" value="#{pontoBean.lng}" required="true"/>
 		<h:inputHidden value="#{pontoBean.entity.id}" rendered="#{pontoBean.updateState}"/>
-		
-		<h:outputLabel value="Nome do ponto:"/>
-		<h:inputText id="descricaoPonto" value="#{pontoBean.entity.descricao}" maxlength="50" size="90">
-			<f:validateLength maximum="50"/>
-			<rich:ajaxValidator event="onblur"/>
-		</h:inputText>
+
+		<dt>
+			<label>Endereço:</label>
+			<h:inputText id="descricaoPonto" value="#{pontoBean.entity.descricao}" size="65"/>
+		</dt>
 
 		<div id="mapEditablePoint" style="width:100%; height:600px"></div>
 
 	</div>
-	<a4j:commandButton value="Gravar" type="submit" action="#{pontoBean.save}" styleClass="button" rendered="#{pontoBean.saveState}" reRender="paginaPrincipal"/>
+	
+	<h:commandButton action="#{pontoBean.save}" value="Gravar" rendered="#{pontoBean.saveState}" reRender="paginaPrincipal">
+		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+	</h:commandButton>
+	
 	<a4j:commandButton value="Alterar" type="submit" action="#{pontoBean.update}" styleClass="button" rendered="#{pontoBean.updateState}" reRender="paginaPrincipal"/>
 	<a4j:commandButton value="Voltar" type="submit" action="#{pontoBean.search}" styleClass="button" immediate="true" reRender="paginaPrincipal"/>
-	
+
 
 </ui:composition>
 

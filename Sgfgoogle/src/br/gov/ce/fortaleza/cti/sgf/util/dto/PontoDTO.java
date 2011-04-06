@@ -11,6 +11,9 @@ import br.gov.ce.fortaleza.cti.sgf.util.IndexTableDecorator;
 public class PontoDTO  implements Serializable {
 
 	private static final long serialVersionUID = 4561331928131040072L;
+	
+	public static String  SEARCH_ADDRESS = "SEARCH_ADDRESS";
+	public static String  VIEW_MAP = "VIEW_MAP";
 
 	private int index;
 	private int id;

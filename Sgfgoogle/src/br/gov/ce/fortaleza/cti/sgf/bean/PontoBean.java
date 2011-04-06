@@ -19,7 +19,7 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 
 	@Autowired
 	private PontoService service;
-	
+
 	private String points = new String("");
 
 	private Double lat;
@@ -65,21 +65,31 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 			return FAIL;
 		}
 	}
-	
+
 	public String latitudeChanged(){
-		
+
 		return SUCCESS;
 	}
-	
-//	public String search(){
-//		String temp = new String("");
-//		List<Ponto> result = service.retrieveAll();
-//		for (Ponto p : result) {
-//			temp += ((Point)p.getGeometry()).y + "##" +  ((Point)p.getGeometry()).x + "##" +  p.getDescricao() + "##$##";
-//		}
-//		this.points = temp;
-//		return super.search();
-//	}
+
+	public String save(){
+
+		if(this.lat != null && this.lat != null){
+			this.entity.setGeometry(new Point(this.lat, this.lng));
+			return super.save();
+		}
+
+		return FAIL;
+	}
+
+	//	public String search(){
+	//		String temp = new String("");
+	//		List<Ponto> result = service.retrieveAll();
+	//		for (Ponto p : result) {
+	//			temp += ((Point)p.getGeometry()).y + "##" +  ((Point)p.getGeometry()).x + "##" +  p.getDescricao() + "##$##";
+	//		}
+	//		this.points = temp;
+	//		return super.search();
+	//	}
 
 	public Double getLat() {
 		return lat;

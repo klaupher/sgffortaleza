@@ -122,7 +122,7 @@ function showVeiculoRoute(){
 }
 
 function clicked(overlay, latlng) {
-	crossAddress()
+	mapp.clearOverlays();
 	if (latlng) {
 		geocoder.getLocations(latlng, function(addresses) {
 			if(addresses.Status.code != 200) {
