@@ -66,6 +66,11 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 		}
 	}
 	
+	public String latitudeChanged(){
+		
+		return SUCCESS;
+	}
+	
 //	public String search(){
 //		String temp = new String("");
 //		List<Ponto> result = service.retrieveAll();

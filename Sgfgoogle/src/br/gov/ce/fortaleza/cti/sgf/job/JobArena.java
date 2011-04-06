@@ -27,7 +27,7 @@ public class JobArena implements Job {
 	EntityManager entityManager = factory.createEntityManager();
 
 	public static Integer VEICULO_ID_ARENA = 4481; // Equipamento teste PMF
-	public static Integer VEICULO_ID_SGF = 19;
+	public static Integer VEICULO_ID_SGF = 246;
 
 	@Override
 	@Transactional

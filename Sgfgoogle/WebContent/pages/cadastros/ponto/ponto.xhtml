@@ -12,12 +12,12 @@
 	
 		<h1>Cadastro de ponto</h1>
 
-		<h:inputHidden id="lat" value="#{pontoBean.lat}" required="true"/>
+		<h:inputHidden id="lat" value="#{pontoBean.lat}" required="true" valueChangeListener="#{pontoBean.latitudeChanged}"/>
 		<h:inputHidden id="lng" value="#{pontoBean.lng}" required="true"/>
 		<h:inputHidden value="#{pontoBean.entity.id}" rendered="#{pontoBean.updateState}"/>
 		
 		<h:outputLabel value="Nome do ponto:"/>
-		<h:inputText id="nomePonto" value="#{pontoBean.entity.descricao}" required="true" maxlength="50" size="50">
+		<h:inputText id="descricaoPonto" value="#{pontoBean.entity.descricao}" maxlength="50" size="90">
 			<f:validateLength maximum="50"/>
 			<rich:ajaxValidator event="onblur"/>
 		</h:inputText>

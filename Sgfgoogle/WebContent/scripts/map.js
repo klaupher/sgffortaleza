@@ -121,16 +121,37 @@ function showVeiculoRoute(){
 	calculateBoundsRoute(markers);
 }
 
+function clicked(overlay, latlng) {
+	crossAddress()
+	if (latlng) {
+		geocoder.getLocations(latlng, function(addresses) {
+			if(addresses.Status.code != 200) {
+				alert("reverse geocoder failed to find an address for " + latlng.toUrlValue());
+			} else {
+				address = addresses.Placemark[0];
+				var myHtml = address.address;
+				//mapp.openInfoWindow(latlng, myHtml);
+		    	mapp.setCenter(latlng, 15);
+		        var marker = new GMarker(latlng);
+		        mapp.addOverlay(marker);
+				document.getElementById("lat").value = latlng.lat();
+		        document.getElementById("lng").value = latlng.lng();
+				document.getElementById("descricaoPonto").value = myHtml;
+			}
+		});
+	}
+} 
+
 function showAddress() {
-	map.clearOverlays();
+	mapp.clearOverlays();
 	var address = document.getElementById('endereco').value;
 	if (geocoder) {
 	  geocoder.getLatLng(
       address,
       function(point) {
-    	  map.setCenter(point, 15);
+    	  mapp.setCenter(point, 15);
           var marker = new GMarker(point);
-          map.addOverlay(marker);
+          mapp.addOverlay(marker);
           document.getElementById("lat").value = point.lat();
           document.getElementById("lng").value = point.lng();
       }
@@ -143,6 +164,23 @@ function getAddress(overlay, latlng) {
 		address = latlng;
 		geocoder.getLocations(latlng, showAddress);
 	}
+}
+
+function crossAddress(){
+	
+	var geocoder = new google.maps.Geocoder();
+	   var address = 'Fortaleza, BR';
+
+	   if (geocoder) {
+	      geocoder.geocode({ 'address': address }, function (results, status) {
+	         if (status == google.maps.GeocoderStatus.OK) {
+	            console.log(results[0].geometry.location);
+	         }
+	         else {
+	            console.log("Geocoding failed: " + status);
+	         }
+	      });
+	   }    
 }
 
 /*
@@ -213,8 +251,8 @@ function createEditablePoint() {
 	mapp.disableDoubleClickZoom();
 	var lat = document.getElementById("lat");
 	var lng = document.getElementById("lng");
-
-	GEvent.addListener(mapp, "click", function(overlay, point) {
+	GEvent.addListener(mapp, "click", clicked);
+	GEvent.addListener(mapp, "dblclick", function(overlay, point) {
 	mapp.clearOverlays();
 		if(point) {
 			pointToRemove = point;
@@ -233,6 +271,8 @@ function createEditablePoint() {
 	}
 	google.setOnLoadCallback(createEditablePoint);
 }
+
+
 
 function getCirclePoints(center, radius){
 	var circlePoints = Array();
