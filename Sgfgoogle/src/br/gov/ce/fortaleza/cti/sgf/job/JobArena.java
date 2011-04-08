@@ -23,9 +23,6 @@ public class JobArena implements Job {
 
 	public static final Logger log = Logger.getLogger(JobArena.class);
 
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
-	EntityManager entityManager = factory.createEntityManager();
-
 	public static Integer VEICULO_ID_ARENA = 4481; // Equipamento teste PMF
 	public static Integer VEICULO_ID_SGF = 246;
 
@@ -33,17 +30,20 @@ public class JobArena implements Job {
 	@Transactional
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
+		EntityManager entityManager = factory.createEntityManager();
 		List<Transmissao> transmissoes;
-		//veiculoids.add(VEICULO_ID_SGF);
-		EntityTransaction transaction = entityManager.getTransaction();
+		EntityTransaction transaction;
+		transaction = entityManager.getTransaction();
+		transaction.begin();
 
 		try {
+			
 			log.info("Iniciando conexão Arena...");
 			ArenaService arena = ArenaService.login();
 			log.info("Conexão Arena: OK");
 			Date fim = DateUtil.getDateNow();
 			Date ini; //DateUtil.adicionarOuDiminuir(fim, -2*DateUtil.MINUTE_IN_MILLIS);
-			
 			Query query = entityManager.createQuery("SELECT max(t.dataTransmissao) FROM Transmissao t WHERE t.veiculoId = ?");
 			query.setParameter(1, VEICULO_ID_SGF);
 			Date dataUltimaTransmissao =  (Date) query.getSingleResult();
@@ -54,7 +54,6 @@ public class JobArena implements Job {
 				ini = DateUtil.adicionarOuDiminuir(fim, -4*DateUtil.DAY_IN_MILLIS);
 			}
 			
-			transaction.begin();
 			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);
 
 			for (Transmissao transmissao : transmissoes) {
@@ -68,6 +67,7 @@ public class JobArena implements Job {
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			e.printStackTrace();
+			transaction.rollback();
 		} finally {
 			entityManager.close();
 		}
