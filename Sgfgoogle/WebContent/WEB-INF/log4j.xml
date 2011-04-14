@@ -18,12 +18,12 @@
 	</appender>
 
 	<!-- log detail configuration -->
-	<!--
-	<logger name="br.com.der">
+	
+	<logger name="br.gov.ce.fortaleza.cti.sgf">
 		<level value="warn" />
 		<appender-ref ref="FILE" />
 	</logger>
-
+<!-- 
 	<logger name="org.springframework">
 		<level value="warn" />
 		<appender-ref ref="FILE" />

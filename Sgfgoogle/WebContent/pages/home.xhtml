@@ -334,9 +334,20 @@
 					<ui:include src="relatorios/veiculosInconsistentes/veiculosInconsistentes.xhtml" />
 				</c:if>
 		
-				<!-- PÁGINAS DOS RelatórioS DO SGF -->
+				<!-- PÁGINAS dos Relatórios de monitoramento dos veiculos -->
+				
+				<c:if test="#{controlBean.relatorioMonitoramentoBean}">
+					<c:if test="#{relatorioMonitoramentoBean.relatorioPosicoesVeiculo}">
+						<ui:include src="relatoriosMonitoramento/posicoesVeiculo.xhtml" />
+					</c:if>
+				</c:if>
+				
+				<!-- PÁGINAS dos RelatórioS  -->
 
 				<c:if test="#{controlBean.relatorioBean}">
+					<c:if test="#{relatorioBean.relatorioTrocasLubrificanteState}">
+						<ui:include src="relatorios/trocasLubrificante/relatorioTrocasLubrificante.xhtml" />
+					</c:if>				
 					<c:if test="#{relatorioBean.relatorioInformacoesVeiculoState}">
 						<ui:include src="relatorios/veiculos/relatorioInformacoesVeiculo.xhtml" />
 					</c:if>

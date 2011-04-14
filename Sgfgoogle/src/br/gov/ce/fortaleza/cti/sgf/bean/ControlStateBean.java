@@ -412,6 +412,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		return RelatorioBean.class.getSimpleName().equals(getCurrentBean());
 	}
 	
+	public boolean isRelatorioMonitoramentoBean(){
+		return RelatorioMonitoramentoBean.class.getSimpleName().equals(getCurrentBean());
+	}
+	
 	public boolean isVeiculoInconsistenteBean(){
 		return VeiculosInconsistentesBean.class.getSimpleName().equals(getCurrentBean());
 	}

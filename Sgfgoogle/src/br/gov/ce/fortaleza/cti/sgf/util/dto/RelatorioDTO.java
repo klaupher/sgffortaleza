@@ -13,6 +13,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Multa;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
 import br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao;
+import br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante;
 import br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
@@ -20,6 +21,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 public class RelatorioDTO implements Serializable {
 
 	private static final long serialVersionUID = -6814076103208623949L;
+	public static final String TROCAS_LUBRIFICANTE = "TROCAS_LUBRIFICANTE";
 	public static final String INFORMACOES_VEICULO = "INFORMACOES_VEICULO";
 	public static final String PONTUACAO_MOTORISTA = "PONTUACAO_MOTORISTA";
 	public static final String VEICULO_MULTA = "VEICULO_MULTA";
@@ -48,6 +50,7 @@ public class RelatorioDTO implements Serializable {
 	private List<ItemRequisicao> itensManutencao;
 	private SolicitacaoVeiculo solicitacaoVeiculo;
 	private RegistroVeiculo registroSolicitacao;
+	private SolicitacaoLubrificante solicitacaoLubrificante;
 	private Float consumo;
 	private Float consumoTotal;
 	private Float saldoCota;
@@ -368,5 +371,14 @@ public class RelatorioDTO implements Serializable {
 
 	public List<ItemRequisicao> getItensManutencao() {
 		return itensManutencao;
+	}
+
+	public SolicitacaoLubrificante getSolicitacaoLubrificante() {
+		return solicitacaoLubrificante;
+	}
+
+	public void setSolicitacaoLubrificante(
+			SolicitacaoLubrificante solicitacaoLubrificante) {
+		this.solicitacaoLubrificante = solicitacaoLubrificante;
 	}
 }

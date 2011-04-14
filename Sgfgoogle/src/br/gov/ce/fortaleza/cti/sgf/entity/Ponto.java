@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -33,6 +34,18 @@ public class Ponto implements Serializable {
 	@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
 	@Column(name = "GEOMPONTO", nullable = false)
 	private Geometry geometry;
+	
+	@Column(name="X")
+	private Double x;
+	
+	@Column(name="Y")
+	private Double y;
+	
+	@Column(name="CODCLIENTE")
+	private Integer codcliente;
+	
+	@Transient
+	private double distancia;
 
 	public Integer getId() {
 		return id;
@@ -56,6 +69,38 @@ public class Ponto implements Serializable {
 
 	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;
+	}
+	
+	public Double getX() {
+		return x;
+	}
+
+	public void setX(Double x) {
+		this.x = x;
+	}
+
+	public Double getY() {
+		return y;
+	}
+
+	public void setY(Double y) {
+		this.y = y;
+	}
+	
+	public Integer getCodcliente() {
+		return codcliente;
+	}
+
+	public void setCodcliente(Integer codcliente) {
+		this.codcliente = codcliente;
+	}
+
+	public double getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(double distancia) {
+		this.distancia = distancia;
 	}
 
 	public int hashCode() {

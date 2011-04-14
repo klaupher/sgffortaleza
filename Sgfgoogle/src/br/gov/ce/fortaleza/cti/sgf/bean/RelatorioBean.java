@@ -143,6 +143,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	private final String relInformacoesVeiculo = "relat.informacoes.veiculo";
 	private final String relInformacoesKmsRodadosVeiculo = "relat.informacoes.kms.rodados.veiculo";
+	private final String relTrocasLubrificantes = "relat.trocas.lubrificante.veiculo";
 
 	@Override
 	protected RelatorioDTO createNewEntity() {
@@ -165,6 +166,15 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public List<SelectItem> getAnoList(){
 		return DateUtil.getSelectItemAnos();
+	}
+	
+	public String relatorioTrocasLubrificante() {
+		this.nomeRelatorio = this.relTrocasLubrificantes;
+		setCurrentState(RelatorioDTO.TROCAS_LUBRIFICANTE);
+		setCurrentBean(currentBeanName());
+		this.entities = null;
+		this.generate = false;
+		return SUCCESS;
 	}
 
 	public String relatorioInformacoesVeiculos() {
@@ -293,6 +303,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		setCurrentBean(currentBeanName());
 		this.entities = null;
 		return SUCCESS;
+	}
+	
+	public boolean isRelatorioTrocasLubrificanteState() {
+		return RelatorioDTO.TROCAS_LUBRIFICANTE.equals(getCurrentState());
 	}
 
 	public boolean isRelatorioInformacoesVeiculoState() {

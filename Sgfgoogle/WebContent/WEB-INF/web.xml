@@ -98,6 +98,10 @@
 	</listener>
 	
 	<listener>
+		<listener-class>br.gov.ce.fortaleza.cti.sgf.job.ListenerJobUpdateTransmissoes</listener-class>
+	</listener>	
+	
+	<listener>
 		<listener-class>br.gov.ce.fortaleza.cti.sgf.job.ListenerJobCota</listener-class>
 	</listener>
 

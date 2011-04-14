@@ -15,7 +15,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.postgis.Geometry;
@@ -68,10 +67,12 @@ public class Transmissao implements Serializable {
 	@JoinColumn(name="CODPONTO")
 	private Ponto ponto;
 	
-	@Transient
+	private transient Ponto pontoMaisProximo;
+	
+	@Column(name="X")
 	private Double x;
 	
-	@Transient
+	@Column(name="Y")
 	private Double y;
 
 	public Long getId() {
@@ -168,6 +169,19 @@ public class Transmissao implements Serializable {
 
 	public void setY(Double y) {
 		this.y = y;
+	}
+	
+	public Ponto getPontoMaisProximo() {
+		if (pontoMaisProximo == null) {
+			pontoMaisProximo = new Ponto();
+			pontoMaisProximo.setX(x);
+			pontoMaisProximo.setY(y);
+		}
+		return pontoMaisProximo;
+	}
+
+	public void setPontoMaisProximo(Ponto pontoMaisProximo) {
+		this.pontoMaisProximo = pontoMaisProximo;
 	}
 
 	public int hashCode() {

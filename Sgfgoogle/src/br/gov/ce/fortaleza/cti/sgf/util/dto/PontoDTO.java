@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import br.gov.ce.fortaleza.cti.sgf.entity.Ponto;
 import br.gov.ce.fortaleza.cti.sgf.util.ColorUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.IndexTableDecorator;
@@ -14,6 +15,7 @@ public class PontoDTO  implements Serializable {
 	
 	public static String  SEARCH_ADDRESS = "SEARCH_ADDRESS";
 	public static String  VIEW_MAP = "VIEW_MAP";
+	public static String  RELATORIO_POSICOES = "RELATORIO_POSICOES";
 
 	private int index;
 	private int id;
@@ -29,6 +31,8 @@ public class PontoDTO  implements Serializable {
 	private float velocidadeMaxima;
 	private float lat;
 	private float lng;
+	private double y;
+	private double x;
 	private float velocidade;
 	private float temperatura;
 	private float odometro;
@@ -45,9 +49,19 @@ public class PontoDTO  implements Serializable {
 	private Boolean existeTemperatura;
 	private Boolean existeOdometro;
 	private String pontoProximo;
+	private float distancia;
 	private List<PontoDTO> rastro;
 	private List<PontoDTO> rota;
 	private Date dataTransmissao;
+	
+	public PontoDTO() {
+
+	}
+
+	public PontoDTO(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	public boolean isStatusOdometro() {
 		return statusOdometro;
@@ -348,6 +362,34 @@ public class PontoDTO  implements Serializable {
 	public Boolean getExisteTemperatura() {
 		return existeTemperatura;
 	}
+	
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getDistancia() {
+		return distancia;
+	}
+
+	public void setDistancia(float distancia) {
+		this.distancia = distancia;
+	}
 
 	public void setExisteTemperatura(Boolean existeTemperatura) {
 		if (existeTemperatura == null) {
@@ -371,5 +413,34 @@ public class PontoDTO  implements Serializable {
 
 	public Boolean getHasRoute(){
 		return rota.size() > 0;
+	}
+
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PontoDTO other = (PontoDTO) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
+	public PontoDTO clone() {
+		PontoDTO ponto = new PontoDTO();
+		ponto.id = this.id;
+		ponto.x = this.x;
+		ponto.y = this.y;
+		ponto.pontoProximo = this.pontoProximo;
+		return ponto;
 	}
 }

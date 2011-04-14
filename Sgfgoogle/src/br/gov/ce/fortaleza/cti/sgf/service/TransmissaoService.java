@@ -17,6 +17,16 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 @Transactional
 public class TransmissaoService extends BaseService<Long, Transmissao> {
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Transmissao> retrieveByVeiculo(Integer veiculoId, Date dataHoraInicio, Date dataHoraFim) {
+		Query query = entityManager.createQuery("SELECT t FROM Transmissao t WHERE t.veiculoId = ? AND t.dataTransmissao BETWEEN ? AND ? ORDER BY t.dataTransmissao DESC");
+		query.setParameter(1, veiculoId);
+		query.setParameter(2, dataHoraInicio);
+		query.setParameter(3, dataHoraFim);
+		return query.getResultList();
+	}
+	
 	@Transactional(readOnly = true)
 	public List<Transmissao> findByVeiculo(Integer veiculoId, Date dataHoraInicio, Date dataHoraFim) {
 		return executeResultListQuery("findByVeiculo", veiculoId, dataHoraInicio, dataHoraFim);
@@ -40,9 +50,18 @@ public class TransmissaoService extends BaseService<Long, Transmissao> {
 		return result;
 	}
 	
-	
-	public Date dataUltTransmissao(){
+	@Transactional(readOnly = true)
+	public List<Transmissao> findTransmissoes(){
 		
+		Query query = entityManager.createQuery("SELECT t FROM Transmissao t LEFT JOIN Veiculo v ON t.veiculoId = " +
+				"v.id WHERE t.codponto IS NULL ORDER BY t.dataTransmissao LIMIT 1000");
+		@SuppressWarnings("unchecked")
+		List<Transmissao> result = query.getResultList();
+		return result;
+	}
+ 	
+	@Transactional(readOnly = true)
+	public Date dataUltTransmissao(){
 		Query query = entityManager.createNamedQuery("SELECT max(t.dataTransmissao) FROM Transmissao t");
 		Date d = (Date)query.getSingleResult();
 		return d;

@@ -9,7 +9,7 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 	
 
-	<a4j:poll id="poolMonitor" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" interval="120000" reRender="m, alert, dataInicio" oncomplete="updateMap()" ajaxSingle="true"/>
+	<a4j:poll id="poolMonitor" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" interval="60000" reRender="m, alert, dataInicio" oncomplete="updateMap()" ajaxSingle="true"/>
 
 	<div id="cadastro" class="contentMonitoramento">
 	

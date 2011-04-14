@@ -19,6 +19,8 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 
 	@Autowired
 	private PontoService service;
+	
+	private Integer codcliente;
 
 	private String points = new String("");
 
@@ -59,9 +61,10 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 	public String update() {
 		if(this.lat != null && this.lat != null){
 			this.entity.setGeometry(new Point(this.lat, this.lng));
+			this.entity.setX(this.lat);
+			this.entity.setY(this.lng);
 			return super.update();
 		} else {
-			//JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.localizacao.nao.encontrada");
 			return FAIL;
 		}
 	}
@@ -74,22 +77,14 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 	public String save(){
 
 		if(this.lat != null && this.lat != null){
-			this.entity.setGeometry(new Point(this.lat, this.lng));
+			this.entity.setGeometry(new Point(this.lat , this.lng));
+			this.entity.setX(this.lng);
+			this.entity.setY(this.lat);
+			this.entity.setCodcliente(0);
 			return super.save();
 		}
-
 		return FAIL;
 	}
-
-	//	public String search(){
-	//		String temp = new String("");
-	//		List<Ponto> result = service.retrieveAll();
-	//		for (Ponto p : result) {
-	//			temp += ((Point)p.getGeometry()).y + "##" +  ((Point)p.getGeometry()).x + "##" +  p.getDescricao() + "##$##";
-	//		}
-	//		this.points = temp;
-	//		return super.search();
-	//	}
 
 	public Double getLat() {
 		return lat;
@@ -113,6 +108,14 @@ public class PontoBean extends EntityBean<Integer, Ponto>{
 
 	public void setPoints(String points) {
 		this.points = points;
+	}
+
+	public Integer getCodcliente() {
+		return codcliente;
+	}
+
+	public void setCodcliente(Integer codcliente) {
+		this.codcliente = codcliente;
 	}
 
 }

@@ -8,4 +8,6 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Ponto;
 @Repository
 @Transactional
 public class PontoService extends BaseService<Integer, Ponto>{
+	
+	
 }

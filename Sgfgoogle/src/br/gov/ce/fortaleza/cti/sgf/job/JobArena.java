@@ -21,9 +21,9 @@ import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 
 public class JobArena implements Job {
 
-	public static final Logger log = Logger.getLogger(JobArena.class);
+	private static final Logger log = Logger.getLogger(JobArena.class);
 
-	public static Integer VEICULO_ID_ARENA = 4481; // Equipamento teste PMF
+	public static Integer VEICULO_ID_ARENA = 4481;
 	public static Integer VEICULO_ID_SGF = 246;
 
 	@Override
@@ -35,9 +35,10 @@ public class JobArena implements Job {
 		List<Transmissao> transmissoes;
 		EntityTransaction transaction;
 		transaction = entityManager.getTransaction();
-		transaction.begin();
 
 		try {
+			
+			transaction.begin();
 			
 			log.info("Iniciando conexão Arena...");
 			ArenaService arena = ArenaService.login();
@@ -51,7 +52,7 @@ public class JobArena implements Job {
 			if(dataUltimaTransmissao != null){
 				ini = DateUtil.adicionarOuDiminuir(dataUltimaTransmissao, DateUtil.SECOND_IN_MILLIS);
 			} else {
-				ini = DateUtil.adicionarOuDiminuir(fim, -4*DateUtil.DAY_IN_MILLIS);
+				ini = DateUtil.adicionarOuDiminuir(fim, -DateUtil.DAY_IN_MILLIS);
 			}
 			
 			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);

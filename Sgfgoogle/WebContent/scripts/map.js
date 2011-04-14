@@ -46,6 +46,19 @@ function loadMaps() {
 	}
 }
 
+function calculateBoundsArea(){
+	var bounds = new GLatLngBounds();
+	var paths = polygon.getPaths();
+	var path;
+	for (var p = 0; p < paths.getLength(); p++) {
+		path = paths.getAt(p);
+		for (var i = 0; i < path.getLength(); i++) {
+			bounds.extend(path.getAt(i));
+		}
+	}
+	mapa.setCenter(bounds.getCenter(), mapa.getBoundsZoomLevel(bounds));
+}
+
 function showPointsOnMap(){
 	map.clearOverlays();
 	createMapPoints();
@@ -341,6 +354,7 @@ function createEditablePolygon() {
 		element.value = encode;
 	});
 	mapa.addOverlay(polygon);
+	calculateBoundsArea();
 	google.setOnLoadCallback(createEditablePolygon);
 }
 
