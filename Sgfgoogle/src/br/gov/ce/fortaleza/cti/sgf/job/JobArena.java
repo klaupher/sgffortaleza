@@ -1,7 +1,9 @@
 package br.gov.ce.fortaleza.cti.sgf.job;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,9 +17,16 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.transaction.annotation.Transactional;
 
+import spatialindex.rtree.RTree;
+import spatialindex.spatialindex.Point;
+import spatialindex.spatialindex.SpatialIndex;
+import spatialindex.storagemanager.PropertySet;
+
+import br.gov.ce.fortaleza.cti.sgf.entity.Ponto;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.service.ArenaService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.GeoUtil;
 
 public class JobArena implements Job {
 
@@ -37,32 +46,59 @@ public class JobArena implements Job {
 		transaction = entityManager.getTransaction();
 
 		try {
-			
+
 			transaction.begin();
-			
+
 			log.info("Iniciando conexão Arena...");
 			ArenaService arena = ArenaService.login();
 			log.info("Conexão Arena: OK");
 			Date fim = DateUtil.getDateNow();
-			Date ini; //DateUtil.adicionarOuDiminuir(fim, -2*DateUtil.MINUTE_IN_MILLIS);
+			Date ini;
 			Query query = entityManager.createQuery("SELECT max(t.dataTransmissao) FROM Transmissao t WHERE t.veiculoId = ?");
 			query.setParameter(1, VEICULO_ID_SGF);
 			Date dataUltimaTransmissao =  (Date) query.getSingleResult();
-			
+
 			if(dataUltimaTransmissao != null){
 				ini = DateUtil.adicionarOuDiminuir(dataUltimaTransmissao, DateUtil.SECOND_IN_MILLIS);
 			} else {
 				ini = DateUtil.adicionarOuDiminuir(fim, -DateUtil.DAY_IN_MILLIS);
 			}
-			
+
 			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);
 
 			for (Transmissao transmissao : transmissoes) {
 				entityManager.persist(transmissao);
 			}
 
+			log.info("Terminou inserção de transmissões...");
 			transaction.commit();
-			log.info("Transmissões retornadas " + transmissoes.size());
+
+
+			transaction.begin();
+
+			Map<Integer, RTree> pontosMap = null;
+			log.info("Iniciando atualização de transmissões...");
+			query = entityManager.createQuery("SELECT t FROM Transmissao t WHERE t.ponto.id IS NULL ORDER BY t.dataTransmissao");
+			List<Transmissao> transmissoesToUpdate = query.getResultList();
+
+			if(transmissoesToUpdate != null && transmissoesToUpdate.size() > 0){
+				log.info("Executando de atualização de transmissões...");
+				log.info("Iniciando criação do index de busca...");
+				query = entityManager.createQuery("SELECT p FROM Ponto p");
+				List<Ponto> pontos = query.getResultList();
+				pontosMap = findPontos(pontos, 0);
+				log.info("Criação do index: OK");
+			} else {
+				log.info("Nenhuma transmissão atualiazada...");
+			}
+
+			for (Transmissao transmissao : transmissoesToUpdate) {
+				GeoUtil.atualizarPontoMaisProximo(transmissao, pontosMap.get(0), pontosMap.get(0));
+				entityManager.merge(transmissao);
+			}
+			log.info(" " + transmissoesToUpdate.size()+ " transmissões atualizadas...");
+
+			transaction.commit();
 			log.info("Execução finalizada...");
 
 		} catch (Exception e) {
@@ -73,5 +109,28 @@ public class JobArena implements Job {
 			entityManager.close();
 		}
 
+	}
+
+	public Map<Integer, RTree> findPontos(List<Ponto> points, Integer clientId) throws Exception {
+
+		Map<Integer, RTree> result = new HashMap<Integer, RTree>();
+		try {
+			for (Ponto p : points) {
+				Ponto ponto = p;
+				if (!result.containsKey(clientId)) {
+					PropertySet propertySet = new PropertySet();
+					propertySet.setProperty("IndexCapacity", 5);
+					propertySet.setProperty("LeafCapactiy", 5);
+					result.put(clientId, new RTree(propertySet, SpatialIndex.createMemoryStorageManager(null)));
+				}
+				Point point = new Point(new double[]{ponto.getX(), ponto.getY()});
+				result.get(clientId).insertData(ponto.getDescricao().getBytes(), point, ponto.getId());
+			}
+
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

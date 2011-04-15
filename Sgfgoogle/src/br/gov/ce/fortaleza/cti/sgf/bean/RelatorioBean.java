@@ -35,6 +35,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
 import br.gov.ce.fortaleza.cti.sgf.entity.Multa;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
 import br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao;
+import br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante;
 import br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
@@ -50,6 +51,7 @@ import br.gov.ce.fortaleza.cti.sgf.service.MotoristaService;
 import br.gov.ce.fortaleza.cti.sgf.service.MultaService;
 import br.gov.ce.fortaleza.cti.sgf.service.PostoService;
 import br.gov.ce.fortaleza.cti.sgf.service.RequisicaoManutencaoService;
+import br.gov.ce.fortaleza.cti.sgf.service.SolicitacaoLubrificanteService;
 import br.gov.ce.fortaleza.cti.sgf.service.SolicitacaoVeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
@@ -101,6 +103,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	@Autowired
 	public ItemRequisicaoService itemManutencaoService;
+
+	@Autowired
+	public SolicitacaoLubrificanteService solicitacaoLubrificanteService;
 
 	private UG orgao = new UG();
 	private List<UG> orgaos = new ArrayList<UG>();
@@ -167,7 +172,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	public List<SelectItem> getAnoList(){
 		return DateUtil.getSelectItemAnos();
 	}
-	
+
 	public String relatorioTrocasLubrificante() {
 		this.nomeRelatorio = this.relTrocasLubrificantes;
 		setCurrentState(RelatorioDTO.TROCAS_LUBRIFICANTE);
@@ -304,7 +309,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = null;
 		return SUCCESS;
 	}
-	
+
 	public boolean isRelatorioTrocasLubrificanteState() {
 		return RelatorioDTO.TROCAS_LUBRIFICANTE.equals(getCurrentState());
 	}
@@ -437,6 +442,44 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 
+	public String consultarTrocasLubrificanteVeiculos(){
+
+		this.entities = new ArrayList<RelatorioDTO>();
+		List<RelatorioDTO> result = new ArrayList<RelatorioDTO>();
+		Map<String, List<SolicitacaoLubrificante>> solicitacoesLubrificanteMap = null;
+		
+		// status = 1 => solicitado
+		// status = 2 => atendido
+
+		if(this.orgao != null){
+			solicitacoesLubrificanteMap = solicitacaoLubrificanteService.retrieveSolicLubrificanteMap(2, null, null, this.dtInicial, this.dtFinal, this.orgao);
+		} else {
+			solicitacoesLubrificanteMap = solicitacaoLubrificanteService.retrieveSolicLubrificanteMap(2, null, null, this.dtInicial, this.dtFinal, null);
+		}
+
+		for (String key : solicitacoesLubrificanteMap.keySet()) {
+			List<SolicitacaoLubrificante> solicitacoes = solicitacoesLubrificanteMap.get(key);
+			UG orgao = ugService.retrieve(key);
+			RelatorioDTO relatorio = new RelatorioDTO();
+			relatorio.setOrgao(orgao);
+			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+			List<RelatorioDTO> relatorios = new ArrayList<RelatorioDTO>();
+			for (SolicitacaoLubrificante sol : solicitacoes) {
+				RelatorioDTO rel = new RelatorioDTO();
+				rel.setOrgao(orgao);
+				rel.setVeiculo(sol.getVeiculo());
+				rel.setSolicitacaoLubrificante(sol);
+				rel.setDtInicial(this.dtInicial);
+				rel.setDtFinal(this.dtFinal);
+				relatorios.add(rel);
+			}
+			relatorio.getRelatorios().addAll(relatorios);
+			result.add(relatorio);
+		}
+		this.entities.addAll(result);
+		return SUCCESS;
+	}
+
 	public String consultarSolicitacaoVeiculo(){
 		if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
@@ -509,75 +552,47 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		}
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
+		this.postos = new ArrayList<Posto>();
 		if(this.posto != null){
+			this.postos.add(this.posto);
+		} else {
+			this.postos = diarioBombaService.findDiariosPeriodoPosto(this.dtInicial, this.dtFinal);
+		}
+
+		for (Posto posto : postos) {
 			RelatorioDTO relatorio = new RelatorioDTO();
 			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
 			relatorio.setPosto(this.posto);
 			List<RelatorioDTO> relatorios = new ArrayList<RelatorioDTO>();
-			List<DiarioBomba> diarioBombas = diarioBombaService.findByPeriodoPosto(this.dtInicial, this.dtFinal, this.posto);
+			List<DiarioBomba> diarioBombas = diarioBombaService.findByPeriodoPosto(this.dtInicial, this.dtFinal, posto);
 			relatorio.getPosto().setDiarioBombas(diarioBombas);
-			Float total = 0F;
-			for (DiarioBomba d : diarioBombas) {
+
+			Float totalLitrosAbastecidos = 0F;
+			for (DiarioBomba diaria : diarioBombas) {
 				RelatorioDTO dto = new RelatorioDTO();
-				if(d.getValorFinal() != null && d.getValorInicial() != null){
-					if(d.getValorFinal() < d.getValorInicial()){
-						if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && 
-								d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
-							Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
-							d.setLitrosAbastecidos(la);
-							total+=la;
+				Float litrosAbastecidos = 0F;
+				if(diaria.getValorFinal() != null && diaria.getValorInicial() != null){
+					if(diaria.getValorFinal() < diaria.getValorInicial()){
+						if(diaria.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && diaria.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+							litrosAbastecidos =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - diaria.getValorInicial()) + diaria.getValorFinal());
+							diaria.setLitrosAbastecidos(litrosAbastecidos);
+							totalLitrosAbastecidos += litrosAbastecidos;
 						}
 					} else {
-						Float la = d.getValorFinal() - d.getValorInicial();
-						d.setLitrosAbastecidos(la);
-						total+=la;
+						litrosAbastecidos = diaria.getValorFinal() - diaria.getValorInicial();
+						diaria.setLitrosAbastecidos(litrosAbastecidos);
+						totalLitrosAbastecidos += litrosAbastecidos;
 					}
 				}
-				dto.setDiarioBomba(d);
-				dto.setPosto(this.posto);
+				dto.setDiarioBomba(diaria);
+				dto.setPosto(posto);
 				dto.setDtInicial(this.dtInicial);
 				dto.setDtFinal(this.dtFinal);
 				relatorios.add(dto);
 			}
 			relatorio.getRelatorios().addAll(relatorios);
-			relatorio.setConsumoPosto(total);
+			relatorio.setConsumoPosto(totalLitrosAbastecidos);
 			this.entities.add(relatorio);
-
-		} else {
-			this.postos = diarioBombaService.findDiariosPeriodoPosto(this.dtInicial, this.dtFinal);
-			for (Posto posto : postos) {
-				List<DiarioBomba> diarioBombasAux = diarioBombaService.findByPeriodoPosto(this.dtInicial, this.dtFinal, posto);
-				RelatorioDTO relatorio = new RelatorioDTO();
-				relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-				List<RelatorioDTO> relatorios = new ArrayList<RelatorioDTO>();
-				posto.setDiarioBombas(diarioBombasAux);
-				relatorio.setPosto(posto);
-				Float total = 0F;
-				for (DiarioBomba d : diarioBombasAux) {
-					RelatorioDTO dto = new RelatorioDTO();
-					if(d.getValorFinal() != null && d.getValorInicial() != null){
-						if(d.getValorFinal() > d.getValorInicial()){
-							if(d.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && d.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
-								Float la =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - d.getValorInicial()) + d.getValorFinal());
-								d.setLitrosAbastecidos(la);
-								total+=la;
-							}
-						} else {
-							Float la = d.getValorFinal() - d.getValorInicial();
-							d.setLitrosAbastecidos(la);
-							total+=la;
-						}
-					}
-					dto.setDiarioBomba(d);
-					dto.setPosto(posto);
-					dto.setDtInicial(this.dtInicial);
-					dto.setDtFinal(this.dtFinal);
-					relatorios.add(dto);
-				}
-				relatorio.getRelatorios().addAll(relatorios);
-				relatorio.setConsumoPosto(total);
-				this.entities.add(relatorio);
-			}
 		}
 		return SUCCESS;
 	}
@@ -737,7 +752,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
-		
+
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 
@@ -902,9 +917,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		List<Integer> ids = new ArrayList<Integer>();
 
 		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >();
-		
+
 		List<UG> ugs = null;
-		
+
 		if(this.orgao != null){
 			ugs = (List<UG>) atendimentoService.findAtendimentoByUG(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
 		}else{
@@ -912,13 +927,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		}
 
 		for (UG ug : ugs) {
-			
+
 			RelatorioDTO novo = new RelatorioDTO();
-			
+
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
 
 			novo.setOrgao(ug);
-			
+
 			List<Veiculo> veiculos = atendimentoService.findAtendimentoByVeiculo(ug.getId(), null, this.dtInicial, this.dtFinal);
 
 			for (Veiculo veiculo : veiculos) {
@@ -930,9 +945,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				dto.setOrgao(ug);
 				dto.setRelatorios(new ArrayList<RelatorioDTO>());
 				dto.setVeiculo(veiculo);
-				
+
 				List<Abastecimento> abastecimentos = atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
-				
+
 				for (Abastecimento abastecimento : abastecimentos) {
 					if(abastecimento.getAtendimentoAbastecimento() != null){
 						AtendimentoAbastecimento atendimento = abastecimento.getAtendimentoAbastecimento();
@@ -948,7 +963,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					}
 					dto.setCombustivel(abastecimento.getCombustivel().getDescricao());
 				}
-				
+
 				Cota cota = cotaService.retrieveVeiculoCota(veiculo);
 				if(cota != null){
 					dto.setCota(cota.getCota().floatValue());
@@ -956,10 +971,15 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				} else {
 					dto.setCota(0F);
 				}
-				
+				Float consumo = 0F;
 				dto.setConsumo(total);
 				dto.setKmRodados(kmFinal - kmInicial);
-				dto.setKmPorLitro((kmFinal - kmInicial)/total);
+				if(total == 0){
+					consumo = 0F;
+				} else {
+					consumo = (kmFinal - kmInicial)/total;
+				}
+				dto.setKmPorLitro(consumo);
 				dto.setNumeroAbastecimentos(nrAbastecimentos);
 				novo.getRelatorios().add(dto);
 			}
@@ -1016,7 +1036,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		}
 		this.entities = new ArrayList<RelatorioDTO>();
 		this.result = new ArrayList<RelatorioDTO>();
-		
+
 		List<UG> orgaos = null;
 		if(this.orgao == null && this.veiculo == null){
 			orgaos = manutencaoService.findUgsByManutencao(null, null, this.dtInicial, this.dtFinal);
@@ -1028,7 +1048,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			this.searchId = 1;
 			orgaos = manutencaoService.findUgsByManutencao(this.orgao.getId(), this.veiculo.getId(), this.dtInicial, this.dtFinal);
 		}
-		
+
 		for (UG ug : orgaos) {
 			RelatorioDTO relatorio = new RelatorioDTO();
 			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
@@ -1061,7 +1081,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			this.entities.add(relatorio);
 			this.result.addAll(relatorio.getRelatorios());
 		}
-		
+
 		return SUCCESS;
 	}
 
@@ -1337,9 +1357,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
 
 			} else if (this.nomeRelatorio.equals(this.relHistoricoVeiculoManutencao)) {
-				
+
 				ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-//				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
+				//				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
 				parametros.put("dtInicial", this.dtInicial);
 				parametros.put("dtFinal", this.dtFinal);
 				parametros.put("SUBREPORT_DIR", servletContext.getRealPath("/relatorios/jasper/"));
@@ -1349,11 +1369,22 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 				gerarRelatorioCollection(parametros, this.entities, this.nomeRelatorio);
 
+			} else if (this.nomeRelatorio.equals(this.relTrocasLubrificantes)) {
+				
+				List<RelatorioDTO> result = new ArrayList<RelatorioDTO>();
+				for (RelatorioDTO rel : this.entities) {
+					result.addAll(rel.getRelatorios());
+				}
+				gerarRelatorioCollection(parametros, result, this.nomeRelatorio);
+
 			} else if (this.nomeRelatorio.equals(this.relDiarioBombas)) {
 
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
 				for (RelatorioDTO r : this.entities) {
-					list.addAll(r.getRelatorios());
+					for (RelatorioDTO sub : r.getRelatorios()) {
+						sub.setConsumoPosto(r.getConsumoPosto());
+						list.add(sub);
+					}
 				}
 				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 
@@ -1437,12 +1468,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		servletOutputStream.write(array);
 		FacesContext.getCurrentInstance().responseComplete();
 	}
-	
+
 	public void gerarRelatorioBD(Map<String, Object> parametros, String filePropertie) throws IOException, JRException{
 		// Gerando relatorio
 		// Montando jasper path
 		String jasperPath = RelatorioUtil.getInstance().retornarJasperPath(filePropertie);
-//		byte[] array = GeradorRelatorio.gerarPdfCollection(parametros, colecao, jasperPath);
+		//		byte[] array = GeradorRelatorio.gerarPdfCollection(parametros, colecao, jasperPath);
 		byte[] array = GeradorRelatorio.gerarPdfBD(parametros, jasperPath);
 
 		// Resgatando response

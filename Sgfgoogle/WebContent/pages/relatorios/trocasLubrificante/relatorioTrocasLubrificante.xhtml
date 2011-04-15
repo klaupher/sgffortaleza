@@ -19,14 +19,33 @@
 		
 			<legend>Relatório de trocas de lubrificante</legend>
 		
+        	<dt><label for="orgao">Órgão</label></dt>
+        	<dd>
+				<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+					<c:if test="#{controlBean.administrador}">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+					</c:if>
+		    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+				</h:selectOneMenu>
+			</dd>
+			
+        	<dt><label for="dataInicial">Data inicial</label></dt>
+        	<dd>
+        		<h:inputText value="#{relatorioBean.dtInicial}" id="dataInicial" 
+        			required="true" requiredMessage="Informe a data inicial" styleClass="maskData">
+        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
+        		</h:inputText>
+        		<h:message for="dataInicial" styleClass="message"/>
+        	</dd>
 
-			<h:outputLabel value="UG:" />
-			<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-				<c:if test="#{controlBean.administrador}">
-					<f:selectItem itemLabel="Todos" itemValue="" />
-				</c:if>
-	    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-			</h:selectOneMenu>
+           	<dt><label for="dataFinal">Data final</label></dt>
+        	<dd>
+        		<h:inputText value="#{relatorioBean.dtFinal}" id="dataFinal" 
+        			required="true" requiredMessage="Informe a data final" styleClass="maskData">
+        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
+        		</h:inputText>
+        		<h:message for="dataFinal" styleClass="message"/>
+        	</dd>
 			
 			<h:commandButton action="#{relatorioBean.consultarTrocasLubrificanteVeiculos}" value="Consultar" style="margin-left:30px">
 				<a4j:support event="onclick" reRender="dataTable" />
@@ -46,7 +65,7 @@
 						<h:outputText value="Órgão: #{r.orgao.descricao}"/>
 					</rich:column>
 	
-					<rich:subTable id="subDataTable" headerClass="subHeader" value="#{r.relatorios}" var="sr" rowKeyVar="k"
+					<rich:subTable id="subDataTable" headerClass="subHeader" value="#{r.relatorios}" var="sub" rowKeyVar="k"
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')"
 						onRowMouseOut="jQuery(this).removeClass('trHover')"
@@ -59,47 +78,37 @@
 	
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="veículo"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.veiculo.placa sr.solicitacaoLubrificante.veiculo.modelo.descricao}"/>
+							<h:outputText value="#{sub.solicitacaoLubrificante.veiculo.placa}"/>
 						</rich:column>
 						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="motorista"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.motorista.pessoa.nome}"/>
+							<h:outputText value="#{sub.solicitacaoLubrificante.motorista.pessoa.nome}"/>
 						</rich:column>
 						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="posto"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.posto.nome}"/>
+							<h:outputText rendered="#{sub.solicitacaoLubrificante.posto != null}" value="#{sub.solicitacaoLubrificante.posto.descricao}"/>
 						</rich:column>
 						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="serviço"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.tipoServico.nome}"/>
-						</rich:column>
-						
-						<rich:column>
-							<f:facet name="header"><h:outputLabel value="serviço"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.tipoServico.nome}"/>
-						</rich:column>
-						
-						<rich:column>
-							<f:facet name="header"><h:outputLabel value="serviço"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.tipoServico.nome}"/>
+							<h:outputText rendered="#{sub.solicitacaoLubrificante.tipoServico != null}" value="#{sub.solicitacaoLubrificante.tipoServico.descricao}"/>
 						</rich:column>
 						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="quantidade"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.quantidade}"/>
+							<h:outputText value="#{sub.solicitacaoLubrificante.quantidade}"/>
 						</rich:column>
 						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="Km troca"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.kmTrocaAtual}"/>
+							<h:outputText value="#{sub.solicitacaoLubrificante.kmTrocaAtual}"/>
 						</rich:column>
 						
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="Data atendimento"/></f:facet>
-							<h:outputText value="#{sr.solicitacaoLubrificante.dataAtendimento}">
+							<h:outputText value="#{sub.solicitacaoLubrificante.dataAtendimento}">
 								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 							</h:outputText>
 						</rich:column>

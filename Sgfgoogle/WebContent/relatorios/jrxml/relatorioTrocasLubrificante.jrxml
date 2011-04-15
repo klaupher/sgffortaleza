@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioDiarioBomba" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioTrocasLubrificante" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<style name="zebrado" isDefault="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
@@ -10,40 +10,37 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="solicitacaoLubrificante" class="br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante">
+		<fieldDescription><![CDATA[solicitacaoLubrificante]]></fieldDescription>
+	</field>
 	<field name="dtFinal" class="java.util.Date">
 		<fieldDescription><![CDATA[dtFinal]]></fieldDescription>
 	</field>
 	<field name="dtInicial" class="java.util.Date">
 		<fieldDescription><![CDATA[dtInicial]]></fieldDescription>
 	</field>
-	<field name="posto" class="br.gov.ce.fortaleza.cti.sgf.entity.Posto">
-		<fieldDescription><![CDATA[posto]]></fieldDescription>
+	<field name="orgao" class="br.gov.ce.fortaleza.cti.sgf.entity.UG">
+		<fieldDescription><![CDATA[orgao]]></fieldDescription>
 	</field>
-	<field name="diarioBomba" class="br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba">
-		<fieldDescription><![CDATA[diarioBomba]]></fieldDescription>
+	<field name="veiculo" class="br.gov.ce.fortaleza.cti.sgf.entity.Veiculo">
+		<fieldDescription><![CDATA[veiculo]]></fieldDescription>
 	</field>
-	<field name="consumoPosto" class="java.lang.Float">
-		<fieldDescription><![CDATA[consumoPosto]]></fieldDescription>
-	</field>
-	<field name="consumoTotal" class="java.lang.Float">
-		<fieldDescription><![CDATA[consumoTotal]]></fieldDescription>
-	</field>
-	<group name="Posto">
-		<groupExpression><![CDATA[$F{diarioBomba}.getBomba().getPosto().getDescricao()]]></groupExpression>
+	<group name="Orgao">
+		<groupExpression><![CDATA[$F{orgao}.getDescricao()]]></groupExpression>
 		<groupHeader>
 			<band height="34">
-				<printWhenExpression><![CDATA[new Boolean($F{posto} != null)]]></printWhenExpression>
+				<printWhenExpression><![CDATA[new Boolean($F{orgao} != null)]]></printWhenExpression>
 				<staticText>
 					<reportElement x="0" y="0" width="52" height="14"/>
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Posto:]]></text>
+					<text><![CDATA[Orgao:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
 					<reportElement x="64" y="0" width="139" height="14"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{posto}.getDescricao()]]></textFieldExpression>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
 				<line>
 					<reportElement x="0" y="15" width="555" height="1" forecolor="#990000"/>
@@ -53,31 +50,31 @@
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Bomba]]></text>
+					<text><![CDATA[Veiculo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="223" y="17" width="76" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="223" y="17" width="120" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Hora final]]></text>
+					<text><![CDATA[serviço]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="53" y="17" width="87" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="53" y="17" width="115" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Hora inicial]]></text>
+					<text><![CDATA[motorista]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="369" y="17" width="104" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="374" y="17" width="55" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Litros/Dia]]></text>
+					<text><![CDATA[km troc]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="474" y="17" width="81" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="486" y="17" width="69" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
@@ -87,18 +84,25 @@
 					<reportElement x="0" y="32" width="555" height="1" forecolor="#990000"/>
 				</line>
 				<staticText>
-					<reportElement mode="Opaque" x="141" y="17" width="81" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="169" y="17" width="54" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Valor inicial]]></text>
+					<text><![CDATA[posto]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="300" y="17" width="68" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="344" y="17" width="29" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Valor final]]></text>
+					<text><![CDATA[qte]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="430" y="17" width="55" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<textElement textAlignment="Center">
+						<font fontName="Verdana" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[km prox.]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -109,7 +113,7 @@
 	<title>
 		<band height="82" splitType="Stretch">
 			<image>
-				<reportElement x="1" y="4" width="245" height="75" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="2" y="4" width="245" height="75" forecolor="#000000" backcolor="#FFFFFF"/>
 				<imageExpression class="java.lang.String"><![CDATA[$P{IMAGEM_URI}+"fortaleza-bela.gif"]]></imageExpression>
 			</image>
 			<staticText>
@@ -131,7 +135,7 @@
 				<textElement>
 					<font fontName="Verdana"/>
 				</textElement>
-				<text><![CDATA[Relatório de Diário de Bombas]]></text>
+				<text><![CDATA[Relatório de troca de lubrificantes]]></text>
 			</staticText>
 			<line>
 				<reportElement x="0" y="80" width="555" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
@@ -176,26 +180,14 @@
 	<columnHeader>
 		<band height="16" splitType="Stretch">
 			<staticText>
-				<reportElement x="343" y="0" width="98" height="14"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Consumo Posto:]]></text>
-			</staticText>
-			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement x="441" y="0" width="113" height="14"/>
-				<textElement/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{consumoPosto}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" x="158" y="0" width="64" height="14" isRemoveLineWhenBlank="true"/>
+				<reportElement stretchType="RelativeToBandHeight" x="185" y="0" width="64" height="14" isRemoveLineWhenBlank="true"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data final: ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="222" y="0" width="100" height="14"/>
+				<reportElement x="249" y="0" width="100" height="14"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{dtFinal}]]></textFieldExpression>
 			</textField>
@@ -207,7 +199,7 @@
 				<text><![CDATA[Data inicial: ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="70" y="0" width="83" height="14"/>
+				<reportElement x="70" y="0" width="98" height="14"/>
 				<textElement/>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{dtInicial}]]></textFieldExpression>
 			</textField>
@@ -215,45 +207,52 @@
 	</columnHeader>
 	<detail>
 		<band height="15" splitType="Stretch">
-			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="0" y="0" width="52" height="14"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="53" y="0" width="115" height="14"/>
+				<textElement textAlignment="Left">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{solicitacaoLubrificante}.getMotorista().getPessoa().getNome()]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="169" y="0" width="54" height="14"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{diarioBomba}.getBomba().getNumero()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{solicitacaoLubrificante}.getPosto().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="53" y="0" width="87" height="14"/>
+				<reportElement style="zebrado" x="223" y="0" width="120" height="14"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{solicitacaoLubrificante}.getTipoServico().getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="344" y="0" width="29" height="14"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{diarioBomba}.getHoraInicial()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{solicitacaoLubrificante}.getQuantidade()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="141" y="0" width="81" height="14"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{diarioBomba}.getValorInicial()]]></textFieldExpression>
-			</textField>
-			<textField pattern="HH:mm" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="223" y="0" width="76" height="14"/>
+				<reportElement style="zebrado" x="374" y="0" width="55" height="14"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{diarioBomba}.getHoraFinal()]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="300" y="0" width="68" height="14"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{diarioBomba}.getValorFinal()]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="369" y="0" width="104" height="14"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{diarioBomba}.getLitrosAbastecidos()]]></textFieldExpression>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{solicitacaoLubrificante}.getKmTrocaAtual()]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="474" y="0" width="81" height="14"/>
+				<reportElement style="zebrado" x="486" y="0" width="69" height="14"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.util.Date"><![CDATA[$F{diarioBomba}.getDataCadastro()]]></textFieldExpression>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{solicitacaoLubrificante}.getDataAtendimento()]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="430" y="0" width="55" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{solicitacaoLubrificante}.getKmPrevProximaTroca()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="zebrado" x="1" y="0" width="51" height="14"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="4" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="19" splitType="Stretch">
@@ -267,7 +266,7 @@
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
-				<text><![CDATA[Relatório de Diário de Bombas]]></text>
+				<text><![CDATA[Relatório de trocas de lubrificantes]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="433" y="5" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF"/>

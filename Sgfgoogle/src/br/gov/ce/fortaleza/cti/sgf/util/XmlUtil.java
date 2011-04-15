@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.XPath;
@@ -19,7 +20,8 @@ public class XmlUtil {
 			SAXReader sb = new SAXReader();
 			Document document = sb.read(new StringReader(xml));
 			return document.getRootElement();
-		} catch (Exception e) {
+		} catch (DocumentException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
