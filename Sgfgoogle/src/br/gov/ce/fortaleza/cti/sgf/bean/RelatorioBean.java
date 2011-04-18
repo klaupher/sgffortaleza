@@ -149,6 +149,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private final String relInformacoesVeiculo = "relat.informacoes.veiculo";
 	private final String relInformacoesKmsRodadosVeiculo = "relat.informacoes.kms.rodados.veiculo";
 	private final String relTrocasLubrificantes = "relat.trocas.lubrificante.veiculo";
+	private final String relCotasVeiculos = "relat.cotas.veiculos";
 
 	@Override
 	protected RelatorioDTO createNewEntity() {
@@ -171,6 +172,15 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public List<SelectItem> getAnoList(){
 		return DateUtil.getSelectItemAnos();
+	}
+
+	public String relatorioCotasVeiculos() {
+		this.nomeRelatorio = this.relCotasVeiculos;
+		setCurrentState(RelatorioDTO.COTAS_VEICULOS);
+		setCurrentBean(currentBeanName());
+		this.entities = null;
+		this.generate = false;
+		return SUCCESS;
 	}
 
 	public String relatorioTrocasLubrificante() {
@@ -310,6 +320,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 
+	public boolean isRelatorioCotasVeiculosState() {
+		return RelatorioDTO.COTAS_VEICULOS.equals(getCurrentState());
+	}
 	public boolean isRelatorioTrocasLubrificanteState() {
 		return RelatorioDTO.TROCAS_LUBRIFICANTE.equals(getCurrentState());
 	}
@@ -442,12 +455,47 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 
+	public String consultarCotasVeiculos(){
+
+		this.entities = new ArrayList<RelatorioDTO>();
+		List<UG> ugs = new ArrayList<UG>();
+		List<Cota> cotas;
+		if(this.orgao != null){
+			ugs.add(this.orgao);
+		} else {
+			ugs.addAll(ugService.retrieveAll());
+		}
+
+		Double total = 0D;
+		for (UG ug : ugs) {
+			cotas = cotaService.retrieveCotasVeiculosByUG(ug.getId());
+			if(cotas != null && cotas.size() > 0){
+				RelatorioDTO relatorio = new RelatorioDTO();
+				Double somaCotas = 0D;
+				relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+				for (Cota cota : cotas) {
+					RelatorioDTO rel = new RelatorioDTO();
+					rel.setCotaVeiculo(cota);
+					rel.setOrgao(ug);
+					somaCotas += cota.getCota();
+					relatorio.getRelatorios().add(rel);
+				}
+				relatorio.setOrgao(ug);
+				relatorio.setCotaSoma(somaCotas);
+				total += somaCotas;
+				this.entities.add(relatorio);
+			}
+		}
+		return SUCCESS;
+	}
+
+
 	public String consultarTrocasLubrificanteVeiculos(){
 
 		this.entities = new ArrayList<RelatorioDTO>();
 		List<RelatorioDTO> result = new ArrayList<RelatorioDTO>();
 		Map<String, List<SolicitacaoLubrificante>> solicitacoesLubrificanteMap = null;
-		
+
 		// status = 1 => solicitado
 		// status = 2 => atendido
 
@@ -1369,8 +1417,19 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 				gerarRelatorioCollection(parametros, this.entities, this.nomeRelatorio);
 
+			}  else if (this.nomeRelatorio.equals(this.relCotasVeiculos)) {
+
+				List<RelatorioDTO> result = new ArrayList<RelatorioDTO>();
+				for (RelatorioDTO rel : this.entities) {
+					for (RelatorioDTO sub : rel.getRelatorios()) {
+						sub.setCotaSoma(rel.getCotaSoma());
+						result.add(sub);
+					}
+				}
+				gerarRelatorioCollection(parametros, result, this.nomeRelatorio);
+
 			} else if (this.nomeRelatorio.equals(this.relTrocasLubrificantes)) {
-				
+
 				List<RelatorioDTO> result = new ArrayList<RelatorioDTO>();
 				for (RelatorioDTO rel : this.entities) {
 					result.addAll(rel.getRelatorios());

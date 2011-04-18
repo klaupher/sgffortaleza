@@ -22,6 +22,18 @@
 			<f:selectItem itemLabel="Todos ..." itemValue=""/>
  			<t:selectItems value="#{veiculoBean.veiculosRastreados}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 		</h:selectOneMenu>
+		<br/>
+		
+		<h:selectOneRadio id="tempoConsulta" styleClass="checkbox" value="#{mapBean.tempoConsulta}">
+			<f:selectItem itemLabel="Últ. 4h" itemValue="4"/>
+			<f:selectItem itemLabel="Últ. 8h" itemValue="8"/>
+			<f:selectItem itemLabel="Últ. 16h" itemValue="16"/>
+			<f:selectItem itemLabel="Últ. 24h" itemValue="24"/>
+			<f:selectItem itemLabel="Últ. 36h" itemValue="36"/>
+			<f:selectItem itemLabel="Últ. 48h" itemValue="48"/>
+			<f:selectItem itemLabel="Últ. 72h" itemValue="72"/>
+			<a4j:support event="onchange" action="#{mapBean.populate}"/>
+		</h:selectOneRadio>
 
 		<a4j:commandButton id="veiculoRota" value="Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="vehicleRoute" styleClass="button">
 			<a4j:support event="oncomplete" oncomplete="showVeiculoRoute()"/>

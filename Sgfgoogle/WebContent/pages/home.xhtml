@@ -345,6 +345,9 @@
 				<!-- PÁGINAS dos RelatórioS  -->
 
 				<c:if test="#{controlBean.relatorioBean}">
+					<c:if test="#{relatorioBean.relatorioCotasVeiculosState}">
+						<ui:include src="relatorios/relatorioCotasVeiculos.xhtml" />
+					</c:if>	
 					<c:if test="#{relatorioBean.relatorioTrocasLubrificanteState}">
 						<ui:include src="relatorios/trocasLubrificante/relatorioTrocasLubrificante.xhtml" />
 					</c:if>				

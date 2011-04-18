@@ -12,6 +12,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.hibernate.TransactionException;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -41,12 +42,60 @@ public class JobArena implements Job {
 
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
 		EntityManager entityManager = factory.createEntityManager();
-		List<Transmissao> transmissoes;
-		EntityTransaction transaction;
-		transaction = entityManager.getTransaction();
 
 		try {
+			insertTransmissoes(entityManager);
+			updateTransmissoes(entityManager);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			e.printStackTrace();
+		} finally {
+			entityManager.close();
+		}
+	}
 
+	@SuppressWarnings("unchecked")
+	public static void updateTransmissoes(EntityManager entityManager){
+
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+		try {
+			Map<Integer, RTree> pontosMap = null;
+			log.info("Iniciando atualização de transmissões...");
+			Query query = entityManager.createQuery("SELECT t FROM Transmissao t WHERE t.ponto.id IS NULL ORDER BY t.dataTransmissao");
+			List<Transmissao> transmissoesToUpdate = query.getResultList();
+
+			if(transmissoesToUpdate != null && transmissoesToUpdate.size() > 0){
+				log.info("Executando de atualização de transmissões...");
+				log.info("Iniciando criação do index de busca...");
+				query = entityManager.createQuery("SELECT p FROM Ponto p");
+				List<Ponto> pontos = query.getResultList();
+				pontosMap = findPontos(pontos, 0);
+				for (Transmissao transmissao : transmissoesToUpdate) {
+					GeoUtil.atualizarPontoMaisProximo(transmissao, pontosMap.get(0), pontosMap.get(0));
+					entityManager.merge(transmissao);
+				}
+				log.info(" " + transmissoesToUpdate.size()+ " transmissões atualizadas...");
+				log.info("Criação do index: OK");
+			} else {
+				log.info("Nenhuma transmissão atualiazada...");
+			}
+			transaction.commit();
+		} catch (TransactionException e) {
+			e.printStackTrace();
+			log.info("ERRO:");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("ERRO:");
+		}
+	}
+
+	public static void insertTransmissoes(EntityManager entityManager) throws Exception{
+
+		try {
+			EntityTransaction transaction = entityManager.getTransaction();
+			List<Transmissao> transmissoes;
+			
 			transaction.begin();
 
 			log.info("Iniciando conexão Arena...");
@@ -65,53 +114,20 @@ public class JobArena implements Job {
 			}
 
 			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);
-
 			for (Transmissao transmissao : transmissoes) {
 				entityManager.persist(transmissao);
 			}
 
 			log.info("Terminou inserção de transmissões...");
 			transaction.commit();
-
-
-			transaction.begin();
-
-			Map<Integer, RTree> pontosMap = null;
-			log.info("Iniciando atualização de transmissões...");
-			query = entityManager.createQuery("SELECT t FROM Transmissao t WHERE t.ponto.id IS NULL ORDER BY t.dataTransmissao");
-			List<Transmissao> transmissoesToUpdate = query.getResultList();
-
-			if(transmissoesToUpdate != null && transmissoesToUpdate.size() > 0){
-				log.info("Executando de atualização de transmissões...");
-				log.info("Iniciando criação do index de busca...");
-				query = entityManager.createQuery("SELECT p FROM Ponto p");
-				List<Ponto> pontos = query.getResultList();
-				pontosMap = findPontos(pontos, 0);
-				log.info("Criação do index: OK");
-			} else {
-				log.info("Nenhuma transmissão atualiazada...");
-			}
-
-			for (Transmissao transmissao : transmissoesToUpdate) {
-				GeoUtil.atualizarPontoMaisProximo(transmissao, pontosMap.get(0), pontosMap.get(0));
-				entityManager.merge(transmissao);
-			}
-			log.info(" " + transmissoesToUpdate.size()+ " transmissões atualizadas...");
-
-			transaction.commit();
-			log.info("Execução finalizada...");
-
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
+		} catch (TransactionException e) {
 			e.printStackTrace();
-			transaction.rollback();
-		} finally {
-			entityManager.close();
+		}  catch (Exception e) {
+			e.printStackTrace();
 		}
-
 	}
 
-	public Map<Integer, RTree> findPontos(List<Ponto> points, Integer clientId) throws Exception {
+	public static Map<Integer, RTree> findPontos(List<Ponto> points, Integer clientId) throws Exception {
 
 		Map<Integer, RTree> result = new HashMap<Integer, RTree>();
 		try {

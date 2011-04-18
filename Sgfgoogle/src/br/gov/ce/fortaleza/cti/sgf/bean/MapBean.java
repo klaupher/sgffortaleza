@@ -20,15 +20,20 @@ import br.gov.ce.fortaleza.cti.sgf.util.dto.MapDTO;
 @Scope("session")
 @Component("mapBean")
 public class MapBean extends EntityBean<Integer, MapDTO>  {
-	
+
 	public String pontos = new String("");
-	
+	private Date horaInicial;
+	private Date horaFinal;
+	public Date start;
+	public Date end;
+	public Integer tempoConsulta;
+
 	@Autowired
 	private VeiculoService veiculoService;
-	
+
 	@Autowired
 	private TransmissaoService transmissaoService;
-	
+
 	private Veiculo veiculo;
 	private String route = new String("");
 
@@ -46,21 +51,21 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 	protected BaseService<Integer, MapDTO> retrieveEntityService() {
 		throw new IllegalStateException("Não implementado");
 	}
-	
+
 	public String searchAddress() {
 		setCurrentState(MapDTO.SEARCH_ADDRESS);
 		setCurrentBean(currentBeanName());
 		this.entities = null;
 		return SUCCESS;
 	}
-	
+
 	public String veiculosMap() {
 		setCurrentState(MapDTO.VEICULOS_MAP);
 		setCurrentBean(currentBeanName());
 		this.entities = null;
 		return SUCCESS;
 	}
-	
+
 	public String veiculosRoute() {
 		setCurrentState(MapDTO.VEICULOS_ROUTE);
 		setCurrentBean(currentBeanName());
@@ -72,19 +77,19 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 	public boolean isSearchAddress() {
 		return MapDTO.SEARCH_ADDRESS.equals(getCurrentState());
 	}
-	
+
 	public boolean isVeiculosMapState(){
 		return MapDTO.VEICULOS_MAP.equals(getCurrentState());
 	}
-	
+
 	public boolean isVeiculosRouteState(){
 		return MapDTO.VEICULOS_ROUTE.equals(getCurrentState());
 	}
-	
+
 	public String showVehiclesOnMap(){		
 		List<Veiculo> veiculos = veiculoService.veiculosRastreados();
 		String line = new String("");
-		
+
 		for (Veiculo v : veiculos) {
 			Float odometro = v.getOdometro() != null ? v.getOdometro() : 0F;
 			Float dist = v.getDistancia() != null ? v.getDistancia() : 0F;
@@ -94,18 +99,20 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 		this.pontos = line;
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * monta uma string de saida para cosntrução da rota de uma veículo
 	 * @return
 	 */
 	public String showVehiclesRouteOnMap(){
 		String line = "";
+		this.route = "";
 		if(this.veiculo != null){
 			Veiculo v = veiculoService.retrieve(veiculo.getId());
+
 			Date current = new Date();
-			Date initialDate = DateUtil.adicionarOuDiminuir(current, -8*DateUtil.HOUR_IN_MILLIS); // dimuinui 4 horas
-			List<Transmissao> transmissoes = transmissaoService.findByVeiculo(veiculo.getId(), initialDate, current);
+			Date initial = DateUtil.adicionarOuDiminuir(current, -tempoConsulta*DateUtil.HOUR_IN_MILLIS);
+			List<Transmissao> transmissoes = transmissaoService.retrieveByVeiculo(veiculo.getId(), initial, current);
 			if(transmissoes.size() > 0){
 				for (Transmissao transmissao : transmissoes) {
 					Float vel = transmissao.getVelocidade() == null ? 0F : transmissao.getVelocidade();
@@ -128,7 +135,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 		this.route = line;
 		return SUCCESS;
 	}
-	
+
 	public Veiculo getVeiculo() {
 		return veiculo;
 	}
@@ -151,5 +158,45 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 
 	public void setPontos(String pontos) {
 		this.pontos = pontos;
+	}
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
+	public Date getHoraInicial() {
+		return horaInicial;
+	}
+
+	public void setHoraInicial(Date horaInicial) {
+		this.horaInicial = horaInicial;
+	}
+
+	public Date getHoraFinal() {
+		return horaFinal;
+	}
+
+	public void setHoraFinal(Date horaFinal) {
+		this.horaFinal = horaFinal;
+	}
+
+	public Integer getTempoConsulta() {
+		return tempoConsulta;
+	}
+
+	public void setTempoConsulta(Integer tempoConsulta) {
+		this.tempoConsulta = tempoConsulta;
 	}
 }

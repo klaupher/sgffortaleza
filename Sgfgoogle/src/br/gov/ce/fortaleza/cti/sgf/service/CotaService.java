@@ -56,32 +56,30 @@ public class CotaService extends BaseService<Integer, Cota>{
 	public Map<Veiculo, Cota> retrieveMapVeiculoCota(List<Integer> ids) {
 
 		Map<Veiculo, Cota> map = new HashMap<Veiculo, Cota>();
-
 		if (ids != null && ids.size() > 0) {
-
 			String idsList = ids.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
-
 			Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.tipoServico.codTipoServico = 1 and c.veiculo.id IN " + idsList);
-
 			List<Cota> cotas = query.getResultList();
-
 			for (Cota c : cotas) {
-
 				if(map.get(c.getVeiculo()) == null){
-
 					map.put(c.getVeiculo(), c);
 				}
 			}
-
 			return map;
-
 		} else {
-
 			return map;
 		}
 	}
-	
-	
+
+	@SuppressWarnings("unchecked")
+	public List<Cota> retrieveCotasVeiculosByUG(String codug){
+
+		Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.veiculo.ua.ug.id = ? AND c.veiculo.status != -1");
+		query.setParameter(1, codug);
+		return query.getResultList();
+	}
+
+
 	public Cota retrieveVeiculoCota(Veiculo veiculo) {
 		Cota cota = null;
 		if (veiculo != null) {
@@ -96,34 +94,23 @@ public class CotaService extends BaseService<Integer, Cota>{
 	public List<Cota> pesquisar(Cota cota) {
 
 		List<Cota> cotas = null;
-
 		Session session = (Session) entityManager.getDelegate();
-
 		Criteria criteria = session.createCriteria(Cota.class);
-
 		if(cota.getVeiculo() != null){
-
 			criteria.createCriteria("veiculo").add(Example.create(cota.getVeiculo()).enableLike(MatchMode.ANYWHERE).ignoreCase());
-
 			if(cota.getVeiculo().getModelo() != null){
-
 				criteria.createCriteria("veiculo.modelo").add(Example.create(cota.getVeiculo().getModelo()).enableLike(MatchMode.ANYWHERE).ignoreCase());
-
 				if(cota.getVeiculo().getModelo().getMarca() != null){
-
 					criteria.createCriteria("veiculo.modelo.marca").add(Example.create(cota.getVeiculo().getModelo().getMarca()).enableLike(MatchMode.ANYWHERE).ignoreCase());
 				}
 			}
 		}
-
 		cotas = criteria.list();
-
 		return cotas;
 	}
 
 
 	public Cota findByPlacaVeiculo(String placa) throws NonUniqueObjectException {
-
 		return executeSingleResultQuery("findByPlacaVeiculo", placa);
 	}
 }

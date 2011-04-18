@@ -19,17 +19,17 @@
  			<t:selectItems value="#{veiculoBean.veiculosRastreados}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
 		</h:selectOneMenu>
 		
-		<h:outputText value="Ini:"/>
+		<h:outputText value="Início:"/>
 		<h:inputText id="dataInicial" value="#{relatorioMonitoramentoBean.start}" styleClass="maskData" style="width:80px">
 			<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 		</h:inputText>
 
-		<h:outputText value="Térm:"/>
+		<h:outputText value="Término:"/>
 		<h:inputText id="dataFinal" value="#{relatorioMonitoramentoBean.end}" styleClass="maskData"  style="width:80px">
 			<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 		</h:inputText>
 		
-		<h:commandButton action="#{relatorioMonitoramentoBean.consultarPosicoesVeiculo}" value="Consultar" style="margin-left:30px">
+		<h:commandButton action="#{relatorioMonitoramentoBean.consultarPosicoesVeiculo}" value="Consultar">
 			<a4j:support event="onclick" reRender="dataTable"/>
 		</h:commandButton>
 

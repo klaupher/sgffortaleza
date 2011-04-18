@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
+import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao;
 import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
@@ -21,6 +22,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 public class RelatorioDTO implements Serializable {
 
 	private static final long serialVersionUID = -6814076103208623949L;
+	public static final String COTAS_VEICULOS = "COTAS_VEICULOS";
 	public static final String TROCAS_LUBRIFICANTE = "TROCAS_LUBRIFICANTE";
 	public static final String INFORMACOES_VEICULO = "INFORMACOES_VEICULO";
 	public static final String PONTUACAO_MOTORISTA = "PONTUACAO_MOTORISTA";
@@ -39,6 +41,7 @@ public class RelatorioDTO implements Serializable {
 
 	private Multa  multa;
 	private Veiculo veiculo;
+	private Cota cotaVeiculo;
 	private Motorista motorista;
 	private UG orgao;
 	private Posto posto;
@@ -57,6 +60,7 @@ public class RelatorioDTO implements Serializable {
 	private Float saldoFinal;
 	private Float consumoPosto;
 	private Float cota;
+	private Double cotaSoma;
 	private Float kmRodados;
 	private Float kmPorLitro;
 	private Float custo;
@@ -380,5 +384,21 @@ public class RelatorioDTO implements Serializable {
 	public void setSolicitacaoLubrificante(
 			SolicitacaoLubrificante solicitacaoLubrificante) {
 		this.solicitacaoLubrificante = solicitacaoLubrificante;
+	}
+
+	public Cota getCotaVeiculo() {
+		return cotaVeiculo;
+	}
+
+	public void setCotaVeiculo(Cota cotaVeiculo) {
+		this.cotaVeiculo = cotaVeiculo;
+	}
+
+	public Double getCotaSoma() {
+		return cotaSoma;
+	}
+
+	public void setCotaSoma(Double cotaSoma) {
+		this.cotaSoma = cotaSoma;
 	}
 }
