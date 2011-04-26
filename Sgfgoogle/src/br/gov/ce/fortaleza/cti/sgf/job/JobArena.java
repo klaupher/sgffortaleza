@@ -110,7 +110,7 @@ public class JobArena implements Job {
 			if(dataUltimaTransmissao != null){
 				ini = DateUtil.adicionarOuDiminuir(dataUltimaTransmissao, DateUtil.SECOND_IN_MILLIS);
 			} else {
-				ini = DateUtil.adicionarOuDiminuir(fim, -DateUtil.DAY_IN_MILLIS);
+				ini = DateUtil.adicionarOuDiminuir(fim, -7*DateUtil.DAY_IN_MILLIS);
 			}
 
 			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);

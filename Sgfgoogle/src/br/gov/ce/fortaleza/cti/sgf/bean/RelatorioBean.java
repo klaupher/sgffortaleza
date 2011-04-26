@@ -60,6 +60,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.RelatorioUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusSolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
 @Scope("session")
@@ -529,6 +530,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	}
 
 	public String consultarSolicitacaoVeiculo(){
+
 		if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
@@ -536,14 +538,20 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = new ArrayList<RelatorioDTO>();
 		List<SolicitacaoVeiculo> solicitacoes;
 		if(this.orgao != null){
-			solicitacoes = solicitacaoService.findSolVeiculoOrgao(this.dtInicial, this.dtFinal, this.orgao);
+			solicitacoes = solicitacaoService.findSolVeiculoOrgao(this.dtInicial, this.dtFinal, this.orgao, StatusSolicitacaoVeiculo.FINALIZADO);
 		} else {
-			solicitacoes = solicitacaoService.findSolVeiculoOrgao(this.dtInicial, this.dtFinal, null);
+			solicitacoes = solicitacaoService.findSolVeiculoOrgao(this.dtInicial, this.dtFinal, null, StatusSolicitacaoVeiculo.FINALIZADO);
 		}
 		Map<UG, Map<Veiculo, List<SolicitacaoVeiculo>>> map = new HashMap<UG, Map<Veiculo,List<SolicitacaoVeiculo>>>();
 		if(solicitacoes.size() > 0){
 			for (SolicitacaoVeiculo solicitacao : solicitacoes) {
-				UG ug = solicitacao.getVeiculo().getUa().getUg();
+				UG ug = null;
+				try {
+					ug = solicitacao.getVeiculo().getUa().getUg();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				if(map.containsKey(ug)){
 					Map<Veiculo, List<SolicitacaoVeiculo>>  mapVeiculo = map.get(ug);
 					Veiculo veiculo = solicitacao.getVeiculo();
@@ -563,22 +571,22 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					map.put(ug, mapVeiculo);
 				}
 			}
-			for (UG ug : map.keySet()) {
+			for (UG ug2 : map.keySet()) {
 				RelatorioDTO relatorio = new RelatorioDTO();
-				relatorio.setOrgao(ug);
+				relatorio.setOrgao(ug2);
 				relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-				Map<Veiculo, List<SolicitacaoVeiculo>> mapVeiculo = map.get(ug);
+				Map<Veiculo, List<SolicitacaoVeiculo>> mapVeiculo = map.get(ug2);
 				for (Veiculo veiculo : mapVeiculo.keySet()) {
 					RelatorioDTO rel = new RelatorioDTO();
 					rel.setVeiculo(veiculo);
-					rel.setOrgao(ug);
+					rel.setOrgao(ug2);
 					rel.setRelatorios(new ArrayList<RelatorioDTO>());
 					List<SolicitacaoVeiculo> result = mapVeiculo.get(veiculo);
 					for (SolicitacaoVeiculo s : result) {
 						RelatorioDTO dto = new RelatorioDTO();
 						dto.setSolicitacaoVeiculo(s);
 						dto.setVeiculo(veiculo);
-						dto.setOrgao(ug);
+						dto.setOrgao(ug2);
 						dto.setDtInicial(this.dtInicial);
 						dto.setDtFinal(this.dtFinal);
 						rel.getRelatorios().add(dto);

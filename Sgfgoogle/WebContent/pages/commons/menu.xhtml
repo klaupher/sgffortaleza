@@ -89,10 +89,10 @@
 				 rendered="#{controlBean.hasPermission('RULE_REL_SOLICITACAO_VEICULOS')}" immediate="true"/>
 				 
 				<rich:menuItem submitMode="server" value="Trocas de Lubrificante" action="#{relatorioBean.relatorioTrocasLubrificante}" 
-				  immediate="true"/>
+				  rendered="#{controlBean.hasPermission('RULE_REL_TROCAS_LUBRIFICANTE')}" immediate="true"/>
 				  
 				<rich:menuItem submitMode="server" value="Cotas de Combustível" action="#{relatorioBean.relatorioCotasVeiculos}" 
-				  immediate="true"/>
+				  rendered="#{controlBean.hasPermission('RULE_REL_COTAS_VEICULOS')}" immediate="true"/>
 				  				 
 				<rich:menuItem submitMode="server" value="Veículos em Manutenção" action="#{relatorioBean.relatorioVeiculosEmManutencao}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_VEICULOS_EM_MANUTENCAO')}" immediate="true"/>

@@ -60,18 +60,19 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<SolicitacaoVeiculo> findSolVeiculoOrgao(Date dtInicial, Date dtFinal, UG orgao) {
+	public List<SolicitacaoVeiculo> findSolVeiculoOrgao(Date dtInicial, Date dtFinal, UG orgao, StatusSolicitacaoVeiculo status) {
 
-		String sql = "select o from SolicitacaoVeiculo o where o.dataHoraSaida >= :inicio and o.dataHoraRetorno <= :fim";
+		String sql = "select o from SolicitacaoVeiculo o where o.veiculo != null AND o.dataHoraSaida >= :inicio and o.dataHoraRetorno <= :fim";
 		StringBuffer hql = new StringBuffer(sql);
 		if(orgao != null){
 			hql.append(" and o.veiculo.ua.ug.id = :ugid");
 		}
-		hql.append(" order by o.dataHoraSaida desc");
+		hql.append(" and o.status = :status order by o.dataHoraSaida desc");
 
 		Query query = entityManager.createQuery(hql.toString());
 		query.setParameter("inicio", dtInicial);
 		query.setParameter("fim", dtFinal);
+		query.setParameter("status", status);
 		if(orgao != null){
 			query.setParameter("ugid", orgao.getId());
 		}
@@ -81,7 +82,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	@SuppressWarnings("unchecked")
 	public List<SolicitacaoVeiculo> findSolicitacoesVeiculos(String placa, StatusSolicitacaoVeiculo status) {
 		placa = placa.trim();
-		String sql = "select o from SolicitacaoVeiculo o where o.veiculo.placa = :placa and o.status = :status order by o.dataHoraSaida desc";
+		String sql = "select o from SolicitacaoVeiculo o where o.veiculo != null AND o.veiculo.placa = :placa and o.status = :status order by o.dataHoraSaida desc";
 		StringBuffer hql = new StringBuffer(sql);
 		Query query = entityManager.createQuery(hql.toString());
 		query.setParameter("placa", placa.toUpperCase());

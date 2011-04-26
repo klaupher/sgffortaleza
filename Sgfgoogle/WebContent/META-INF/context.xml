@@ -18,5 +18,3 @@
 		driverClassName="oracle.jdbc.driver.OracleDriver"
 		url="jdbc:oracle:thin:@172.30.116.22:1521:pmft"/>
 </Context>
-
-
