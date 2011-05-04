@@ -21,6 +21,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SecondaryTable;
+import javax.persistence.SecondaryTables;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,8 +36,12 @@ import org.postgis.Geometry;
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SecondaryTable(name = "TB_ULTIMATRANSMISSAO", schema = "SGF")
 @Table(name = "TB_CADVEICULO", schema = "SGF")
+@SecondaryTables({
+	@SecondaryTable(name = "TB_ULTIMATRANSMISSAO", schema = "SGF"),
+	@SecondaryTable(name="TB_EQUIPAMENTO", schema = "SGF")
+})
+
 @NamedQueries( {
 	@NamedQuery(name = "Veiculo.findVeiculosSemCota", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c)"),
 	@NamedQuery(name = "Veiculo.findVeiculosSemCotaByPlaca", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ?"),
@@ -175,6 +180,12 @@ import org.postgis.Geometry;
 	@ManyToOne
 	@JoinColumn(name="CODPONTO", table = "TB_ULTIMATRANSMISSAO")
 	private Ponto pontoProximo;
+	
+	@Column(name="CODVEICARENA", table = "TB_EQUIPAMENTO")
+	private Integer codigoVeiculoArena;
+	
+	@Column(name="NUMSERIAL", table = "TB_EQUIPAMENTO")
+	private Integer numeroSerial;
 	
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "TB_VEICULO_AREA", schema = "SGF", joinColumns=@JoinColumn(name="CODVEICULO"), inverseJoinColumns=@JoinColumn(name="CODAREA"))
@@ -477,6 +488,38 @@ import org.postgis.Geometry;
 	public void setObjetivo(String objetivo) {
 		this.objetivo = objetivo;
 	}
+	
+	public void setManutencoes(List<RequisicaoManutencao> manutencoes) {
+		this.manutencoes = manutencoes;
+	}
+
+	public List<RequisicaoManutencao> getManutencoes() {
+		return manutencoes;
+	}
+
+	public void setValorTotal(Float valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
+	public Float getValorTotal() {
+		return valorTotal;
+	}
+
+	public Integer getCodigoVeiculoArena() {
+		return codigoVeiculoArena;
+	}
+
+	public void setCodigoVeiculoArena(Integer codigoVeiculoArena) {
+		this.codigoVeiculoArena = codigoVeiculoArena;
+	}
+
+	public Integer getNumeroSerial() {
+		return numeroSerial;
+	}
+
+	public void setNumeroSerial(Integer numeroSerial) {
+		this.numeroSerial = numeroSerial;
+	}
 
 	public int hashCode() {
 		int result = 1;
@@ -497,21 +540,4 @@ import org.postgis.Geometry;
 		&& ((placa == null && other.placa == null) || (placa != null && placa.equals(other.placa)))
 		&& ((ua == null && other.ua == null) || (ua != null && ua.equals(other.ua)));
 	}
-
-	public void setManutencoes(List<RequisicaoManutencao> manutencoes) {
-		this.manutencoes = manutencoes;
-	}
-
-	public List<RequisicaoManutencao> getManutencoes() {
-		return manutencoes;
-	}
-
-	public void setValorTotal(Float valorTotal) {
-		this.valorTotal = valorTotal;
-	}
-
-	public Float getValorTotal() {
-		return valorTotal;
-	}
-	
 }

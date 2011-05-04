@@ -60,7 +60,6 @@ import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.RelatorioUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
-import br.gov.ce.fortaleza.cti.sgf.util.StatusSolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
 @Scope("session")
@@ -499,11 +498,14 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		// status = 1 => solicitado
 		// status = 2 => atendido
+		
+		Date begin = DateUtil.getDateStartDay( this.dtInicial);
+		Date end = DateUtil.getDateEndDay(this.dtFinal);
 
 		if(this.orgao != null){
-			solicitacoesLubrificanteMap = solicitacaoLubrificanteService.retrieveSolicLubrificanteMap(2, null, null, this.dtInicial, this.dtFinal, this.orgao);
+			solicitacoesLubrificanteMap = solicitacaoLubrificanteService.retrieveSolicLubrificanteMap(2, null, null, begin, end, this.orgao);
 		} else {
-			solicitacoesLubrificanteMap = solicitacaoLubrificanteService.retrieveSolicLubrificanteMap(2, null, null, this.dtInicial, this.dtFinal, null);
+			solicitacoesLubrificanteMap = solicitacaoLubrificanteService.retrieveSolicLubrificanteMap(2, null, null, begin, end, null);
 		}
 
 		for (String key : solicitacoesLubrificanteMap.keySet()) {
@@ -530,28 +532,23 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	}
 
 	public String consultarSolicitacaoVeiculo(){
-
 		if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
 			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 			return FAIL;
 		}
+		Date begin = DateUtil.getDateStartDay(this.dtInicial);
+		Date end = DateUtil.getDateEndDay(this.dtFinal);
 		this.entities = new ArrayList<RelatorioDTO>();
 		List<SolicitacaoVeiculo> solicitacoes;
 		if(this.orgao != null){
-			solicitacoes = solicitacaoService.findSolVeiculoOrgao(this.dtInicial, this.dtFinal, this.orgao, StatusSolicitacaoVeiculo.FINALIZADO);
+			solicitacoes = solicitacaoService.findSolVeiculoOrgao(begin, end, this.orgao);
 		} else {
-			solicitacoes = solicitacaoService.findSolVeiculoOrgao(this.dtInicial, this.dtFinal, null, StatusSolicitacaoVeiculo.FINALIZADO);
+			solicitacoes = solicitacaoService.findSolVeiculoOrgao(begin, end, null);
 		}
 		Map<UG, Map<Veiculo, List<SolicitacaoVeiculo>>> map = new HashMap<UG, Map<Veiculo,List<SolicitacaoVeiculo>>>();
 		if(solicitacoes.size() > 0){
 			for (SolicitacaoVeiculo solicitacao : solicitacoes) {
-				UG ug = null;
-				try {
-					ug = solicitacao.getVeiculo().getUa().getUg();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+				UG ug = solicitacao.getVeiculo().getUa().getUg();
 				if(map.containsKey(ug)){
 					Map<Veiculo, List<SolicitacaoVeiculo>>  mapVeiculo = map.get(ug);
 					Veiculo veiculo = solicitacao.getVeiculo();
@@ -571,24 +568,24 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					map.put(ug, mapVeiculo);
 				}
 			}
-			for (UG ug2 : map.keySet()) {
+			for (UG ug : map.keySet()) {
 				RelatorioDTO relatorio = new RelatorioDTO();
-				relatorio.setOrgao(ug2);
+				relatorio.setOrgao(ug);
 				relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-				Map<Veiculo, List<SolicitacaoVeiculo>> mapVeiculo = map.get(ug2);
+				Map<Veiculo, List<SolicitacaoVeiculo>> mapVeiculo = map.get(ug);
 				for (Veiculo veiculo : mapVeiculo.keySet()) {
 					RelatorioDTO rel = new RelatorioDTO();
 					rel.setVeiculo(veiculo);
-					rel.setOrgao(ug2);
+					rel.setOrgao(ug);
 					rel.setRelatorios(new ArrayList<RelatorioDTO>());
 					List<SolicitacaoVeiculo> result = mapVeiculo.get(veiculo);
 					for (SolicitacaoVeiculo s : result) {
 						RelatorioDTO dto = new RelatorioDTO();
 						dto.setSolicitacaoVeiculo(s);
 						dto.setVeiculo(veiculo);
-						dto.setOrgao(ug2);
-						dto.setDtInicial(this.dtInicial);
-						dto.setDtFinal(this.dtFinal);
+						dto.setOrgao(ug);
+						dto.setDtInicial(begin);
+						dto.setDtFinal(end);
 						rel.getRelatorios().add(dto);
 						this.result.add(dto);
 					}

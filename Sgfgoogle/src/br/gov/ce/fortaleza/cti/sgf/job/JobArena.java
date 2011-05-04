@@ -25,6 +25,7 @@ import spatialindex.storagemanager.PropertySet;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Ponto;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
+import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.ArenaService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.GeoUtil;
@@ -33,9 +34,7 @@ public class JobArena implements Job {
 
 	private static final Logger log = Logger.getLogger(JobArena.class);
 
-	public static Integer VEICULO_ID_ARENA = 4481;
-	public static Integer VEICULO_ID_SGF = 246;
-
+	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
@@ -43,9 +42,16 @@ public class JobArena implements Job {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
 		EntityManager entityManager = factory.createEntityManager();
 
+		Query query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status != -1 and v.codigoVeiculoArena is not null");
+		List<Veiculo> result = query.getResultList();
+
 		try {
-			insertTransmissoes(entityManager);
+			for (Veiculo v : result) {
+				insertTransmissoes(entityManager, v.getId(), v.getCodigoVeiculoArena());
+			}
+
 			updateTransmissoes(entityManager);
+
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			e.printStackTrace();
@@ -90,12 +96,12 @@ public class JobArena implements Job {
 		}
 	}
 
-	public static void insertTransmissoes(EntityManager entityManager) throws Exception{
+	public static void insertTransmissoes(EntityManager entityManager, Integer codveiculo, Integer codveiculoArena) throws Exception{
 
 		try {
 			EntityTransaction transaction = entityManager.getTransaction();
 			List<Transmissao> transmissoes;
-			
+
 			transaction.begin();
 
 			log.info("Iniciando conexão Arena...");
@@ -104,16 +110,16 @@ public class JobArena implements Job {
 			Date fim = DateUtil.getDateNow();
 			Date ini;
 			Query query = entityManager.createQuery("SELECT max(t.dataTransmissao) FROM Transmissao t WHERE t.veiculoId = ?");
-			query.setParameter(1, VEICULO_ID_SGF);
+			query.setParameter(1, codveiculo);
 			Date dataUltimaTransmissao =  (Date) query.getSingleResult();
 
 			if(dataUltimaTransmissao != null){
 				ini = DateUtil.adicionarOuDiminuir(dataUltimaTransmissao, DateUtil.SECOND_IN_MILLIS);
 			} else {
-				ini = DateUtil.adicionarOuDiminuir(fim, -7*DateUtil.DAY_IN_MILLIS);
+				ini = DateUtil.adicionarOuDiminuir(fim, -5*DateUtil.DAY_IN_MILLIS);
 			}
 
-			transmissoes = arena.retrieveTransmissions(ini, fim, VEICULO_ID_ARENA, VEICULO_ID_SGF);
+			transmissoes = arena.retrieveTransmissions(ini, fim, codveiculoArena, codveiculo);
 			for (Transmissao transmissao : transmissoes) {
 				entityManager.persist(transmissao);
 			}

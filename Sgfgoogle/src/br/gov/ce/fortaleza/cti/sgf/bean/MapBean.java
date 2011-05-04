@@ -3,6 +3,7 @@ package br.gov.ce.fortaleza.cti.sgf.bean;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tomcat.jni.Time;
 import org.postgis.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +28,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 	public Date start;
 	public Date end;
 	public Integer tempoConsulta;
-
+	
 	@Autowired
 	private VeiculoService veiculoService;
 
@@ -94,7 +95,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 			Float odometro = v.getOdometro() != null ? v.getOdometro() : 0F;
 			Float dist = v.getDistancia() != null ? v.getDistancia() : 0F;
 			line += ((Point)v.getGeometry()).y + "##" +  ((Point)v.getGeometry()).x + "##" + v.getId() + "##" + v.getPlaca() + "##" + v.getVelocidade() + "##"
-			+ odometro + "##" + v.getPontoProximo().getDescricao() + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
+			+ odometro  + "##" +  v.getIgnicao() + "##" + v.getPontoProximo().getDescricao() + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
 		}
 		this.pontos = line;
 		return SUCCESS;
@@ -110,8 +111,8 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 		if(this.veiculo != null){
 			Veiculo v = veiculoService.retrieve(veiculo.getId());
 
-			Date current = new Date();
-			Date initial = DateUtil.adicionarOuDiminuir(current, -tempoConsulta*DateUtil.HOUR_IN_MILLIS);
+			Date current = DateUtil.getDateEndDay(this.end);
+			Date initial = DateUtil.getDateStartDay(this.start); //DateUtil.adicionarOuDiminuir(current, -tempoConsulta*DateUtil.HOUR_IN_MILLIS);
 			List<Transmissao> transmissoes = transmissaoService.retrieveByVeiculo(veiculo.getId(), initial, current);
 			if(transmissoes.size() > 0){
 				for (Transmissao transmissao : transmissoes) {
@@ -122,8 +123,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 					String placa = v.getPlaca();
 					String pprox = transmissao.getPonto() != null ? transmissao.getPonto().getDescricao() : "";
 					Float dist = transmissao.getDistancia() == null ? 0F : transmissao.getDistancia();
-					line += y + "##" + x + "##" + transmissao.getVeiculoId() + "##" +  placa + "##" + vel + "##" + odometro + "##" 
-					+ pprox + "##" + dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "##$##";
+					line += y + "##" + x + "##" + transmissao.getVeiculoId() + "##" +  placa + "##" + vel + "##" + odometro + "##" +  transmissao.getIgnicao() + "##" + pprox + "##" + dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "##$##";
 				}
 			} else {
 				JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.sem.rota");

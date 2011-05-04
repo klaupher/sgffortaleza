@@ -46,6 +46,19 @@ function loadMaps() {
 	}
 }
 
+function calculateBoundsArea(){
+	var bounds = new GLatLngBounds();
+	var paths = polygon.getPaths();
+	var path;
+	for (var p = 0; p < paths.getLength(); p++) {
+		path = paths.getAt(p);
+		for (var i = 0; i < path.getLength(); i++) {
+			bounds.extend(path.getAt(i));
+		}
+	}
+	mapa.setCenter(bounds.getCenter(), mapa.getBoundsZoomLevel(bounds));
+}
+
 function showPointsOnMap(){
 	map.clearOverlays();
 	createMapPoints();
@@ -65,7 +78,6 @@ function showPointsOnMap(){
 		}
 	}
 	calculateBoundsRoute(markers);
-	
 }
 
 function showVehiclesOnMap(){
@@ -86,7 +98,7 @@ function showVehiclesOnMap(){
 				} else {
 					param = 1
 				};
-				var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], false, param);
+				var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
 				map.addOverlay(markerPoint);
 			}
 		}
@@ -111,7 +123,7 @@ function showVeiculoRoute(){
 			} else {
 				param = 1
 			};
-			var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6],p[7], p[8], false, param);
+			var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
 			markers.push(marker);
 			map.addOverlay(markerPoint);
 		}
@@ -122,7 +134,6 @@ function showVeiculoRoute(){
 }
 
 function clicked(overlay, latlng) {
-
 	mapp.clearOverlays();
 	if (latlng) {
 		geocoder.getLocations(latlng, function(addresses) {
@@ -186,7 +197,7 @@ function crossAddress(){
 
 /*
  */
-function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist,dataHora, markerOption, param) {
+function createMarker(lat, lng, modelo, placa, velocidade, odometro, ignicao, pprox, dist,dataHora, markerOption, param) {
 	var markerIcon = createIcon(param);
 	var markerOptions = { icon:markerIcon };
 	var marker;
@@ -195,11 +206,12 @@ function createMarker(lat, lng, modelo, placa, velocidade, odometro, pprox, dist
 	var html = "<table style='width:280px'>" +
 				"<td>Veiculo: <b>" + modelo + 
 				"</b><br/>Placa:<b>" + placa + 
+				"</b><br/>Ignição:<b>" + ignicao + 
 				"</b><br/>Odômetro:<b>" + odometro.substring(0, odometro.length-2).replace(".", ",")  + 
 				"</b><br/>Velocidade:<b> " +  velocidade.substring(0, velocidade.length-2).replace(".", ",") +  "(Km/h)"+
-				"</b><br/>Ponto referência.:<b>" + pprox + 
-				"</b><br/>Dist. referência:<b>" + dist.substring(0, dist.length-2) + "(m)" +
-				"</b><br/>Data/Hora transmissão:<b>" + dataHora + 
+				"</b><br/>Ponto ref.:<b>" + pprox + 
+				"</b><br/>Dist. ref.:<b>" + dist.substring(0, dist.length-2) + "(m)" +
+				"</b><br/>Data/Hora:<b>" + dataHora + 
 				"</b></td></tr>" +
 				"</table><br/><br/>";
 		marker.openInfoWindowHtml(html);
@@ -342,6 +354,7 @@ function createEditablePolygon() {
 		element.value = encode;
 	});
 	mapa.addOverlay(polygon);
+	calculateBoundsArea();
 	google.setOnLoadCallback(createEditablePolygon);
 }
 

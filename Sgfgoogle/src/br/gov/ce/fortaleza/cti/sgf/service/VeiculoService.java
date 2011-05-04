@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,8 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 	@Autowired
 	public ParametroService parametroService;
-
+	
+	
 	public List<Veiculo> findAll(){
 		List<Veiculo> result = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
