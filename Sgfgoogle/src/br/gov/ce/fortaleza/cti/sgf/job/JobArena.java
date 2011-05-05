@@ -36,7 +36,6 @@ public class JobArena implements Job {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	@Transactional
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
@@ -61,6 +60,7 @@ public class JobArena implements Job {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public static void updateTransmissoes(EntityManager entityManager){
 
 		EntityTransaction transaction = entityManager.getTransaction();
@@ -96,6 +96,7 @@ public class JobArena implements Job {
 		}
 	}
 
+	@Transactional
 	public static void insertTransmissoes(EntityManager entityManager, Integer codveiculo, Integer codveiculoArena) throws Exception{
 
 		try {

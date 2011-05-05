@@ -25,7 +25,7 @@ public class ListenerJobArena implements ServletContextListener{
 		try {
 			Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 			JobDetail jobDetail = new JobDetail("JobArena", scheduler.DEFAULT_GROUP, JobArena.class);
-			CronTrigger cronTrigger = new CronTrigger("TriggerTransmissoesArena", scheduler.DEFAULT_GROUP, "0 0/2 * * * ?");
+			CronTrigger cronTrigger = new CronTrigger("TriggerTransmissoesArena", scheduler.DEFAULT_GROUP, "0 0/5 * * * ?");
 			scheduler.scheduleJob(jobDetail, cronTrigger);
 			scheduler.start();
 		} catch (Exception e) {
