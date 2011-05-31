@@ -72,9 +72,9 @@
   <listener>
     <listener-class>br.gov.ce.fortaleza.cti.sgf.job.ListenerJob</listener-class>
   </listener>
-  <listener>
-    <listener-class>br.gov.ce.fortaleza.cti.sgf.job.ListenerJobArena</listener-class>
-  </listener>
+<!--   <listener> -->
+<!--     <listener-class>br.gov.ce.fortaleza.cti.sgf.job.ListenerJobArena</listener-class> -->
+<!--   </listener> -->
   <listener>
     <listener-class>br.gov.ce.fortaleza.cti.sgf.job.ListenerJobCota</listener-class>
   </listener>

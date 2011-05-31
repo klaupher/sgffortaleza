@@ -39,8 +39,8 @@ public class SolicitacaoLubrificanteService extends BaseService<Integer, Solicit
 		}
 
 		if (dtInicial != null && dtFinal != null) {
-			dtInicial = DateUtil.getDateEndDay(dtInicial);
-			dtFinal = DateUtil.getDateEndDay(dtFinal);
+			//dtInicial = DateUtil.getDateEndDay(dtInicial);
+			//dtFinal = DateUtil.getDateEndDay(dtFinal);
 			hql.append(" and s.dataAutorizacao between '" + dtInicial + "' and '" + dtFinal + "'");
 		}
 

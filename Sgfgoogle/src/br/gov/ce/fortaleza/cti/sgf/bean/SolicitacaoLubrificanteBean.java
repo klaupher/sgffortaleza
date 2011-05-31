@@ -292,6 +292,9 @@ public class SolicitacaoLubrificanteBean extends
 		Posto posto = (user.getPosto() != null) ? user.getPosto() : new Posto();
 		Veiculo veiculo = (this.placa != null && this.placa != "") ? veiculoService.findByPlacaSingle(this.placa.toUpperCase())	: new Veiculo();
 
+		this.dtInicial = DateUtil.getDateTime(DateUtil.getDateTime(this.dtInicial), "00:00:00");
+		this.dtFinal = DateUtil.getDateTime(DateUtil.getDateTime(this.dtFinal), "23:59:59");
+
 		if (SgfUtil.isOperador(user)) {
 			this.entities = service.findSolicitacoes(this.searchId, veiculo.getId(), posto.getCodPosto(), this.dtInicial, this.dtFinal, null);
 		} else if (SgfUtil.isChefeTransporte(user) || SgfUtil.isChefeSetor(user)) {
