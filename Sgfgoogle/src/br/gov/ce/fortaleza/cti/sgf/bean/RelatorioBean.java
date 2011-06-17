@@ -60,6 +60,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.RelatorioUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusSolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
 @Scope("session")
@@ -541,9 +542,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = new ArrayList<RelatorioDTO>();
 		List<SolicitacaoVeiculo> solicitacoes;
 		if(this.orgao != null){
-			solicitacoes = solicitacaoService.findSolVeiculoOrgao(begin, end, this.orgao);
+			solicitacoes = solicitacaoService.findSolVeiculoOrgao(begin, end, this.orgao, StatusSolicitacaoVeiculo.FINALIZADO);
 		} else {
-			solicitacoes = solicitacaoService.findSolVeiculoOrgao(begin, end, null);
+			solicitacoes = solicitacaoService.findSolVeiculoOrgao(begin, end, null, StatusSolicitacaoVeiculo.FINALIZADO);
 		}
 		Map<UG, Map<Veiculo, List<SolicitacaoVeiculo>>> map = new HashMap<UG, Map<Veiculo,List<SolicitacaoVeiculo>>>();
 		if(solicitacoes.size() > 0){
@@ -814,7 +815,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		if(this.orgao != null){
 			// Consulta de abastecimentos caso a variável orgao seja diferente de nulo
 			atendimentos = new HashMap<UG, List<AtendimentoAbastecimento>>();
-
 			atendimentos.put(this.orgao, atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal)) ;
 		} else {
 			// neste caso, a consulta será para todos os orgãos
@@ -829,30 +829,19 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		for (UG ug : atendimentos.keySet()) {
 
 			List<Integer> ids = new ArrayList<Integer>();
-
 			RelatorioDTO novo = new RelatorioDTO();
-
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
-
 			novo.setOrgao(ug);
-
 			List<AtendimentoAbastecimento> result = atendimentos.get(ug);
 
 			for (AtendimentoAbastecimento a : result) {
-
 				Veiculo v = a.getAbastecimento().getVeiculo();
-
 				if(map.containsKey(v) == false){
-
 					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
-
 					list.add(a);
-
 					map.put(v, list);
-
 					ids.add(v.getId());
 				} else {
-
 					map.get(v).add(a);
 				}
 			}
@@ -860,66 +849,40 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
 
 			for (Veiculo veiculo : map.keySet()) { // map.keySet() = lista de veículos
-
 				RelatorioDTO dto = new RelatorioDTO();
-
 				dto.setOrgao(ug);
-
 				dto.setVeiculo(veiculo);
-
 				dto.setRelatorios(new ArrayList<RelatorioDTO>());
-
-				dto.setOrgao(this.orgao);
-
 				Float total = 0F;
 
 				for (AtendimentoAbastecimento atendimento : map.get(veiculo)) { // map.get(v) = lista de atendimentos abastecimentos do veículos v
-
 					RelatorioDTO rel = new RelatorioDTO();
-
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
-
 					rel.setOrgao(ug);
-
 					rel.setVeiculo(veiculo);
-
 					rel.setAtendimento(atendimento);
-
 					rel.setAbastecimento(atendimento.getAbastecimento());
-
 					rel.setMotorista(atendimento.getAbastecimento().getMotorista());
-
 					rel.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
 
 					if(mapCota.get(veiculo) != null){
-
 						rel.setCota(mapCota.get(veiculo).getCota().floatValue());
-
 						rel.setSaldoCota((float)mapCota.get(veiculo).getCota().floatValue() - total);
-
 						rel.setSaldoFinal((float)mapCota.get(veiculo).getCota().floatValue() - total);
 					} else {
-
 						rel.setSaldoCota(0F);
 					}
-
 					rel.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
-
 					rel.setConsumoTotal(total);
-
 					dto.getRelatorios().add(rel);
 				}
 
 				if(mapCota.get(veiculo) != null){
-
 					dto.setConsumo(total);
-
 					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
 				} else {
-
 					dto.setSaldoCota(0F);
 				}
-
 				novo.getRelatorios().add(dto);
 			}
 
