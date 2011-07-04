@@ -809,15 +809,14 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
-
 		Map<UG, List<AtendimentoAbastecimento>> atendimentos = null; // inicia lista de abastecimentos
 
-		if(this.orgao != null){
-			// Consulta de abastecimentos caso a variável orgao seja diferente de nulo
+		if(this.orgao != null){ // Consulta de abastecimentos caso a variável orgao seja diferente de nulo
 			atendimentos = new HashMap<UG, List<AtendimentoAbastecimento>>();
-			atendimentos.put(this.orgao, atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal)) ;
-		} else {
-			// neste caso, a consulta será para todos os orgãos
+			
+			atendimentos = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
+			//atendimentos.put(this.orgao, atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal)) ;
+		} else { // neste caso, a consulta será para todos os orgãos
 			atendimentos = atendimentoService.findByPeriodoHashMap(this.dtInicial, this.dtFinal);
 		}
 
@@ -931,9 +930,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = new ArrayList<RelatorioDTO>();
 
 		List<Integer> ids = new ArrayList<Integer>();
-
 		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >();
-
 		List<UG> ugs = null;
 
 		if(this.orgao != null){
@@ -945,11 +942,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		for (UG ug : ugs) {
 
 			RelatorioDTO novo = new RelatorioDTO();
-
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
-
 			novo.setOrgao(ug);
-
 			List<Veiculo> veiculos = atendimentoService.findAtendimentoByVeiculo(ug.getId(), null, this.dtInicial, this.dtFinal);
 
 			for (Veiculo veiculo : veiculos) {
@@ -961,7 +955,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				dto.setOrgao(ug);
 				dto.setRelatorios(new ArrayList<RelatorioDTO>());
 				dto.setVeiculo(veiculo);
-
 				List<Abastecimento> abastecimentos = atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
 
 				for (Abastecimento abastecimento : abastecimentos) {
@@ -1369,7 +1362,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		try {
 
 			if (this.nomeRelatorio.equals(this.relInformacoesVeiculo)) {
-
 				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
 
 			} else if (this.nomeRelatorio.equals(this.relHistoricoVeiculoManutencao)) {

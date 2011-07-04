@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
@@ -239,7 +240,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	}
 
 	/**
-	 * O método loadVeiculos, povoa a lista de veí­culos do órgão selecionado e chama o método para 
+	 * O mï¿½todo loadVeiculos, povoa a lista de veï¿½culos do ï¿½rgï¿½o selecionado e chama o mï¿½todo para 
 	 * povoar a lista de motoristas.
 	 */
 	public void loadVeiculos() {
@@ -260,7 +261,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	}
 
 	/**
-	 * O método loadMotoristas, povoa a lista de motoristas do órgão selecionado 
+	 * O mï¿½todo loadMotoristas, povoa a lista de motoristas do ï¿½rgï¿½o selecionado 
 	 */
 	public void loadMotoristas() {
 		this.motoristas = new ArrayList<Motorista>();
@@ -443,7 +444,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
-			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
+			if(usuarioLogado.getPosto() != null){
+				this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
+			}else {
+				JSFUtil.getInstance().addErrorMessage("msg.error.operador.sem.posto.cadastrado");
+			}
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(),this.status);
 		}
@@ -491,6 +496,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 * de um vasilhame(veÃ­culo de modelo com cÃ³digo = 75)
 	 */
 	@Override
+	@Transactional
 	public String update() {
 		boolean vasilhame = false;
 		if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
@@ -512,26 +518,34 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
 				atendimento.setAbastecimento(this.entity);
 				atendimentoService.save(atendimento);
+				return super.update();
 			} else {
-				Double cotaAtualizada = 0.0;
-				this.entity.setQuilometragem(kmAtendimento);
-				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
-				atendimento.setBomba(this.bomba);
-				atendimento.setData(new Date());
-				atendimento.setHora(new Date());
-				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
-				cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
-				this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
-				atendimento.setQuilometragem(kmAtendimento);
-				atendimento.setUsuario(SgfUtil.usuarioLogado());
-				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
-				atendimento.setAbastecimento(this.entity);
-				this.cotaService.update(this.entity.getVeiculo().getCota());
-				atendimentoService.save(atendimento);
+				try {
+					Double cotaAtualizada = 0.0;
+					this.entity.setQuilometragem(kmAtendimento);
+					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+					atendimento.setBomba(this.bomba);
+					atendimento.setData(new Date());
+					atendimento.setHora(new Date());
+					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
+					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
+					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
+					atendimento.setQuilometragem(kmAtendimento);
+					atendimento.setUsuario(SgfUtil.usuarioLogado());
+					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
+					atendimento.setAbastecimento(this.entity);
+					atendimentoService.save(atendimento);
+					this.cotaService.update(this.entity.getVeiculo().getCota());
+					return super.update();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			return FAIL;
+		} else {
+			return FAIL;
 		}
-		return super.update();
 	}
 
 	/**

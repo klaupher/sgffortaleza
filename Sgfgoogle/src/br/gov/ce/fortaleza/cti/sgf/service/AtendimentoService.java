@@ -87,7 +87,6 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		}
 
 		Map<UG, List<AtendimentoAbastecimento>> map = new HashMap<UG, List<AtendimentoAbastecimento>>();
-		
 		List<AtendimentoAbastecimento> result = query.getResultList();
 		
 		for (AtendimentoAbastecimento atend : result) {
@@ -95,6 +94,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 			if(map.get(uga) == null){
 				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
 				novo.add(atend);
+				//System.out.println(atend.getAbastecimento().getVeiculo().getPlaca());
 				map.put(uga,novo);
 			} else {
 				map.get(uga).add(atend);
