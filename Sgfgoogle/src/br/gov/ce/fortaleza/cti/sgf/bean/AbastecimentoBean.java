@@ -507,11 +507,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			if(vasilhame){
 				this.entity.setQuilometragem(0L);
 				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-				Date now = new Date();
 				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 				atendimento.setBomba(this.bomba);
-				atendimento.setData(now);
-				atendimento.setHora(now);
+				atendimento.setData(this.entity.getDataAutorizacao());
+				atendimento.setHora(new Date());
 				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 				atendimento.setQuilometragem(0L);
 				atendimento.setUsuario(SgfUtil.usuarioLogado());
@@ -526,7 +525,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
-					atendimento.setData(new Date());
+					atendimento.setData(this.entity.getDataAutorizacao());
 					atendimento.setHora(new Date());
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
