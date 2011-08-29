@@ -25,9 +25,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tb_cotaabastecimento" , schema = "SGF")
 @NamedQueries( {
-		@NamedQuery(name = "Cota.findByVeiculoServico", query = "select o from Cota o where o.veiculo = :veiculo and o.tipoServico = :tipoServico"),
-		@NamedQuery(name = "Cota.findCotasByVeiculo", query = "select o from Cota o where o.veiculo = ?"),
-		@NamedQuery(name = "Cota.findByPlacaVeiculo", query = "select o from Cota o where o.veiculo.placa = ?") })
+		@NamedQuery(name = "Cota.findByVeiculoServico", query = "select o from Cota o where o.veiculo = :veiculo and o.tipoServico = :tipoServico  and (o.veiculo.status > -1)"),
+		@NamedQuery(name = "Cota.findCotasByVeiculo", query = "select o from Cota o where o.veiculo = ?  and (o.veiculo.status > -1)"),
+		@NamedQuery(name = "Cota.findByPlacaVeiculo", query = "select o from Cota o where o.veiculo.placa = ? and (o.veiculo.status > -1)"),
+		@NamedQuery(name = "Cota.findCotasVeiculosAtivos", query = "select o from Cota o where o.veiculo.status > -1")
+})
+
 public class Cota implements Serializable {
 
 	private static final long serialVersionUID = -6483162443460126425L;
@@ -49,7 +52,7 @@ public class Cota implements Serializable {
 	@JoinColumn(name = "CODTIPOSERVICO", nullable = true)
 	private TipoServico tipoServico;
 	/**
-	 * Cota de abastecimento disponível no mês
+	 * Cota de abastecimento disponï¿½vel no mï¿½s
 	 */
 	@Column(name = "COTA_DISPONIVEL_MES")
 	private Double cotaDisponivel;

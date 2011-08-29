@@ -3,6 +3,7 @@
  */
 package br.gov.ce.fortaleza.cti.sgf.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import org.hibernate.Criteria;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,9 +107,23 @@ public class CotaService extends BaseService<Integer, Cota>{
 					criteria.createCriteria("veiculo.modelo.marca").add(Example.create(cota.getVeiculo().getModelo().getMarca()).enableLike(MatchMode.ANYWHERE).ignoreCase());
 				}
 			}
+
 		}
+
 		cotas = criteria.list();
+		List<Cota> remove = new ArrayList<Cota>();
+		for (Cota c : cotas) {
+			if(c.getVeiculo().getStatus().equals(-1)){
+				remove.add(c);
+			}
+		}
+		cotas.removeAll(remove);
 		return cotas;
+	}
+	// retorna apenas as cotas de abastecimentos dos veículos que estão ativos
+	public List<Cota> cotasVeiculosAtivos(){
+		List<Cota> result = executeResultListQuery("findCotasVeiculosAtivos");
+		return result;
 	}
 
 

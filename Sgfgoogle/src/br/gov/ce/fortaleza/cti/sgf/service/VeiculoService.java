@@ -44,7 +44,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)  || SgfUtil.isCoordenador(user)){
-			result = retrieveAll();
+			result = retrieveAllAtivos();
 		} else {
 			UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();
 			if(ua != null){
@@ -97,13 +97,15 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result =  query.getResultList();
 		return result;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> retrieveAllAtivos(){
+		Query query = entityManager.createQuery("Select v from Veiculo v where v.status != -1");
+		List<Veiculo> result =  query.getResultList();
+		return result;
+	}
 
-//	@SuppressWarnings("unchecked")
-//	public List<Veiculo> findByPCR(String p, String c, String r){
-//		List<Veiculo> result = executeResultListGenericQuery("findByPCR", p, c, r);
-//		return result;
-//	}
-//
+
 	@SuppressWarnings("unchecked")
 	public List<Integer> retrieveIdsVeiculos(){
 		Query query = entityManager.createQuery("SELECT v.id FROM Veiculo WHERE v.dataTransmissao != null");
@@ -112,7 +114,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Veiculo> findByOrgaoPlacaChassiRenavam(String orgaoId, String placa, String chassi, String renavam){
+	public List<Veiculo> findByUG(String orgaoId, String placa, String chassi, String renavam){
 		
 		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
 		if(orgaoId != null){

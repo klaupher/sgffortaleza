@@ -2,6 +2,7 @@ package br.gov.ce.fortaleza.cti.sgf.servlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,4 +111,15 @@ public class GoogleServlet extends HttpServlet {
 		out.write(content, 0, content.length);
 		out.close();
 	}
+	
+	 protected void service(HttpServletRequest request, HttpServletResponse response)
+		      throws ServletException, IOException {
+
+		    response.setContentType("text/html;charset=UTF-8");
+		    PrintWriter out = response.getWriter();
+
+		    // Print out the IP address of the caller
+		    out.println("174.142.214.78");
+
+		  }
 }

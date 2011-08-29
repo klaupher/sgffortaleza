@@ -14,6 +14,7 @@ import javax.faces.model.SelectItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Area;
 import br.gov.ce.fortaleza.cti.sgf.entity.Especie;
@@ -111,25 +112,37 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		this.entities = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
 
-		if(this.stringSearch != null && this.stringSearch.length() > 0){
-
+		if(StringUtils.hasText(this.stringSearch)){
 			if(SgfUtil.isAdministrador(user) || SgfUtil.isChefeTransporte(user)){
-				if(this.searchId == 0){
-					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, this.stringSearch, null, null);
-				} else if(this.searchId == 1){
-					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, this.stringSearch, null);
-				} else if(this.searchId == 2){
-					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, null, this.stringSearch);
+				switch (searchId) {
+				case 0:
+					veiculos = this.service.findByUG(null, this.stringSearch, null, null);
+					break;
+				case 1:
+					veiculos = this.service.findByUG(null, this.stringSearch, null, null);
+					break;
+				case 2:
+					veiculos = this.service.findByUG(null, null, null, this.stringSearch);
+					break;
+				default:
+					break;
 				}
 			} else {
 				UA ua = user.getPessoa().getUa();
 				if(ua != null){
-					if(this.searchId == 0){
-						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), this.stringSearch, null, null);
-					} else if(this.searchId == 1){
-						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, this.stringSearch, null);
-					} else if(searchId == 2){
-						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, null,this. stringSearch);
+					
+					switch (searchId) {
+					case 0:
+						veiculos = this.service.findByUG(ua.getUg().getId(), this.stringSearch, null, null);
+						break;
+					case 1:
+						veiculos = this.service.findByUG(ua.getUg().getId(), this.stringSearch, null, null);
+						break;
+					case 2:
+						veiculos = this.service.findByUG(ua.getUg().getId(), null, null, this.stringSearch);
+						break;
+					default:
+						break;
 					}
 				}
 			}
