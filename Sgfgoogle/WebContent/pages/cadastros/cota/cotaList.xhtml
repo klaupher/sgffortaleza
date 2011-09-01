@@ -12,6 +12,8 @@
 	<div id="cadastro">
 
 		<h1 style="width:350px">  Cotas de Abastecimento </h1>
+		
+		<h:messages globalOnly="true" styleClass="messages"/>
 
 		<fieldset>
 
@@ -75,7 +77,7 @@
 							<h:outputText value="#{index+1}" style="color: black;"/>
 						</rich:column>
 
-						<rich:column width="20%" sortBy="#{cota.veiculo.placa}"> 
+						<rich:column width="20%" > 
 							<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
 							<a4j:commandLink id="cotaVeiculo" action="#{cotaBean.prepareView}" value="#{cota.veiculo.placa} #{cota.veiculo.modelo.descricao} #{cota.veiculo.serie}" 
 								style="color: black;text-decoration:none;" reRender="paginaPrincipal">

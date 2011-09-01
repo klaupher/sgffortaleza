@@ -16,7 +16,6 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
@@ -250,7 +249,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			this.veiculos.add(vasilhame);
 		}
 		if (this.orgaoSelecionado != null) {
-			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
+			this.veiculos.addAll(veiculoService.veiculosAtivoscomcota(this.orgaoSelecionado));
 		}
 		Collections.sort(this.veiculos, new Comparator<Veiculo>() {
 			public int compare(Veiculo p1, Veiculo p2) {
@@ -444,11 +443,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
-			if(usuarioLogado.getPosto() != null){
-				this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
-			}else {
-				JSFUtil.getInstance().addErrorMessage("msg.error.operador.sem.posto.cadastrado");
-			}
+			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(),this.status);
 		}
@@ -496,7 +491,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 * de um vasilhame(veículo de modelo com código = 75)
 	 */
 	@Override
-	@Transactional
 	public String update() {
 		boolean vasilhame = false;
 		if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
@@ -507,44 +501,37 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			if(vasilhame){
 				this.entity.setQuilometragem(0L);
 				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+				Date now = new Date();
 				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 				atendimento.setBomba(this.bomba);
-				atendimento.setData(this.entity.getDataAutorizacao());
-				atendimento.setHora(new Date());
+				atendimento.setData(now);
+				atendimento.setHora(now);
 				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 				atendimento.setQuilometragem(0L);
 				atendimento.setUsuario(SgfUtil.usuarioLogado());
 				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
 				atendimento.setAbastecimento(this.entity);
 				atendimentoService.save(atendimento);
-				return super.update();
 			} else {
-				try {
-					Double cotaAtualizada = 0.0;
-					this.entity.setQuilometragem(kmAtendimento);
-					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
-					atendimento.setBomba(this.bomba);
-					atendimento.setData(this.entity.getDataAutorizacao());
-					atendimento.setHora(new Date());
-					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
-					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
-					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
-					atendimento.setQuilometragem(kmAtendimento);
-					atendimento.setUsuario(SgfUtil.usuarioLogado());
-					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
-					atendimento.setAbastecimento(this.entity);
-					atendimentoService.save(atendimento);
-					this.cotaService.update(this.entity.getVeiculo().getCota());
-					return super.update();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				Double cotaAtualizada = 0.0;
+				this.entity.setQuilometragem(kmAtendimento);
+				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+				atendimento.setBomba(this.bomba);
+				atendimento.setData(new Date());
+				atendimento.setHora(new Date());
+				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
+				cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
+				this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
+				atendimento.setQuilometragem(kmAtendimento);
+				atendimento.setUsuario(SgfUtil.usuarioLogado());
+				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
+				atendimento.setAbastecimento(this.entity);
+				this.cotaService.update(this.entity.getVeiculo().getCota());
+				atendimentoService.save(atendimento);
 			}
-			return FAIL;
-		} else {
-			return FAIL;
 		}
+		return super.update();
 	}
 
 	/**

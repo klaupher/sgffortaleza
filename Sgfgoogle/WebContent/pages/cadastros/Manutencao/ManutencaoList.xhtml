@@ -29,11 +29,20 @@
 				<h:inputText id="placa" value="#{requisicaoManutencaoBean.placa}"/>	      	
 	      	</dd>
 			
-			<h:commandButton action="#{requisicaoManutencaoBean.loadList}" value="Consultar">
+			<a4j:commandButton action="#{requisicaoManutencaoBean.loadList}" value="Consultar" status="statusLoadManutencao">
 				<a4j:support event="onclick" reRender="dataTable"/>
-			</h:commandButton>
+			</a4j:commandButton>
 			
 		</fieldset>
+		
+		<a4j:status id="statusLoadManutencao">
+			<f:facet name="start">
+				<h:panelGroup style="align:center;">
+					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+					<h:outputText value="Processando..." styleClass="processando" />
+				</h:panelGroup>
+			</f:facet>
+		</a4j:status>
 
       	<rich:dataTable id="dataTable" var="requisicao" value="#{requisicaoManutencaoBean.entities}" rows="50" rowKeyVar="index" 
       		rowClasses="even,odd" width="100%"

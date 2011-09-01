@@ -44,7 +44,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)  || SgfUtil.isCoordenador(user)){
-			result = retrieveAllAtivos();
+			result = retrieveAll();
 		} else {
 			UA ua = SgfUtil.usuarioLogado().getPessoa().getUa();
 			if(ua != null){
@@ -97,24 +97,22 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result =  query.getResultList();
 		return result;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public List<Veiculo> retrieveAllAtivos(){
-		Query query = entityManager.createQuery("Select v from Veiculo v where v.status != -1");
-		List<Veiculo> result =  query.getResultList();
-		return result;
-	}
 
-
+//	@SuppressWarnings("unchecked")
+//	public List<Veiculo> findByPCR(String p, String c, String r){
+//		List<Veiculo> result = executeResultListGenericQuery("findByPCR", p, c, r);
+//		return result;
+//	}
+//
 	@SuppressWarnings("unchecked")
 	public List<Integer> retrieveIdsVeiculos(){
-		Query query = entityManager.createQuery("SELECT v.id FROM Veiculo WHERE v.dataTransmissao != null");
+		Query query = entityManager.createQuery("SELECT v.id FROM Veiculo v WHERE v.dataTransmissao != null");
 		List<Integer> result = query.getResultList();
 		return result;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Veiculo> findByUG(String orgaoId, String placa, String chassi, String renavam){
+	public List<Veiculo> findByOrgaoPlacaChassiRenavam(String orgaoId, String placa, String chassi, String renavam){
 		
 		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
 		if(orgaoId != null){
@@ -158,6 +156,18 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 			veiculos = query.getResultList();
 		}
 		return veiculos;
+	}
+	
+	public List<Veiculo> veiculosAtivoscomcota(UG ug){
+
+		List<Veiculo> veiculos = new ArrayList<Veiculo>();
+		String ugid = ug.getId();
+		if(ug != null){
+			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.cota.cotaDisponivel > 0 and o.status != -1");
+			query.setParameter("id", ugid);
+			veiculos = query.getResultList();
+		}
+		return veiculos;		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -241,13 +251,11 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v where  v.status > :st");
-			query.setParameter("st", -1);
+			query = entityManager.createQuery("select v from Veiculo v where  v.status != -1");
 			result = query.getResultList();
 		} else {
-			query = entityManager.createQuery("select v from Veiculo v where v.ua.ug.id = :ug and v.status != :st");
+			query = entityManager.createQuery("select v from Veiculo v where v.ua.ug.id = :ug and v.status != -1");
 			query.setParameter("ug", user.getPessoa().getUa().getUg().getId());
-			query.setParameter("st", -1);
 			result = query.getResultList();
 		}
 		return result;
@@ -260,13 +268,11 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status > :st");
-			query.setParameter("st", -1);
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status != -1");
 			result = query.getResultList();
 		} else {
-			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and v.ua.ug.id = :ug and v.status != :st");
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and v.ua.ug.id = :ug and v.status != -1");
 			query.setParameter("ug", user.getPessoa().getUa().getUg().getId());
-			query.setParameter("st", -1);
 			result = query.getResultList();
 		}
 		return result;

@@ -43,9 +43,8 @@
 				</h:inputText>
 			</dd>
 
-			<h:commandButton action="#{relatorioBean.consultarConsumoCombustivel}" value="Consultar">
-				<a4j:support event="onclick" reRender="dataTable" status="gerarRelatorio"/>
-			</h:commandButton> 
+			<a4j:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsumoCombustivel}" 
+				status="gerarRelatorio" reRender="dataTable" ajaxSingle="true"/>			
 
 			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="10" rowKeyVar="index"
 				rowClasses="even,odd" 
@@ -99,14 +98,14 @@
 
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Data Atend."/></f:facet>
-								<h:outputText value="#{sr.abastecimento.dataAutorizacao}">
+								<h:outputText value="#{sr.atendimento.data}">
 									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
 								</h:outputText>
 							</rich:column>
 
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Hora Atend."/></f:facet>
-								<h:outputText value="#{sr.atendimento.hora}">
+								<h:outputText value="#{sr.atendimento.data}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>

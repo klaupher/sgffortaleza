@@ -278,7 +278,6 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String search() {
 
 		if(this.statusPesquisa == null){
-
 			this.statusPesquisa = StatusSolicitacaoVeiculo.SOLICITADO;
 		}
 

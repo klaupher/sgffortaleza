@@ -98,7 +98,7 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 			return pesquisar();
 		}
 		this.entities = new ArrayList<Cota>();
-		this.entities.addAll(cotaService.cotasVeiculosAtivos());
+		this.entities.addAll(cotaService.findcotasAllVeiculoativos());
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;
@@ -160,7 +160,7 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 				cota.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
 			}
 		}
-		cota.getVeiculo().setStatus(-1);
+		this.entities = new ArrayList<Cota>();
 		this.entities = cotaService.pesquisar(cota);
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);

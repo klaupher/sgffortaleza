@@ -36,10 +36,9 @@
 	   			<f:selectItems value="#{relatorioBean.meses}"/>
 	   		</h:selectOneMenu>			
 		</dd>
-	
-		<h:commandButton action="#{relatorioBean.consultarConsolidadoMensal}" value="Consultar">
-			<a4j:support event="onclick" reRender="dataTable" status="gerarRelatorio"/>
-		</h:commandButton> 
+		
+		<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsolidadoMensal}" 
+				status="gerarRelatorio" reRender="dataTable" ajaxSingle="true"/>
 		
 		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="r" rowKeyVar="index"
 			onRowMouseOver="jQuery(this).addClass('trHover')" 

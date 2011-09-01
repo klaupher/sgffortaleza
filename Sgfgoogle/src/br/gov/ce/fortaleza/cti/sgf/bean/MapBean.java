@@ -94,8 +94,11 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 		for (Veiculo v : veiculos) {
 			Float odometro = v.getOdometro() != null ? v.getOdometro() : 0F;
 			Float dist = v.getDistancia() != null ? v.getDistancia() : 0F;
-			line += ((Point)v.getGeometry()).y + "##" +  ((Point)v.getGeometry()).x + "##" + v.getId() + "##" + v.getPlaca() + "##" + v.getVelocidade() + "##"
-			+ odometro  + "##" +  v.getIgnicao() + "##" + v.getPontoProximo().getDescricao() + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
+			Boolean ignicao = v.getIgnicao()==null? false : v.getIgnicao();
+			String ptprox = v.getPontoProximo()==null ? "" : v.getPontoProximo().getDescricao();
+			
+			line += ((Point)v.getGeometry()).x + "##" +  ((Point)v.getGeometry()).y + "##" + v.getId() + "##" + v.getPlaca() + "##" + v.getVelocidade() + "##"
+			+ odometro  + "##" +  ignicao + "##" + ptprox + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
 		}
 		this.pontos = line;
 		return SUCCESS;
@@ -123,7 +126,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 					String placa = v.getPlaca();
 					String pprox = transmissao.getPonto() != null ? transmissao.getPonto().getDescricao() : "";
 					Float dist = transmissao.getDistancia() == null ? 0F : transmissao.getDistancia();
-					line += y + "##" + x + "##" + transmissao.getVeiculoId() + "##" +  placa + "##" + vel + "##" + odometro + "##" +  transmissao.getIgnicao() + "##" + pprox + "##" + dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "##$##";
+					line += x + "##" + y + "##" + transmissao.getVeiculoId() + "##" +  placa + "##" + vel + "##" + odometro + "##" +  transmissao.getIgnicao() + "##" + pprox + "##" + dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "##$##";
 				}
 			} else {
 				JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.sem.rota");

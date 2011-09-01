@@ -14,9 +14,7 @@ import org.hibernate.Criteria;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
-import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,15 +33,10 @@ public class CotaService extends BaseService<Integer, Cota>{
 	public Cota findByVeiculoServico(Veiculo veiculo, TipoServico servico) {
 
 		Cota cota = null;
-
 		Query query = entityManager.createNamedQuery("Cota.findByVeiculoServico");
-
 		query.setParameter(1, veiculo);
-
 		query.setParameter(2, servico);
-
 		cota = (Cota) query.getSingleResult();
-
 		return cota;
 	}
 
@@ -51,11 +44,11 @@ public class CotaService extends BaseService<Integer, Cota>{
 	public List<Cota> findCotas(Veiculo veiculo) {
 
 		List<Cota> cotas = executeResultListQuery("findCotasByVeiculo", veiculo);
-
 		return cotas;
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public Map<Veiculo, Cota> retrieveMapVeiculoCota(List<Integer> ids) {
 
 		Map<Veiculo, Cota> map = new HashMap<Veiculo, Cota>();
@@ -75,6 +68,7 @@ public class CotaService extends BaseService<Integer, Cota>{
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional
 	public List<Cota> retrieveCotasVeiculosByUG(String codug){
 
 		Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.veiculo.ua.ug.id = ? AND c.veiculo.status != -1");
@@ -83,10 +77,11 @@ public class CotaService extends BaseService<Integer, Cota>{
 	}
 
 
+	@Transactional
 	public Cota retrieveVeiculoCota(Veiculo veiculo) {
 		Cota cota = null;
 		if (veiculo != null) {
-			Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.tipoServico.codTipoServico = 1 and c.veiculo.id = " + veiculo.getId());
+			Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.tipoServico.codTipoServico = 1 and c.veiculo.status != -1 and c.veiculo.id = " + veiculo.getId());
 			cota = (Cota) query.getSingleResult();
 		}
 		return cota;
@@ -107,27 +102,29 @@ public class CotaService extends BaseService<Integer, Cota>{
 					criteria.createCriteria("veiculo.modelo.marca").add(Example.create(cota.getVeiculo().getModelo().getMarca()).enableLike(MatchMode.ANYWHERE).ignoreCase());
 				}
 			}
-
 		}
-
 		cotas = criteria.list();
 		List<Cota> remove = new ArrayList<Cota>();
 		for (Cota c : cotas) {
-			if(c.getVeiculo().getStatus().equals(-1)){
+			if(c.getVeiculo().getStatus() == -1){
 				remove.add(c);
 			}
 		}
 		cotas.removeAll(remove);
+		remove = new ArrayList<Cota>();
 		return cotas;
 	}
-	// retorna apenas as cotas de abastecimentos dos veículos que estão ativos
-	public List<Cota> cotasVeiculosAtivos(){
-		List<Cota> result = executeResultListQuery("findCotasVeiculosAtivos");
-		return result;
-	}
 
-
+	@Transactional
 	public Cota findByPlacaVeiculo(String placa) throws NonUniqueObjectException {
 		return executeSingleResultQuery("findByPlacaVeiculo", placa);
+	}
+
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public List<Cota> findcotasAllVeiculoativos(){
+		Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.veiculo.status != -1");
+		List<Cota> result = new ArrayList<Cota>(query.getResultList());
+		return result;
 	}
 }

@@ -20,11 +20,10 @@ public class TransmissaoService extends BaseService<Long, Transmissao> {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Transmissao> retrieveByVeiculo(Integer veiculoId, Date dataHoraInicio, Date dataHoraFim) {
-		Query query = entityManager.createQuery("SELECT t FROM Transmissao t WHERE t.veiculoId = ? AND t.ignicao = ? AND t.dataTransmissao BETWEEN ? AND ? ORDER BY t.dataTransmissao DESC");
+		Query query = entityManager.createQuery("SELECT t FROM Transmissao t WHERE t.veiculoId = ? AND t.dataTransmissao BETWEEN ? AND ? ORDER BY t.dataTransmissao DESC");
 		query.setParameter(1, veiculoId);
-		query.setParameter(2, true);
-		query.setParameter(3, dataHoraInicio);
-		query.setParameter(4, dataHoraFim);
+		query.setParameter(2, dataHoraInicio);
+		query.setParameter(3, dataHoraFim);
 		return query.getResultList();
 	}
 	

@@ -64,12 +64,22 @@
 						<f:selectItem itemLabel="Atendidos" itemValue="ATENDIDO"/>
 					</h:selectOneRadio>
 				</dd>
-
-				<a4j:commandButton action="#{abastecimentoBean.pesquisarAbastecimentosPorPeriodoPorOrgao}" value="Pesquisar" reRender="dataTable"/>
+				
+				<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.search}" 
+								  status="statusLoadAbastecimento" reRender="dataTable" ajaxSingle="true"/>
 
 			</a4j:outputPanel>
 
 		</fieldset>
+        
+		<a4j:status id="statusLoadAbastecimento">
+			<f:facet name="start">
+				<h:panelGroup style="align:center;">
+					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+					<h:outputText value="Processando..." styleClass="processando" />
+				</h:panelGroup>
+			</f:facet>
+		</a4j:status>
 
 		<rich:dataTable id="dataTable" value="#{abastecimentoBean.entities}" var="abastecimento" rowKeyVar="index" rows="100"
 			rowClasses="even,odd"

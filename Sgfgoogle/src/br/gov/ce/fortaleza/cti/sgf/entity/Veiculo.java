@@ -43,13 +43,13 @@ import org.postgis.Geometry;
 })
 
 @NamedQueries( {
-	@NamedQuery(name = "Veiculo.findVeiculosSemCota", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c)"),
-	@NamedQuery(name = "Veiculo.findVeiculosSemCotaByPlaca", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ?"),
-	@NamedQuery(name = "Veiculo.findVeiculosComCota", query = "select v from Veiculo as v inner join v.cota as cota"),
+	@NamedQuery(name = "Veiculo.findVeiculosSemCota", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.status != -1"),
+	@NamedQuery(name = "Veiculo.findVeiculosSemCotaByPlaca", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ? and v.status != -1"),
+	@NamedQuery(name = "Veiculo.findVeiculosComCota", query = "select v from Veiculo as v inner join v.cota as cota where v.status != -1"),
 	@NamedQuery(name = "Veiculo.findByPCR", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?)"),
 	@NamedQuery(name = "Veiculo.findByUGPCR", query = "SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id LIKE ?) AND ((v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?))"),
 	@NamedQuery(name = "Veiculo.findByUG", query = "SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id = ?)"),
-	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?)") })
+	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != -1 ") })
 	public class Veiculo implements Serializable {
 
 	private static final long serialVersionUID = 1031161986293985845L;

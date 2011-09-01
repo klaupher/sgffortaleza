@@ -51,11 +51,20 @@
 					</h:selectOneRadio>
 				</dd>
 				
-				<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.search}" reRender="dataTable" ajaxSingle="true"/>
+				<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.search}" status="statusLoadSolicitacaoVeiculo" reRender="dataTable" ajaxSingle="true"/>
 		
 		</a4j:region>
 			
 		</fieldset>
+		
+		<a4j:status id="statusLoadSolicitacaoVeiculo">
+			<f:facet name="start">
+				<h:panelGroup style="align:center;">
+					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+					<h:outputText value="Processando..." styleClass="processando" />
+				</h:panelGroup>
+			</f:facet>
+		</a4j:status>
 
 
 		<rich:dataTable id="dataTable"	value="#{solicitacaoVeiculoBean.entities}" var="solicitacao" rows="50" rowKeyVar="k"
