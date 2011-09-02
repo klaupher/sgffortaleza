@@ -816,14 +816,18 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			
 			atendimentos = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
 			//atendimentos.put(this.orgao, atendimentoService.findByPeriodo(this.orgao.getId(), null, this.dtInicial, this.dtFinal)) ;
-		} else { // neste caso, a consulta será para todos os orgãos
+		} else { 
+			// neste caso, a consulta será para todos os orgãos
 			atendimentos = atendimentoService.findByPeriodoHashMap(this.dtInicial, this.dtFinal);
 		}
 
 		this.entities = new ArrayList<RelatorioDTO>(); // inicia lista de entidades do relatório
 
 		// inicia lista de ids de veículos para consulta das cotas
-		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >(); // inicia hashMap de veículos e seus abastecimento
+		Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >(); 
+		// inicia hashMap de veículos e seus abastecimento
+		
+		Float totalOrgao = 0F;
 
 		for (UG ug : atendimentos.keySet()) {
 
@@ -839,10 +843,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
 					list.add(a);
 					map.put(v, list);
-					ids.add(v.getId());
 				} else {
 					map.get(v).add(a);
 				}
+				ids.add(v.getId());
 			}
 
 			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
@@ -881,10 +885,15 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
 				} else {
 					dto.setSaldoCota(0F);
+					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
 				}
 				novo.getRelatorios().add(dto);
+				
+				totalOrgao += total;
 			}
 
+			novo.setConsumoCombustivelOrgao(totalOrgao);
+			totalOrgao = 0F;
 			this.entities.add(novo);
 		}
 
@@ -941,6 +950,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		for (UG ug : ugs) {
 
+			Float consumoOrgao = 0F;
 			RelatorioDTO novo = new RelatorioDTO();
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
 			novo.setOrgao(ug);
@@ -982,6 +992,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				}
 				Float consumo = 0F;
 				dto.setConsumo(total);
+				
 				dto.setKmRodados(kmFinal - kmInicial);
 				if(total == 0){
 					consumo = 0F;
@@ -990,8 +1001,11 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				}
 				dto.setKmPorLitro(consumo);
 				dto.setNumeroAbastecimentos(nrAbastecimentos);
+				consumoOrgao += total;
 				novo.getRelatorios().add(dto);
+				
 			}
+			novo.setConsumoCombustivelOrgao(consumoOrgao);
 
 			this.entities.add(novo);
 		}

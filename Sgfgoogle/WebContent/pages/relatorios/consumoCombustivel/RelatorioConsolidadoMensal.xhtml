@@ -19,7 +19,6 @@
 	
 		<legend>Relatório Consolidado Mensal de Abastecimentos</legend>
 
-
 		<dt><label for="ugList">Órgão</label></dt>
 		<dd>
 	      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter" styleClass="ugList">
@@ -29,18 +28,17 @@
 	   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 	   		</h:selectOneMenu>
 		</dd>
-		
+
 		<dt><label for="mesesList">Mês de referência</label></dt>
 		<dd>
 	      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" requiredMessage="Informe o mês">
 	   			<f:selectItems value="#{relatorioBean.meses}"/>
 	   		</h:selectOneMenu>			
 		</dd>
-		
-		<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsolidadoMensal}" 
-				status="gerarRelatorio" reRender="dataTable" ajaxSingle="true"/>
-		
-		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="r" rowKeyVar="index"
+
+		<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsolidadoMensal}" status="gerarRelatorio" reRender="dataTable"/>
+
+		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="r" rowKeyVar="index" rows="100"
 			onRowMouseOver="jQuery(this).addClass('trHover')" 
 			onRowMouseOut="jQuery(this).removeClass('trHover')" 
 			rowClasses="even,odd">
@@ -51,13 +49,17 @@
 				</rich:column>
 			</c:if>
 			
-			<rich:column colspan="12" style="font-weight: bold; background:white">
+			<rich:column colspan="6" style="font-weight: bold; background:white">
 				<h:outputText value="Órgão: #{r.orgao.descricao}" />
+			</rich:column>
+			
+			<rich:column colspan="6" style="font-weight: bold; background:white">
+				<h:outputText value="Consumo do órgão: #{r.consumoCombustivelOrgao}" />
 			</rich:column>
 
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 	
-				<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="30" rowKeyVar="k" 
+				<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="1000" rowKeyVar="k" 
 						headerClass="subHeader" 
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
@@ -134,6 +136,10 @@
 							<f:facet name="header"><h:outputLabel value="Nº Abast."/></f:facet>
 							<h:outputText value="#{sr.numeroAbastecimentos}" />
 						</rich:column>
+						
+						<f:facet name="footer">
+							<rich:datascroller renderIfSinglePage="false" reRender="subDataTable" />
+						</f:facet>
 	
 					</rich:subTable>
 		
@@ -144,15 +150,7 @@
 			</c:if>
 	
 		</rich:dataTable>
-		
-		<a4j:status id="gerarRelatorio">
-			<f:facet name="start">
-				<h:panelGroup style="align:center;">
-					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-					<h:outputText value="Processando..." styleClass="processando" />
-				</h:panelGroup>
-			</f:facet>
-		</a4j:status>
+
 	
 		<h:panelGroup id="reportConsolidadoMensal" rendered="#{relatorioBean.entitiesSize > 0}">
 	
@@ -163,6 +161,15 @@
 		</h:panelGroup>
 	
 	</fieldset>
+	
+	<a4j:status id="gerarRelatorio">
+		<f:facet name="start">
+			<h:panelGroup style="align:center;">
+				<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+				<h:outputText value="Processando..." styleClass="processando" />
+			</h:panelGroup>
+		</f:facet>
+	</a4j:status>
 
 	</div>
 

@@ -77,6 +77,7 @@ public class RelatorioDTO implements Serializable {
 	private Date periodo;
 	private Date duracaoManutencao;
 	private Date atraso;
+	private Float consumoCombustivelOrgao;
 
 	private List<Multa> multas;
 	private List<RelatorioDTO> relatorios;
@@ -400,5 +401,13 @@ public class RelatorioDTO implements Serializable {
 
 	public void setCotaSoma(Double cotaSoma) {
 		this.cotaSoma = cotaSoma;
+	}
+
+	public Float getConsumoCombustivelOrgao() {
+		return consumoCombustivelOrgao;
+	}
+
+	public void setConsumoCombustivelOrgao(Float consumoCombustivelOrgao) {
+		this.consumoCombustivelOrgao = consumoCombustivelOrgao;
 	}
 }

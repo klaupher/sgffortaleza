@@ -82,8 +82,7 @@
 			<dl>
 				<dt><label for="dataAutorizacao">Data da autorização</label></dt>
 				<dd>
-					<h:inputText  id="dataAutorizacao" value="#{solicitacaoLubrificanteBean.entity.dataAutorizacao}"  disabled="true"
-						 requiredMessage="Informe a Km de Prev. Próxima Troca" size="10" maxlength="10"  readonly="true">
+					<h:inputText  id="dataAutorizacao" value="#{solicitacaoLubrificanteBean.entity.dataAutorizacao}" requiredMessage="Informe a Km Prev. Próxima Troca" size="10" maxlength="10"  readonly="true">
 						<f:convertDateTime pattern="dd/MM/yyyy" timeStyle="short"/>	
 					</h:inputText>
 				</dd>

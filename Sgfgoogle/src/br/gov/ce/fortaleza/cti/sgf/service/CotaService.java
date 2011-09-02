@@ -54,7 +54,7 @@ public class CotaService extends BaseService<Integer, Cota>{
 		Map<Veiculo, Cota> map = new HashMap<Veiculo, Cota>();
 		if (ids != null && ids.size() > 0) {
 			String idsList = ids.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
-			Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.tipoServico.codTipoServico = 1 and c.veiculo.id IN " + idsList);
+			Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE  c.veiculo.status != -1 and c.veiculo.id IN " + idsList);
 			List<Cota> cotas = query.getResultList();
 			for (Cota c : cotas) {
 				if(map.get(c.getVeiculo()) == null){
@@ -123,7 +123,8 @@ public class CotaService extends BaseService<Integer, Cota>{
 	@Transactional
 	@SuppressWarnings("unchecked")
 	public List<Cota> findcotasAllVeiculoativos(){
-		Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.veiculo.status != -1");
+		Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.veiculo.status  <> ?");
+		query.setParameter(1, -1);
 		List<Cota> result = new ArrayList<Cota>(query.getResultList());
 		return result;
 	}

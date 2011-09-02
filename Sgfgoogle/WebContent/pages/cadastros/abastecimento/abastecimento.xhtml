@@ -78,7 +78,6 @@
 				</dd>
 
 
-
 	            <a4j:region id="panelUA" rendered="#{abastecimentoBean.mostrarPosto}">
 		            <dt><label for="posto"><h:outputText value="#{msg['abastecimento.posto']}:" /></label></dt>
 		            <dd>
@@ -96,6 +95,14 @@
 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 					</h:inputText>
 					<label style="color:red">(abastecimento em data futura.)</label>
+				</dd>
+				
+				<dt><label for="dataInicio">Hora do atendimento</label></dt>
+				<dd>
+					<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora" required="true" requiredMessage="Hora Atendimento">
+						<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+					</h:inputText>
+					<h:message for="hrInicial" styleClass="message"/>			
 				</dd>
 
 		        <c:if test="#{abastecimentoBean.negar}">

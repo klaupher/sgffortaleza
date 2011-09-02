@@ -23,54 +23,60 @@
 
 			<a4j:outputPanel rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador or  controlBean.operador}">
 
-	      		<dt><label for="ugAbastecimento">Órgão:</label></dt>
-	      		<dd>
-					<h:selectOneMenu id="ugAbastecimento" value="#{abastecimentoBean.orgaoSelecionado}" converter="entityConverter" style="width:450px">
-						<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador}">
-							<f:selectItem itemLabel="Todos ..." itemValue=""/>
-						</c:if>
-						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-						<a4j:support event="onchange" action="#{abastecimentoBean.populate}"/>
-					</h:selectOneMenu>
-	      		</dd>
+				<a4j:region>
 
-				<dt><label for="placaVeiculo">Placa:</label></dt>
-				<dd>
-					<h:inputText id="placaVeiculo" value="#{abastecimentoBean.placa}"/>
-				</dd>
-
-				<dt><label for="dtInicio">Data início:</label></dt>
-				<dd>
-					<h:inputText id="dtInicio" value="#{abastecimentoBean.dtInicial}" style="color: black;"
-						size="8" styleClass="maskData" required="true" requiredMessage="Informe a data inicial">
-						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-					</h:inputText>
-					<h:message for="dtInicio" styleClass="message"/>
-				</dd>
-
-				<dt><label for="dtFinal">Data final:</label></dt>
-				<dd>
-					<h:inputText id="dtFinal" value="#{abastecimentoBean.dtFinal}" style="color: black;"
-						size="8" styleClass="maskData" required="true" requiredMessage="Informe a data final">
-						<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-					</h:inputText>
-					<h:message for="dtFinal" styleClass="message"/>
-				</dd>
-
-				<dt/>
-				<dd>
-					<h:selectOneRadio id="radioSolVeic" styleClass="checkbox"  value="#{abastecimentoBean.searchid}" style="width:50%;">
-						<f:selectItem itemLabel="Autorizados" itemValue="AUTORIZADO" /> 
-						<f:selectItem itemLabel="Negados" itemValue="NEGADO"/>
-						<f:selectItem itemLabel="Atendidos" itemValue="ATENDIDO"/>
-						<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.populate}"/>
-					</h:selectOneRadio>
-				</dd>
+		      		<dt><label for="ugAbastecimento">Órgão:</label></dt>
+		      		<dd>
+						<h:selectOneMenu id="ugAbastecimento" value="#{abastecimentoBean.orgaoSelecionado}" converter="entityConverter" style="width:450px">
+							<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador}">
+								<f:selectItem itemLabel="Todos ..." itemValue=""/>
+							</c:if>
+							<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+							<a4j:support event="onchange" action="#{abastecimentoBean.populate}"/>
+						</h:selectOneMenu>
+		      		</dd>
+	
+					<dt><label for="placaVeiculo">Placa:</label></dt>
+					<dd>
+						<h:inputText id="placaVeiculo" value="#{abastecimentoBean.placa}"/>
+					</dd>
+	
+					<dt><label for="dtInicio">Data início:</label></dt>
+					<dd>
+						<h:inputText id="dtInicio" value="#{abastecimentoBean.dtInicial}" style="color: black;"
+							size="8" styleClass="maskData" required="true" requiredMessage="Informe a data inicial">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+						<h:message for="dtInicio" styleClass="message"/>
+					</dd>
+	
+					<dt><label for="dtFinal">Data final:</label></dt>
+					<dd>
+						<h:inputText id="dtFinal" value="#{abastecimentoBean.dtFinal}" style="color: black;"
+							size="8" styleClass="maskData" required="true" requiredMessage="Informe a data final">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+						<h:message for="dtFinal" styleClass="message"/>
+					</dd>
+	
+					<dt/>
+					<dd>
+						<h:selectOneRadio id="radioSolAbastecimento" styleClass="checkbox"  value="#{abastecimentoBean.status}">
+							<f:selectItem itemLabel="Autorizados" itemValue="AUTORIZADO" /> 
+							<f:selectItem itemLabel="Negados" itemValue="NEGADO"/>
+							<f:selectItem itemLabel="Atendidos" itemValue="ATENDIDO"/>
+							<a4j:support event="onchange" action="#{abastecimentoBean.populate}"/>
+						</h:selectOneRadio>
+					</dd>
+					
+					<a4j:commandButton value="Pesquisar" action="#{abastecimentoBean.search}" 
+									  status="statusLoadAbastecimento" reRender="dataTable" ajaxSingle="false"/>
+				
+				</a4j:region>
 
 			</a4j:outputPanel>
 			
-			<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.search}" 
-								  status="statusLoadAbastecimento" reRender="dataTable" ajaxSingle="false"/>
+			
 
 		</fieldset>
         
@@ -104,7 +110,8 @@
 
 				<rich:column width="20%" style="text-align: left;" > 
                     <f:facet name="header"><h:outputText value="Veículo"/></f:facet>
-                    <a4j:commandLink id="descricao" value="#{abastecimento.veiculo.placa} #{abastecimento.veiculo.modelo.descricao} #{abastecimento.veiculo.serie}" reRender="paginaPrincipal" immediate="true"
+                    <a4j:commandLink id="descricao" value="#{abastecimento.veiculo.placa} #{abastecimento.veiculo.modelo.descricao} #{abastecimento.veiculo.serie}" 
+                    				 reRender="paginaPrincipal" immediate="true"
                     	oncomplete="Richfaces.showModalPanel('acompanhamentoAbastecimento', {width:700, height:400, top:45});" style="color: black;text-decoration:none;">
                         <f:setPropertyActionListener value="#{abastecimento}" target="#{abastecimentoBean.entity}" />
                     </a4j:commandLink>
@@ -137,6 +144,7 @@
                     <f:facet name="header"><h:outputText value="Status" /></f:facet>
                     <h:outputText value="#{abastecimento.status}" rendered="#{abastecimento.status == 'AUTORIZADO'}" style="color: blue;" />
                     <h:outputText value="#{abastecimento.status}" rendered="#{abastecimento.status == 'ATENDIDO'}" style="color: black;" />
+                    <h:outputText value="#{abastecimento.status}" rendered="#{abastecimento.status == 'NEGADO'}" style="color: red;" />
                 </rich:column>
 
                 <rich:column rendered="#{controlBean.operador}" width="2%" style="text-align: center;">
@@ -155,7 +163,7 @@
                     </a4j:commandLink>
                 </rich:column>
 
-                <rich:column width="1%" style="text-align: center;" rendered="#{controlBean.administrador}">
+                <rich:column width="1%" style="text-align: center;" rendered="#{controlBean.administrador  or controlBean.coordenador}">
                     <f:facet name="header"><h:outputText value="Excluir" /></f:facet>
                     <a4j:commandLink styleClass="excluir"  action="#{abastecimentoBean.delete}" 
                     	reRender="paginaPrincipal" value="Excluir" immediate="true"

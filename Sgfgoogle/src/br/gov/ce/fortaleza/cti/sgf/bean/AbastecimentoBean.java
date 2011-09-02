@@ -4,6 +4,7 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -104,7 +105,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private Double saldoAtual;
 	private boolean vasilhame = false;
 	private boolean kmValido = true;
-	private int searchid = 0;
+	private Date horaAbastecimento;
 
 	@Override
 	protected Abastecimento createNewEntity() {
@@ -435,39 +436,25 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.autorizar = false;
 		this.atender = false;
 		this.atendimento = false;
-		
-//		switch (this.searchid) {
-//			case 0:
-//				this.status = StatusAbastecimento.AUTORIZADO;
-//				break;
-//			case 1:
-//				this.status = StatusAbastecimento.NEGADO;
-//				break;
-//			case 2:
-//				this.status = StatusAbastecimento.ATENDIDO;
-//				break;
-//			case 3:
-//				this.status = StatusAbastecimento.NAO_ATENDIDO;
-//				break;
-//			case 4:
-//				this.status = StatusAbastecimento.VENCIDO;
-//				break;
-//			case 5:
-//				this.status = StatusAbastecimento.TODOS;
-//				break;
-//			default:
-//				break;
-//		}
 
 		this.dtInicial = DateUtil.getDateTime(this.dtInicial);
 		this.dtFinal = DateUtil.getDateTime(this.dtFinal);
 
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
-			this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+			
+			if(this.orgaoSelecionado == null){
+				this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
+			} else {
+				this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, this.orgaoSelecionado, this.status);
+			}
+		
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
+		
 			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
+		
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
-			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(),this.status);
+			
+			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(), this.status);
 		}
 
 		for (Abastecimento abastecimento : this.entities) {
@@ -515,19 +502,31 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String update() {
 		boolean vasilhame = false;
+		Calendar cal = Calendar.getInstance();
 		if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
 			//StatusAbastecimento status = entity.getStatus();
 			if(this.entity.getVeiculo().getModelo() != null){
 				vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
 			}
+			
+			Date currentdate = new Date();
+			
+			if(this.horaAbastecimento != null){
+				cal.setTime(this.horaAbastecimento);
+				cal.set(Calendar.DAY_OF_MONTH, currentdate.getDay());
+				cal.set(Calendar.MONTH, currentdate.getMonth());
+				cal.set(Calendar.YEAR, currentdate.getYear());
+				currentdate = cal.getTime();
+			}
+			
 			if(vasilhame){
 				this.entity.setQuilometragem(0L);
 				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-				Date now = new Date();
+				
 				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 				atendimento.setBomba(this.bomba);
-				atendimento.setData(now);
-				atendimento.setHora(now);
+				atendimento.setData(currentdate);
+				atendimento.setHora(currentdate);
 				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 				atendimento.setQuilometragem(0L);
 				atendimento.setUsuario(SgfUtil.usuarioLogado());
@@ -540,8 +539,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
 				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 				atendimento.setBomba(this.bomba);
-				atendimento.setData(new Date());
-				atendimento.setHora(new Date());
+				atendimento.setData(currentdate);
+				atendimento.setHora(currentdate);
 				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 				cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
 				this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
@@ -841,11 +840,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.kmValido = kmValido;
 	}
 
-	public int getSearchid() {
-		return searchid;
+	public Date getHoraAbastecimento() {
+		return horaAbastecimento;
 	}
 
-	public void setSearchid(int searchid) {
-		this.searchid = searchid;
+	public void setHoraAbastecimento(Date horaAbastecimento) {
+		this.horaAbastecimento = horaAbastecimento;
 	}
 }
