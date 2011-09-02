@@ -267,7 +267,7 @@ function createEditablePoint() {
 	GEvent.addListener(mapp, "click", clicked);
 	GEvent.addListener(mapp, "dblclick", function(overlay, point) {
 	mapp.clearOverlays();
-		if(point) {
+		if(point) {createEditablePolygon
 			pointToRemove = point;
 			lat.value = point.lat();
 			lng.value = point.lng();

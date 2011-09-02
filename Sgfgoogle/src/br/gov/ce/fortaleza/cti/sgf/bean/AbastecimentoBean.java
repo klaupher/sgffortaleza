@@ -22,7 +22,6 @@ import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Bomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
-import br.gov.ce.fortaleza.cti.sgf.entity.Pessoa;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
 import br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel;
 import br.gov.ce.fortaleza.cti.sgf.entity.TipoServico;
@@ -105,6 +104,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private Double saldoAtual;
 	private boolean vasilhame = false;
 	private boolean kmValido = true;
+	private int searchid = 0;
 
 	@Override
 	protected Abastecimento createNewEntity() {
@@ -435,7 +435,29 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.autorizar = false;
 		this.atender = false;
 		this.atendimento = false;
-		this.status = StatusAbastecimento.AUTORIZADO;
+		
+//		switch (this.searchid) {
+//			case 0:
+//				this.status = StatusAbastecimento.AUTORIZADO;
+//				break;
+//			case 1:
+//				this.status = StatusAbastecimento.NEGADO;
+//				break;
+//			case 2:
+//				this.status = StatusAbastecimento.ATENDIDO;
+//				break;
+//			case 3:
+//				this.status = StatusAbastecimento.NAO_ATENDIDO;
+//				break;
+//			case 4:
+//				this.status = StatusAbastecimento.VENCIDO;
+//				break;
+//			case 5:
+//				this.status = StatusAbastecimento.TODOS;
+//				break;
+//			default:
+//				break;
+//		}
 
 		this.dtInicial = DateUtil.getDateTime(this.dtInicial);
 		this.dtFinal = DateUtil.getDateTime(this.dtFinal);
@@ -817,5 +839,13 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	public void setKmValido(boolean kmValido) {
 		this.kmValido = kmValido;
+	}
+
+	public int getSearchid() {
+		return searchid;
+	}
+
+	public void setSearchid(int searchid) {
+		this.searchid = searchid;
 	}
 }

@@ -22,6 +22,9 @@ public enum StatusAbastecimento {
 		case NEGADO:
 			string = "Negado";
 			break;
+		case NAO_ATENDIDO:
+			string = "NaoAtendido";
+			break;			
 		case VENCIDO:
 			string = "Vencido";
 			break;

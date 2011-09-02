@@ -59,16 +59,18 @@
 
 				<dt/>
 				<dd>
-					<h:selectOneRadio id="radioSolVeic" styleClass="checkbox" value="#{abastecimentoBean.status}" style="width:50%;">
-						<f:selectItem itemLabel="Autorizados" itemValue="AUTORIZADO"/>
+					<h:selectOneRadio id="radioSolVeic" styleClass="checkbox"  value="#{abastecimentoBean.searchid}" style="width:50%;">
+						<f:selectItem itemLabel="Autorizados" itemValue="AUTORIZADO" /> 
+						<f:selectItem itemLabel="Negados" itemValue="NEGADO"/>
 						<f:selectItem itemLabel="Atendidos" itemValue="ATENDIDO"/>
+						<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.populate}"/>
 					</h:selectOneRadio>
 				</dd>
-				
-				<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.search}" 
-								  status="statusLoadAbastecimento" reRender="dataTable" ajaxSingle="true"/>
 
 			</a4j:outputPanel>
+			
+			<a4j:commandButton value="Pesquisar" action="#{solicitacaoVeiculoBean.search}" 
+								  status="statusLoadAbastecimento" reRender="dataTable" ajaxSingle="false"/>
 
 		</fieldset>
         
