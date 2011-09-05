@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="2.593742460100004"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="56"/>
-	<style name="zebrado">
+	<style name="zebrado" isDefault="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -57,11 +57,11 @@
 		<groupHeader>
 			<band height="37">
 				<staticText>
-					<reportElement x="436" y="3" width="62" height="15"/>
+					<reportElement x="445" y="3" width="62" height="14"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Total UG:]]></text>
+					<text><![CDATA[Consumo:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement mode="Opaque" x="26" y="20" width="183" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
@@ -133,17 +133,17 @@
 					<text><![CDATA[Posto]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="602" y="3" width="80" height="15"/>
+					<reportElement x="631" y="3" width="78" height="15"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="734" y="3" width="53" height="15"/>
+					<reportElement x="747" y="3" width="53" height="15"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.Float"><![CDATA[$F{cota}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="687" y="3" width="46" height="15"/>
+					<reportElement x="710" y="3" width="35" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
@@ -160,7 +160,7 @@
 					<text><![CDATA[Orgão:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="50" y="3" width="386" height="14"/>
+					<reportElement x="50" y="3" width="392" height="14"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
@@ -172,14 +172,14 @@
 					<text><![CDATA[Nº]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="546" y="3" width="55" height="15"/>
+					<reportElement x="575" y="3" width="55" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Veículo:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="498" y="3" width="46" height="15"/>
+					<reportElement x="508" y="3" width="67" height="14"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.Float"><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
 				</textField>
@@ -190,7 +190,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="85" splitType="Stretch">
+		<band height="84" splitType="Stretch">
 			<line>
 				<reportElement x="0" y="80" width="802" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
 			</line>

@@ -815,9 +815,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		//Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosPorVeiculo = new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
 
 		if(this.orgao != null){
+			atendimentosPorVeiculoUg = atendimentoService.findAbastecimentosMapVeiculo(this.orgao, null, this.dtInicial, this.dtFinal);
 			//atendimentos = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
 		} else { 
-			atendimentosPorVeiculoUg = atendimentoService.findAbastecimentosMapVeiculo(this.dtInicial, this.dtFinal);
+			atendimentosPorVeiculoUg = atendimentoService.findAbastecimentosMapVeiculo(null, null, this.dtInicial, this.dtFinal);
 		}
 
 		this.entities = new ArrayList<RelatorioDTO>();
@@ -1094,7 +1095,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				
 			}
 			novo.setConsumoCombustivelOrgao(consumoOrgao);
-
 			this.entities.add(novo);
 		}
 
@@ -1524,6 +1524,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
 				for (RelatorioDTO r : this.entities) {
 					for (RelatorioDTO rr : r.getRelatorios()) {
+						rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
+						for (RelatorioDTO r3 : rr.getRelatorios()) {
+							r3.setConsumoCombustivelOrgao(rr.getConsumoCombustivelOrgao());
+						}
 						list.addAll(rr.getRelatorios());
 					}
 				}
@@ -1533,6 +1537,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
 				for (RelatorioDTO r : this.entities) {
+					for (RelatorioDTO rr : r.getRelatorios()) {
+						rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
+					}
 					list.addAll(r.getRelatorios());
 				}
 				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);

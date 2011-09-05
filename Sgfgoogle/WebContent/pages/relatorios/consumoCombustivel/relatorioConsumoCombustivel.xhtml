@@ -58,13 +58,13 @@
 					</rich:column>
 				</c:if>
 
-				<rich:column colspan="10" style="font-weight: bold; background:white">
+				<rich:column colspan="5" style="font-weight: bold; background:white">
 					<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 				</rich:column>
 				
-<!--				<rich:column colspan="5" style="font-weight: bold; background:white">-->
-<!--					<h:outputText value="Consumo do órgão: #{relatorio.consumoCombustivelOrgao}" />-->
-<!--				</rich:column>-->
+				<rich:column colspan="5" style="font-weight: bold; background:white">
+					<h:outputText value="Consumo do órgão: #{relatorio.consumoCombustivelOrgao}" />
+				</rich:column>
 
 				<c:if test="#{relatorioBean.entitiesSize > 0}">
 

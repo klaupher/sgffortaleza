@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="2.357947691000002"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="zebrado">
+	<style name="zebrado" isDefault="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -51,6 +51,9 @@
 	</field>
 	<field name="numeroAbastecimentos" class="java.lang.Integer">
 		<fieldDescription><![CDATA[numeroAbastecimentos]]></fieldDescription>
+	</field>
+	<field name="consumoCombustivelOrgao" class="java.lang.Float">
+		<fieldDescription><![CDATA[consumoCombustivelOrgao]]></fieldDescription>
 	</field>
 	<group name="Orgao">
 		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
@@ -133,9 +136,21 @@
 					<text><![CDATA[Orgão:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="45" y="1" width="510" height="15"/>
+					<reportElement x="45" y="1" width="398" height="15"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="443" y="1" width="64" height="15"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Consumo:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="508" y="1" width="47" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Float"><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
