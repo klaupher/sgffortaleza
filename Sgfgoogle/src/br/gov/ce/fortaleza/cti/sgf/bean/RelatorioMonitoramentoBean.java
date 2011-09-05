@@ -69,7 +69,7 @@ public class RelatorioMonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 			PontoDTO p = new PontoDTO();
 			p.setPontoProximo(t.getPonto() != null ? t.getPonto().getDescricao() : "");
 			p.setDistPontoProximo(t.getDistancia() != null ? t.getDistancia() : 0F);
-			p.setIgnicao(t.getIgnicao());
+			p.setIgnicao(t.getIgnicao() != null ? t.getIgnicao() : false);
 			p.setDataTransmissao(t.getDataTransmissao());
 			pontos.add(p);
 		}

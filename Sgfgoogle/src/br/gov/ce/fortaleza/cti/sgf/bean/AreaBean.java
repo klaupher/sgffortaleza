@@ -56,7 +56,7 @@ public class AreaBean extends EntityBean<Integer, Area> {
 	@Override
 	public String prepareUpdate() {
 		this.veiculos = new ArrayList<Veiculo>();
-		if (this.entity.getVeiculos().size() > 0) {
+		if (this.entity.getVeiculos() != null && this.entity.getVeiculos().size() > 0) {
 			this.veiculos.addAll(this.entity.getVeiculos());
 			this.geoms = MapUtil.parseVeiculosMap(this.veiculos);
 		}

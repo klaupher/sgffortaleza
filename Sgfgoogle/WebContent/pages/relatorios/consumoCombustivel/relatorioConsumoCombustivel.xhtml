@@ -58,7 +58,7 @@
 					</rich:column>
 				</c:if>
 
-				<rich:column colspan="5" style="font-weight: bold; background:white">
+				<rich:column colspan="6" style="font-weight: bold; background:white">
 					<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 				</rich:column>
 				
@@ -74,7 +74,7 @@
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
 						onRowMouseOut="jQuery(this).removeClass('trHover')">
 
-						<rich:column colspan="10" style="font-weight: bold; background:white">
+						<rich:column colspan="11" style="font-weight: bold; background:white">
 							<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
 							<h:outputText value="Consumo: #{r.consumo}" style="padding-left:20px"/>
 							<h:outputText value="Cota: #{r.cota}" style="padding-left:20px"/>
@@ -130,6 +130,11 @@
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Km"/></f:facet>
 								<h:outputText value="#{sr.kmAtual}"/>
+							</rich:column>
+							
+							<rich:column>
+								<f:facet name="header"><h:outputLabel value="Status"/></f:facet>
+								<h:outputText value="#{sr.status}"/>
 							</rich:column>
 
 							<rich:column>

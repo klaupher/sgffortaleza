@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="1.6105100000000023"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="zebrado">
+	<style name="zebrado" isDefault="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -52,95 +52,95 @@
 	<group name="Veiculo">
 		<groupExpression><![CDATA[$F{veiculo}]]></groupExpression>
 		<groupHeader>
-			<band height="37">
+			<band height="50">
 				<staticText>
-					<reportElement x="452" y="2" width="55" height="15"/>
+					<reportElement x="2" y="18" width="55" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Veículo:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="21" width="209" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="0" y="35" width="209" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Motorista]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="210" y="21" width="136" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="210" y="35" width="136" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Autorizador]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="347" y="21" width="76" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="347" y="35" width="76" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Data]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="424" y="21" width="76" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="424" y="35" width="76" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Hora]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="501" y="21" width="29" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="501" y="35" width="29" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[ Lts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="531" y="21" width="49" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="531" y="35" width="49" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Saldo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="581" y="21" width="47" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="581" y="35" width="47" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Km]]></text>
 				</staticText>
 				<line>
-					<reportElement x="0" y="18" width="802" height="1" forecolor="#990000"/>
+					<reportElement x="0" y="33" width="802" height="1" forecolor="#990000"/>
 				</line>
 				<line>
 					<reportElement x="0" y="35" width="802" height="1" forecolor="#990000"/>
 				</line>
 				<staticText>
-					<reportElement mode="Opaque" x="629" y="21" width="104" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="629" y="35" width="104" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Operador]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="734" y="21" width="68" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="734" y="35" width="68" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Posto]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="507" y="2" width="132" height="14"/>
+					<reportElement x="57" y="18" width="132" height="15"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="714" y="2" width="66" height="15"/>
+					<reportElement x="264" y="18" width="66" height="15"/>
 					<textElement/>
 					<textFieldExpression class="java.lang.Float"><![CDATA[$F{cota}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="641" y="2" width="72" height="15"/>
+					<reportElement x="191" y="18" width="72" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
@@ -161,6 +161,13 @@
 					<textElement/>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="455" y="4" width="46" height="14"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Orgão:]]></text>
+				</staticText>
 			</band>
 		</groupHeader>
 	</group>

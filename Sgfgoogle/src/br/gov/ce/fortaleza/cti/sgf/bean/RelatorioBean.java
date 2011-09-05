@@ -849,7 +849,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				ids.add(v.getId());
 			}
 
-			Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
+			//Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
 
 			for (Veiculo veiculo : map.keySet()) { // map.keySet() = lista de veículos
 				RelatorioDTO dto = new RelatorioDTO();
@@ -867,28 +867,19 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					rel.setAbastecimento(atendimento.getAbastecimento());
 					rel.setMotorista(atendimento.getAbastecimento().getMotorista());
 					rel.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
-
-					if(mapCota.get(veiculo) != null){
-						rel.setCota(mapCota.get(veiculo).getCota().floatValue());
-						rel.setSaldoCota((float)mapCota.get(veiculo).getCota().floatValue() - total);
-						rel.setSaldoFinal((float)mapCota.get(veiculo).getCota().floatValue() - total);
-					} else {
-						rel.setSaldoCota(0F);
-					}
+					rel.setStatus(atendimento.getStatus().toString());
+					rel.setCota(veiculo.getCota().getCota().floatValue());
+					rel.setSaldoCota(veiculo.getCota().getCota().floatValue() - total);
+					rel.setSaldoFinal(veiculo.getCota().getCota().floatValue() - total);
 					rel.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
 					rel.setConsumoTotal(total);
 					dto.getRelatorios().add(rel);
 				}
 
-				if(mapCota.get(veiculo) != null){
-					dto.setConsumo(total);
-					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
-				} else {
-					dto.setSaldoCota(0F);
-					dto.setCota((float)mapCota.get(veiculo).getCota().floatValue());
-				}
+				dto.setConsumo(total);
+				dto.setCota(veiculo.getCota().getCota().floatValue());
+
 				novo.getRelatorios().add(dto);
-				
 				totalOrgao += total;
 			}
 
