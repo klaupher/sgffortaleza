@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
@@ -30,7 +31,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.dto.PontoDTO;
 @Repository
 @Transactional
 public class VeiculoService extends BaseService<Integer, Veiculo>{
-	
+
 	private static final Log logger = LogFactory.getLog(VeiculoService.class);
 
 	@Autowired
@@ -38,8 +39,8 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 	@Autowired
 	public ParametroService parametroService;
-	
-	
+
+
 	public List<Veiculo> findAll(){
 		List<Veiculo> result = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
@@ -98,22 +99,22 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return result;
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public List<Veiculo> findByPCR(String p, String c, String r){
-//		List<Veiculo> result = executeResultListGenericQuery("findByPCR", p, c, r);
-//		return result;
-//	}
-//
+	//	@SuppressWarnings("unchecked")
+	//	public List<Veiculo> findByPCR(String p, String c, String r){
+	//		List<Veiculo> result = executeResultListGenericQuery("findByPCR", p, c, r);
+	//		return result;
+	//	}
+	//
 	@SuppressWarnings("unchecked")
 	public List<Integer> retrieveIdsVeiculos(){
 		Query query = entityManager.createQuery("SELECT v.id FROM Veiculo v WHERE v.dataTransmissao != null");
 		List<Integer> result = query.getResultList();
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findByOrgaoPlacaChassiRenavam(String orgaoId, String placa, String chassi, String renavam){
-		
+
 		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
 		if(orgaoId != null){
 			sql.append(" and v.ua.ug.id = :id");
@@ -127,7 +128,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		if(renavam != null){
 			sql.append(" and v.renavam = :renavam");
 		}
-		
+
 		Query query = entityManager.createQuery(sql.toString());
 
 		if(orgaoId != null){
@@ -142,7 +143,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		if(renavam != null){
 			query.setParameter("renavam", renavam);
 		}
-		
+
 		return query.getResultList();
 	}
 
@@ -157,7 +158,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		return veiculos;
 	}
-	
+
 	public List<Veiculo> veiculosAtivoscomcota(UG ug){
 
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
@@ -169,7 +170,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		return veiculos;		
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculosAtivosByUG(UG ug) {
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
@@ -196,6 +197,21 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 			return null;
 		}
 		return veiculo;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public Map<Integer, Veiculo> retrieveMapVeiculo() {
+
+		Map<Integer, Veiculo> map = new HashMap<Integer, Veiculo>();
+		Query query = entityManager.createQuery("SELECT distinct(v) FROM Veiculo v WHERE  v.status != -1");
+		List<Veiculo> veiculos = query.getResultList();
+		for (Veiculo v : veiculos) {
+			if(!map.containsKey(v.getId())){
+				map.put(v.getId(), v);
+			}
+		}
+		return map;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -260,7 +276,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Veiculo> veiculosRastreados(){
@@ -314,19 +330,19 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 						m.setPlaca(veiculo.getPlaca());
 						m.setVelocidade(veiculo.getVelocidade());
 						m.setOdometro(veiculo.getOdometro() != null ? veiculo.getOdometro() : 0);
-						
+
 						Float kmAtual = veiculo.getOdometro() == null ? 0f: veiculo.getOdometro();
 						m.setKmAtual(kmAtual);
 						m.setDataTransmissao(veiculo.getDataTransmissao());
-						
+
 						String pontoNome = veiculo.getPontoProximo() == null ? "" : veiculo.getPontoProximo().getDescricao();
 						m.setPontoProximo(pontoNome);
 						m.setDistPontoProximo(veiculo.getDistancia() != null ? veiculo.getDistancia() : 0);
-						
+
 						String marcaDescricao = veiculo.getModelo() == null ? "" : veiculo.getModelo().getMarca().getDescricao();
 						m.setMarca(marcaDescricao);
 						m.setCor(veiculo.getCor());
-						
+
 						String modeloDescricao = veiculo.getModelo() == null ? "" : veiculo.getModelo().getDescricao();
 						m.setModelo(modeloDescricao);
 						m.setAno(veiculo.getAnoFabricacao());
@@ -337,7 +353,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 							m.setLng((float) ((Point)veiculo.getGeometry()).x);
 							m.setLat((float) ((Point)veiculo.getGeometry()).y);
 						}
-						
+
 						if (exibirPontos) {
 
 							m.setVelocidadeMaxima(velocidadeMaxima);
@@ -369,7 +385,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 							m.setRastro(rastro);
 						}
-						
+
 						m.setIndex(k++);
 						pontos.add(m);
 

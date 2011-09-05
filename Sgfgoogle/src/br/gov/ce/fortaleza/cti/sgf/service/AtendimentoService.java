@@ -65,9 +65,9 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	
 
 	@SuppressWarnings("unchecked")
-	public Map<UG, List<AtendimentoAbastecimento>> findByPeriodoHashMap(String ug, String veiculo, Date dataInicio, Date dataFim){
+	public Map<String, List<AtendimentoAbastecimento>> findByPeriodoHashMap(String ug, String veiculo, Date dataInicio, Date dataFim){
 		
-		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.data between ? and ?");
+		StringBuffer str = new StringBuffer("select distinct(o) from AtendimentoAbastecimento o where o.data between ? and ?");
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = :ug");
 		}
@@ -86,18 +86,18 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 			query.setParameter("veiculo", veiculo);
 		}
 
-		Map<UG, List<AtendimentoAbastecimento>> map = new HashMap<UG, List<AtendimentoAbastecimento>>();
+		Map<String, List<AtendimentoAbastecimento>> map = new HashMap<String, List<AtendimentoAbastecimento>>();
 		List<AtendimentoAbastecimento> result = query.getResultList();
 		
 		for (AtendimentoAbastecimento atend : result) {
 			UG uga = atend.getAbastecimento().getVeiculo().getUa().getUg();
-			if(map.get(uga) == null){
+			if(map.get(uga.getId()) == null){
 				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
 				novo.add(atend);
 				//System.out.println(atend.getAbastecimento().getVeiculo().getPlaca());
-				map.put(uga,novo);
+				map.put(uga.getId(),novo);
 			} else {
-				map.get(uga).add(atend);
+				map.get(uga.getId()).add(atend);
 			}
 		}
 		return map;
@@ -110,30 +110,56 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<UG, List<AtendimentoAbastecimento>> findByPeriodoHashMap(Date dataInicio, Date dataFim){
+	public Map<String, List<AtendimentoAbastecimento>> findByPeriodoHashMap(Date dataInicio, Date dataFim){
 
-		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.data between ? and ?");
+		StringBuffer str = new StringBuffer("select distinct(o) from AtendimentoAbastecimento o where o.data between ? and ?");
 		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0");
 		str.append(" order by o.data asc");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
 		query.setParameter(2, dataFim);
 
-		Map<UG, List<AtendimentoAbastecimento>> map = new HashMap<UG, List<AtendimentoAbastecimento>>();
+		Map<String, List<AtendimentoAbastecimento>> map = new HashMap<String, List<AtendimentoAbastecimento>>();
 		
 		List<AtendimentoAbastecimento> result = query.getResultList();
 		
 		for (AtendimentoAbastecimento atend : result) {
 			UG ug = atend.getAbastecimento().getVeiculo().getUa().getUg();
-			if(map.get(ug) == null){
+			if(map.get(ug.getId()) == null){
 				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
 				novo.add(atend);
-				map.put(ug,novo);
+				map.put(ug.getId(),novo);
 			} else {
-				map.get(ug).add(atend);
+				map.get(ug.getId()).add(atend);
 			}
 		}
 		return map;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Map<UG, List<AtendimentoAbastecimento>> findAbastecimentosMapVeiculo(Date dataInicio, Date dataFim){
+
+		StringBuffer str = new StringBuffer("select distinct(o) from AtendimentoAbastecimento o where o.data between ? and ?");
+		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0 ");
+		str.append(" order by o.data asc");
+		Query query = entityManager.createQuery(str.toString());
+		query.setParameter(1, dataInicio);
+		query.setParameter(2, dataFim);
+
+		Map<UG, List<AtendimentoAbastecimento>> mapAbastecimentosPorVeiculo = new HashMap<UG, List<AtendimentoAbastecimento>>();
+		List<AtendimentoAbastecimento> result = query.getResultList();
+		
+		for (AtendimentoAbastecimento atend : result) {
+			UG ug = atend.getAbastecimento().getVeiculo().getUa().getUg();
+			if(mapAbastecimentosPorVeiculo.get(ug) == null){
+				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
+				novo.add(atend);
+				mapAbastecimentosPorVeiculo.put(ug, novo);
+			} else {
+				mapAbastecimentosPorVeiculo.get(ug).add(atend);
+			}
+		}
+		return mapAbastecimentosPorVeiculo;
 	}
 
 	/**
