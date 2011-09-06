@@ -69,14 +69,13 @@
 						</h:selectOneRadio>
 					</dd>
 					
-					<a4j:commandButton value="Pesquisar" action="#{abastecimentoBean.search}" 
-									  status="statusLoadAbastecimento" reRender="dataTable" ajaxSingle="false"/>
-				
 				</a4j:region>
+				
+				<a4j:commandButton value="Pesquisar" action="#{abastecimentoBean.search}" ajaxSingle="false">
+					<a4j:support  event="onclick"  reRender="dataTable" status="statusLoadAbastecimento"/>
+				</a4j:commandButton>
 
 			</a4j:outputPanel>
-			
-			
 
 		</fieldset>
         
@@ -127,7 +126,7 @@
                     <f:facet name="header"><h:outputText value="Órgão" /></f:facet>
                     <h:outputText value="#{abastecimento.veiculo.ua.ug.descricao}" style="color: black;"/>
                 </rich:column>
-
+$F{orgao}
                <rich:column width="7%" style="text-align: left;" > 
                     <f:facet name="header"><h:outputText value="Combust." /></f:facet>
                     <h:outputText value="#{abastecimento.combustivel.descricao}" style="color: black;"/>
@@ -150,7 +149,7 @@
                 <rich:column rendered="#{controlBean.operador}" width="2%" style="text-align: center;">
                     <f:facet name="header"><h:outputText value="Atender" /></f:facet>
                     <a4j:commandLink styleClass="confirmar" rendered="#{controlBean.operador and abastecimento.status == 'AUTORIZADO'}"
-                    	reRender="paginaPrincipal" action="#{abastecimentoBean.atenderAbastecimento}" value="Atender" immediate="true">
+                    	reRender="paginaPrincipal" action="#{abas31/08/2011tecimentoBean.atenderAbastecimento}" value="Atender" immediate="true">
                         <f:setPropertyActionListener target="#{abastecimentoBean.entity}" value="#{abastecimento}"/>
                     </a4j:commandLink>
                 </rich:column>

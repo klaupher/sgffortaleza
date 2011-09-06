@@ -138,15 +138,14 @@
 			
 			<rich:dropDownMenu  rendered="#{controlBean.administrador and controlBean.roleCanViewMap}" location="left">
 				<f:facet name="label"><h:outputText value="Rastreamento"/></f:facet>
-				<rich:menuItem value="Área de movimentação" action="#{areaBean.search}"  oncomplete="loadMaps();" immediate="true"/>
+				<rich:menuItem value="Cerca virtual" action="#{areaBean.search}"  oncomplete="loadMaps();" immediate="true"/>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>
 				<rich:menuItem value="Pontos" action="#{pontoBean.prepareSave}"  oncomplete="loadMaps();" immediate="true"/>
-				<rich:menuItem value="Posição de veículos" action="#{mapBean.veiculosMap}" immediate="true" oncomplete="loadMaps();showVehiclesOnMap();"/>
-				<rich:menuItem value="Rota de veículo" action="#{mapBean.veiculosRoute}" immediate="true" oncomplete="loadMaps();"/>
+				<rich:menuItem value="Rotas do veículo" action="#{mapBean.veiculosRoute}" immediate="true" oncomplete="loadMaps();"/>
 				<rich:menuItem value="Bloqueio/desbloqueio"  immediate="true"/>
 				<rich:menuItem value="Relatório de posições" action="#{relatorioMonitoramentoBean.relatorioPosicoesVeiculo}" immediate="true" ajaxSingle="true"/>
 				<rich:menuItem value="Relatório de velocidades" immediate="true"/>
-				<rich:menuItem value="Relatório de ocorrências" immediate="true"/>
+				<rich:menuItem value="Relatório de Alertas" immediate="true"/>
 				
 			</rich:dropDownMenu>			
 

@@ -16,16 +16,16 @@
 		<dl>
 			<dt>
 				<h:outputLabel styleClass="text" value="Início:"/>
-				<h:inputText id="dataInicio" styleClass="hora" value="${monitoramentoBean.dataInicio}">
+				<h:inputText id="dataInicio" styleClass="hora" style="width:30px" value="${monitoramentoBean.dataInicio}">
 					<f:convertDateTime pattern="HH:mm:ss" timeZone="GMT-03:00"/>
 					<a4j:support action="#{monitoramentoBean.searchMonitoramentoVeiculos}" event="onchange"/>
 				</h:inputText>
 				
 				<h:outputLabel styleClass="text" value="Vel:"/>
-				<h:inputText styleClass="vel" value="${monitoramentoBean.velocidadeMaxima}"/>
-				<h:outputLabel styleClass="text" value="Km/h" style="padding-right:50px"/>
+				<h:inputText styleClass="vel" value="${monitoramentoBean.velocidadeMaxima}" style="width:40px"/>
+				<h:outputLabel styleClass="text" value="Km/h" style="padding-right:50px;"/>
 
-				<h:outputLabel value="Ver no Google Earth"/>
+				<h:outputLabel value="Google Earth"/>
 				<h:commandLink action="#{monitoramentoBean.downloadGoogleEarthFile}" styleClass="coord">
 					<h:graphicImage url="/images/icons/googleearth.png" width="18px" height="18px" styleClass="coord"/>
 				</h:commandLink>

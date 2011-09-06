@@ -42,10 +42,8 @@
 					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 				</h:inputText>
 			</dd>
-
-			<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsumoCombustivel}" >
-				<a4j:support event="click" reRender="dataTable" status="gerarRelatorio"/>	
-			</h:commandButton>			
+			
+			<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsumoCombustivel}" status="gerarRelatorio" reRender="dataTable"/>
 
 			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="10" rowKeyVar="index"
 				rowClasses="even,odd" 
@@ -159,15 +157,6 @@
 
 			</rich:dataTable>
 
-			<a4j:status id="gerarRelatorio">
-				<f:facet name="start">
-					<h:panelGroup style="align:center;">
-						<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-						<h:outputText value="Processando..." styleClass="processando" />
-					</h:panelGroup>
-				</f:facet>
-			</a4j:status>
-
 			<h:panelGroup id="report" rendered="#{relatorioBean.entitiesSize > 0}">
 
 				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
@@ -177,6 +166,15 @@
 			</h:panelGroup>
 
 		</fieldset>
+		
+		<a4j:status id="gerarRelatorio">
+				<f:facet name="start">
+					<h:panelGroup style="align:center;">
+						<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+						<h:outputText value="Processando..." styleClass="processando" />
+					</h:panelGroup>
+				</f:facet>
+			</a4j:status>
 
 	</div>
 

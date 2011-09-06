@@ -811,33 +811,27 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 		
-		Map<UG, List<AtendimentoAbastecimento>> atendimentosPorVeiculoUg = new HashMap<UG, List<AtendimentoAbastecimento>>();
-		//Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosPorVeiculo = new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
+		Map<UG, List<AtendimentoAbastecimento>> hashAtendimentosUg = new HashMap<UG, List<AtendimentoAbastecimento>>();
 
 		if(this.orgao != null){
-			atendimentosPorVeiculoUg = atendimentoService.findAbastecimentosMapVeiculo(this.orgao, null, this.dtInicial, this.dtFinal);
-			//atendimentos = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
+			hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(this.orgao, null, this.dtInicial, this.dtFinal);
 		} else { 
-			atendimentosPorVeiculoUg = atendimentoService.findAbastecimentosMapVeiculo(null, null, this.dtInicial, this.dtFinal);
+			hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(null, null, this.dtInicial, this.dtFinal);
 		}
 
 		this.entities = new ArrayList<RelatorioDTO>();
-
-		//Map<Integer, List<AtendimentoAbastecimento> > map = new HashMap<Integer, List<AtendimentoAbastecimento> >();
-		//Map<Integer, Veiculo> mapVeiculo = veiculoService.retrieveMapVeiculo();
-		
 		Float totalOrgao = 0F;
 		
-		for (UG ug : atendimentosPorVeiculoUg.keySet()) {
+		for (UG ug : hashAtendimentosUg.keySet()) {
 			
-			List<AtendimentoAbastecimento> atendimentos = atendimentosPorVeiculoUg.get(ug);
-			RelatorioDTO novo = new RelatorioDTO();
-			novo.setRelatorios(new ArrayList<RelatorioDTO>());
-			novo.setOrgao(ug);
+			List<AtendimentoAbastecimento> abastecimentosUg = hashAtendimentosUg.get(ug);
+			RelatorioDTO relatorioUg = new RelatorioDTO();
+			relatorioUg.setRelatorios(new ArrayList<RelatorioDTO>());
+			relatorioUg.setOrgao(ug);
 			totalOrgao = 0F;
 			
 			Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosVeiculo = new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
-			for (AtendimentoAbastecimento atendimento : atendimentos) {
+			for (AtendimentoAbastecimento atendimento : abastecimentosUg) {
 				
 				Veiculo veiculo = atendimento.getAbastecimento().getVeiculo();
 				if(atendimentosVeiculo.containsKey(veiculo)){
@@ -851,143 +845,46 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			
 			for (Veiculo veiculo : atendimentosVeiculo.keySet()) {
 				
-				RelatorioDTO dto = new RelatorioDTO();
-				dto.setOrgao(ug);
-				dto.setVeiculo(veiculo);
-				dto.setRelatorios(new ArrayList<RelatorioDTO>());
+				RelatorioDTO relatorioVeiculo = new RelatorioDTO();
+				relatorioVeiculo.setOrgao(ug);
+				relatorioVeiculo.setVeiculo(veiculo);
+				relatorioVeiculo.setCota(veiculo.getCota().getCota().floatValue());
+				relatorioVeiculo.setRelatorios(new ArrayList<RelatorioDTO>());
 				Float total = 0F;
 				
-				List<AtendimentoAbastecimento> result = atendimentosVeiculo.get(veiculo);
+				List<AtendimentoAbastecimento> abastecimentosVeiculos = atendimentosVeiculo.get(veiculo);
 				
-				for (AtendimentoAbastecimento atendimento : result) {
-					RelatorioDTO rel = new RelatorioDTO();
+				for (AtendimentoAbastecimento atendimento : abastecimentosVeiculos) {
+					RelatorioDTO atendDto = new RelatorioDTO();
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
-					rel.setOrgao(ug);
 					Float cota = veiculo.getCota() != null ? veiculo.getCota().getCota().floatValue() : 0F;
-					rel.setVeiculo(veiculo);
-					rel.setAtendimento(atendimento);
-					rel.setAbastecimento(atendimento.getAbastecimento());
-					rel.setMotorista(atendimento.getAbastecimento().getMotorista());
-					rel.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
-					rel.setStatus(atendimento.getStatus().toString());
-					rel.setCota(cota);
-					rel.setSaldoCota(cota - total);
-					rel.setSaldoFinal(cota - total);
-					rel.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
-					rel.setConsumoTotal(total);
-					dto.getRelatorios().add(rel);
+					atendDto.setOrgao(ug);
+					atendDto.setVeiculo(veiculo);
+					atendDto.setAtendimento(atendimento);
+					atendDto.setAbastecimento(atendimento.getAbastecimento());
+					atendDto.setMotorista(atendimento.getAbastecimento().getMotorista());
+					atendDto.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
+					atendDto.setStatus(atendimento.getStatus().toString());
+					atendDto.setCota(cota);
+					atendDto.setSaldoCota(cota - total);
+					atendDto.setSaldoFinal(cota - total);
+					atendDto.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
+					atendDto.setConsumoTotal(total);
+					relatorioVeiculo.getRelatorios().add(atendDto);
 				}
-				dto.setConsumo(total);
-				dto.setCota(veiculo.getCota().getCota().floatValue());
-				novo.getRelatorios().add(dto);
+				relatorioVeiculo.setNumeroAbastecimentos(abastecimentosVeiculos.size());
+				relatorioVeiculo.setConsumo(total);
+				relatorioUg.getRelatorios().add(relatorioVeiculo);
 				totalOrgao += total;
 			}
 			
-			novo.setConsumoCombustivelOrgao(totalOrgao);
+			relatorioUg.setConsumoCombustivelOrgao(totalOrgao);
 			totalOrgao = 0F;
-			this.entities.add(novo);
+			this.entities.add(relatorioUg);
 
 		}
 		return SUCCESS;
 	}
-	
-	
-	public String consultarConsumoCombustivelBackup() {
-		if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
-			JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
-			return FAIL;
-		}
-
-		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
-		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
-		Map<String, List<AtendimentoAbastecimento>> atendimentos = null;
-
-		if(this.orgao != null){
-			atendimentos = new HashMap<String, List<AtendimentoAbastecimento>>();
-			
-			atendimentos = atendimentoService.findByPeriodoHashMap(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
-		} else { 
-			atendimentos = atendimentoService.findByPeriodoHashMap(this.dtInicial, this.dtFinal);
-		}
-
-		this.entities = new ArrayList<RelatorioDTO>();
-
-		Map<Integer, List<AtendimentoAbastecimento> > map = new HashMap<Integer, List<AtendimentoAbastecimento> >();
-		Map<Integer, Veiculo> mapVeiculo = new HashMap<Integer, Veiculo>();
-		
-		Float totalOrgao = 0F;
-		
-		mapVeiculo = veiculoService.retrieveMapVeiculo();
-
-		for (String ugid : atendimentos.keySet()) {
-
-			UG ug = ugService.retrieve(ugid);
-			RelatorioDTO novo = new RelatorioDTO();
-			novo.setRelatorios(new ArrayList<RelatorioDTO>());
-			novo.setOrgao(ug);
-			List<AtendimentoAbastecimento> result = atendimentos.get(ugid);
-
-			for (AtendimentoAbastecimento a : result) {
-				Veiculo v = a.getAbastecimento().getVeiculo();
-				System.out.println(v.getPlaca());
-				if(!map.containsKey(v.getId())){
-					List<AtendimentoAbastecimento> list = new ArrayList<AtendimentoAbastecimento>();
-					list.add(a);
-					map.put(v.getId(), list);
-				} else {
-					map.get(v.getId()).add(a);
-				}
-			}
-
-			
-			//Map<Veiculo, Cota> mapCota = cotaService.retrieveMapVeiculoCota(ids); // recupera as cotas dos veículos
-
-			for (Integer veiculoId : map.keySet()) { // map.keySet() = lista de veículos
-				
-				RelatorioDTO dto = new RelatorioDTO();
-				Veiculo veiculo = mapVeiculo.get(veiculoId);
-				
-				dto.setOrgao(ug);
-				dto.setVeiculo(veiculo);
-				dto.setRelatorios(new ArrayList<RelatorioDTO>());
-				Float total = 0F;
-
-				for (AtendimentoAbastecimento atendimento : map.get(veiculoId)) { // map.get(v) = lista de atendimentos abastecimentos do veículos v
-					
-					RelatorioDTO rel = new RelatorioDTO();
-					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
-					rel.setOrgao(ug);
-					Float cota = veiculo.getCota() != null ? veiculo.getCota().getCota().floatValue() : 0F;
-					
-					rel.setVeiculo(veiculo);
-					rel.setAtendimento(atendimento);
-					rel.setAbastecimento(atendimento.getAbastecimento());
-					rel.setMotorista(atendimento.getAbastecimento().getMotorista());
-					rel.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
-					rel.setStatus(atendimento.getStatus().toString());
-					rel.setCota(cota);
-					rel.setSaldoCota(cota - total);
-					rel.setSaldoFinal(cota - total);
-					rel.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
-					rel.setConsumoTotal(total);
-					dto.getRelatorios().add(rel);
-				}
-
-				dto.setConsumo(total);
-				dto.setCota(veiculo.getCota().getCota().floatValue());
-
-				novo.getRelatorios().add(dto);
-				totalOrgao += total;
-			}
-
-			novo.setConsumoCombustivelOrgao(totalOrgao);
-			totalOrgao = 0F;
-			this.entities.add(novo);
-		}
-
-		return SUCCESS;
-	}
-
 
 	/**
 	 * Realiza a consulta dos abastecimentos, fazendo o resumo do mensal
@@ -1526,7 +1423,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					for (RelatorioDTO rr : r.getRelatorios()) {
 						rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
 						for (RelatorioDTO r3 : rr.getRelatorios()) {
-							r3.setConsumoCombustivelOrgao(rr.getConsumoCombustivelOrgao());
+							r3.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
 						}
 						list.addAll(rr.getRelatorios());
 					}

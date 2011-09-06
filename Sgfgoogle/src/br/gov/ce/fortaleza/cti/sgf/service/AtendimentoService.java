@@ -62,82 +62,9 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		}
 		return query.getResultList();
 	}
-	
 
 	@SuppressWarnings("unchecked")
-	public Map<String, List<AtendimentoAbastecimento>> findByPeriodoHashMap(String ug, String veiculo, Date dataInicio, Date dataFim){
-		
-		StringBuffer str = new StringBuffer("select distinct(o) from AtendimentoAbastecimento o where o.data between ? and ?");
-		if(ug != null){
-			str.append(" and o.abastecimento.veiculo.ua.ug.id = :ug");
-		}
-		if(veiculo != null){
-			str.append(" and o.abastecimento.veiculo.id = :veiculo");
-		}
-		str.append(" and o.abastecimento.veiculo.status > -1");
-		str.append(" order by o.data asc");
-		Query query = entityManager.createQuery(str.toString());
-		query.setParameter(1, dataInicio);
-		query.setParameter(2, dataFim);
-		if(ug != null){
-			query.setParameter("ug", ug);
-		}
-		if(veiculo != null){
-			query.setParameter("veiculo", veiculo);
-		}
-
-		Map<String, List<AtendimentoAbastecimento>> map = new HashMap<String, List<AtendimentoAbastecimento>>();
-		List<AtendimentoAbastecimento> result = query.getResultList();
-		
-		for (AtendimentoAbastecimento atend : result) {
-			UG uga = atend.getAbastecimento().getVeiculo().getUa().getUg();
-			if(map.get(uga.getId()) == null){
-				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
-				novo.add(atend);
-				//System.out.println(atend.getAbastecimento().getVeiculo().getPlaca());
-				map.put(uga.getId(),novo);
-			} else {
-				map.get(uga.getId()).add(atend);
-			}
-		}
-		return map;
-	}
-
-	/**
-	 * retorna um hashmap dos atendimento por UG
-	 * @param dataInicio
-	 * @param dataFim
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public Map<String, List<AtendimentoAbastecimento>> findByPeriodoHashMap(Date dataInicio, Date dataFim){
-
-		StringBuffer str = new StringBuffer("select distinct(o) from AtendimentoAbastecimento o where o.data between ? and ?");
-		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0");
-		str.append(" order by o.data asc");
-		Query query = entityManager.createQuery(str.toString());
-		query.setParameter(1, dataInicio);
-		query.setParameter(2, dataFim);
-
-		Map<String, List<AtendimentoAbastecimento>> map = new HashMap<String, List<AtendimentoAbastecimento>>();
-		
-		List<AtendimentoAbastecimento> result = query.getResultList();
-		
-		for (AtendimentoAbastecimento atend : result) {
-			UG ug = atend.getAbastecimento().getVeiculo().getUa().getUg();
-			if(map.get(ug.getId()) == null){
-				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
-				novo.add(atend);
-				map.put(ug.getId(),novo);
-			} else {
-				map.get(ug.getId()).add(atend);
-			}
-		}
-		return map;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Map<UG, List<AtendimentoAbastecimento>> findAbastecimentosMapVeiculo(UG ug, Veiculo veiculo, Date dataInicio, Date dataFim){
+	public Map<UG, List<AtendimentoAbastecimento>> findHashAbastecimentosVeiculo(UG ug, Veiculo veiculo, Date dataInicio, Date dataFim){
 
 		StringBuffer str = new StringBuffer("select distinct(o) from AtendimentoAbastecimento o where o.data between ? and ?");
 		

@@ -13,18 +13,15 @@
 
 	<div id="cadastro">
 
-		<h1>  área de veículos </h1>
+		<h1>Veículo/Cerca virtual</h1>
 
 		<fieldset>
 			
-			<legend>área de veículos</legend>
-
-			<h:outputLabel value="Descrição da área:"/>
- 			<h:outputText value="#{areaBean.entity.descricao}" />
+			<legend>#{areaBean.entity.descricao}</legend>
 
  			<p/>
 
- 			<h:outputLabel value="veículo:"/>
+ 			<h:outputLabel value="Veículo:"/>
 			<h:selectOneMenu id="veiculo" value="#{areaBean.veiculo}" requiredMessage="Informe o veículo"  converter="entityConverter">
 	 			<f:selectItem itemLabel="Veículo:" itemValue=""/>
 	 			<t:selectItems value="#{areaBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
