@@ -286,6 +286,15 @@
 						<ui:include src="cadastros/ponto/ponto.xhtml" />
 					</c:if>
 				</c:if>
+				
+				<c:if test="#{controlBean.rastreadorBean}">
+					<c:if test="#{rastreadorBean.searchState}">
+						<ui:include src="cadastros/rastreador/rastreadorList.xhtml" />
+					</c:if>
+					<c:if test="#{rastreadorBean.updateState || rastreadorBean.saveState}">
+						<ui:include src="cadastros/rastreador/rastreador.xhtml" />
+					</c:if>
+				</c:if>
 		
 				<c:if test="#{controlBean.areaBean}">
 					<c:if test="#{areaBean.updateState || areaBean.saveState}">

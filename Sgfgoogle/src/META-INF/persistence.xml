@@ -41,6 +41,7 @@
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Area</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Message</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Page</class>
+		<class>br.gov.ce.fortaleza.cti.sgf.entity.Rastreador</class>
 		<properties>
 			<property name="hibernate.connection.datasource" value="java:/comp/env/jdbc/sgf" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

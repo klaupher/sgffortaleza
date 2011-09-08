@@ -10,16 +10,19 @@
 
 	<div id="cadastro">
 
-		<h1>Ponto</h1>
+		<h1 style="width:100px">Ponto</h1>
 
 		<h:inputHidden id="lat" value="#{pontoBean.lat}" required="true"/>
 		<h:inputHidden id="lng" value="#{pontoBean.lng}" required="true"/>
 		<h:inputHidden value="#{pontoBean.entity.id}" rendered="#{pontoBean.updateState}"/>
 
-		<dt>
-			<label>Endereço:</label>
-			<h:inputText id="descricaoPonto" value="#{pontoBean.entity.descricao}" size="65"/>
-		</dt>
+		<div style="text-align:left">
+			
+			<h:outputLabel value="Local " for="descricaoPonto" />
+			<h:inputTextarea id="descricaoPonto" value="#{pontoBean.entity.descricao}" cols="64" rows="1"/>
+		</div>
+		
+		<p/>
 
 		<div id="mapEditablePoint" style="width:100%; height:600px"></div>
 

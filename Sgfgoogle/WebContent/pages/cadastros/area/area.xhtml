@@ -20,12 +20,12 @@
 		<h:inputHidden id="points" value="#{areaBean.geoms}"/>
 		<h:inputHidden value="#{areaBean.entity.id}" rendered="#{areaBean.updateState}" />
 		
-		<dd>
+		<div style="text-align:left">
 			<label for="descricao">Nome:</label>
 			<h:inputText id="descricao" value="#{areaBean.entity.descricao}" requiredMessage="Informa uma descrição para a área" 
 				required="true" style="width:360px"/>
 			<h:message for="descricao" styleClass="message"/>
-		</dd>
+		</div>
 		<p/>
 		
 		<div id="maparea" class="maparea" style="width:100%; height:600px"></div>

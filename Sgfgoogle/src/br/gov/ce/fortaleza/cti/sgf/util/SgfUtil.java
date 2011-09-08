@@ -3,8 +3,6 @@ package br.gov.ce.fortaleza.cti.sgf.util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -23,10 +21,7 @@ public class SgfUtil{
 	public static final String ADMIN = "ADMIN";
 	public static final Integer DEFAULT_SRID = 54004;
 	
-	public static List<String> rolesViewMap = new ArrayList<String>(){{add("edilson");
-																add("deivid");
-																add("therrien");
-																}};
+
 	public static boolean isUserInRole(String role) {
 		return getRequest().isUserInRole(role);
 	}
@@ -81,17 +76,6 @@ public class SgfUtil{
 
 	public static Boolean isAdministrador(User user){
 		if(user.getRole().getAuthority().equals("ROLE_ADMIN")){
-			return true;
-		}
-		return false;
-	}
-	/**
-	 * verifica se usuário logado pode ver funcional
-	 * @param user
-	 * @return
-	 */
-	public static Boolean isRoleViewMap(User user){
-		if(rolesViewMap.contains(user.getLogin())){
 			return true;
 		}
 		return false;
@@ -165,7 +149,7 @@ public class SgfUtil{
 	
 	public static synchronized String sendMailToUser(String mail, User user) throws Exception{
 		String msg = "Sr. " + user.getPessoa().getNome() + "\n seu login atual é " + 
-		user.getLogin() + "\n sua senha atual �:" + user.getPassword();
+		user.getLogin() + "\n sua senha atual é:" + user.getPassword();
 		return MailUtil.sendEmail(mail, "recuperação de login e senha", msg);
 	}
 }

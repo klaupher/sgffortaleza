@@ -1,5 +1,6 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -108,15 +109,38 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 	 * monta uma string de saida para cosntrução da rota de uma veículo
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	public String showVehiclesRouteOnMap(){
 		String line = "";
 		this.route = "";
+		Calendar cal = Calendar.getInstance();
 		if(this.veiculo != null){
 			Veiculo v = veiculoService.retrieve(veiculo.getId());
+			
+			
+			
+			
+			if(this.start != null){
+				cal.setTime(this.start);
+				cal.set(Calendar.HOUR_OF_DAY, this.horaInicial.getHours());
+				cal.set(Calendar.MINUTE, this.horaInicial.getMinutes());
+				cal.set(Calendar.SECOND, this.horaInicial.getSeconds());
+				this.start = cal.getTime();
+			} else {
+				this.start = DateUtil.getDateStartDay(this.start);
+			}
+			
+			if(this.end != null){
+				cal.setTime(this.end);
+				cal.set(Calendar.HOUR_OF_DAY, this.horaFinal.getHours());
+				cal.set(Calendar.MINUTE, this.horaFinal.getMinutes());
+				cal.set(Calendar.SECOND, this.horaFinal.getSeconds());
+				this.end = cal.getTime();
+			} else {
+				this.end = DateUtil.getDateStartDay(this.end);
+			}
 
-			Date current = DateUtil.getDateEndDay(this.end);
-			Date initial = DateUtil.getDateStartDay(this.start); //DateUtil.adicionarOuDiminuir(current, -tempoConsulta*DateUtil.HOUR_IN_MILLIS);
-			List<Transmissao> transmissoes = transmissaoService.retrieveByVeiculo(veiculo.getId(), initial, current);
+			List<Transmissao> transmissoes = transmissaoService.retrieveByVeiculo(veiculo.getId(), this.start, this.end);
 			if(transmissoes.size() > 0){
 				for (Transmissao transmissao : transmissoes) {
 					Float vel = transmissao.getVelocidade() == null ? 0F : transmissao.getVelocidade();

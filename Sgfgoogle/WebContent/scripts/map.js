@@ -238,7 +238,7 @@ function createIcon(param) {
 	icon.iconSize = new GSize(20, 20);
 	icon.iconAnchor = new GPoint(16, 16);
 	icon.infoWindowAnchor = new GPoint(16, 16);
-	return icon;
+	return icon;h
 }
 
 function createMapPoints(){
@@ -267,7 +267,7 @@ function createEditablePoint() {
 	GEvent.addListener(mapp, "click", clicked);
 	GEvent.addListener(mapp, "dblclick", function(overlay, point) {
 	mapp.clearOverlays();
-		if(point) {createEditablePolygon
+		if(point) {
 			pointToRemove = point;
 			lat.value = point.lat();
 			lng.value = point.lng();
@@ -304,7 +304,7 @@ function getCirclePoints(center, radius){
 			}
 		}
 	}
-	searchPolygon = new GPolygon(circlePoints, '#0000ff', 1, 1, '#0000ff', 0.2);	
+	searchPolygon = new GPolygon(hcirclePoints, '#0000ff', 1, 1, '#0000ff', 0.2);	
 	map.addOverlay(searchPolygon);
 	map.setCenter(searchPolygon.getBounds().getCenter(), map.getBoundsZoomLevel(searchPolygon.getBounds()));
 	return searchPoints;
@@ -312,20 +312,25 @@ function getCirclePoints(center, radius){
 
 function createEditablePolygon() {
 	mapa = new google.maps.Map2(document.getElementById("maparea"));
-	//mapa = new GMap2(document.getElementById("maparea"));
 	mapa.addControl(new GMapTypeControl());
 	mapa.addControl(new GSmallMapControl());
 	mapa.disableDoubleClickZoom();
 	mapa.setCenter(new GLatLng(-3.7325370241018394, -38.51085662841797), 15);
-	var polygon = new GPolygon([], '#A50E0C', 2, 0.7, '#A50E0C', 0.2);
+	var polygon = null;
+	
 	var element = document.getElementById('polygon');
+	var points = Array();
+	
 	if (element && element.value) {
-		var coords = element.value.split(',');
-		for (var i = 0; i < coords.length; i++) {
-			var coord = coords[i].split(' ');
-			polygon.insertVertex(i, new GLatLng(coord[0],coord[1]));
+		var coordinates = element.value.split(',');
+		for (var i = 0; i < coordinates.length; i++) {
+			var coordinate = coordinates[i].split(' ');
+			var point = new GLatLng(parseFloat(coordinate[0]), parseFloat(coordinate[1]), true);
+			points.push(point);
 		}
+		polygon = new GPolygon(points, '#A50E0C', 2, 0.7, '#A50E0C', 0.2);
 	} else {
+		polygon = new GPolygon([], '#A50E0C', 2, 0.7, '#A50E0C', 0.2);
 		polygon.enableDrawing();
 	}
 	
@@ -340,7 +345,7 @@ function createEditablePolygon() {
 	GEvent.addListener(polygon, "endline", function() {
     	polygon.setStrokeStyle({weight: 4});
     });
-
+	
 	GEvent.addListener(polygon, "lineupdated", function() {
 		var element = document.getElementById('polygon');
 		var encode = "";
@@ -354,7 +359,7 @@ function createEditablePolygon() {
 		element.value = encode;
 	});
 	mapa.addOverlay(polygon);
-	calculateBoundsArea();
+	mapa.setCenter(polygon.getBounds().getCenter(), mapa.getBoundsZoomLevel(polygon.getBounds()));
 	google.setOnLoadCallback(createEditablePolygon);
 }
 
@@ -379,7 +384,7 @@ function distancia(){
 				trechos.push(poli.getVertex(k));
 			}
 			poliline = new GPolyline(trechos, color[j], 3, 1);
-			this.POLYLINES.push(poliline);
+			this.POLYLINES.push(poliline);polygon
 			map.addOverlay(poliline);
 			trechos = [];
 		}
@@ -689,7 +694,11 @@ function getProximity(mouseLatLng, marker) {
 				minY = y;
 				myNode.MyIndex = routeNodes[n].MyIndex;
 			}
+		}var mbr = new GLatLngBounds();
+		for(var i = 0; i < markerRoute.length; i++) {
+			mbr.extend(markerRoute[i]);
 		}
+		map.setCenter(mbr.getCenter(), map.getBoundsZoomLevel(mbr));
 
 		if (minDist > 25) {
 			myNode.hide();

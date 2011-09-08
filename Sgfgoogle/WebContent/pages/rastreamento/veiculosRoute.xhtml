@@ -15,30 +15,43 @@
       
 	<div id="cadastro">
 
-		<h1>Rota de veículo</h1>
-
-		<h:outputText value="Veiculo:"/>
-		<h:selectOneMenu id="veiculo" value="#{mapBean.veiculo}" converter="entityConverter">
-			<f:selectItem itemLabel="Todos ..." itemValue=""/>
- 			<t:selectItems value="#{veiculoBean.veiculosRastreados}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
-		</h:selectOneMenu>
-		<br/>
 		
-		<h:outputText value="Início:"/>
-		<h:inputText id="dataInicial" value="#{mapBean.start}" styleClass="maskData" style="width:80px">
-			<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-		</h:inputText>
-
-		<h:outputText value="Término:"/>
-		<h:inputText id="dataFinal" value="#{mapBean.end}" styleClass="maskData"  style="width:80px">
-			<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-		</h:inputText>
+		<div style="text-align:left">
 		
+		<fieldset>
+			<legend>Rota do veículo</legend>
 
-		<a4j:commandButton id="veiculoRota" value="Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="vehicleRoute" styleClass="button">
-			<a4j:support event="oncomplete" oncomplete="showVeiculoRoute()"/>
-		</a4j:commandButton>
+			<h:outputLabel value="Veiculo:"/>
+			<h:selectOneMenu id="veiculo" value="#{mapBean.veiculo}" converter="entityConverter">
+				<f:selectItem itemLabel="Todos ..." itemValue=""/>
+	 			<t:selectItems value="#{veiculoBean.veiculosRastreados}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao}" itemValue="#{v}"/>
+			</h:selectOneMenu>
 
+			<h:outputLabel value="De:"/>
+			
+			<h:inputText id="dataInicial" value="#{mapBean.start}" styleClass="maskData" style="width:75px">
+				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+			</h:inputText>
+			<h:inputText id="horaStart" value="#{mapBean.horaInicial}" size="2" styleClass="maskHora" style="padding-left:3px">
+				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+			</h:inputText>
+			
+			<h:outputLabel value="até:"/>
+			<h:inputText id="dataFinal" value="#{mapBean.end}" styleClass="maskData"  style="width:75px">
+				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+			</h:inputText>
+			<h:inputText id="horaEnd" value="#{mapBean.horaFinal}" size="2" styleClass="maskHora"  style="padding-left:3px">
+				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+			</h:inputText>
+			
+			<a4j:commandButton id="veiculoRota" value="Mostrar Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="vehicleRoute" styleClass="button">
+				<a4j:support event="oncomplete" oncomplete="showVeiculoRoute()"/>
+			</a4j:commandButton>
+			
+			</fieldset>
+
+		</div>
+		<p/>
 
 		<h:inputHidden id="vehicleRoute" value="#{mapBean.route}"/>
 
