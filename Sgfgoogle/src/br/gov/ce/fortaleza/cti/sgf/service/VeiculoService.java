@@ -325,8 +325,9 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 				if (veiculo.getDataTransmissao() != null) {
 					PontoDTO m = new PontoDTO();
 					try {
+						String nomeVeiculo = veiculo.getModelo() != null ? veiculo.getModelo().getDescricao().replace("|", ":") : "";
 						m.setId(veiculo.getId());
-						m.setNome(veiculo.getModelo().getDescricao().replace("|", ":"));
+						m.setNome(nomeVeiculo);
 						m.setPlaca(veiculo.getPlaca());
 						m.setVelocidade(veiculo.getVelocidade());
 						m.setOdometro(veiculo.getOdometro() != null ? veiculo.getOdometro() : 0);

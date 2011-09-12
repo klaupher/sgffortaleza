@@ -24,17 +24,18 @@
 		<a4j:loadScript src="../scripts/jquery.validate.js" />
 		<a4j:loadScript src="../scripts/jquery.alphanumeric.js" />
 		<a4j:loadScript src="../scripts/senha.js" />
-
+		
 
 		<c:if test="#{controlBean.areaBean or controlBean.pontoBean or controlBean.mapBean}">
-		    <a4j:loadScript src="http://www.google.com/jsapi?key=ABQIAAAAmjdf8Alop0GKF_NBWArt3BQKC6VpR9QoHKYmLzK4atbccYM7pBQggLLEqOA9SnQ3cqfcoE0qV7kXmg"/>
+		    <a4j:loadScript src="http://www.google.com/jsapi?key=ABQIAAAAmjdf8Alop0GKF_NBWArt3BTQk-WM8J8ljzON_9TeQSCk_BfTLBQlFHX02LCVHJue-Puat0znLfz2XQ"/>
 		    <script type="text/javascript">google.load("maps", "2.85");</script>
+			<a4j:loadScript src="../scripts/markerclusterer.js" />
 			<a4j:loadScript src="../scripts/map.js" />
 		</c:if>
 
 	</head>
 
-	<body onload="loadMaps();"  onunload="GUnload();">
+	<body  onunload="GUnload();">
 
 		<h:form id="paginaPrincipal" prependId="false">
 

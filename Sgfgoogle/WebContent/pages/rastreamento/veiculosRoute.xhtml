@@ -11,7 +11,8 @@
       xmlns:sec="http://www.springframework.org/security/tags"
       xmlns:a4j="http://richfaces.org/a4j">
       
-     <a4j:poll id="reloader" action="#{mapBean.showVehiclesRouteOnMap}" interval="120000" reRender="vehicleRoute" oncomplete="showVeiculoRoute();" ajaxSingle="true"/>
+     <a4j:poll id="reloader" action="#{mapBean.showVehiclesRouteOnMap}" interval="120000" 
+     reRender="veiculo,vehicleRoute" oncomplete="mostrarRotaVeiculo();" ajaxSingle="false"/>
       
 	<div id="cadastro">
 
@@ -44,8 +45,8 @@
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			
-			<a4j:commandButton id="veiculoRota" value="Mostrar Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="vehicleRoute" styleClass="button">
-				<a4j:support event="oncomplete" oncomplete="showVeiculoRoute()"/>
+			<a4j:commandButton id="veiculoRota" value="Mostrar Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="veiculo,vehicleRoute" styleClass="button">
+				<a4j:support event="onclick" oncomplete="mostrarRotaVeiculo();"/>
 			</a4j:commandButton>
 			
 			</fieldset>

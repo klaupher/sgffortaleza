@@ -21,9 +21,86 @@ var num;
 var cleaned = false;
 var geocoder = null;
 var pointToRemove;
-var color = ["#0000FF","#8A2BE2","#A52A2A","#DEB887","#5F9EA0","#7FFF00", "#D2691E","#6495ED","#DC143C",
-             "#00FFFF","#00008B","#008B8B","#B8860B","#A9A9A9","#006400"];
+var color = ["#0000FF","#8A2BE2","#A52A2A","#DEB887","#5F9EA0","#7FFF00", "#D2691E","#6495ED","#DC143C", "#00FFFF","#00008B","#008B8B","#B8860B","#A9A9A9","#006400"];
 var pointInterval = 30;
+
+var markersClusterer = [];
+var markerClusterer;
+
+var styles = [[{
+    url: '../images/people35.png',
+    height: 35,
+    width: 35,
+    opt_anchor: [16, 0],
+    opt_textColor: '#FF00FF'
+  },
+  {
+    url: '../images/people45.png',
+    height: 45,
+    width: 45,
+    opt_anchor: [24, 0],
+    opt_textColor: '#FF0000'
+  },
+  {
+    url: '../images/people55.png',
+    height: 55,
+    width: 55,
+    opt_anchor: [32, 0]
+  }],
+  [{
+    url: '../images/conv30.png',
+    height: 27,
+    width: 30,
+    anchor: [3, 0],
+    textColor: '#FF00FF'
+  },
+  {
+    url: '../images/conv40.png', 
+    height: 36,
+    width: 40,
+    opt_anchor: [6, 0],
+    opt_textColor: '#FF0000'
+  },
+  {
+    url: '../images/conv50.png',
+    width: 50,
+    height: 45,
+    opt_anchor: [8, 0]
+  }],
+  [{
+    url: '../images/heart30.png',
+    height: 26,
+    width: 30,
+    opt_anchor: [4, 0],
+    opt_textColor: '#FF00FF'
+  },
+  {
+    url: '../images/heart40.png', 
+    height: 35,
+    width: 40,
+    opt_anchor: [8, 0],
+    opt_textColor: '#FF0000'
+  },
+  {
+    url: '../images/heart50.png',
+    width: 50,
+    height: 44,
+    opt_anchor: [12, 0]
+  }]];
+
+
+function refreshMap() {
+    if (markerClusterer != null) {
+      markerClusterer.clearMarkers();
+    }
+    var zoom = 14; //parseInt(document.getElementById("zoom").value, 10);
+    var size =  40;//parseInt(document.getElementById("size").value, 10);
+    var style = "-1";// document.getElementById("style").value;
+    zoom = zoom == -1 ? null : zoom;
+    size = size == -1 ? null : size;
+    style = style == "-1" ? null: parseInt(style, 10);
+    markerClusterer = new MarkerClusterer(map, markersClusterer, {maxZoom: zoom, gridSize: size, styles: styles[style]});
+  }
 
 function loadMaps() {
 
@@ -40,7 +117,7 @@ function loadMaps() {
 		}
 	} else if (document.getElementById("mapp")) {
 		createMapPoints();
-		showVehiclesOnMap();
+		//showVehiclesOnMap();
 	} else if (document.getElementById("mapEditablePoint")) {
 		createEditablePoint();
 	}
@@ -66,7 +143,6 @@ function showPointsOnMap(){
 	var markers = new Array();
 	if(pontos){
 		var points = pontos.split('##$##');
-		var param = 1;
 		for (var j = 0; j < points.length; j++) {
 			var p = points[j].split('##');
 			if(p[0] && p[1]){
@@ -82,32 +158,58 @@ function showPointsOnMap(){
 
 function showVehiclesOnMap(){
 	map.clearOverlays();
-	var pontos = document.getElementById('vehiclesPoints').value;
-	var markers = new Array();
-	var param = 1;
-	if(pontos){
-		var points = pontos.split('##$##');
+	if(document.getElementById('vehiclesPoints')){
+		var pontos = document.getElementById('vehiclesPoints').value;
+		var markers = new Array();
 		var param = 1;
-		for (var j = 0; j < points.length; j++) {
-			var p = points[j].split('##');
-			if(p[0] && p[1]){
-				var marker = new GLatLng(p[0], p[1]);
-				markers.push(marker);
-				if(j == 0) {
-					param = 2
-				} else {
-					param = 1
-				};
-				var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
-				map.addOverlay(markerPoint);
+		if(pontos){
+			var points = pontos.split('##$##');
+			for (var j = 0; j < points.length; j++) {
+				var p = points[j].split('##');
+				if(p[0] && p[1]){
+					var marker = new GLatLng(p[0], p[1]);
+					markers.push(marker);
+					if(j == 0) {
+						param = 2;
+					} else {
+						param = 1;
+					};
+					var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
+					map.addOverlay(markerPointmarkersClusterer);
+				}
 			}
 		}
+		calculateBoundsRoute(markers);
 	}
-	calculateBoundsRoute(markers);
+
 }
 
-function showVeiculoRoute(){
-	map.clearOverlays();
+function initialize() {
+
+	map = new google.maps.Map2(document.getElementById("mapp"));
+	map.setCenter(new GLatLng(-3.7325370241018394, -38.51085662841797), 12);
+	map.addControl(new GLargeMapControl());
+	var icon = new GIcon(G_DEFAULT_ICON);
+	icon.image = "http://chart.apis.google.com/chart?cht=mm&chs=24x32&chco=FFFFFF,008CFF,000000&ext=.png";
+	var elem = document.getElementById('vehicleRoute').value;
+	var points = elem.split('##$##');
+	var markers = new Array();
+
+	for (var j = 0; j < points.length; j++) {
+		var p = points[j].split('##');
+		var marker2 = new GMarker(new GLatLng(p[0], p[1]));
+			//var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
+			markers.push(marker2);
+	}
+	markerClusterer = new MarkerClusterer(map, markers);
+}
+
+function clusterCurrentMarker(markers){
+    markerClusterer = new MarkerClusterer(map, markers, {maxZoom: 14, gridSize: 20, styles: styles["-1"]});
+}
+
+function mostrarRotaVeiculo(){
+	alert('ok');
 	createMapPoints();
 	var elem = document.getElementById('vehicleRoute').value;
 	var points = elem.split('##$##');
@@ -119,15 +221,16 @@ function showVeiculoRoute(){
 		if(p[0] && p[1]){
 			var marker = new GLatLng(p[0], p[1]);
 			if(j == 0) {
-				param = 2
+				param = 2;
 			} else {
-				param = 1
+				param = 1;
 			};
 			var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
 			markers.push(marker);
 			map.addOverlay(markerPoint);
 		}
 	}
+	clusterCurrentMarker(markers);
 	polyline = new GPolyline(markers);
 	map.addOverlay(polyline);
 	calculateBoundsRoute(markers);
@@ -179,20 +282,17 @@ function getAddress(overlay, latlng) {
 }
 
 function crossAddress(){
-	
 	var geocoder = new google.maps.Geocoder();
-	   var address = 'Fortaleza, BR';
-
-	   if (geocoder) {
-	      geocoder.geocode({ 'address': address }, function (results, status) {
-	         if (status == google.maps.GeocoderStatus.OK) {
-	            console.log(results[0].geometry.location);
-	         }
-	         else {
-	            console.log("Geocoding failed: " + status);
-	         }
-	      });
-	   }    
+	var address = 'Fortaleza, BR';
+	if (geocoder) {
+		geocoder.geocode({ 'address': address }, function (results, status) {
+			if (status == google.maps.GeocoderStatus.OK) {
+				console.log(results[0].geometry.location);
+			}else {
+				console.log("Geocoding failed: " + status);
+			}
+		});
+	}    
 }
 
 /*
@@ -238,7 +338,7 @@ function createIcon(param) {
 	icon.iconSize = new GSize(20, 20);
 	icon.iconAnchor = new GPoint(16, 16);
 	icon.infoWindowAnchor = new GPoint(16, 16);
-	return icon;h
+	return icon;
 }
 
 function createMapPoints(){

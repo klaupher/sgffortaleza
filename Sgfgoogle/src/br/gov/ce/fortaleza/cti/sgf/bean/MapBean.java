@@ -24,12 +24,12 @@ import br.gov.ce.fortaleza.cti.sgf.util.dto.MapDTO;
 public class MapBean extends EntityBean<Integer, MapDTO>  {
 
 	public String pontos = new String("");
-	private Date horaInicial;
-	private Date horaFinal;
-	public Date start;
-	public Date end;
+	private Date horaInicial = DateUtil.adicionarOuDiminuir(new Date(), -DateUtil.HOUR_IN_MILLIS)  ;
+	private Date horaFinal = new Date();
+	public Date start = new Date();
+	public Date end = new Date();
 	public Integer tempoConsulta;
-	
+
 	@Autowired
 	private VeiculoService veiculoService;
 
@@ -95,11 +95,11 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 		for (Veiculo v : veiculos) {
 			Float odometro = v.getOdometro() != null ? v.getOdometro() : 0F;
 			Float dist = v.getDistancia() != null ? v.getDistancia() : 0F;
-			Boolean ignicao = v.getIgnicao()==null? false : v.getIgnicao();
+			Boolean ignicao = v.getIgnicao() == null ? false : v.getIgnicao();
 			String ptprox = v.getPontoProximo()==null ? "" : v.getPontoProximo().getDescricao();
-			
+
 			line += ((Point)v.getGeometry()).x + "##" +  ((Point)v.getGeometry()).y + "##" + v.getId() + "##" + v.getPlaca() + "##" + v.getVelocidade() + "##"
-			+ odometro  + "##" +  ignicao + "##" + ptprox + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
+					+ odometro  + "##" +  ignicao + "##" + ptprox + "##" + 																																																																																																																																																																	dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", v.getDataTransmissao()) + "##$##";
 		}
 		this.pontos = line;
 		return SUCCESS;
@@ -116,10 +116,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 		Calendar cal = Calendar.getInstance();
 		if(this.veiculo != null){
 			Veiculo v = veiculoService.retrieve(veiculo.getId());
-			
-			
-			
-			
+
 			if(this.start != null){
 				cal.setTime(this.start);
 				cal.set(Calendar.HOUR_OF_DAY, this.horaInicial.getHours());
@@ -129,7 +126,7 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 			} else {
 				this.start = DateUtil.getDateStartDay(this.start);
 			}
-			
+
 			if(this.end != null){
 				cal.setTime(this.end);
 				cal.set(Calendar.HOUR_OF_DAY, this.horaFinal.getHours());
