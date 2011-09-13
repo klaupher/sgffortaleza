@@ -142,7 +142,7 @@
 				<rich:menuItem value="Cerca virtual" action="#{areaBean.search}"  oncomplete="loadMaps();" immediate="true"/>
 				<rich:menuItem value="Monitoramento" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" immediate="true"/>
 				<rich:menuItem value="Pontos" action="#{pontoBean.prepareSave}"  oncomplete="loadMaps();" immediate="true"/>
-				<rich:menuItem value="Rotas do veículo" action="#{mapBean.veiculosRoute}" immediate="true" oncomplete="loadMaps();"/>
+				<rich:menuItem value="Rotas do veículo" action="#{mapBean.veiculosRoute}" immediate="true" oncomplete="showVeiculoRoute();"/>
 				<rich:menuItem value="Bloqueio/desbloqueio"  immediate="true"/>
 				<rich:menuItem value="Relatório de posições" action="#{relatorioMonitoramentoBean.relatorioPosicoesVeiculo}" immediate="true" ajaxSingle="true"/>
 				<rich:menuItem value="Relatório de velocidades" immediate="true"/>

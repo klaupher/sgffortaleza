@@ -114,6 +114,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		abastecimento.setPosto(new Posto());
 		setDtInicial(DateUtil.getDateTime(new Date(), "00:00:00"));
 		setDtFinal(DateUtil.getDateTime(new Date(), "23:59:59"));
+		horaAbastecimento = null;
 		this.mostrarPosto = false;
 		this.bomba = new Bomba();
 		this.ultimaKilometragem = null;
@@ -552,6 +553,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				atendimentoService.save(atendimento);
 			}
 		}
+		
+		this.horaAbastecimento = null;
+		this.bomba = new Bomba();
+		
 		return super.update();
 	}
 

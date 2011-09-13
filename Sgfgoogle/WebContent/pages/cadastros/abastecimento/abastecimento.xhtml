@@ -97,13 +97,15 @@
 					<label style="color:red">(abastecimento em data futura.)</label>
 				</dd>
 				
+				<c:if test="#{abastecimentoBean.atender}">
 				<dt><label for="dataInicio">Hora do atendimento</label></dt>
 				<dd>
-					<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora" required="true" requiredMessage="Hora Atendimento">
+					<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora">
 						<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 					</h:inputText>
 					<h:message for="hrInicial" styleClass="message"/>			
 				</dd>
+				</c:if>
 
 		        <c:if test="#{abastecimentoBean.negar}">
 					<dt><label for="justificativa"><h:outputText value="#{msg['abastecimento.justificativa']}:" /></label></dt>
