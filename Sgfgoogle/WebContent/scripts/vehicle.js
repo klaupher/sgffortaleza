@@ -71,7 +71,6 @@ function Vehicle(id, name, type, lat, lng, visible, select, rastro, descPontoPro
 				map.addOverlay(currentRastro);
 			}
 		}
-
 		this.rastro = newRastro;
 	}
 
@@ -114,7 +113,7 @@ function updateVehicles() {
 			}
 		}
 		var vehicle = retrieveVehicle(v[0]);
-		var select = document.getElementById("m:" + i + ":select")
+		var select = document.getElementById("m:" + i + ":select");
 		if (vehicle) {
 			vehicle.update(v[1], v[2], v[3], v[4], select, rastro, v[5], v[6], v[7], v[8], v[9]);
 		} else {

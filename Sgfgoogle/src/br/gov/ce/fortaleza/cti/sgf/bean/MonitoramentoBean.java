@@ -65,7 +65,7 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 		User user = SgfUtil.usuarioLogado();
 		List<Veiculo> veiculos = null;
-		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -24*DateUtil.HOUR_IN_MILLIS);
+		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -3*DateUtil.HOUR_IN_MILLIS);
 		if(SgfUtil.isAdministrador(user)){
 			veiculos = veiculoService.veiculosRastreados();
 		} else {

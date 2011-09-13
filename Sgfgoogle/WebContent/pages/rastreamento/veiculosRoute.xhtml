@@ -12,7 +12,7 @@
       xmlns:a4j="http://richfaces.org/a4j">
       
      <a4j:poll id="reloader" action="#{mapBean.showVehiclesRouteOnMap}" interval="120000" 
-     reRender="veiculo,vehicleRoute" oncomplete="mostrarRotaVeiculo();" ajaxSingle="false"/>
+     			reRender="veiculo,vehicleRoute" oncomplete="mostrarRotaVeiculo();" ajaxSingle="false"/>
       
 	<div id="cadastro">
 
@@ -30,18 +30,18 @@
 
 			<h:outputLabel value="De:"/>
 			
-			<h:inputText id="dataInicial" value="#{mapBean.start}" styleClass="maskData" style="width:75px">
+			<h:inputText id="dataInicial" value="#{mapBean.start}" styleClass="maskData" style="width:76px">
 				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 			</h:inputText>
-			<h:inputText id="horaStart" value="#{mapBean.horaInicial}" size="2" styleClass="maskHora" style="padding-left:3px">
+			<h:inputText id="horaStart" value="#{mapBean.horaInicial}" size="3" styleClass="maskHora" style="padding-left:3px">
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			
 			<h:outputLabel value="até:"/>
-			<h:inputText id="dataFinal" value="#{mapBean.end}" styleClass="maskData"  style="width:75px">
+			<h:inputText id="dataFinal" value="#{mapBean.end}" styleClass="maskData"  style="width:76px">
 				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 			</h:inputText>
-			<h:inputText id="horaEnd" value="#{mapBean.horaFinal}" size="2" styleClass="maskHora"  style="padding-left:3px">
+			<h:inputText id="horaEnd" value="#{mapBean.horaFinal}" size="3" styleClass="maskHora"  style="padding-left:3px">
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			

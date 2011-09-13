@@ -209,7 +209,6 @@ function clusterCurrentMarker(markers){
 }
 
 function mostrarRotaVeiculo(){
-	alert('ok');
 	createMapPoints();
 	var elem = document.getElementById('vehicleRoute').value;
 	var points = elem.split('##$##');
@@ -230,7 +229,7 @@ function mostrarRotaVeiculo(){
 			map.addOverlay(markerPoint);
 		}
 	}
-	clusterCurrentMarker(markers);
+	//clusterCurrentMarker(markers);
 	polyline = new GPolyline(markers);
 	map.addOverlay(polyline);
 	calculateBoundsRoute(markers);

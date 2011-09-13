@@ -92,13 +92,22 @@
 						<f:param name="ano" value="#{ponto.ano}"/>
 						<f:param name="cor" value="#{ponto.cor}"/>
 					</rich:componentControl>				
-	
+
 				</rich:dataTable>
-				
+
 				<div  id="monitoramentoTableLegend" class="monitoramentoTable" style="text-align:center">
 					<h:graphicImage url="/images/aviso_transmissao.JPG" width="70%" height="20"/>
 				</div>
-			
+
+			</rich:simpleTogglePanel>
+
+
+			<rich:simpleTogglePanel id="simpleMap" switchType="ajax"  headerClass="simpleHeader" >
+
+					<h:inputHidden id="veiculosPosicao" value="#{mapBean.}"/>
+
+					<div id="mapp" style="width:100%; height:600px"></div>
+
 			</rich:simpleTogglePanel>
 
 		</div>
