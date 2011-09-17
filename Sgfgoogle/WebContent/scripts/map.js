@@ -158,8 +158,8 @@ function showPointsOnMap(){
 
 function showVehiclesOnMap(){
 	map.clearOverlays();
-	if(document.getElementById('vehiclesPoints')){
-		var pontos = document.getElementById('vehiclesPoints').value;
+	if(document.getElementById('pontosVeiculos')){
+		var pontos = document.getElementById('pontosVeiculos').value;
 		var markers = new Array();
 		var param = 1;
 		if(pontos){

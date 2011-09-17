@@ -343,7 +343,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			if(ultimoAbastecimento.getQuilometragem() == null){
 				ultimoAbastecimento.setQuilometragem(0L);
 			}
-			if(this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
+			if(ultimoAbastecimento != null &&  this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
 				this.kmValido = false;
 				JSFUtil.getInstance().addErrorMessage("msg.error.quilometragem.inconsistente");
 			} else {
@@ -438,8 +438,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.atender = false;
 		this.atendimento = false;
 
-		this.dtInicial = DateUtil.getDateTime(this.dtInicial);
-		this.dtFinal = DateUtil.getDateTime(this.dtFinal);
+		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);//DateUtil.getDateTime(this.dtInicial);
+		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 			
@@ -489,6 +489,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			if(this.entity.getDataAutorizacao() == null){
 				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
 			}
+			//this.entity.getAtendimentoAbastecimento().setHora(this.horaAbastecimento);
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			super.save();
 			return search();

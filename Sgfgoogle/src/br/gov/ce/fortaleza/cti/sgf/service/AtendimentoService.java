@@ -129,7 +129,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
 		}
-		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0");
+		str.append(" and o.abastecimento.veiculo.status > -1");
 		str.append(" order by o.abastecimento.veiculo.ua.ug.descricao");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);

@@ -78,6 +78,7 @@ public class RelatorioDTO implements Serializable {
 	private Date duracaoManutencao;
 	private Date atraso;
 	private Float consumoCombustivelOrgao;
+	private String horaAtendimento;
 
 	private List<Multa> multas;
 	private List<RelatorioDTO> relatorios;
@@ -409,5 +410,13 @@ public class RelatorioDTO implements Serializable {
 
 	public void setConsumoCombustivelOrgao(Float consumoCombustivelOrgao) {
 		this.consumoCombustivelOrgao = consumoCombustivelOrgao;
+	}
+
+	public String getHoraAtendimento() {
+		return horaAtendimento;
+	}
+
+	public void setHoraAtendimento(String horaAtendimento) {
+		this.horaAtendimento = horaAtendimento;
 	}
 }

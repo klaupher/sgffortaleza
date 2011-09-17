@@ -9,7 +9,7 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 	
 
-	<a4j:poll id="poolMonitor" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" interval="60000" reRender="m, alert, dataInicio" oncomplete="updateMap()" ajaxSingle="true"/>
+	<a4j:poll id="poolMonitor" action="#{monitoramentoBean.searchMonitoramentoVeiculos}" interval="60000" reRender="m, alert, dataInicio,pontosVeiculos" oncomplete="updateMap()" ajaxSingle="true"/>
 
 	<div id="cadastro" class="contentMonitoramento">
 	
@@ -102,9 +102,9 @@
 			</rich:simpleTogglePanel>
 
 
-			<rich:simpleTogglePanel id="simpleMap" switchType="ajax"  headerClass="simpleHeader" >
+			<rich:simpleTogglePanel id="simpleMap" switchType="ajax"  headerClass="simpleHeader" oncomplete="loadMaps();showVehiclesOnMap();">
 
-					<h:inputHidden id="veiculosPosicao" value="#{mapBean.}"/>
+					<h:inputHidden id="pontosVeiculos" value="#{monitoramentoBean.pontos}"/>
 
 					<div id="mapp" style="width:100%; height:600px"></div>
 

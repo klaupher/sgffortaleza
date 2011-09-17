@@ -71,8 +71,8 @@
 					
 				</a4j:region>
 				
-				<a4j:commandButton value="Pesquisar" action="#{abastecimentoBean.search}" ajaxSingle="false">
-					<a4j:support  event="onclick"  reRender="dataTable" status="statusLoadAbastecimento"/>
+				<a4j:commandButton value="Pesquisar" action="#{abastecimentoBean.search}" reRender="dataTable" ajaxSingle="false">
+					<a4j:support  event="onclick"  status="statusLoadAbastecimento"/>
 				</a4j:commandButton>
 
 			</a4j:outputPanel>
