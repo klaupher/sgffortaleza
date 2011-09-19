@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.postgis.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,6 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 	@Autowired
 	private VeiculoService veiculoService;
-
 	private PontoDTO ponto;
 	private Veiculo veiculoAction;
 	private List<PontoDTO> pontos;
@@ -65,7 +65,7 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 
 		User user = SgfUtil.usuarioLogado();
 		List<Veiculo> veiculos = null;
-		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -3*DateUtil.HOUR_IN_MILLIS);
+		this.dataInicio = DateUtil.adicionarOuDiminuir(DateUtil.getDateNow(), -24*DateUtil.HOUR_IN_MILLIS);
 		if(SgfUtil.isAdministrador(user)){
 			veiculos = veiculoService.veiculosRastreados();
 		} else {
@@ -84,6 +84,7 @@ public class MonitoramentoBean extends EntityBean<Integer, PontoDTO>  {
 		setCurrentState(SEARCH);
 		return SUCCESS;
 	}
+	
 
 	/**
 	 * Monta arquivo com as ultimas posições dos veículos rastreados e exporta como arquivo

@@ -1,8 +1,13 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.postgis.Point;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,22 +141,60 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 				this.end = DateUtil.getDateStartDay(this.end);
 			}
 
+			Map<Integer, List<Transmissao>> referenceMap = new HashMap<Integer, List<Transmissao>>();
 			List<Transmissao> transmissoes = transmissaoService.retrieveByVeiculo(veiculo.getId(), this.start, this.end);
-			if(transmissoes.size() > 0){
-				for (Transmissao transmissao : transmissoes) {
-					Float vel = transmissao.getVelocidade() == null ? 0F : transmissao.getVelocidade();
-					Float odometro = transmissao.getOdometro() == null ? 0F : transmissao.getOdometro();
-					Double x = ((Point)transmissao.getGeometry()).x;
-					Double y = ((Point)transmissao.getGeometry()).y;
-					String placa = v.getPlaca();
-					String pprox = transmissao.getPonto() != null ? transmissao.getPonto().getDescricao() : "";
-					Float dist = transmissao.getDistancia() == null ? 0F : transmissao.getDistancia();
-					line += x + "##" + y + "##" + transmissao.getVeiculoId() + "##" +  placa + "##" + vel + "##" + odometro + "##" +  transmissao.getIgnicao() + "##" + pprox + "##" + dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "##$##";
+			
+			for (Transmissao t : transmissoes) {
+				if(t.getPonto() != null && referenceMap.containsKey(t.getPonto().getId())){
+					referenceMap.get(t.getPonto().getId()).add(t);
+				} else {
+					List<Transmissao> newlist = new ArrayList<Transmissao>();
+					newlist.add(t);
+					referenceMap.put(t.getPonto().getId(), newlist);
+				}
+			}
+
+			if(referenceMap.size() > 0){
+				for (Integer i : referenceMap.keySet()) {
+					Transmissao transmissao = null; 
+					List<Transmissao> transmissaoList = referenceMap.get(i);
+					Collections.sort(transmissaoList, new Comparator<Transmissao>() {
+						public int  compare(Transmissao o1, Transmissao o2) {
+							return o1.getDataTransmissao().compareTo(o2.getDataTransmissao());
+						}
+					});
+					if(transmissaoList.size() > 1){
+						System.out.println("[Nº pontos associados: "+transmissaoList.size()  +"]");
+						Float menor = 100000F;
+						for (Transmissao t : transmissaoList) {
+							if(t.getDistancia() < menor){
+								transmissao = t;
+							}
+						}
+						transmissaoList.remove(transmissaoList.get(0));
+						transmissaoList.remove(transmissaoList.get(transmissaoList.size()-1));
+						transmissaoList.remove(transmissao);
+						transmissoes.removeAll(transmissaoList);
+					} else {
+						System.out.println("[Ponto referencia: " + transmissaoList.get(0).getPonto().getDescricao() +"]");
+					}
 				}
 			} else {
 				JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.sem.rota");
 				return FAIL;
 			}
+
+			for (Transmissao transmissao : transmissoes) {
+				Float vel = transmissao.getVelocidade() == null ? 0F : transmissao.getVelocidade();
+				Float odometro = transmissao.getOdometro() == null ? 0F : transmissao.getOdometro();
+				Double x = ((Point)transmissao.getGeometry()).x;
+				Double y = ((Point)transmissao.getGeometry()).y;
+				String placa = v.getPlaca();
+				String pprox = transmissao.getPonto() != null ? transmissao.getPonto().getDescricao() : "";
+				Float dist = transmissao.getDistancia() == null ? 0F : transmissao.getDistancia();
+				line += x + "##" + y + "##" + transmissao.getVeiculoId() + "##" +  placa + "##" + vel + "##" + odometro + "##" +  transmissao.getIgnicao() + "##" + pprox + "##" + dist + "##" + DateUtil.parseAsString("dd/MM/yyyy HH:mm", transmissao.getDataTransmissao())  + "##$##";
+			}
+
 		} else {
 			return FAIL;
 		}

@@ -3,8 +3,10 @@ var currentRastro;
 var vehicles = new Array();
 
 function Vehicle(id, name, type, lat, lng, visible, select, rastro, descPontoProx, distPontoProx, velocidade, dataHora, placa) {
+
 	this.id = id;
 	this.visible = visible;
+
 	this.panTo = function() {
 		map.panTo(this.center);
 		map.setCenter(this.center, 15);
@@ -90,8 +92,10 @@ function Vehicle(id, name, type, lat, lng, visible, select, rastro, descPontoPro
 		this.updateRastro(rastro);
 		this.updateMarker();
 	}
+	
 	this.update(name, type, lat, lng, select, rastro, descPontoProx, distPontoProx, velocidade, dataHora, placa);
 }
+
 
 function updateVehicles() {
 	var i = 0;

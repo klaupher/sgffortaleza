@@ -37,16 +37,16 @@
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			
-			<h:outputLabel value="até:"/>
-			<h:inputText id="dataFinal" value="#{mapBean.end}" styleClass="maskData"  style="width:76px">
+			<h:outputLabel value="Até:"/>
+			<h:inputText id="dataFinal" value="#{mapBean.end}" styleClass="maskData"  style="width:75px;padding-right:10px">
 				<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 			</h:inputText>
-			<h:inputText id="horaEnd" value="#{mapBean.horaFinal}" size="3" styleClass="maskHora"  style="padding-left:3px">
+			<h:inputText id="horaEnd" value="#{mapBean.horaFinal}" size="3" styleClass="maskHora">
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			
-			<a4j:commandButton id="veiculoRota" value="Mostrar Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="veiculo,vehicleRoute"  styleClass="button">
-				<a4j:support event="oncomplete"  oncomplete="mostrarRotaVeiculo();"/>
+			<a4j:commandButton id="veiculoRota" value="Mostrar Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="veiculo,vehicleRoute" styleClass="button">
+				<a4j:support event="oncomplete" oncomplete="mostrarRotaVeiculo();"/>
 			</a4j:commandButton>
 			
 			</fieldset>

@@ -90,20 +90,19 @@ var styles = [[{
 
 
 function refreshMap() {
-    if (markerClusterer != null) {
-      markerClusterer.clearMarkers();
-    }
-    var zoom = 14; //parseInt(document.getElementById("zoom").value, 10);
-    var size =  40;//parseInt(document.getElementById("size").value, 10);
-    var style = "-1";// document.getElementById("style").value;
-    zoom = zoom == -1 ? null : zoom;
-    size = size == -1 ? null : size;
-    style = style == "-1" ? null: parseInt(style, 10);
-    markerClusterer = new MarkerClusterer(map, markersClusterer, {maxZoom: zoom, gridSize: size, styles: styles[style]});
-  }
+	if (markerClusterer != null) {
+		markerClusterer.clearMarkers();
+	}
+	var zoom = 14; //parseInt(document.getElementById("zoom").value, 10);
+	var size =  40;//parseInt(document.getElementById("size").value, 10);
+	var style = "-1";// document.getElementById("style").value;
+	zoom = zoom == -1 ? null : zoom;
+	size = size == -1 ? null : size;
+	style = style == "-1" ? null: parseInt(style, 10);
+	markerClusterer = new MarkerClusterer(map, markersClusterer, {maxZoom: zoom, gridSize: size, styles: styles[style]});
+}
 
 function loadMaps() {
-
 	if (document.getElementById("maparea")) {
 		createEditablePolygon();
 		var pontos = document.getElementById('points').value;
@@ -157,6 +156,7 @@ function showPointsOnMap(){
 }
 
 function showVehiclesOnMap(){
+alert('OK');
 	map.clearOverlays();
 	if(document.getElementById('pontosVeiculos')){
 		var pontos = document.getElementById('pontosVeiculos').value;
@@ -175,7 +175,7 @@ function showVehiclesOnMap(){
 						param = 1;
 					};
 					var markerPoint = createMarker(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7],p[8], p[9], false, param);
-					map.addOverlay(markerPointmarkersClusterer);
+					map.addOverlay(markerPoint);
 				}
 			}
 		}
@@ -209,6 +209,7 @@ function clusterCurrentMarker(markers){
 }
 
 function mostrarRotaVeiculo(){
+	map.clearOverlays();
 	createMapPoints();
 	var elem = document.getElementById('vehicleRoute').value;
 	var points = elem.split('##$##');
@@ -229,7 +230,6 @@ function mostrarRotaVeiculo(){
 			map.addOverlay(markerPoint);
 		}
 	}
-	//clusterCurrentMarker(markers);
 	polyline = new GPolyline(markers);
 	map.addOverlay(polyline);
 	calculateBoundsRoute(markers);
