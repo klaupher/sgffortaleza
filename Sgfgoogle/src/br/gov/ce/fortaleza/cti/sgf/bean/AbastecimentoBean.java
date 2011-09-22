@@ -453,7 +453,12 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			}
 		
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
-			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
+			if(this.orgaoSelecionado == null){
+				this.entities = service.findByPeriodoAndPosto(null, usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
+			} else {
+				this.entities = service.findByPeriodoAndPosto(this.orgaoSelecionado.getId(), usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
+			}
+			
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(), this.status);
 		}
@@ -486,7 +491,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String save() {
 		if (validarAutorizacao()) {
-			this.entity.setDataAutorizacao(DateUtil.setMilisecondsIndate(DateUtil.getDateStartDay(new Date())));
+			if(this.entity.getDataAutorizacao() == null){
+				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
+			}
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			super.save();
 			return search();
@@ -528,7 +535,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
-					atendimento.setData(currentdate);
+					atendimento.setData(new Date());
 					atendimento.setHora(currentdate);
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					atendimento.setQuilometragem(0L);
@@ -544,7 +551,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
-					atendimento.setData(currentdate);
+					atendimento.setData(new Date());
 					atendimento.setHora(currentdate);
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;

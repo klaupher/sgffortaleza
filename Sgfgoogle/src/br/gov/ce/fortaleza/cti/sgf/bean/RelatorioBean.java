@@ -24,9 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;

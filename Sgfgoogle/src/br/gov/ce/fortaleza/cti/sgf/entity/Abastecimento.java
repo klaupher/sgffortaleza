@@ -41,6 +41,8 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusAbastecimento;
 	@NamedQuery(name = "Abastecimento.findLast", query = "select a from Abastecimento a where a.id = (select max(a1.id) from Abastecimento a1 where a1.veiculo.id = ? and a1.status = 2)"),
 	@NamedQuery(name = "Abastecimento.findByPosto", query = "select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc"),
 	@NamedQuery(name = "Abastecimento.findByPeriodoAndPosto", query = "select a from Abastecimento a where " +
+			"a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc"),
+	@NamedQuery(name = "Abastecimento.findByPeriodoAndPostoUG", query = "select a from Abastecimento a where a.veiculo.ua.ug.id = ? and " +
 			"a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc") 
 })
 public class Abastecimento implements Serializable {
@@ -84,7 +86,7 @@ public class Abastecimento implements Serializable {
 	private TipoCombustivel combustivel;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DTAUTORIZACAO")
+	@Column(name = "DTAUTORIZACAO", nullable = false)
 	private Date dataAutorizacao;
 
 	@Column(name = "KM_ATENDIMENTO")

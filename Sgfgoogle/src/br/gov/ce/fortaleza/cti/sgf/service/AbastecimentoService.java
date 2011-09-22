@@ -163,7 +163,11 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		return executeResultListQuery("findByPosto", postoId, status);
 	}
 
-	public List<Abastecimento> findByPeriodoAndPosto(Integer postoId, Date dataIni, Date dataFim, StatusAbastecimento status){
-		return executeResultListQuery("findByPeriodoAndPosto", postoId, dataIni, dataFim, status);
+	public List<Abastecimento> findByPeriodoAndPosto(String ugId, Integer postoId, Date dataIni, Date dataFim, StatusAbastecimento status){
+		if(ugId == null){
+			return executeResultListQuery("findByPeriodoAndPosto", postoId, dataIni, dataFim, status);
+		} else {
+			return executeResultListQuery("findByPeriodoAndPostoUG", ugId, postoId, dataIni, dataFim, status);
+		}
 	}
 }
