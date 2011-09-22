@@ -124,7 +124,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 
 	@SuppressWarnings("unchecked")
 	public List<UG> findAtendimentoByUG(String ug, String veiculo, Date dataInicio, Date dataFim) {
-		StringBuffer str = new StringBuffer("select distinct(o.abastecimento.veiculo.ua.ug) from AtendimentoAbastecimento o where o.hora between ? and ?");
+		StringBuffer str = new StringBuffer("select distinct(o.abastecimento.veiculo.ua.ug) from AtendimentoAbastecimento o where o.data between ? and ?");
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = '"+ug+"'");
 		}
@@ -159,7 +159,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	
 	@SuppressWarnings("unchecked")
 	public List<Abastecimento> findAtendimentoByVeiculoAbastecimento(String ug, String veiculo, Date dataInicio, Date dataFim) {
-		StringBuffer str = new StringBuffer("select distinct(o.abastecimento) from AtendimentoAbastecimento o where o.data between ? and ?");
+		StringBuffer str = new StringBuffer("select distinct(o.abastecimento) from AtendimentoAbastecimento o where o.hora between ? and ?");
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = '"+ug+"'");
 		}

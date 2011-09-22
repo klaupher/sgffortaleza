@@ -284,6 +284,16 @@ public class DateUtil {
 			return null;
 		}
 	}
+	
+	/*
+	 * set miliseconds = 0 e retorna a data
+	 */
+	public static Date setMilisecondsIndate(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
+	}
 
 	public static Date getDateAsTimeString(Date date){
 

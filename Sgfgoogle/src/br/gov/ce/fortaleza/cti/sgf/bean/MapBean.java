@@ -141,6 +141,9 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 				this.end = DateUtil.getDateStartDay(this.end);
 			}
 
+			/*
+			 * constroi hash das transmissões por ponto de referência
+			 */
 			Map<Integer, List<Transmissao>> referenceMap = new HashMap<Integer, List<Transmissao>>();
 			List<Transmissao> transmissoes = transmissaoService.retrieveByVeiculo(veiculo.getId(), this.start, this.end);
 			
@@ -154,6 +157,9 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 				}
 			}
 
+			/*
+			 * remove as transmissões excessivas de cada ponto, deixando a mais próxima e a mais recente
+			 */
 			if(referenceMap.size() > 0){
 				for (Integer i : referenceMap.keySet()) {
 					Transmissao transmissao = null; 
@@ -164,7 +170,6 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 						}
 					});
 					if(transmissaoList.size() > 1){
-						System.out.println("[Nº pontos associados: "+transmissaoList.size()  +"]");
 						Float menor = 100000F;
 						for (Transmissao t : transmissaoList) {
 							if(t.getDistancia() < menor){
@@ -175,8 +180,6 @@ public class MapBean extends EntityBean<Integer, MapDTO>  {
 						transmissaoList.remove(transmissaoList.get(transmissaoList.size()-1));
 						transmissaoList.remove(transmissao);
 						transmissoes.removeAll(transmissaoList);
-					} else {
-						System.out.println("[Ponto referencia: " + transmissaoList.get(0).getPonto().getDescricao() +"]");
 					}
 				}
 			} else {

@@ -439,7 +439,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		this.atendimento = false;
 
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);//DateUtil.getDateTime(this.dtInicial);
+		this.dtInicial = DateUtil.setMilisecondsIndate(this.dtInicial);
+		
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
+		this.dtFinal = DateUtil.setMilisecondsIndate(this.dtFinal);
 
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
 			
@@ -450,11 +453,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			}
 		
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
-		
 			this.entities = service.findByPeriodoAndPosto(usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
-		
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
-			
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(), this.status);
 		}
 
@@ -486,10 +486,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String save() {
 		if (validarAutorizacao()) {
-			if(this.entity.getDataAutorizacao() == null){
-				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
-			}
-			//this.entity.getAtendimentoAbastecimento().setHora(this.horaAbastecimento);
+			this.entity.setDataAutorizacao(DateUtil.setMilisecondsIndate(DateUtil.getDateStartDay(new Date())));
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			super.save();
 			return search();
@@ -503,62 +500,79 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 */
 	@Override
 	public String update() {
+		
 		boolean vasilhame = false;
-		Calendar cal = Calendar.getInstance();
-		if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
-			//StatusAbastecimento status = entity.getStatus();
-			if(this.entity.getVeiculo().getModelo() != null){
-				vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
-			}
+		
+		try {
 			
-			Date currentdate = new Date();
-			
-			if(this.horaAbastecimento != null){
-				cal.setTime(this.horaAbastecimento);
-				cal.set(Calendar.DAY_OF_MONTH, currentdate.getDay());
-				cal.set(Calendar.MONTH, currentdate.getMonth());
-				cal.set(Calendar.YEAR, currentdate.getYear());
-				currentdate = cal.getTime();
-			}
-			
-			if(vasilhame){
-				this.entity.setQuilometragem(0L);
-				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+			if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
+				//StatusAbastecimento status = entity.getStatus();
+				if(this.entity.getVeiculo().getModelo() != null){
+					vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
+				}
 				
-				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
-				atendimento.setBomba(this.bomba);
-				atendimento.setData(currentdate);
-				atendimento.setHora(currentdate);
-				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
-				atendimento.setQuilometragem(0L);
-				atendimento.setUsuario(SgfUtil.usuarioLogado());
-				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
-				atendimento.setAbastecimento(this.entity);
-				atendimentoService.save(atendimento);
-			} else {
-				Double cotaAtualizada = 0.0;
-				this.entity.setQuilometragem(kmAtendimento);
-				this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
-				atendimento.setBomba(this.bomba);
-				atendimento.setData(currentdate);
-				atendimento.setHora(currentdate);
-				atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
-				cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
-				this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
-				atendimento.setQuilometragem(kmAtendimento);
-				atendimento.setUsuario(SgfUtil.usuarioLogado());
-				atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
-				atendimento.setAbastecimento(this.entity);
-				this.cotaService.update(this.entity.getVeiculo().getCota());
-				atendimentoService.save(atendimento);
+				Date currentdate = new Date();
+				
+				if(this.horaAbastecimento != null){
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(currentdate);
+					calendar.set(Calendar.MINUTE, this.horaAbastecimento.getMinutes());
+					calendar.set(Calendar.HOUR_OF_DAY, this.horaAbastecimento.getHours());
+					currentdate = calendar.getTime();
+				}
+				
+				if(vasilhame){
+					this.entity.setQuilometragem(0L);
+					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+					
+					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+					atendimento.setBomba(this.bomba);
+					atendimento.setData(currentdate);
+					atendimento.setHora(currentdate);
+					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
+					atendimento.setQuilometragem(0L);
+					atendimento.setUsuario(SgfUtil.usuarioLogado());
+					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
+					atendimento.setAbastecimento(this.entity);
+					atendimentoService.save(atendimento);
+					this.entity.setAtendimentoAbastecimento(atendimento);
+					return super.update();
+				} else {
+					Double cotaAtualizada = 0.0;
+					this.entity.setQuilometragem(kmAtendimento);
+					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
+					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+					atendimento.setBomba(this.bomba);
+					atendimento.setData(currentdate);
+					atendimento.setHora(currentdate);
+					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
+					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
+					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
+					atendimento.setQuilometragem(kmAtendimento);
+					atendimento.setUsuario(SgfUtil.usuarioLogado());
+					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
+					atendimento.setAbastecimento(this.entity);
+					this.cotaService.update(this.entity.getVeiculo().getCota());
+					atendimentoService.save(atendimento);
+					this.entity.setAtendimentoAbastecimento(atendimento);
+					return super.update();
+				}
 			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			setCurrentBean(currentBeanName());
+			setCurrentState(SEARCH);
+			return FAIL;
 		}
 		
 		this.horaAbastecimento = null;
 		this.bomba = new Bomba();
 		
-		return super.update();
+		setCurrentBean(currentBeanName());
+		setCurrentState(SEARCH);
+		return SUCCESS;
 	}
 
 	/**

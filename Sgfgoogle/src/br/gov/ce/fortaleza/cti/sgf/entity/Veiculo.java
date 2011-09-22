@@ -67,7 +67,7 @@ import org.postgis.Geometry;
 	private Float valorAquisicao;
 
 	@Column(name = "NUMTOMBAMENTO")
-	private Integer numeroTombamento;
+	private Long numeroTombamento;
 
 	@Column(name = "COR", length = 20)
 	private String cor;
@@ -287,11 +287,11 @@ import org.postgis.Geometry;
 		this.valorAquisicao = valorAquisicao;
 	}
 
-	public Integer getNumeroTombamento() {
-		return this.numeroTombamento;
+	public Long getNumeroTombamento() {
+		return numeroTombamento;
 	}
 
-	public void setNumeroTombamento(Integer numeroTombamento) {
+	public void setNumeroTombamento(Long numeroTombamento) {
 		this.numeroTombamento = numeroTombamento;
 	}
 

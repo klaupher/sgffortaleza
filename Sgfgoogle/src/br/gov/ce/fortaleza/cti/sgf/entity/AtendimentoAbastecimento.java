@@ -51,7 +51,7 @@ public class AtendimentoAbastecimento implements Serializable {
 	private Integer id;
 
 	@OneToOne
-	@JoinColumn(name = "CODSOLABASTECIMENTO", nullable = false)
+	@JoinColumn(name = "CODSOLABASTECIMENTO")
 	private Abastecimento abastecimento;
 
 	@ManyToOne

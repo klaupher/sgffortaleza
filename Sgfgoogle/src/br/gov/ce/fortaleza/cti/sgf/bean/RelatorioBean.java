@@ -893,111 +893,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	 * Caso seja selecionado todos os órgãos, será feita a consulta para todos os órgãos
 	 * @return
 	 */
-	@Transactional
-	public String consultarConsolidadoMensal_old() {
 
-		if(this.mes != null){
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Date());
-			calendar.set(Calendar.MONTH, this.mes);
-			calendar.set(Calendar.DAY_OF_MONTH, 1);
-
-			this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
-			calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
-			
-			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
-
-			if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
-				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
-				return FAIL;
-			}
-
-		} else {
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.MONTH, 0); // JANEIRO
-			this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
-
-			calendar.set(Calendar.MONTH, 11); // DEZEMBRO
-			calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
-			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
-		}
-
-		this.entities = new ArrayList<RelatorioDTO>();
-
-		//List<Integer> ids = new ArrayList<Integer>();
-		//Map<Veiculo, List<AtendimentoAbastecimento> > map = new HashMap<Veiculo, List<AtendimentoAbastecimento> >();
-		List<UG> ugs = null;
-
-		if(this.orgao != null){
-			ugs = (List<UG>) atendimentoService.findAtendimentoByUG(this.orgao.getId(), null, this.dtInicial, this.dtFinal);
-		}else{
-			ugs = (List<UG>) atendimentoService.findAtendimentoByUG(null, null, this.dtInicial, this.dtFinal);
-		}
-
-		for (UG ug : ugs) {
-
-			Float consumoOrgao = 0F;
-			RelatorioDTO novo = new RelatorioDTO();
-			novo.setRelatorios(new ArrayList<RelatorioDTO>());
-			novo.setOrgao(ug);
-			List<Veiculo> veiculos = atendimentoService.findAtendimentoByVeiculo(ug.getId(), null, this.dtInicial, this.dtFinal);
-
-			for (Veiculo veiculo : veiculos) {
-				Float total = 0F;
-				Float kmInicial = 0F;
-				Float kmFinal = 0F;
-				int nrAbastecimentos = 0;
-				RelatorioDTO dto = new RelatorioDTO();
-				dto.setOrgao(ug);
-				dto.setRelatorios(new ArrayList<RelatorioDTO>());
-				dto.setVeiculo(veiculo);
-				List<Abastecimento> abastecimentos = atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
-
-				for (Abastecimento abastecimento : abastecimentos) {
-					if(abastecimento.getAtendimentoAbastecimento() != null){
-						AtendimentoAbastecimento atendimento = abastecimento.getAtendimentoAbastecimento();
-						total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0F;
-						Float aux = (atendimento.getQuilometragem() == null)?0f:atendimento.getQuilometragem();
-						if(kmInicial == 0F){
-							kmInicial = aux;
-						}
-						if(atendimento.getQuilometragem() != null){
-							kmFinal = (float)atendimento.getQuilometragem();
-						}
-						nrAbastecimentos++;
-					}
-					dto.setCombustivel(abastecimento.getCombustivel().getDescricao());
-				}
-
-				Cota cota = cotaService.retrieveVeiculoCota(veiculo);
-				if(cota != null){
-					dto.setCota(cota.getCota().floatValue());
-					dto.setSaldoCota(cota.getCota().floatValue() - total);
-				} else {
-					dto.setCota(0F);
-				}
-				Float consumo = 0F;
-				dto.setConsumo(total);
-				
-				dto.setKmRodados(kmFinal - kmInicial);
-				if(total == 0){
-					consumo = 0F;
-				} else {
-					consumo = (kmFinal - kmInicial)/total;
-				}
-				dto.setKmPorLitro(consumo);
-				dto.setNumeroAbastecimentos(nrAbastecimentos);
-				consumoOrgao += total;
-				novo.getRelatorios().add(dto);
-				
-			}
-			novo.setConsumoCombustivelOrgao(consumoOrgao);
-			this.entities.add(novo);
-		}
-
-		return SUCCESS;
-	}
-	
+	@SuppressWarnings("static-access")
 	public String consultarConsolidadoMensal() {
 
 		if(this.mes != null){
@@ -1036,12 +933,16 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		this.entities = new ArrayList<RelatorioDTO>();
 
+		/*
+		 * Constroi um hash dos abastecimentos do orgão ou órgão
+		 */
 		Map<UG, List<AtendimentoAbastecimento>> hashAtendimentosUg = new HashMap<UG, List<AtendimentoAbastecimento>>();
 		if(this.orgao != null){
 			hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(this.orgao, null, this.dtInicial, this.dtFinal);
 		} else { 
 			hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(null, null, this.dtInicial, this.dtFinal);
 		}
+		
 		
 		for (UG ug : hashAtendimentosUg.keySet()) {
 			Float consumoOrgao = 0F;
@@ -1050,6 +951,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			novo.setOrgao(ug);
 			List<AtendimentoAbastecimento> abastecimentosUg = hashAtendimentosUg.get(ug);
 			
+			/*
+			 * Constroi hashs de abastecimento por veículo 
+			 */
 			Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosVeiculo = new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
 			for (AtendimentoAbastecimento atendimento : abastecimentosUg) {
 				
@@ -1063,6 +967,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				}
 			}
 			
+			/*
+			 * Constroi saída para relatório dos abastecimentos do veículos
+			 */
 			for (Veiculo veiculo : atendimentosVeiculo.keySet()) {
 				
 				Float total = 0F;
@@ -1073,6 +980,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				dto.setOrgao(ug);
 				dto.setRelatorios(new ArrayList<RelatorioDTO>());
 				dto.setVeiculo(veiculo);
+				/*
+				 * lista de atendimentos do veículo corrente
+				 */
 				List<AtendimentoAbastecimento> atendimentos =  atendimentosVeiculo.get(veiculo);
 						//atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
 				for (AtendimentoAbastecimento atendimento : atendimentos) {
@@ -1088,6 +998,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					dto.setCombustivel(atendimento.getAbastecimento().getCombustivel().getDescricao());
 				}
 
+				/*
+				 * consulta cota do veículo	
+				 */
 				Cota cota = cotaService.retrieveVeiculoCota(veiculo);
 				if(cota != null){
 					dto.setCota(cota.getCota().floatValue());
