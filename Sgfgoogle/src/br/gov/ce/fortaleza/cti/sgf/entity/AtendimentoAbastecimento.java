@@ -82,6 +82,10 @@ public class AtendimentoAbastecimento implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "HORA_ATENDIMENTO")
 	private Date hora;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "HRATENDIMENTO")
+	private Date horaAtendimento;
 
 	public Integer getId() {
 		return id;
@@ -161,6 +165,15 @@ public class AtendimentoAbastecimento implements Serializable {
 
 	public void setHora(Date hora) {
 		this.hora = hora;
+	}
+
+
+	public Date getHoraAtendimento() {
+		return horaAtendimento;
+	}
+
+	public void setHoraAtendimento(Date horaAtendimento) {
+		this.horaAtendimento = horaAtendimento;
 	}
 
 	@Override

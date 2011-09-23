@@ -150,6 +150,7 @@
                     <a4j:commandLink styleClass="confirmar" rendered="#{controlBean.operador and abastecimento.status == 'AUTORIZADO'}"
                     	reRender="paginaPrincipal" action="#{abastecimentoBean.atenderAbastecimento}" value="Atender" immediate="true">
                         <f:setPropertyActionListener target="#{abastecimentoBean.entity}" value="#{abastecimento}"/>
+                        <f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.confirmAtender}" />
                     </a4j:commandLink>
                 </rich:column>
 

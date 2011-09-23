@@ -294,6 +294,17 @@ public class DateUtil {
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
+	
+	public static Date setHourMinuteSecond(Date date, Integer hour, Integer min){
+
+		Calendar t = Calendar.getInstance();
+		t.setTime(date);
+		t.set(Calendar.HOUR, hour);
+		t.set(Calendar.MINUTE, min);
+		t.set(Calendar.SECOND, date.getSeconds());
+		t.set(Calendar.MILLISECOND, 0);
+		return t.getTime();
+	}
 
 	public static Date getDateAsTimeString(Date date){
 

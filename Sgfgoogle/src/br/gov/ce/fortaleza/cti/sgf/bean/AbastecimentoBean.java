@@ -105,6 +105,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	private Double saldoAtual;
 	private boolean vasilhame = false;
 	private boolean kmValido = true;
+	private boolean confirmAtender = false;
 	private Date horaAbastecimento;
 
 	@Override
@@ -343,7 +344,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 			if(ultimoAbastecimento.getQuilometragem() == null){
 				ultimoAbastecimento.setQuilometragem(0L);
 			}
-			if(ultimoAbastecimento != null &&  this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
+
+			if(!this.vasilhame && ultimoAbastecimento != null &&  this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
 				this.kmValido = false;
 				JSFUtil.getInstance().addErrorMessage("msg.error.quilometragem.inconsistente");
 			} else {
@@ -508,26 +510,18 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String update() {
 		
-		boolean vasilhame = false;
 		
 		try {
+
+			boolean vasilhame = false;
 			
 			if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
-				//StatusAbastecimento status = entity.getStatus();
+
 				if(this.entity.getVeiculo().getModelo() != null){
 					vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
 				}
 				
 				Date currentdate = new Date();
-				
-				if(this.horaAbastecimento != null){
-					
-					Calendar calendar = Calendar.getInstance();
-					calendar.setTime(currentdate);
-					calendar.set(Calendar.MINUTE, this.horaAbastecimento.getMinutes());
-					calendar.set(Calendar.HOUR_OF_DAY, this.horaAbastecimento.getHours());
-					currentdate = calendar.getTime();
-				}
 				
 				if(vasilhame){
 					this.entity.setQuilometragem(0L);
@@ -535,8 +529,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
-					atendimento.setData(new Date());
+					atendimento.setData(this.entity.getDataAutorizacao());
 					atendimento.setHora(currentdate);
+					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(), 
+							this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					atendimento.setQuilometragem(0L);
 					atendimento.setUsuario(SgfUtil.usuarioLogado());
@@ -551,8 +547,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
-					atendimento.setData(new Date());
+					atendimento.setData(this.entity.getDataAutorizacao());
 					atendimento.setHora(currentdate);
+					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(), 
+							this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
 					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
@@ -873,5 +871,13 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 	public void setHoraAbastecimento(Date horaAbastecimento) {
 		this.horaAbastecimento = horaAbastecimento;
+	}
+
+	public boolean isConfirmAtender() {
+		return confirmAtender;
+	}
+
+	public void setConfirmAtender(boolean confirmAtender) {
+		this.confirmAtender = confirmAtender;
 	}
 }

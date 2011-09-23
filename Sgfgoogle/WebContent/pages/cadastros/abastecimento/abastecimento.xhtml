@@ -89,22 +89,25 @@
 		            </dd>
 	            </a4j:region>
 
+				
 	            <dt><label for="dataInicio">Data do abastecimento</label></dt>
 				<dd>
-					<h:inputText id="data" value="#{abastecimentoBean.entity.dataAutorizacao}" styleClass="maskData">
+					<h:inputText id="data" value="#{abastecimentoBean.entity.dataAutorizacao}" rendered="#{!abastecimentoBean.confirmAtender}" disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}" styleClass="maskData">
 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 					</h:inputText>
-					<label style="color:red">(abastecimento em data futura.)</label>
+					<h:inputText id="data2" value="#{abastecimentoBean.entity.dataAutorizacao}" rendered="#{abastecimentoBean.confirmAtender}" disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+					</h:inputText>
 				</dd>
 				
 				<c:if test="#{abastecimentoBean.atender}">
-				<dt><label for="dataInicio">Hora do atendimento</label></dt>
-				<dd>
-					<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora">
-						<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
-					</h:inputText>
-					<h:message for="hrInicial" styleClass="message"/>			
-				</dd>
+					<dt><label for="dataInicio">Hora do atendimento</label></dt>
+					<dd>
+						<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora">
+							<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+						</h:inputText>
+						<h:message for="hrInicial" styleClass="message"/>			
+					</dd>
 				</c:if>
 
 		        <c:if test="#{abastecimentoBean.negar}">
@@ -135,7 +138,7 @@
 		             <h:message for="bomba" tooltip="true" styleClass="message"/>
 	         	</dd>
 
-				<h:panelGroup rendered="#{!abastecimentoBean.vasilhame}">
+				<h:panelGroup rendered="#{(!abastecimentoBean.vasilhame) == true}">
 			        <dt><label for="kmAtendimento"><h:outputText value="#{msg['abastecimento.kmAtendimento']}:" /></label></dt>
 			        <dd>
 			        	<h:inputText id="kmAtendimento" value="#{abastecimentoBean.kmAtendimento}" maxlength="8" required="true" />

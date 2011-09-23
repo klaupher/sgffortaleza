@@ -74,8 +74,8 @@
 
 						<rich:column colspan="10" style="font-weight: bold; background:white">
 							<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
-							<h:outputText value="Consumo: #{r.consumo}" style="padding-left:20px"/>
-							<h:outputText value="Cota: #{r.cota}" style="padding-left:20px"/>
+							<h:outputText value="Consumo do veículo: #{r.consumo}" style="padding-left:20px"/>
+							<h:outputText value="Cota mensal #{r.cota}" style="padding-left:20px"/>
 						</rich:column>
 
 						<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="10" rowKeyVar="k"
@@ -108,7 +108,7 @@
 
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Hora Atend."/></f:facet>
-								<h:outputText value="#{sr.atendimento.hora}">
+								<h:outputText value="#{sr.atendimento.horaAtendimento}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>
