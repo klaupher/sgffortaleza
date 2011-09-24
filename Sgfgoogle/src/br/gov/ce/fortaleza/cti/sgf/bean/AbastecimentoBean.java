@@ -495,6 +495,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		if (validarAutorizacao()) {
 			if(this.entity.getDataAutorizacao() == null){
 				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
+			} else {
+				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(this.entity.getDataAutorizacao())));
+				this.entity.setDataAutorizacao(DateUtil.adicionarOuDiminuir(this.entity.getDataAutorizacao(), DateUtil.SECOND_IN_MILLIS));
 			}
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			super.save();

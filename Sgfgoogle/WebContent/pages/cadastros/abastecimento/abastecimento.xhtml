@@ -90,18 +90,20 @@
 	            </a4j:region>
 
 				
-	            <dt><label for="dataInicio">Data do abastecimento</label></dt>
+	            <dt><label for="dataInicio">Data do abastecimento:</label></dt>
 				<dd>
-					<h:inputText id="data" value="#{abastecimentoBean.entity.dataAutorizacao}" rendered="#{!abastecimentoBean.confirmAtender}" disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}" styleClass="maskData">
+					<h:inputText id="data" value="#{abastecimentoBean.entity.dataAutorizacao}" style="width:130px" rendered="#{!abastecimentoBean.confirmAtender}" 
+						disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}" styleClass="maskData">
 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 					</h:inputText>
-					<h:inputText id="data2" value="#{abastecimentoBean.entity.dataAutorizacao}" rendered="#{abastecimentoBean.confirmAtender}" disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}">
+					<h:inputText id="data2" value="#{abastecimentoBean.entity.dataAutorizacao}" style="width:130px" rendered="#{abastecimentoBean.confirmAtender}" 
+						disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}">
 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 					</h:inputText>
 				</dd>
 				
 				<c:if test="#{abastecimentoBean.atender}">
-					<dt><label for="dataInicio">Hora do atendimento</label></dt>
+					<dt><label for="dataInicio">Hora do atendimento:</label></dt>
 					<dd>
 						<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora">
 							<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
