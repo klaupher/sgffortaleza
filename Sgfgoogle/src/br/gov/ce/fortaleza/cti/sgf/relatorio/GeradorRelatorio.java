@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
@@ -28,7 +27,7 @@ public class GeradorRelatorio {
 		Session session = (Session) em.getDelegate();
 		Connection con = session.connection();
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperPath);
-		byte array[] = JasperRunManager.runReportToPdf(jasperReport, parametros, con);
+		byte array[] = JasperRunManager.runReportToPdf(jasperReport, (Map<String, Object>) parametros, con);
 		return array;
 	}
 
@@ -36,7 +35,7 @@ public class GeradorRelatorio {
 			String jasperPath) throws IOException, JRException{
 		JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(colecao);
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(jasperPath);
-		byte array[] = JasperRunManager.runReportToPdf(jasperReport,parametros, ds);
+		byte array[] = JasperRunManager.runReportToPdf(jasperReport,(Map<String, Object>) parametros, ds);
 		return array;
 	}
 	

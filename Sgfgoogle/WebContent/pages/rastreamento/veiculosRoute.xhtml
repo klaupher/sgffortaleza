@@ -20,7 +20,7 @@
 		<div style="text-align:left">
 		
 		<fieldset>
-			<legend>Rota do veículo</legend>
+			<legend>Verificação de rotas</legend>
 
 			<h:outputLabel value="Veiculo:"/>
 			<h:selectOneMenu id="veiculo" value="#{mapBean.veiculo}" converter="entityConverter">
@@ -45,7 +45,7 @@
 				<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 			</h:inputText>
 			
-			<a4j:commandButton id="veiculoRota" value="Mostrar Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="veiculo,vehicleRoute" styleClass="button">
+			<a4j:commandButton id="veiculoRota" value="Ver Rota" action="#{mapBean.showVehiclesRouteOnMap}" reRender="veiculo,vehicleRoute" styleClass="button">
 				<a4j:support event="oncomplete" oncomplete="mostrarRotaVeiculo();"/>
 			</a4j:commandButton>
 			
