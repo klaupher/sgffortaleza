@@ -141,13 +141,13 @@ public class DownloadFileUtil extends BaseBean {
 
 			String[] headerPageData = headerPage.split("#");
 
-			String info = "Descrição do Veículo: " + headerPageData[0] + "\n" +
+			String info = "Descriï¿½ï¿½o do Veï¿½culo: " + headerPageData[0] + "\n" +
 			"\nUA:" + headerPageData[1] +  "\n" +
 			"\nMotorista:" + headerPageData[2] +  "\n" +
 			"\nPosto:" + headerPageData[3] + "\n" +
-			"\nTipo de Serviço:" + headerPageData[4] + "\n" +
-			"\nUsuário Autorizador: " + headerPageData[5] +  "\n" +
-			"\nData da autorização: " + headerPageData[6] + "\n" +
+			"\nTipo de Serviï¿½o:" + headerPageData[4] + "\n" +
+			"\nUsuï¿½rio Autorizador: " + headerPageData[5] +  "\n" +
+			"\nData da autorizaï¿½ï¿½o: " + headerPageData[6] + "\n" +
 			"\nJustificativa: " + headerPageData[7];
 
 			float[] tableHeaderWidth = {150};
@@ -157,7 +157,7 @@ public class DownloadFileUtil extends BaseBean {
 			PdfPTable tableDocTitle = new PdfPTable(tableHeaderWidth);
 			tableDocTitle.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
-			tableDocTitle.addCell(new Paragraph("Autorização de Troca de Lubrificante\n\n", new Font(12)));
+			tableDocTitle.addCell(new Paragraph("Autorizaï¿½ï¿½o de Troca de Lubrificante\n\n", new Font(12)));
 
 			PdfPTable tableDetails = new PdfPTable(tableHeaderWidth);
 
@@ -210,12 +210,12 @@ public class DownloadFileUtil extends BaseBean {
 
 			String[] headerPageData = headerPage.split("#");
 
-			String info = "Descrição do Veículo: " + headerPageData[0] + 
+			String info = "Descriï¿½ï¿½o do Veï¿½culo: " + headerPageData[0] + 
 			"\nUA:" + headerPageData[1] + 
 			"\nNome da Oficina: " + headerPageData[2] + 
-			"\nMecânico responsável:" + headerPageData[3] + 
-			"\nData de Início da manutenção: " + headerPageData[4] + 
-			"\nData de fim da manutenção: " + headerPageData[5];
+			"\nMecï¿½nico responsï¿½vel:" + headerPageData[3] + 
+			"\nData de Inï¿½cio da manutenï¿½ï¿½o: " + headerPageData[4] + 
+			"\nData de fim da manutenï¿½ï¿½o: " + headerPageData[5];
 
 			float[] tableHeaderWidth = {150};
 			float[] tableTitleWidth = {120};
@@ -225,7 +225,7 @@ public class DownloadFileUtil extends BaseBean {
 			PdfPTable tableDocTitle = new PdfPTable(tableTitleWidth);
 			tableDocTitle.getDefaultCell().setBorder(PdfPCell.NO_BORDER);
 
-			tableDocTitle.addCell(new Paragraph("Autorização de Manutenção de Veículo", new Font(12)));
+			tableDocTitle.addCell(new Paragraph("Autorizaï¿½ï¿½o de Manutenï¿½ï¿½o de Veï¿½culo", new Font(12)));
 
 			PdfPTable tableDetails = new PdfPTable(tableHeaderWidth);
 
@@ -266,9 +266,9 @@ public class DownloadFileUtil extends BaseBean {
 
 			tableBody.getDefaultCell().setHorizontalAlignment(PdfPTable.ALIGN_MIDDLE);
 
-			tableBody.addCell(new PdfPCell(new Paragraph("Nº", fonteHeader)));
+			tableBody.addCell(new PdfPCell(new Paragraph("Nï¿½", fonteHeader)));
 
-			tableBody.addCell(new PdfPCell(new Paragraph("Tipo Serviço", fonteHeader)));
+			tableBody.addCell(new PdfPCell(new Paragraph("Tipo Serviï¿½o", fonteHeader)));
 
 			tableBody.addCell(new PdfPCell(new Paragraph("Quant.", fonteHeader)));
 
@@ -345,11 +345,11 @@ public class DownloadFileUtil extends BaseBean {
 
 		tableFooter.addCell(new Paragraph("________________________________________________"));
 
-		tableFooter.addCell(new Paragraph("               Assinatura do Responsável"));
+		tableFooter.addCell(new Paragraph("               Assinatura do Responsï¿½vel"));
 
 		tableFooter.addCell(new Paragraph("\n\n"));
 
-		tableFooter.addCell(new Paragraph("Fortaleza-Ceará " + current[0] + " de " + DateUtil.MONTHS_OF_YEAR[Integer.parseInt(current[1])-1] + " de " + current[2]));
+		tableFooter.addCell(new Paragraph("Fortaleza-Cearï¿½ " + current[0] + " de " + DateUtil.MONTHS_OF_YEAR[Integer.parseInt(current[1])-1] + " de " + current[2]));
 
 		return tableFooter;
 	}

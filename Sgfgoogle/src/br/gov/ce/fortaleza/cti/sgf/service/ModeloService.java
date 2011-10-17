@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.ce.fortaleza.cti.sgf.entity.Modelo;
 
 /**
- * Serviço que gerencia aos dados referentes aos modelos de veículos no
+ * Serviï¿½o que gerencia aos dados referentes aos modelos de veï¿½culos no
  * banco de dados
  * 
  * @author Edilson
@@ -19,7 +19,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Modelo;
 public class ModeloService extends BaseService<Integer, Modelo> {
 
 	/**
-	 * Busca um modelo através de uma descrição passada
+	 * Busca um modelo atravï¿½s de uma descriï¿½ï¿½o passada
 	 * 
 	 * @param modelo
 	 * @return

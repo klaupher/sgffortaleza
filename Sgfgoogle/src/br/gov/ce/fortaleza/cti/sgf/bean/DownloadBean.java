@@ -29,7 +29,7 @@ public class DownloadBean extends BaseBean {
 	private String nomeArquivo;
 
 	/**
-	 * Construtor default, verifica qual o perfil do usuário e define o nome
+	 * Construtor default, verifica qual o perfil do usuï¿½rio e define o nome
 	 * do arquivo do manual referente ao perfil.
 	 */
 	public DownloadBean() {
@@ -61,14 +61,14 @@ public class DownloadBean extends BaseBean {
 	}
 
 	/**
-	 * Método chamado da página para realizar o download do arquivo
+	 * Mï¿½todo chamado da pï¿½gina para realizar o download do arquivo
 	 */
 	public String download() throws IOException{
 		return downloadFile(this.nomeArquivo, "/manuais/", "application/pdf", FacesContext.getCurrentInstance());
 	}
 
 	/**
-	 * Método que realiza todo o fluxo necessário para o download do arquivo.
+	 * Mï¿½todo que realiza todo o fluxo necessï¿½rio para o download do arquivo.
 	 * 
 	 * @param fileName
 	 * @param fileLocation
@@ -81,7 +81,7 @@ public class DownloadBean extends BaseBean {
 		ExternalContext context = facesContext.getExternalContext(); // Context
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 
-		String path = request.getSession().getServletContext().getRealPath("manuais/"+fileName); // Localização do arquivo
+		String path = request.getSession().getServletContext().getRealPath("manuais/"+fileName); // Localizaï¿½ï¿½o do arquivo
 		File file = new File(path); // Objeto arquivo mesmo :)
 
 		if(file.length() <= 0){

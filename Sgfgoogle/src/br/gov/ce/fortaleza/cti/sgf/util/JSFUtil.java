@@ -70,9 +70,9 @@ public class JSFUtil {
 	}
 	
 	/**
-	 * Adiciona mensagens de erro que serão exibidas nas páginas
+	 * Adiciona mensagens de erro que serï¿½o exibidas nas pï¿½ginas
 	 * para isto, utiliza mensagens definidas no messages.properties,
-	 * obtendo a messagem de acordo com o valor passado na variável key
+	 * obtendo a messagem de acordo com o valor passado na variï¿½vel key
 	 * @param key
 	 */
 	public void addErrorMessage(String key) {
@@ -83,7 +83,7 @@ public class JSFUtil {
 	
 
 	/*
-	 * Não está sendo utilizado por ninguém
+	 * Nï¿½o estï¿½ sendo utilizado por ninguï¿½m
 	 */
 	public void addGlobalPropMessage(String propName, Object[] parametros) {
 		String propFileName = getContextParam("properties_file");

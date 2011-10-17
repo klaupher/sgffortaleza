@@ -15,7 +15,7 @@ import org.quartz.JobExecutionException;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 /**
- * Classe responsável pela atualização mensal das cotas de abastecimento disponíveis para os veículos
+ * Classe responsï¿½vel pela atualizaï¿½ï¿½o mensal das cotas de abastecimento disponï¿½veis para os veï¿½culos
  * 
  * @author Lafitte
  * @since 30/07/2010

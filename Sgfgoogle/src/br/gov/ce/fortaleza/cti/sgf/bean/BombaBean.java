@@ -57,13 +57,13 @@ public class BombaBean extends EntityBean<Integer, Bomba>{
 		boolean existeTipoCombustivel = bombaService.findPostoCombustivel(this.entity);  
 		if(!existeTipoCombustivel){
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("posto", new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Este posto não oferece esse tipo de combustivel."));
+			context.addMessage("posto", new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Este posto nï¿½o oferece esse tipo de combustivel."));
 			return FAIL;
 		}
 		boolean existe = bombaService.findBombaPosto(this.entity);
 		if(existe){
 			FacesContext context = FacesContext.getCurrentInstance();
-			context.addMessage("numero", new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Bomba já cadastrada neste posto."));
+			context.addMessage("numero", new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Bomba jï¿½ cadastrada neste posto."));
 			return FAIL;
 		}
 		return super.save();

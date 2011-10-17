@@ -853,23 +853,24 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				List<AtendimentoAbastecimento> abastecimentosVeiculos = atendimentosVeiculo.get(veiculo);
 				
 				for (AtendimentoAbastecimento atendimento : abastecimentosVeiculos) {
-					RelatorioDTO atendDto = new RelatorioDTO();
+					RelatorioDTO item = new RelatorioDTO();
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
 					Float cota = veiculo.getCota() != null ? veiculo.getCota().getCota().floatValue() : 0F;
-					atendDto.setOrgao(ug);
-					atendDto.setVeiculo(veiculo);
-					atendDto.setAtendimento(atendimento);
-					atendDto.setAbastecimento(atendimento.getAbastecimento());
-					atendDto.setMotorista(atendimento.getAbastecimento().getMotorista());
-					atendDto.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
-					atendDto.setStatus(atendimento.getStatus().toString());
-					atendDto.setCota(cota);
-					atendDto.setSaldoCota(cota - total);
-					atendDto.setSaldoFinal(cota - total);
-					atendDto.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHora()));
-					atendDto.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
-					atendDto.setConsumoTotal(total);
-					relatorioVeiculo.getRelatorios().add(atendDto);
+					item.setOrgao(ug);
+					item.setVeiculo(veiculo);
+					item.setAtendimento(atendimento);
+					item.setAbastecimento(atendimento.getAbastecimento());
+					item.setMotorista(atendimento.getAbastecimento().getMotorista());
+					item.setConsumo(atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() :  0F);
+					item.setStatus(atendimento.getStatus().toString());
+					item.setCota(cota);
+					item.setSaldoCota(cota - total);
+					item.setSaldoFinal(cota - total);
+					item.setDataAtendimento(DateUtil.parseAsString("dd/MM/yyyy", atendimento.getHoraAtendimento()));
+					item.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHoraAtendimento()));
+					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
+					item.setConsumoTotal(total);
+					relatorioVeiculo.getRelatorios().add(item);
 				}
 				relatorioVeiculo.setNumeroAbastecimentos(abastecimentosVeiculos.size());
 				relatorioVeiculo.setConsumo(total);

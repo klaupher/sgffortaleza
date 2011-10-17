@@ -6,8 +6,8 @@ package br.gov.ce.fortaleza.cti.sgf.conversores;
  * This file is part of Hibernate Spatial, an extension to the 
  * hibernate ORM solution for geographic data. 
  *  
- * Copyright © 2007 Geovise BVBA
- * Copyright © 2007 K.U. Leuven LRD, Spatial Applications Division, Belgium
+ * Copyright ï¿½ 2007 Geovise BVBA
+ * Copyright ï¿½ 2007 K.U. Leuven LRD, Spatial Applications Division, Belgium
  *
  * This work was partially supported by the European Commission, 
  * under the 6th Framework Programme, contract IST-2-004688-STP.

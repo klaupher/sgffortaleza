@@ -19,7 +19,7 @@ public class BombaValidador implements Validator{
 	public void validate(FacesContext context, UIComponent component, Object obj) throws ValidatorException {
 		if(obj.toString().length() < 1 || obj.toString().length() > 2){
 			context.addMessage("numero", 
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Informe um número entre 1 e 10"));
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Informe um nï¿½mero entre 1 e 10"));
 			throw new ValidatorException(null);
 		}
 	}

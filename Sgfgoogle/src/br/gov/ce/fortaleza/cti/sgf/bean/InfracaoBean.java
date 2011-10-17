@@ -80,9 +80,9 @@ public class InfracaoBean extends EntityBean<Integer, Infracao>{
 
 		List<SelectItem> result = new ArrayList<SelectItem>();
 		result.add(new SelectItem("Leve"));
-		result.add(new SelectItem("Média"));
+		result.add(new SelectItem("MÃ©dia"));
 		result.add(new SelectItem("Grave"));
-		result.add(new SelectItem("Gravíssima"));
+		result.add(new SelectItem("GravÃ­ssima"));
 		return result;
 	}
 

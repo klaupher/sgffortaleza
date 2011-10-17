@@ -23,8 +23,8 @@ public class ListenerJobCota implements ServletContextListener {
 	}
 
 	/**
-	 * Agendamento da reinicialização das cotas disponíveis no mês
-	 * para os veículos
+	 * Agendamento da reinicializaï¿½ï¿½o das cotas disponï¿½veis no mï¿½s
+	 * para os veï¿½culos
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {

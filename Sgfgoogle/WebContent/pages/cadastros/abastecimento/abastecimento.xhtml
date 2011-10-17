@@ -105,7 +105,7 @@
 				<c:if test="#{abastecimentoBean.atender}">
 					<dt><label for="dataInicio">Hora do atendimento:</label></dt>
 					<dd>
-						<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" size="4" styleClass="maskHora">
+						<h:inputText id="hrInicial" value="#{abastecimentoBean.horaAbastecimento}" required="true" requiredMessage="Informe a hora do abastecimento" size="4" styleClass="maskHora">
 							<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 						</h:inputText>
 						<h:message for="hrInicial" styleClass="message"/>			

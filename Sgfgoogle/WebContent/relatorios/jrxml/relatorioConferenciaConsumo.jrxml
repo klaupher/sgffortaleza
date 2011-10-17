@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConferenciaConsumo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.4641000000000022"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="357"/>
 	<property name="ireport.y" value="0"/>
 	<style name="zebrado" isDefault="true">
 		<conditionalStyle>
@@ -10,7 +10,6 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
-
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -52,6 +51,12 @@
 	</field>
 	<field name="consumoCombustivelOrgao" class="java.lang.Float">
 		<fieldDescription><![CDATA[consumoCombustivelOrgao]]></fieldDescription>
+	</field>
+	<field name="dataAtendimento" class="java.lang.String">
+		<fieldDescription><![CDATA[dataAtendimento]]></fieldDescription>
+	</field>
+	<field name="horaAtendimento" class="java.lang.String">
+		<fieldDescription><![CDATA[horaAtendimento]]></fieldDescription>
 	</field>
 	<group name="Veiculo">
 		<groupExpression><![CDATA[$F{veiculo}]]></groupExpression>
@@ -275,7 +280,7 @@
 			<textField pattern="dd/MM/yyyy">
 				<reportElement style="zebrado" x="347" y="2" width="76" height="13"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{atendimento}.getHoraAtendimento()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{dataAtendimento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="HH:mm">
 				<reportElement style="zebrado" x="424" y="2" width="76" height="13"/>
