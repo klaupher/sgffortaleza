@@ -78,6 +78,9 @@ public class RelatorioDTO implements Serializable {
 	private Date duracaoManutencao;
 	private Date atraso;
 	private Float consumoCombustivelOrgao;
+	private Float consumoGasolina = 0F;
+	private Float consumoEtanol = 0F;
+	private Float consumoVeiculo = 0F;
 	private String horaAtendimento;
 	private String dataAtendimento;
 
@@ -427,5 +430,29 @@ public class RelatorioDTO implements Serializable {
 
 	public void setDataAtendimento(String dataAtendimento) {
 		this.dataAtendimento = dataAtendimento;
+	}
+
+	public Float getConsumoVeiculo() {
+		return consumoVeiculo;
+	}
+
+	public void setConsumoVeiculo(Float consumoVeiculo) {
+		this.consumoVeiculo = consumoVeiculo;
+	}
+
+	public Float getConsumoGasolina() {
+		return consumoGasolina;
+	}
+
+	public void setConsumoGasolina(Float consumoGasolina) {
+		this.consumoGasolina = consumoGasolina;
+	}
+
+	public Float getConsumoEtanol() {
+		return consumoEtanol;
+	}
+
+	public void setConsumoEtanol(Float consumoEtanol) {
+		this.consumoEtanol = consumoEtanol;
 	}
 }

@@ -56,12 +56,20 @@
 					</rich:column>
 				</c:if>
 
-				<rich:column colspan="5" style="font-weight: bold; background:white">
+				<rich:column colspan="3" style="font-weight: bold; background:white">
 					<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
 				</rich:column>
 				
-				<rich:column colspan="5" style="font-weight: bold; background:white">
-					<h:outputText value="Consumo do órgão: #{relatorio.consumoCombustivelOrgao}" />
+				<rich:column colspan="3" style="font-weight: bold; background:white">
+					<h:outputText value="Consumo: #{relatorio.consumoCombustivelOrgao}(L)" />
+				</rich:column>
+				
+				<rich:column colspan="2" style="font-weight: bold; background:white">
+					<h:outputText value="Gasolina: #{relatorio.consumoGasolina}(L)" />
+				</rich:column>
+				
+				<rich:column colspan="2" style="font-weight: bold; background:white">
+					<h:outputText value="Etanol: #{relatorio.consumoEtanol}(L)" />
 				</rich:column>
 
 				<c:if test="#{relatorioBean.entitiesSize > 0}">
@@ -74,8 +82,8 @@
 
 						<rich:column colspan="10" style="font-weight: bold; background:white">
 							<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
-							<h:outputText value="Consumo do veículo: #{r.consumo}" style="padding-left:20px"/>
-							<h:outputText value="Cota mensal #{r.cota}" style="padding-left:20px"/>
+							<h:outputText value="Consumo: #{r.consumoTotal}(L)" style="padding-left:20px"/>
+							<h:outputText value="Cota: #{r.cota}(L)" style="padding-left:20px"/>
 						</rich:column>
 
 						<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="10" rowKeyVar="k"
@@ -100,15 +108,15 @@
 							</rich:column>
 
 							<rich:column>
-								<f:facet name="header"><h:outputLabel value="Data Atend."/></f:facet>
-								<h:outputText value="#{sr.atendimento.data}">
+								<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
+								<h:outputText value="#{sr.dataAtendimento}">
 									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
 								</h:outputText>
 							</rich:column>
 
 							<rich:column>
-								<f:facet name="header"><h:outputLabel value="Hora Atend."/></f:facet>
-								<h:outputText value="#{sr.atendimento.horaAtendimento}">
+								<f:facet name="header"><h:outputLabel value="Hora"/></f:facet>
+								<h:outputText value="#{sr.horaAtendimento}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>
@@ -129,11 +137,6 @@
 								<f:facet name="header"><h:outputLabel value="Km"/></f:facet>
 								<h:outputText value="#{sr.kmAtual}"/>
 							</rich:column>
-<!--							-->
-<!--							<rich:column>-->
-<!--								<f:facet name="header"><h:outputLabel value="Status"/></f:facet>-->
-<!--								<h:outputText value="#{sr.status}"/>-->
-<!--							</rich:column>-->
 
 							<rich:column>
 								<f:facet name="header"><h:outputLabel value="Operador"/></f:facet>

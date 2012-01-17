@@ -42,14 +42,14 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	@SuppressWarnings("unchecked")
 	public List<AtendimentoAbastecimento> findByPeriodo(String ug, String veiculo, Date dataInicio, Date dataFim){
 
-		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.data between ? and ?");
+		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.horaAtendimento between ? and ?");
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = :ug");
 		}
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = :veiculo");
 		}
-		str.append(" order by o.data asc");
+		str.append(" order by o.horaAtendimento asc");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
 		query.setParameter(2, dataFim);
@@ -64,7 +64,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	
 	@SuppressWarnings("unchecked")
 	public List<AtendimentoAbastecimento> findListAbastecimentosVeiculo(UG ug, Veiculo veiculo, Date dataInicio, Date dataFim){
-		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.data between ? and ?");
+		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.hora between ? and ?");
 		
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = :ugid");
@@ -74,7 +74,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		}
 		
 		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0 ");
-		str.append(" order by o.data asc");
+		str.append(" order by o.hora asc");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
 		query.setParameter(2, dataFim);

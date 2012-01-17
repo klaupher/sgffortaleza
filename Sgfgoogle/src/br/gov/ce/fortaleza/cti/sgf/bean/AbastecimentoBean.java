@@ -4,7 +4,6 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -534,8 +533,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setBomba(this.bomba);
 					atendimento.setData(this.entity.getDataAutorizacao());
 					atendimento.setHora(currentdate);
-					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(), 
-							this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
+					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					atendimento.setQuilometragem(0L);
 					atendimento.setUsuario(SgfUtil.usuarioLogado());
@@ -550,10 +548,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
-					atendimento.setData(this.entity.getDataAutorizacao());
-					atendimento.setHora(currentdate);
-					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(), 
-							this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
+					atendimento.setData(this.entity.getDataAutorizacao()); // data da autorização do abastecimento
+					atendimento.setHora(currentdate); // data e hora atual
+					//atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(),
+					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes())); // data e hora informada pelo operador
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
 					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
@@ -612,6 +610,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	public String atenderAbastecimento() {
 		this.kmValido = true;
 		this.vasilhame = false;
+		this.horaAbastecimento = null;
 
 		if(this.entity.getVeiculo().getModelo() != null && this.entity.getVeiculo().getModelo().getId() == 75){
 			this.vasilhame = true;

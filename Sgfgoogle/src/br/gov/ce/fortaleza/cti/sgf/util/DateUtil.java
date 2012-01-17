@@ -321,16 +321,11 @@ public class DateUtil {
 	public static List<SelectItem> getSelectItemAnos(){
 
 		List<SelectItem> result = new ArrayList<SelectItem>();
-
 		Calendar cal = Calendar.getInstance();
-
 		for (int j = 0; j < 5; j++){
-
 			result.add(new SelectItem(cal.get(cal.YEAR), "" + cal.get(cal.YEAR)));
-
 			cal.add(cal.YEAR, -1);
 		}
-
 		return result;
 	}
 
