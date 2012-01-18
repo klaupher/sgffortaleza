@@ -886,13 +886,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					item.setDataAtendimento(DateUtil.parseAsString("dd/MM/yyyy", atendimento.getData()));
 					item.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHora()));
 					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
-					item.setConsumoTotal(total);
-					item.setConsumoVeiculo(item.getConsumoVeiculo() + total);
+					item.setConsumoTotal(item.getConsumoTotal() + total);
+					//item.setConsumoVeiculo(item.getConsumoVeiculo() + total);
 					relatorioVeiculo.getRelatorios().add(item);
 				}
 				relatorioVeiculo.setNumeroAbastecimentos(abastecimentosVeiculos.size());
-				relatorioVeiculo.setConsumoTotal(total);
-				relatorioUg.setConsumoTotal(total);
+				//relatorioVeiculo.setConsumoTotal(relatorioVeiculo.getConsumoTotal() + total);
+				//relatorioUg.setConsumoTotal(total);
 				relatorioUg.getRelatorios().add(relatorioVeiculo);
 				consumoTotalUg += total;
 				consumoTotalGasolina += totalgas;

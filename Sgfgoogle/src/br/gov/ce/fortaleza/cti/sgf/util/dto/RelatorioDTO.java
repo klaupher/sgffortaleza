@@ -312,7 +312,11 @@ public class RelatorioDTO implements Serializable {
 	}
 
 	public Float getConsumoTotal() {
-		return consumoTotal;
+		if(consumoTotal != null){
+			return consumoTotal;
+		} else {
+			return 0F;
+		}
 	}
 
 	public void setConsumoTotal(Float consumoTotal) {
