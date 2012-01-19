@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConsolidadoMensalConsumo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="2.357947691000002"/>
+	<property name="ireport.zoom" value="3.138428376721004"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
-	<style name="zebrado" isDefault="false">
+	<property name="ireport.y" value="323"/>
+	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
-			<style isDefault="false" style="zebrado" mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
+			<style mode="Opaque" forecolor="#000000" backcolor="#FFD8B0"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
@@ -63,42 +63,42 @@
 					<reportElement x="0" y="17" width="555" height="1" forecolor="#990000"/>
 				</line>
 				<staticText>
-					<reportElement mode="Opaque" x="292" y="19" width="55" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="285" y="19" width="55" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[km]]></text>
+					<text><![CDATA[Km]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="435" y="19" width="70" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="434" y="19" width="70" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Insumo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="256" y="19" width="35" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="243" y="19" width="42" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Lts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="506" y="19" width="49" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="505" y="19" width="49" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Abast.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="348" y="19" width="47" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="341" y="19" width="53" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Km/Lts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="0" y="19" width="73" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="0" y="19" width="62" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
@@ -108,21 +108,21 @@
 					<reportElement x="0" y="34" width="555" height="1" forecolor="#990000"/>
 				</line>
 				<staticText>
-					<reportElement mode="Opaque" x="74" y="19" width="132" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="63" y="19" width="132" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Modelo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="208" y="19" width="46" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="196" y="19" width="46" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Ano]]></text>
 				</staticText>
 				<staticText>
-					<reportElement mode="Opaque" x="396" y="19" width="38" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="395" y="19" width="38" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
@@ -138,7 +138,7 @@
 				<textField isBlankWhenNull="true">
 					<reportElement x="45" y="1" width="398" height="15"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.String"><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="443" y="1" width="64" height="15"/>
@@ -150,7 +150,7 @@
 				<textField isBlankWhenNull="true">
 					<reportElement x="508" y="1" width="47" height="15"/>
 					<textElement/>
-					<textFieldExpression class="java.lang.Float"><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -162,7 +162,7 @@
 		<band height="82" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="4" width="220" height="75" forecolor="#000000" backcolor="#FFFFFF"/>
-				<imageExpression class="java.lang.String"><![CDATA[$P{IMAGEM_URI}+"fortaleza-bela.gif"]]></imageExpression>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"fortaleza-bela.gif"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="222" y="4" width="305" height="33" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -201,12 +201,12 @@
 			<textField evaluationTime="Report">
 				<reportElement x="515" y="0" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="435" y="0" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="0" y="15" width="555" height="1" forecolor="#990000"/>
@@ -221,7 +221,7 @@
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="45" y="0" width="86" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -231,49 +231,49 @@
 	<detail>
 		<band height="14" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="0" y="0" width="74" height="14"/>
+				<reportElement style="zebrado" x="0" y="0" width="62" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="74" y="0" width="132" height="14"/>
+				<reportElement style="zebrado" x="63" y="0" width="132" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="208" y="0" width="46" height="14"/>
+				<reportElement style="zebrado" x="195" y="0" width="47" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{veiculo}.getAnoModelo()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{veiculo}.getAnoModelo()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="256" y="0" width="35" height="14"/>
+				<reportElement style="zebrado" x="243" y="0" width="42" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{consumo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{consumo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="348" y="0" width="47" height="14"/>
+				<reportElement style="zebrado" x="341" y="0" width="53" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{kmPorLitro}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{kmPorLitro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="292" y="0" width="55" height="14"/>
+				<reportElement style="zebrado" x="285" y="0" width="56" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{kmRodados}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{kmRodados}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="396" y="0" width="38" height="14"/>
+				<reportElement style="zebrado" x="395" y="0" width="38" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Float"><![CDATA[$F{saldoCota}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{saldoCota}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="435" y="0" width="70" height="14"/>
+				<reportElement style="zebrado" x="434" y="0" width="70" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{veiculo}.getCombustivel()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{veiculo}.getCombustivel()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement style="zebrado" x="506" y="0" width="49" height="14"/>
+				<reportElement style="zebrado" x="505" y="0" width="49" height="14"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{numeroAbastecimentos}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{numeroAbastecimentos}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -285,7 +285,7 @@
 			<textField evaluationTime="Report">
 				<reportElement x="515" y="3" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="3" width="275" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -297,7 +297,7 @@
 			<textField>
 				<reportElement x="435" y="3" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression class="java.lang.String"><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="279" y="3" width="49" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
