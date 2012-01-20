@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConsolidadoMensalConsumo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="3.138428376721004"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="323"/>
+	<property name="ireport.zoom" value="3.4522712143931047"/>
+	<property name="ireport.x" value="537"/>
+	<property name="ireport.y" value="156"/>
 	<style name="zebrado">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[new Boolean(($V{COLUMN_COUNT}.intValue() % 2) == 0)]]></conditionExpression>
@@ -54,6 +54,12 @@
 	</field>
 	<field name="consumoCombustivelOrgao" class="java.lang.Float">
 		<fieldDescription><![CDATA[consumoCombustivelOrgao]]></fieldDescription>
+	</field>
+	<field name="consumoEtanol" class="java.lang.Float">
+		<fieldDescription><![CDATA[consumoEtanol]]></fieldDescription>
+	</field>
+	<field name="consumoGasolina" class="java.lang.Float">
+		<fieldDescription><![CDATA[consumoGasolina]]></fieldDescription>
 	</field>
 	<group name="Orgao">
 		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
@@ -136,21 +142,33 @@
 					<text><![CDATA[Orgão:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="45" y="1" width="398" height="15"/>
+					<reportElement x="45" y="1" width="310" height="15"/>
 					<textElement/>
 					<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="443" y="1" width="64" height="15"/>
+					<reportElement x="355" y="1" width="56" height="15"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Consumo:]]></text>
+					<text><![CDATA[Gasol(L):]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement x="508" y="1" width="47" height="15"/>
+					<reportElement x="412" y="1" width="39" height="15"/>
 					<textElement/>
-					<textFieldExpression><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{consumoGasolina}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="451" y="1" width="64" height="15"/>
+					<textElement>
+						<font size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Etanol(L):]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="516" y="1" width="39" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{consumoEtanol}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>

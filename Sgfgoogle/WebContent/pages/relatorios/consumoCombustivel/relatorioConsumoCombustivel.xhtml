@@ -122,7 +122,7 @@
 							</rich:column>
 
 							<rich:column>
-								<f:facet name="header"><h:outputLabel value="Quant."/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Lts"/></f:facet>
 								<h:outputText value="#{sr.consumo}"/>
 							</rich:column>
 
@@ -171,13 +171,13 @@
 		</fieldset>
 		
 		<a4j:status id="gerarRelatorio">
-				<f:facet name="start">
-					<h:panelGroup style="align:center;">
-						<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-						<h:outputText value="Processando..." styleClass="processando" />
-					</h:panelGroup>
-				</f:facet>
-			</a4j:status>
+			<f:facet name="start">
+				<h:panelGroup style="align:center;">
+					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+					<h:outputText value="Processando..." styleClass="processando" />
+				</h:panelGroup>
+			</f:facet>
+		</a4j:status>
 
 	</div>
 

@@ -21,6 +21,11 @@
 	      	</legend>
 
 			<h:inputHidden value="#{uaBean.entity.id}" rendered="#{uaBean.updateState}"/>
+			
+			
+			<dt><label for="id">ID</label></dt>
+		  	<dd><h:inputText id="id" value="#{uaBean.entity.id}" size="40" required="true" requiredMessage="Informe o id"/></dd>
+		  	<h:message for="id" styleClass="message"/>
 
 			<dt><label for="nome">Nome</label></dt>
 		  	<dd><h:inputText id="nome" value="#{uaBean.entity.descricao}" size="40" required="true" requiredMessage="Informe o Nome"/></dd>

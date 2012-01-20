@@ -131,8 +131,8 @@
 				<rich:menuItem value="Mensagens" action="#{messageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Páginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Pessoa Física" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{!controlBean.cadastraVeiculo and controlBroleCanViewMapean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
-				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{!controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
+				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
+				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}" rendered="#{controlBean.administrador}"  immediate="true"/>
 			</rich:dropDownMenu>
 			
