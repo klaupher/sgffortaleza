@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.GenericJDBCException;
+import org.hibernate.jdbc.BatchFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.hibernate3.HibernateJdbcException;
 
 import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
@@ -71,8 +74,20 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 	}
 	
 	public String save() {
-		retrieveEntityService().save(this.entity);
-		return super.save();
+		try{
+			retrieveEntityService().save(this.entity);
+			return super.save();
+		} catch(HibernateJdbcException e){
+			if(e.getCause().getClass().equals(ConstraintViolationException.class)){
+				JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
+			}
+			return FAIL;
+		} catch(GenericJDBCException e){
+			if(e.getCause().getClass().equals(ConstraintViolationException.class)){
+				JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
+			}
+			return FAIL;
+		} 
 	}
 
 	public String prepareUpdate() {

@@ -122,7 +122,7 @@ import org.postgis.Geometry;
 	private Float valorTotal;
 
 	@ManyToOne
-	@JoinColumn(name = "COD_UA_ASI")
+	@JoinColumn(name = "COD_UA_ASI", nullable = false)
 	private UA ua;
 
 	@ManyToOne

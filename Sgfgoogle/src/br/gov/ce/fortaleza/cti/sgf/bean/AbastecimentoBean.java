@@ -13,8 +13,10 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
@@ -246,10 +248,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 */
 	public void loadVeiculos() {
 		this.veiculos = new ArrayList<Veiculo>();
-		Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
-		if(vasilhame != null){
-			this.veiculos.add(vasilhame);
-		}
+
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.veiculosAtivoscomcota(this.orgaoSelecionado));
 		}
@@ -285,8 +284,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				this.ultimaKilometragem = entity.getQuilometragem();
 			}
 		}
-		Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
-		this.veiculos.add(vasilhame);
+		//Veiculo vasilhame = veiculoService.findByPlacaSingle("VASILHA");
+		//this.veiculos.add(vasilhame);
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
 			this.motoristas.addAll(motoristaService.findByUG(this.orgaoSelecionado.getId()));
@@ -338,13 +337,16 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 * @return
 	 */
 	public String validarKilometragemInformada(){
+		
 		Abastecimento ultimoAbastecimento = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
-		if(ultimoAbastecimento != null){
+		
+		if(!this.vasilhame && ultimoAbastecimento != null){
+		
 			if(ultimoAbastecimento.getQuilometragem() == null){
 				ultimoAbastecimento.setQuilometragem(0L);
 			}
 
-			if(!this.vasilhame && ultimoAbastecimento != null &&  this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
+			if(ultimoAbastecimento != null &&  this.kmAtendimento < ultimoAbastecimento.getQuilometragem()){
 				this.kmValido = false;
 				JSFUtil.getInstance().addErrorMessage("msg.error.quilometragem.inconsistente");
 			} else {
@@ -400,13 +402,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
 				return false;
 			}
-			if(veiculo.getModelo() != null){
-				vasilhame = veiculo.getModelo().getId() == 75;
-			}
+
 			if (veiculo.getCota() != null || vasilhame) {
-				if(vasilhame){
-					return true;
-				} else if (veiculo.getCota().getCotaDisponivel() > 0) {
+				if (veiculo.getCota().getCotaDisponivel() > 0) {
 					return true;
 				} else {
 					JSFUtil.getInstance().addErrorMessage("msg.error.cota.utrapassada");
@@ -441,25 +439,25 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);//DateUtil.getDateTime(this.dtInicial);
 		this.dtInicial = DateUtil.setMilisecondsIndate(this.dtInicial);
-		
+
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
 		this.dtFinal = DateUtil.setMilisecondsIndate(this.dtFinal);
 
 		if (SgfUtil.isAdministrador(usuarioLogado) || SgfUtil.isCoordenador(usuarioLogado)) {
-			
+
 			if(this.orgaoSelecionado == null){
 				this.entities = service.pesquisarAbastecimentos(this.dtInicial, this.dtFinal, this.status);
 			} else {
 				this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, this.orgaoSelecionado, this.status);
 			}
-		
+
 		} else if (SgfUtil.isOperador(SgfUtil.usuarioLogado())) {
 			if(this.orgaoSelecionado == null){
 				this.entities = service.findByPeriodoAndPosto(null, usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
 			} else {
 				this.entities = service.findByPeriodoAndPosto(this.orgaoSelecionado.getId(), usuarioLogado.getPosto().getCodPosto(), this.dtInicial, this.dtFinal, this.status);
 			}
-			
+
 		} else if (SgfUtil.isChefeTransporte(usuarioLogado)) {
 			this.entities = service.pesquisarAbastecimentosPorPeriodo(this.dtInicial, this.dtFinal, usuarioLogado.getPessoa().getUa().getUg(), this.status);
 		}
@@ -499,7 +497,16 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				this.entity.setDataAutorizacao(DateUtil.adicionarOuDiminuir(this.entity.getDataAutorizacao(), DateUtil.SECOND_IN_MILLIS));
 			}
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
-			super.save();
+
+			try{
+				super.save();	
+			} catch (DataIntegrityViolationException e) {
+				if(e.getCause().getClass().equals(ConstraintViolationException.class)){
+					JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
+				}
+				return FAIL;
+			}
+
 			return search();
 		}
 		return FAIL;
@@ -511,24 +518,22 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	 */
 	@Override
 	public String update() {
-		
-		
-		try {
 
+		try {
 			boolean vasilhame = false;
-			
+
 			if (getCurrentState().equals(VIEW) && this.entity.getStatus().equals(StatusAbastecimento.AUTORIZADO)) {
 
 				if(this.entity.getVeiculo().getModelo() != null){
 					vasilhame = this.entity.getVeiculo().getModelo().getId() == 75;
 				}
-				
+
 				Date currentdate = new Date();
-				
+
 				if(vasilhame){
 					this.entity.setQuilometragem(0L);
 					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
-					
+
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
 					atendimento.setData(this.entity.getDataAutorizacao());
@@ -565,17 +570,17 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					return super.update();
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			setCurrentBean(currentBeanName());
 			setCurrentState(SEARCH);
 			return FAIL;
 		}
-		
+
 		this.horaAbastecimento = null;
 		this.bomba = new Bomba();
-		
+
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;
@@ -614,17 +619,21 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 		if(this.entity.getVeiculo().getModelo() != null && this.entity.getVeiculo().getModelo().getId() == 75){
 			this.vasilhame = true;
-		} else {
+		}
+
+		if(!this.vasilhame){
 			Abastecimento ultimaKilometragem = service.executeSingleResultQuery("findLast", this.entity.getVeiculo().getId());
 			if(ultimaKilometragem != null){
 				this.ultimaKilometragem = ultimaKilometragem.getQuilometragem();
 			} else {
 				this.ultimaKilometragem = null;
 			}
-			this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
-			Cota cota = this.entity.getVeiculo().getCota();
-			this.saldoAtual = cota.getCotaDisponivel();
 		}
+
+
+		this.orgaoSelecionado = this.entity.getVeiculo().getUa().getUg();
+		Cota cota = this.entity.getVeiculo().getCota();
+		this.saldoAtual = cota.getCotaDisponivel();
 
 		this.bombas = new ArrayList<Bomba>();
 		this.kmAtendimento = null;
