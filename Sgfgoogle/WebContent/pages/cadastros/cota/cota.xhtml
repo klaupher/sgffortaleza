@@ -19,16 +19,12 @@
 
 		<legend>Veículos sem cota</legend>
 		
-	        <fieldset>
+			<h:inputText value="#{cotaBean.placa}"/>
 
-				<legend>Busca</legend>
-				<h:inputText value="#{cotaBean.placa}"/>
-
-				<h:commandButton action="#{cotaBean.veiculoSemCotaPorPlaca}" value="Consultar">
-					<a4j:support event="onclick" reRender="dataTable"/>
-				</h:commandButton>
+			<h:commandButton action="#{cotaBean.veiculoSemCotaPorPlaca}" value="Consultar">
+				<a4j:support event="onclick" reRender="dataTable"/>
+			</h:commandButton>
 				
-			</fieldset>
 
 		  	<rich:dataTable id="dataTable" value="#{cotaBean.veiculos}" var="veiculo" rows="10" rowKeyVar="k"	
 				rowClasses="even,odd"
@@ -49,9 +45,14 @@
 						<h:outputText value="#{k+1}" style="color: black;"/>
 					</rich:column>
 	
-					<rich:column width="40%" style="text-align: left;" > 
+					<rich:column width="30%" style="text-align: left;" > 
 						<f:facet name="header"><h:outputText value="Placa/Modelo" /></f:facet>
 						<h:outputText value="#{veiculo.placa} #{veiculo.modelo.descricao} #{veiculo.serie}" style="color: black;"/>
+					</rich:column>
+					
+					<rich:column width="60%" style="text-align: left;" > 
+						<f:facet name="header"><h:outputText value="Órgão" /></f:facet>
+						<h:outputText value="#{veiculo.ua.ug.descricao}" style="color: black;"/>
 					</rich:column>
 	
 					<rich:column width="2%" style="text-align: center;" rendered="#{cotaBean.saveState}">
