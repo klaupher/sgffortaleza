@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+   	<div id="cadastro">
+
+		<h1 style="width:350px"> Diário de Bomba de Combustível</h1>
+
+		<fieldset>
+
+	    	<legend>Alteração</legend>
+			<p></p>
+
+			<dt><label for="dtinit">Data cadastro</label></dt>
+			<dd>
+				  <h:inputText id="dtinit" value="#{diarioBombaBean.entity.dataCadastro}"  required="true" size="16" maxlength="16" requiredMessage="Informe data de cadastro">
+				  </h:inputText>
+				  <rich:message errorClass="error" for="dtinit" styleClass="message"/>
+			</dd>
+			
+	  		<dt><h:outputLabel id="labelPosto" value="Posto"/></dt>
+		  	<dd>
+		  		<h:selectOneMenu id="posto" value="#{diarioBombaBean.entity.bomba.posto}"	requiredMessage="Informe o posto" converter="entityConverter">
+		  			<f:selectItem itemLabel="Informe o Posto" itemValue=""/>
+		  			<t:selectItems value="#{postoBean.postos}" var="posto" itemLabel="#{posto.descricao}" itemValue="#{posto}"/>
+		  		</h:selectOneMenu>
+		  		<rich:message for="posto" styleClass="message"/>
+		  	</dd>
+			
+			<dt><label for="vlrinit">Valor Inicial</label></dt>
+			<dd>
+				  <h:inputText id="vlrinit" value="#{diarioBombaBean.entity.valorInicial}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
+				  </h:inputText>
+				  <rich:message errorClass="error" for="vlrinit" styleClass="message"/>
+			</dd>
+			
+			<dt><label for="vlrfinal">Valor Final</label></dt>
+			<dd>
+				  <h:inputText id="vlrfinal" value="#{diarioBombaBean.entity.valorFinal}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
+				  </h:inputText>
+				  <rich:message errorClass="error" for="vlrfinal" styleClass="message"/>
+			</dd>
+
+	    </fieldset>
+
+	</div>
+
+	<h:commandButton action="#{diarioBombaBean.atualizarDiarioBomba}" value="Alterar" rendered="#{diarioBombaBean.updateDiarioBombaState}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
+	</h:commandButton>
+
+	<h:commandButton action="#{diarioBombaBean.searchDiarioBomba}" value="Voltar"  immediate="true">
+		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+	</h:commandButton>
+
+
+</ui:composition>

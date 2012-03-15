@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.ce.fortaleza.cti.sgf.entity.Bomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
+import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 
 /**
  * @author Deivid
@@ -38,10 +39,44 @@ public class DiarioBombaService extends BaseService<Integer, DiarioBomba>{
 	 * @return
 	 */
 
+	@SuppressWarnings("unchecked")
+	public List<DiarioBomba> ultimasTrintaDiarias(){
+
+		Date term = new Date();
+		term = DateUtil.getDateEndDay(term);
+		
+		Date init = DateUtil.adicionarOuDiminuir(term, -30*DateUtil.DAY_IN_MILLIS);
+		init = DateUtil.getDateStartDay(init);
+		Query query = entityManager.createQuery("select d from DiarioBomba d where d.dataCadastro between ? and ? order by d.dataCadastro desc");
+		query.setParameter(1, init);
+		query.setParameter(2, term);
+		return (List<DiarioBomba>)query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<DiarioBomba> ultimasTrintaDiarias(Date init, Date term, Posto posto){
+
+		StringBuffer stringBuffer = new StringBuffer("select d from DiarioBomba d where d.dataCadastro between ? and ?");
+		if(posto != null){
+			stringBuffer.append(" and d.bomba.posto = ?");
+		}
+		stringBuffer.append("  order by d.bomba.posto.descricao desc");
+		
+		Query query = entityManager.createQuery(stringBuffer.toString());
+
+		query.setParameter(1, init);
+		query.setParameter(2, term);
+		if(posto != null){
+			query.setParameter(3, posto);
+		}
+
+		return (List<DiarioBomba>)query.getResultList();
+	}
+
 	public DiarioBomba findCurrentDiaryByBomba(Integer bombaId) {
 		try {
 			Query query = entityManager.createQuery("select d from DiarioBomba d where d.bomba.id = ? and " +
-					"d.horaInicial = (select max(db.horaInicial) from DiarioBomba db where db.bomba.id = ?)");
+			"d.horaInicial = (select max(db.horaInicial) from DiarioBomba db where db.bomba.id = ?)");
 			query.setParameter(1, bombaId);
 			query.setParameter(2, bombaId);
 			return (DiarioBomba) query.getSingleResult();

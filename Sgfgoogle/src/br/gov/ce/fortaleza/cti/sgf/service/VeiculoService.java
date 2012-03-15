@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
@@ -39,6 +38,37 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 	@Autowired
 	public ParametroService parametroService;
+
+
+	@Transactional
+	public Boolean verificaSeExistePlaca(String placa){
+
+		String consulta = "select v from Veiculo v where upper(trim(v.placa)) like :placa";
+		StringBuffer hql = new StringBuffer(consulta);
+		Query query = entityManager.createQuery(hql.toString());
+		query.setParameter("placa",  placa);
+		return query.getResultList().size() > 0;
+	}
+
+	@Transactional
+	public Boolean verificaSeExisteChassi(String chassi){
+
+		String consulta = "select v from Veiculo v where upper(trim(v.chassi)) like :chassi";
+		StringBuffer hql = new StringBuffer(consulta);
+		Query query = entityManager.createQuery(hql.toString());
+		query.setParameter("chassi",  chassi);
+		return query.getResultList().size() > 0;
+	}
+
+	@Transactional
+	public Boolean verificaSeExisteRenavam(String renavam){
+
+		String consulta = "select v from Veiculo v where upper(trim(v.renavam)) like :renavam";
+		StringBuffer hql = new StringBuffer(consulta);
+		Query query = entityManager.createQuery(hql.toString());
+		query.setParameter("renavam",  renavam);
+		return query.getResultList().size() > 0;
+	}
 
 
 	public List<Veiculo> findAll(){
@@ -115,36 +145,47 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findByOrgaoPlacaChassiRenavam(String orgaoId, String placa, String chassi, String renavam){
 
-		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
-		if(orgaoId != null){
-			sql.append(" and v.ua.ug.id = :id");
-		}
-		if(placa != null){
-			sql.append(" and v.placa = :placa");
-		}
-		if(chassi != null){
-			sql.append(" and v.chassi = :chassi");
-		}
-		if(renavam != null){
-			sql.append(" and v.renavam = :renavam");
+		List<Veiculo> result = null;
+
+		try {
+
+			StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
+			
+			if(orgaoId != null){
+				sql.append(" and v.ua.ug.id = :id");
+			}
+			if(placa != null){
+				sql.append(" and v.placa = :placa");
+			}
+			if(chassi != null){
+				sql.append(" and v.chassi = :chassi");
+			}
+			if(renavam != null){
+				sql.append(" and v.renavam = :renavam");
+			}
+
+			Query query = entityManager.createQuery(sql.toString());
+
+			if(orgaoId != null){
+				query.setParameter("id", orgaoId);
+			}
+			if(placa != null){
+				query.setParameter("placa", placa);
+			}
+			if(chassi != null){
+				query.setParameter("chassi", chassi);
+			}
+			if(renavam != null){
+				query.setParameter("renavam", renavam);
+			}
+
+			result = query.getResultList();
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-		Query query = entityManager.createQuery(sql.toString());
-
-		if(orgaoId != null){
-			query.setParameter("id", orgaoId);
-		}
-		if(placa != null){
-			query.setParameter("placa", placa);
-		}
-		if(chassi != null){
-			query.setParameter("chassi", chassi);
-		}
-		if(renavam != null){
-			query.setParameter("renavam", renavam);
-		}
-
-		return query.getResultList();
+		return result;
 	}
 
 	@SuppressWarnings("unchecked")

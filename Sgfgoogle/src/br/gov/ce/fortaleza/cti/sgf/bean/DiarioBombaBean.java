@@ -23,11 +23,9 @@ import br.gov.ce.fortaleza.cti.sgf.util.Constants;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
-/**
- * @author Deivid
- * @since 11/12/09
- */
+
 @Scope("session")
 @Component("diarioBombaBean")
 public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
@@ -48,6 +46,10 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	private Boolean start;
 	private User user = SgfUtil.usuarioLogado();
 	private Boolean mostrarZeraBomba = false;
+
+	private Date init;
+	private Date finnal;
+	private Posto posto;
 
 	@Override
 	protected Integer retrieveEntityId(DiarioBomba entity) {
@@ -181,6 +183,21 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			return FAIL;
 		}
 	}
+	/**
+	 * atualiza diário de bomba
+	 * @return
+	 */
+	public String atualizarDiarioBomba(){
+		if(valida()){
+			//super.update();
+			retrieveEntityService().update(this.entity);
+			setCurrentState(RelatorioDTO.SEARCH_DIARIOBOMBA);
+			setCurrentBean(currentBeanName());
+			return SUCCESS;
+		} else {
+			return FAIL;
+		}
+	}
 
 	@Override
 	public String searchSort() {
@@ -227,16 +244,16 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	 * Iniciar as di�rias da bombas de cada posto
 	 */
 	public void iniciarDiarias() {
-		
+
 		this.postos = new ArrayList<Posto>();
 		List<Posto> listPostos = new ArrayList<Posto>();
-		
+
 		if(SgfUtil.isAdministrador(this.user) || SgfUtil.isCoordenador(this.user)){
 			listPostos = postoService.retrieveAll();
 		} else if(SgfUtil.isOperador(this.user)){
 			listPostos.add(postoService.retrieve(this.user.getPosto().getCodPosto()));
 		}
-		
+
 		for (Posto posto : listPostos) {
 			for (Bomba bomba : posto.getListaBomba()) {
 				boolean existeDiaria = false;
@@ -245,17 +262,15 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 				calendar.setTime(new Date()); // dia atual
 				Date ultimaDiaria = service.findUltimaDiariaByBomba(bomba.getId());
 				DiarioBomba diaria = service.findCurrentDiaryByBomba(bomba.getId());
-				
+
 				if(ultimaDiaria != null){
 					calendar2.setTime(ultimaDiaria);
-
 					if( (calendar2.get(Calendar.DAY_OF_MONTH) < calendar.get(Calendar.DAY_OF_MONTH)) || 
 							(calendar2.get(Calendar.MONTH) < calendar.get(Calendar.MONTH)) || (calendar2.get(Calendar.YEAR) < calendar.get(Calendar.YEAR))){
 						existeDiaria = false;
 					} else {
 						existeDiaria = true;
 					}
-
 				}
 				if(existeDiaria){
 					diaria.setImageStatus("/images/tick.png");
@@ -326,6 +341,44 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		}
 	}
 
+	public String searchDiarioBomba() {
+
+		if(this.init != null && this.finnal != null){
+			this.init = DateUtil.getDateStartDay(this.init);
+			this.finnal = DateUtil.getDateEndDay(this.finnal);
+			this.entities = service.ultimasTrintaDiarias(init, finnal, null);
+		} else {
+			this.entities = service.ultimasTrintaDiarias();
+		}
+		setCurrentState(RelatorioDTO.SEARCH_DIARIOBOMBA);
+		setCurrentBean(currentBeanName());
+		return SUCCESS;
+	}
+
+
+	public String listarDiariosBomba(){
+		this.init = DateUtil.getDateStartDay(this.init);
+		this.finnal = DateUtil.getDateEndDay(this.finnal);
+		if(this.init != null && this.finnal != null && this.posto != null){
+			this.entities = service.ultimasTrintaDiarias(init, finnal, posto);
+		}
+		return SUCCESS;
+	}
+
+	public String updateDiarioBomba() {
+		setCurrentState(RelatorioDTO.UPDATE_DIARIOBOMBA);
+		setCurrentBean(currentBeanName());
+		return SUCCESS;
+	}
+
+	public boolean isSearchDiarioBombaState() {
+		return RelatorioDTO.SEARCH_DIARIOBOMBA.equals(getCurrentState());
+	}
+
+	public boolean isUpdateDiarioBombaState() {
+		return RelatorioDTO.UPDATE_DIARIOBOMBA.equals(getCurrentState());
+	}
+
 	public Float recuperarValorFinal(DiarioBomba diarioBomba, Bomba bomba) {
 		DiarioBomba diarioBombaAux = this.service.findLastDiariaByDate(bomba);
 		if(diarioBomba.getDataCadastro().equals(diarioBombaAux.getDataCadastro())){
@@ -333,6 +386,30 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		} else {
 			return diarioBombaAux.getValorFinal();
 		}
+	}
+
+	public Date getInit() {
+		return init;
+	}
+
+	public void setInit(Date init) {
+		this.init = init;
+	}
+
+	public Date getFinnal() {
+		return finnal;
+	}
+
+	public void setFinnal(Date finnal) {
+		this.finnal = finnal;
+	}
+
+	public Posto getPosto() {
+		return posto;
+	}
+
+	public void setPosto(Posto posto) {
+		this.posto = posto;
 	}
 
 	public void setBombaSelecionada(Bomba bombaSelecionada) {

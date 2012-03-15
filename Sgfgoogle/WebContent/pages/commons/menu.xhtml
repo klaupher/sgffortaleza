@@ -44,6 +44,9 @@
 				
 				<rich:menuItem value="#{msg['diario.menu']}" action="#{diarioBombaBean.searchSort}" 
 					rendered="#{controlBean.hasPermission('RULE_DIARIO_BOMBA')}" immediate="true"/>
+					
+				<rich:menuItem value="Alterar Diário de Bomba" action="#{diarioBombaBean.searchDiarioBomba}" 
+					rendered="#{controlBean.administrador}" immediate="true"/>
 				
 				<rich:menuItem value="#{msg['lubrificante.menu']}" action="#{solicitacaoLubrificanteBean.search}" 
 					rendered="#{controlBean.hasPermission('RULE_LUBRIFICANTE')}" immediate="true"/>
@@ -114,11 +117,16 @@
 				<rich:menuItem value="Bomba Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
 				<rich:menuItem value="Cotas Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
 				<rich:menuItem value="Infrações" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
-				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>	
+				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>
+				<rich:menuItem value="Marca Veículo" action="#{marcaBean.search}" rendered="#{controlBean.administrador}"  immediate="true"/>
+				<rich:menuItem value="Modelo Veículo" action="#{modeloBean.search}" rendered="#{controlBean.administrador}"  immediate="true"/>
+				<rich:menuItem value="Espécie Veículo" action="#{especieBean.search}" rendered="#{controlBean.administrador}"  immediate="true"/>
 				<rich:menuItem value="Multas" action="#{multaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MULTA')}"  immediate="true"/>
 				<rich:menuItem value="Nº Motor" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
 				<rich:menuItem value="Oficinas" action="#{oficinaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_OFICINA')}" immediate="true"/>
 				<rich:menuItem value="Tipos Serviço" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
+				<rich:menuItem value="Unid.Administrativa" action="#{uaBean.search}"  rendered="#{controlBean.administrador and false}" immediate="true"/> <!-- Não se aplica a PMF -->
+				<rich:menuItem value="Unid. Gestão" action="#{ugBean.search}" rendered="#{controlBean.administrador and false}" immediate="true"/> <!-- Não se aplica a PMF -->
 				<rich:menuItem value="Veículos" action="#{veiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
 
 			</rich:dropDownMenu>
@@ -131,8 +139,6 @@
 				<rich:menuItem value="Mensagens" action="#{messageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Páginas" action="#{pageBean.search}"  rendered="#{controlBean.administrador}" immediate="true"/>
 				<rich:menuItem value="Pessoa Física" action="#{pessoaBean.search}" rendered="#{controlBean.administrador}" immediate="true"/>
-				<rich:menuItem value="UA" action="#{uaBean.search}"  rendered="#{controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
-				<rich:menuItem value="UG" action="#{ugBean.search}" rendered="#{controlBean.cadastraVeiculo and controlBean.administrador}" immediate="true"/> <!-- Não se aplica a PMF -->
 				<rich:menuItem value="Sincronizar" action="#{sincronizaBean.sincronizacaoVeiculos}" rendered="#{controlBean.administrador}"  immediate="true"/>
 			</rich:dropDownMenu>
 			

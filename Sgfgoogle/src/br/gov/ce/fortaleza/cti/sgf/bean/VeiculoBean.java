@@ -24,6 +24,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.UAService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
+import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
@@ -85,15 +86,32 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		List<SelectItem> result = new ArrayList<SelectItem>();
 		result.add(new SelectItem("PMF", "PMF"));
 		result.add(new SelectItem("Locado", "Locado"));
+		result.add(new SelectItem("Outro", "Outro"));
 		return result;
 	}
 
 	public String save(){
+		boolean valida = true;
 		this.entity.setStatus(StatusVeiculo.DISPONIVEL);
 		this.entity.setDataCadastro(new Date());
 		this.entity.setPlaca(this.entity.getPlaca().toUpperCase());
 		this.entity.setChassi(this.entity.getChassi().toUpperCase());
-		return super.save();
+		
+		if(service.verificaSeExistePlaca(this.entity.getPlaca())){
+			valida = false;
+			JSFUtil.getInstance().addErrorMessage("msg.error.placa.nomeexistente");
+		} else if(service.verificaSeExisteChassi(this.entity.getChassi())){
+			valida = false;
+			JSFUtil.getInstance().addErrorMessage("msg.error.chassi.nomeexistente");
+		} else if(service.verificaSeExisteRenavam(this.entity.getRenavam())){
+			valida = false;
+			JSFUtil.getInstance().addErrorMessage("msg.error.renavam.nomeexistente");
+		}
+		if(valida){
+			return super.save();
+		} else {
+			return FAIL;
+		}
 	}
 
 	public String prepareUpdate(){
@@ -104,8 +122,8 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		return super.prepareUpdate();
 	}
 
-	@Override
-	public String search(){
+	
+	public String search2(){
 
 		List<Veiculo> veiculos =  new ArrayList<Veiculo>();
 		this.entities = new ArrayList<Veiculo>();
@@ -114,36 +132,45 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		if(this.stringSearch != null && this.stringSearch.length() > 0){
 
 			if(SgfUtil.isAdministrador(user) || SgfUtil.isChefeTransporte(user)){
-				switch (this.searchId) {
-				case 0:
-					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, this.stringSearch, null, null);
-					break;
-				case 1:
-					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, this.stringSearch, null);
-					break;
-				case 2:
-					veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, null, this.stringSearch);
-					break;
-				default:
-					break;
-				}
-			} else {
-
-				UA ua = user.getPessoa().getUa();
-				if(ua != null){
+				
+				try {
 					switch (this.searchId) {
 					case 0:
-						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), this.stringSearch, null, null);
+						veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, this.stringSearch, null, null);
 						break;
 					case 1:
-						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, this.stringSearch, null);
+						veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, this.stringSearch, null);
 						break;
 					case 2:
-						veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, null,this. stringSearch);
+						veiculos = this.service.findByOrgaoPlacaChassiRenavam(null, null, null, this.stringSearch);
 						break;
 					default:
 						break;
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			} else {
+				UA ua = user.getPessoa().getUa();
+				try {
+					if(ua != null){
+						switch (this.searchId) {
+						case 0:
+							veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), this.stringSearch, null, null);
+							break;
+						case 1:
+							veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, this.stringSearch, null);
+							break;
+						case 2:
+							veiculos = this.service.findByOrgaoPlacaChassiRenavam(ua.getUg().getId(), null, null,this. stringSearch);
+							break;
+						default:
+							break;
+						}
+					}					
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 

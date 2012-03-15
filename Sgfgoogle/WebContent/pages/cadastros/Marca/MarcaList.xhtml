@@ -15,9 +15,9 @@
 		
 		<fieldset>
 
-	      <legend>Listagem de Marcas de veículos</legend>
+	      <legend>Marcas de Veículos</legend>
 
-	       	<h:commandLink action="#{marcaBean.prepareSave}" value="Nova marca" styleClass="novo">
+	       	<h:commandLink action="#{marcaBean.prepareSave}" value="Nova" styleClass="novo">
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	      	</h:commandLink>
 	      	<p></p>
@@ -39,17 +39,17 @@
 
 	      		<c:if test="#{marcaBean.entitiesSize > 0}" >
 
-					<rich:column width="5%" style="text-align: center;" > 
+					<rich:column width="2%" style="text-align: center;" > 
 						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="50%" style="text-align: left;" > 
+					<rich:column width="70%" style="text-align: left;" > 
 						<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
 						<h:outputText value="#{marca.descricao}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="3%" style="text-align: center;">
+					<rich:column width="2%" style="text-align: center;">
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{marcaBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{marcaBean.entity}" value="#{marca}"/>
@@ -57,7 +57,7 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="3%" style="text-align: center;">
+					<rich:column width="2%" style="text-align: center;">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 						<h:commandLink styleClass="excluir"  action="#{marcaBean.delete}" value="Excluir" onclick="if(!confirm('Tem certeza que deseja excluir?')) { form.reset();return false;}">
 							<f:setPropertyActionListener target="#{marcaBean.entity}" value="#{marca}"/>

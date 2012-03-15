@@ -38,6 +38,9 @@ public class RelatorioDTO implements Serializable {
 	public static final String SOLICITACAO_VEICULO = "SOLICITACAO_VEICULO";
 	public static final String KILOMETROS_RODADOS_VEICULO = "KILOMETROS_RODADOS_VEICULO";
 	public static final Integer TROCA_PNEUS = 40;
+	
+	public static final String SEARCH_DIARIOBOMBA = "SEARCH_DIARIOBOMBA";
+	public static final String UPDATE_DIARIOBOMBA = "UPDATE_DIARIOBOMBA";
 
 	private Multa  multa;
 	private Veiculo veiculo;

@@ -102,8 +102,16 @@
 					<c:if test="#{diarioBombaBean.searchState}">
 						<ui:include src="cadastros/diarioBomba/diarioBombaList.xhtml" />
 					</c:if>
-					<c:if
-						test="#{diarioBombaBean.saveState || diarioBombaBean.updateState}">
+					
+					<c:if test="#{diarioBombaBean.searchDiarioBombaState}">
+						<ui:include src="cadastros/diarioBomba/diarioBombaListUpdate.xhtml" />
+					</c:if>
+					
+					<c:if test="#{diarioBombaBean.updateDiarioBombaState}">
+						<ui:include src="cadastros/diarioBomba/diarioBombaUpdate.xhtml" />
+					</c:if>
+					
+					<c:if test="#{diarioBombaBean.saveState || diarioBombaBean.updateState}">
 						<ui:include src="cadastros/diarioBomba/diarioBomba.xhtml" />
 					</c:if>
 					<c:if test="#{diarioBombaBean.editState}">

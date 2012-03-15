@@ -15,7 +15,7 @@
 		
 		<fieldset>
 
-	      <legend>Espécies de veículos</legend>
+	      <legend>Espécie de Veículos</legend>
 
 	       	<h:commandLink action="#{especieBean.prepareSave}" value="Nova" styleClass="novo">
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
@@ -39,17 +39,17 @@
 
 	      		<c:if test="#{especieBean.entitiesSize > 0}" >
 
-					<rich:column width="5%" style="text-align: center;" > 
+					<rich:column width="2%" style="text-align: center;" > 
 						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="50%" style="text-align: left;" > 
+					<rich:column width="60%" style="text-align: left;" > 
 						<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
 						<h:outputText value="#{especie.descricao}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="3%" style="text-align: center;">
+					<rich:column width="2%" style="text-align: center;">
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{especieBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{especieBean.entity}" value="#{especie}"/>
@@ -57,7 +57,7 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="3%" style="text-align: center;">
+					<rich:column width="2%" style="text-align: center;">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 						<h:commandLink styleClass="excluir"  action="#{especieBean.delete}" value="Excluir" onclick="if(!confirm('Tem certeza que deseja excluir?')) { form.reset();return false;}">
 							<f:setPropertyActionListener target="#{especieBean.entity}" value="#{especie}"/>

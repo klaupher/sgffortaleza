@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.GenericJDBCException;
-import org.hibernate.jdbc.BatchFailedException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.HibernateJdbcException;
 

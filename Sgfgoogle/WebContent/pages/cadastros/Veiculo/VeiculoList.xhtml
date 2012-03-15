@@ -18,27 +18,24 @@
 
 	      	<legend>Veículos</legend>
 
-	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{!controlBean.cadastraVeiculo}">
+	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{controlBean.administrador}">
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	      	</h:commandLink>
-	      	<p></p>
-	      	
-	      	<fieldset>
+	      	<p/>
 
-		      	<legend>Busca</legend>
-	
-		      	<h:inputText value="#{veiculoBean.stringSearch}"/>
-		      	<h:commandButton value="Pesquisar" action="#{veiculoBean.search}">
-		      		<a4j:support event="onclick" reRender="dataTable"/>
-		      	</h:commandButton>
-		      	
-		      	<h:selectOneRadio id="veiculos" value="#{veiculoBean.searchId}" style="width:40%;padding:0px" styleClass="checkbox">
-					<f:selectItem itemLabel="Por Placa" itemValue="0"/>
-					<f:selectItem itemLabel="Por Chassi" itemValue="1"/>
-					<f:selectItem itemLabel="Por Renavam" itemValue="2"/>
-				</h:selectOneRadio>
-			
-			</fieldset>
+			<h:outputText value="(Placa, Chassi ou Renavam)" style="color: red;"/>
+	      	<h:inputText value="#{veiculoBean.filter}"/>
+	      	
+	      	<h:commandButton value="Pesquisar" action="#{veiculoBean.search}">
+	      		<a4j:support event="onclick" reRender="dataTable"/>
+	      	</h:commandButton>
+	      	
+<!--	      	<h:selectOneRadio id="veiculos" value="#{veiculoBean.searchId}" style="width:40%;padding:0px" styleClass="checkbox">-->
+<!--				<f:selectItem itemLabel="Por Placa" itemValue="0"/>-->
+<!--				<f:selectItem itemLabel="Por Chassi" itemValue="1"/>-->
+<!--				<f:selectItem itemLabel="Por Renavam" itemValue="2"/>-->
+<!--			</h:selectOneRadio>-->
+
 
 	      	<rich:dataTable id="dataTable" value="#{veiculoBean.entities}" var="veiculo"  
 	      		rowClasses="even, odd" 
@@ -62,8 +59,8 @@
 						<f:facet name="header"><h:outputText value="UG" /></f:facet>
 						<h:outputText value="#{veiculo.ua.ug.descricao}" style="color: black;"/>
 					</rich:column>
-					
-					<rich:column width="20%"> 
+
+					<rich:column width="20%">
 						<f:facet name="header"><h:outputText value="UA" /></f:facet>
 						<h:outputText value="#{veiculo.ua.descricao}" style="color: black;"/>
 					</rich:column>
@@ -100,15 +97,15 @@
 						</h:outputText>
 					</rich:column>
 
-					<rich:column width="2%" style="text-align: center;">
-						<f:facet name="header"><h:outputText value="Ver" /></f:facet>
+					<rich:column width="2%" style="text-align: center;"  rendered="#{controlBean.administrador}">
+						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{veiculoBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
 							<a4j:support event="onclick" reRender="paginaPrincipal"/>
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador and !controlBean.cadastraVeiculo}">
+					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 						<h:commandLink styleClass="excluir" action="#{veiculoBean.delete}" value="Excluir" onclick="if(!confirm('Confirmar Exclusão')){document.getElementById('paginaPrincipal').reset(); return false;}">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
