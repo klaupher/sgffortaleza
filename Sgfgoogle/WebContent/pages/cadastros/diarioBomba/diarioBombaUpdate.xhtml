@@ -3,12 +3,15 @@
 <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
+      
+    <a4j:loadScript src="../scripts/jquery.alphanumeric.js" />
 
    	<div id="cadastro">
 
@@ -21,9 +24,11 @@
 
 			<dt><label for="dtinit">Data cadastro</label></dt>
 			<dd>
-				  <h:inputText id="dtinit" value="#{diarioBombaBean.entity.dataCadastro}"  required="true" size="16" maxlength="16" requiredMessage="Informe data de cadastro">
-				  </h:inputText>
-				  <rich:message errorClass="error" for="dtinit" styleClass="message"/>
+		  		<h:inputText id="dtinit" value="#{diarioBombaBean.entity.dataCadastro}" style="color: black;"
+					size="8" styleClass="maskData" required="true" requiredMessage="Informe a data">
+					<f:convertDateTime type="date"  pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+				</h:inputText>
+				 <rich:message errorClass="error" for="dtinit" styleClass="message"/>
 			</dd>
 			
 	  		<dt><h:outputLabel id="labelPosto" value="Posto"/></dt>
@@ -38,6 +43,7 @@
 			<dt><label for="vlrinit">Valor Inicial</label></dt>
 			<dd>
 				  <h:inputText id="vlrinit" value="#{diarioBombaBean.entity.valorInicial}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
+				  
 				  </h:inputText>
 				  <rich:message errorClass="error" for="vlrinit" styleClass="message"/>
 			</dd>
@@ -45,6 +51,7 @@
 			<dt><label for="vlrfinal">Valor Final</label></dt>
 			<dd>
 				  <h:inputText id="vlrfinal" value="#{diarioBombaBean.entity.valorFinal}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
+				  
 				  </h:inputText>
 				  <rich:message errorClass="error" for="vlrfinal" styleClass="message"/>
 			</dd>
@@ -53,7 +60,7 @@
 
 	</div>
 
-	<h:commandButton action="#{diarioBombaBean.atualizarDiarioBomba}" value="Alterar" rendered="#{diarioBombaBean.updateDiarioBombaState}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{diarioBombaBean.atualizarDiarioBomba}" value="Alterar"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
 

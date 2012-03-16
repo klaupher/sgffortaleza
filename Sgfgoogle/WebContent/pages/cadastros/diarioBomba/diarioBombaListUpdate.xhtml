@@ -65,7 +65,7 @@
 					<rich:column width="15%" style="text-align: left;" > 
 						<f:facet name="header"><h:outputText value="Data" /></f:facet>
 						<h:outputText value="#{d.dataCadastro}" style="color: black;">
-							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 						</h:outputText>
 					</rich:column>
 	
@@ -100,7 +100,7 @@
 	
 					<rich:column width="3%" style="text-align: center;" rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
-						<a4j:commandLink styleClass="editar" action="#{diarioBombaBean.updateDiarioBomba}" reRender="paginaPrincipal" value="Editar">
+						<a4j:commandLink styleClass="editar" action="#{diarioBombaBean.updateDiarioBomba}" immediate="true" reRender="paginaPrincipal" value="Editar">
 							<f:setPropertyActionListener target="#{diarioBombaBean.entity}" value="#{d}"/>
 						</a4j:commandLink>
 					</rich:column>

@@ -19,9 +19,16 @@
 	      <dl>
 			<dt><label for="numero">Nº da Bomba</label></dt>
 			<dd>
-				<h:inputText value="#{bombaBean.entity.numero}" id="numero" required="true" requiredMessage="Informe o Nºmero da bomba">
+				<h:inputText value="#{bombaBean.entity.numero}" id="numero" required="true" requiredMessage="Informe o Nº da bomba">
 				</h:inputText>
 				<h:message for="numero" styleClass="message"/>
+			</dd>
+			
+			<dt><label for="limLeitura">Limite de Leitura</label></dt>
+			<dd>
+				<h:inputText value="#{bombaBean.entity.limiteLeitura}" id="limLeitura"  requiredMessage="Informe a leitura máxima da bomba">
+				</h:inputText>
+				<h:message for="limLeitura" styleClass="message"/>
 			</dd>
 
 			<dt><label for="posto">Posto</label></dt>

@@ -17,16 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-/**
- * @author Deivid
- * @since 11/12/09
- */
+
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "tb_diariobomba" , schema = "SGF")
@@ -46,8 +45,23 @@ public class DiarioBomba implements Serializable{
 	@Column(name="coddiariobomba", nullable = false)
 	private Integer id;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data")
 	private Date dataCadastro;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dt_alteracao")
+	private Date ultimaAlteracao;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "dt_criacao")
+	private Date dataCriacao;
+	
+	@Column(name = "id_usuariocriacao")
+	private Integer usuarioCricao;
+	
+	@Column(name = "id_usuarioalteracao")
+	private Integer usuarioAlteracao;
 	
 	@Column(name = "vlinicia")
 	private Float valorInicial;
@@ -212,5 +226,37 @@ public class DiarioBomba implements Serializable{
 
 	public Boolean isZerada() {
 		return zerada;
+	}
+
+	public Date getUltimaAlteracao() {
+		return ultimaAlteracao;
+	}
+
+	public void setUltimaAlteracao(Date ultimaAlteracao) {
+		this.ultimaAlteracao = ultimaAlteracao;
+	}
+
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	public Integer getUsuarioCricao() {
+		return usuarioCricao;
+	}
+
+	public void setUsuarioCricao(Integer usuarioCricao) {
+		this.usuarioCricao = usuarioCricao;
+	}
+
+	public Integer getUsuarioAlteracao() {
+		return usuarioAlteracao;
+	}
+
+	public void setUsuarioAlteracao(Integer usuarioAlteracao) {
+		this.usuarioAlteracao = usuarioAlteracao;
 	}
 }

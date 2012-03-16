@@ -19,7 +19,6 @@ import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.service.BombaService;
 import br.gov.ce.fortaleza.cti.sgf.service.DiarioBombaService;
 import br.gov.ce.fortaleza.cti.sgf.service.PostoService;
-import br.gov.ce.fortaleza.cti.sgf.util.Constants;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
@@ -84,24 +83,42 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		return retorno;
 	}
 
-	public Boolean valida(){
+	/**
+	 * validação do diário de bomba de combustível
+	 * @return
+	 */
+
+	public Boolean validaLeitura(){
+		/* se o estado não for EDIT */
 		if (!isEditState()) {
 			if(this.entity.getValorFinal() == null){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valFim");
 				return false;
 			}
 		}
+		/* 
+		 * se já foi informado a leitura inicial e leitura final 
+		 * 
+		 */
 		if(this.entity.getValorInicial() != null && this.entity.getValorFinal() != null){
+
+			/* 
+			 * Caso a leitura final informada seja menor que leitura inicial, retorna erro
+			 * Verifica flag pra saber se a bomba zerou na leitura anterior
+			 */
 			if((this.entity.getValorFinal() < this.entity.getValorInicial()) && !this.entity.isZerada()){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valFim.inconsistente");
 				return false;
-			} else if(this.entity.getValorFinal() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL || 
-					this.entity.getValorInicial() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL){
-				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
-				return false;
-			} else {
-				return true;
-			}
+			} else 
+				/*
+				 * 	
+				 */
+				if(this.entity.getValorInicial() > this.entity.getBomba().getLimiteLeitura()){
+					JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
+					return false;
+				} else {
+					return true;
+				}
 		} else {
 			return true;
 		}
@@ -116,6 +133,8 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			this.entity.setValorInicial(ultimaDiaria.getValorFinal());
 			if(this.entity.getValorInicial() != null){
 				verificaBombaZerada();
+			} else {
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
 			}
 		}
 		setCurrentBean(currentBeanName());
@@ -126,7 +145,9 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	@Override
 	public String prepareUpdate() {
 		this.mostrarZeraBomba = false;
-		verificaBombaZerada();
+		if(this.entity.getValorInicial() != null){
+			verificaBombaZerada();
+		}
 		return super.prepareUpdate();
 	}
 
@@ -136,16 +157,16 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		if(this.entity.getValorInicial() == null){
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialNulo");
 			return FAIL;
-		} else if(ultimaDiaria != null && ultimaDiaria.getValorFinal() != null && ultimaDiaria.getValorFinal() > this.entity.getValorInicial()){
+		} else if(ultimaDiaria != null && ultimaDiaria.getValorFinal() != null && (ultimaDiaria.getValorFinal() > this.entity.getValorInicial())){
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialMenorQFinalAnterior");
 			return FAIL;
 		} if(this.entity.getValorFinal() != null){
-			if(this.entity.getValorFinal() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL){
+			if(this.entity.getValorFinal() >  (this.entity.getBomba().getLimiteLeitura()-100)){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
 				return FAIL;
 			}
 		} if (this.entity.getValorInicial() != null){
-			if(this.entity.getValorInicial() >= Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL){
+			if(this.entity.getValorInicial() > (this.entity.getBomba().getLimiteLeitura() - 100)){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
 				return FAIL;
 			}
@@ -154,12 +175,14 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		this.entity.setStatus(0);
 		this.entity.setImageStatus("/images/open_icon.png");
 		this.entity.setHoraInicial(new Date());
+		this.entity.setDataCriacao(new Date());
+		this.entity.setUsuarioCricao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
 		return super.save();
 	}
 
 	@Override
 	public String update() {
-		if(valida()){
+		if(validaLeitura()){
 			if(this.entity.getValorInicial() == null){
 				this.entity.setValorFinal(null);
 				this.entity.setHoraFinal(null);
@@ -188,8 +211,9 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	 * @return
 	 */
 	public String atualizarDiarioBomba(){
-		if(valida()){
-			//super.update();
+		if(validaLeitura()){
+			this.entity.setUltimaAlteracao(new Date());
+			this.entity.setUsuarioAlteracao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
 			retrieveEntityService().update(this.entity);
 			setCurrentState(RelatorioDTO.SEARCH_DIARIOBOMBA);
 			setCurrentBean(currentBeanName());
@@ -208,6 +232,9 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		return SUCCESS;
 	}
 
+	/**
+	 * atualiza flag ZERADA para TRUE
+	 */
 	public void zerarBomba(){
 		this.entity.setZerada(true);
 	}
@@ -229,8 +256,15 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	}
 
 	public void verificaBombaZerada(){
-		if(this.entity.getValorInicial() >= Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
-			setMostrarZeraBomba(true);
+		if(!this.entity.getBomba().getLimiteLeitura().equals(null)){
+			if(this.entity.getValorInicial() > this.entity.getBomba().getLimiteLeitura() || 
+					this.entity.getValorFinal() > this.entity.getBomba().getLimiteLeitura()){
+				setMostrarZeraBomba(true);
+			} else {
+				setMostrarZeraBomba(false);
+			}
+		} else {
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limiteleitura");
 		}
 	}
 

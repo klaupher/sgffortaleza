@@ -78,6 +78,11 @@
 					<f:facet name="header"><h:outputText value="Nº da Bomba" /></f:facet>
 					<h:outputText value="#{bomba.numero}" style="color: black;"/>
 				</rich:column>
+				
+				<rich:column width="5%" style="text-align: left;" > 
+					<f:facet name="header"><h:outputText value="Lim. Leitura" /></f:facet>
+					<h:outputText value="#{bomba.limiteLeitura}" style="color: black;"/>
+				</rich:column>
 
 				<rich:column sortBy="#{bomba.posto.descricao}"  width="25%" style="text-align: left;" > 
 					<f:facet name="header"><h:outputText value="Posto" /></f:facet>
@@ -91,7 +96,7 @@
 
 				<rich:column width="2%" style="text-align: center;">
 					<f:facet name="header"><h:outputText value="Editar" /></f:facet>
-					<a4j:commandLink styleClass="editar" action="#{bombaBean.prepareUpdate}" reRender="paginaPrincipal" value="Editar">
+					<a4j:commandLink styleClass="editar" action="#{bombaBean.prepareUpdate}" reRender="paginaPrincipal" immediate="true" value="Editar">
 						<f:setPropertyActionListener target="#{bombaBean.entity}" value="#{bomba}"/>
 					</a4j:commandLink>
 				</rich:column>

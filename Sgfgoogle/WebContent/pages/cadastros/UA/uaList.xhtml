@@ -23,6 +23,10 @@
 
 			<h:outputLabel value="Busca"/>
 			<h:inputText value="#{uaBean.filter}"></h:inputText>
+			
+	      	<h:commandButton value="Pesquisar"  action="#{uaBean.search}">
+	      		<a4j:support event="onclick"  reRender="dataTable"/>
+	      	</h:commandButton>
 
 	      	<rich:dataTable id="dataTable"	value="#{uaBean.entities}" var="ua" rows="50" rowKeyVar="index"
 	      		rowClasses="even,odd" 
