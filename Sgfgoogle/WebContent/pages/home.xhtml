@@ -51,6 +51,18 @@
 						<ui:include src="cadastros/abastecimento/abastecimento.xhtml" />
 					</c:if>
 				</c:if>
+				
+				<c:if test="#{controlBean.atendimentoAbastecimentoBean}">
+					<c:if test="#{(atendimentoAbastecimentoBean.updateState or atendimentoAbastecimentoBean.saveState)}">
+						<ui:include src="cadastros/abastecimento/abastecimento.xhtml" />
+					</c:if>
+					<c:if test="#{atendimentoAbastecimentoBean.searchState}">
+						<ui:include src="cadastros/abastecimento/abastecimentoList.xhtml" />
+					</c:if>
+					<c:if test="#{atendimentoAbastecimentoBean.viewState}">
+						<ui:include src="cadastros/abastecimento/abastecimento.xhtml" />
+					</c:if>
+				</c:if>
 		
 				<c:if test="#{controlBean.requisicaoManutencaoBean}">
 					<c:if

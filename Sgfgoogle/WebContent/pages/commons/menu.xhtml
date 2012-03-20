@@ -47,6 +47,9 @@
 					
 				<rich:menuItem value="Alterar Diário de Bomba" action="#{diarioBombaBean.searchDiarioBomba}" 
 					rendered="#{controlBean.administrador}" immediate="true"/>
+					
+				<rich:menuItem value="Alterar Atend. Abastecimento" action="#{atendimentoAbastecimentoBean.search}" 
+					rendered="#{controlBean.administrador}" immediate="true"/>
 				
 				<rich:menuItem value="#{msg['lubrificante.menu']}" action="#{solicitacaoLubrificanteBean.search}" 
 					rendered="#{controlBean.hasPermission('RULE_LUBRIFICANTE')}" immediate="true"/>

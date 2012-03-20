@@ -49,6 +49,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	private Date init;
 	private Date finnal;
 	private Posto posto;
+	private boolean limiteValido = true;
 
 	@Override
 	protected Integer retrieveEntityId(DiarioBomba entity) {
@@ -89,6 +90,10 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	 */
 
 	public Boolean validaLeitura(){
+
+
+		Float limite = this.entity.getBomba().getLimiteLeitura();
+
 		/* se o estado não for EDIT */
 		if (!isEditState()) {
 			if(this.entity.getValorFinal() == null){
@@ -106,19 +111,20 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			 * Caso a leitura final informada seja menor que leitura inicial, retorna erro
 			 * Verifica flag pra saber se a bomba zerou na leitura anterior
 			 */
-			if((this.entity.getValorFinal() < this.entity.getValorInicial()) && !this.entity.isZerada()){
+			if((this.entity.getValorFinal() < this.entity.getValorInicial()) && !this.entity.getZerada()){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valFim.inconsistente");
 				return false;
-			} else 
-				/*
-				 * 	
-				 */
-				if(this.entity.getValorInicial() > this.entity.getBomba().getLimiteLeitura()){
-					JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
-					return false;
-				} else {
-					return true;
-				}
+			} //else 
+			/*
+			 * 	
+			 */
+			//				if((limite - this.entity.getValorInicial()) < 1000){
+			//					JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
+			//					return false;
+			//				} else {
+			//					return true;
+			//				}
+			return true;
 		} else {
 			return true;
 		}
@@ -126,15 +132,28 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 
 	@Override
 	public String prepareSave() {
+
 		this.mostrarZeraBomba = false;
+
+		if(this.entity.getZerada() != null && this.entity.getZerada()){
+			this.mostrarZeraBomba = true;
+		}
+
+		// busca a última diário da bomba
 		DiarioBomba ultimaDiaria = service.findCurrentDiaryByBomba(this.entity.getBomba().getId());
-		this.entity.setHoraInicial(new Date());
+
 		if(ultimaDiaria != null){
-			this.entity.setValorInicial(ultimaDiaria.getValorFinal());
-			if(this.entity.getValorInicial() != null){
-				verificaBombaZerada();
-			} else {
-				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
+			this.entity.setHoraInicial(new Date());
+			this.entity.setValorInicial(ultimaDiaria.getValorFinal());			
+			if(!verificaBombaZerada()){
+				this.entity.setHoraInicial(null);
+				this.entity.setValorInicial(null);
+				return FAIL;
+			}
+
+		} else {
+			if(!verificaBombaZerada()){
+				return FAIL;
 			}
 		}
 		setCurrentBean(currentBeanName());
@@ -144,44 +163,72 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 
 	@Override
 	public String prepareUpdate() {
+
 		this.mostrarZeraBomba = false;
-		if(this.entity.getValorInicial() != null){
-			verificaBombaZerada();
+
+		if(this.entity.getZerada() != null && this.entity.isZerada()){
+			this.mostrarZeraBomba = true;
 		}
+
+		if(this.entity.getValorInicial() != null){
+			if(!verificaBombaZerada()){
+				return FAIL;
+			}
+		} 
 		return super.prepareUpdate();
 	}
 
 	@Override
 	public String save() {
-		DiarioBomba ultimaDiaria = service.findCurrentDiaryByBomba(this.entity.getBomba().getId());
-		if(this.entity.getValorInicial() == null){
-			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialNulo");
-			return FAIL;
-		} else if(ultimaDiaria != null && ultimaDiaria.getValorFinal() != null && (ultimaDiaria.getValorFinal() > this.entity.getValorInicial())){
-			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialMenorQFinalAnterior");
-			return FAIL;
-		} if(this.entity.getValorFinal() != null){
-			if(this.entity.getValorFinal() >  (this.entity.getBomba().getLimiteLeitura()-100)){
-				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
-				return FAIL;
-			}
-		} if (this.entity.getValorInicial() != null){
-			if(this.entity.getValorInicial() > (this.entity.getBomba().getLimiteLeitura() - 100)){
-				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
-				return FAIL;
-			}
-		}
 
-		this.entity.setStatus(0);
-		this.entity.setImageStatus("/images/open_icon.png");
-		this.entity.setHoraInicial(new Date());
-		this.entity.setDataCriacao(new Date());
-		this.entity.setUsuarioCricao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
-		return super.save();
+		Float limite = this.entity.getBomba().getLimiteLeitura();
+
+		if(verificaBombaZerada()){
+			DiarioBomba ultimaDiaria = service.findCurrentDiaryByBomba(this.entity.getBomba().getId());
+
+			if(this.entity.getValorInicial() == null){
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialNulo");
+				return FAIL;
+			} else if(ultimaDiaria != null && ultimaDiaria.getValorFinal() != null && (ultimaDiaria.getValorFinal() > this.entity.getValorInicial())){
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorInicialMenorQFinalAnterior");
+				return FAIL;
+			}
+
+			if (this.entity.getValorInicial() != null){
+				if((limite - this.entity.getValorInicial()) < 1000){
+					JSFUtil.getInstance().addErrorMessage("msg.error.bomba.aviso.valorLimite.ultrapassado");
+					this.entity.setZerada(true);
+					//return FAIL;
+				}
+			}
+
+			if(this.entity.getValorFinal() != null){
+				if( (limite - this.entity.getValorFinal()) < 1000){
+					JSFUtil.getInstance().addErrorMessage("msg.error.bomba.aviso.valorLimite.ultrapassado");
+					this.entity.setZerada(true);
+					//return FAIL;
+				}
+			} 
+
+			this.entity.setStatus(0);
+			this.entity.setImageStatus("/images/open_icon.png");
+			this.entity.setHoraInicial(new Date());
+			this.entity.setDataCriacao(new Date());
+			this.entity.setUsuarioCricao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
+			return super.save();
+		} else {
+			//JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limiteleitura");
+			return FAIL;
+		}
 	}
 
 	@Override
 	public String update() {
+
+		if(!verificaBombaZerada()){
+			return FAIL;
+		}
+		
 		if(validaLeitura()){
 			if(this.entity.getValorInicial() == null){
 				this.entity.setValorFinal(null);
@@ -196,7 +243,14 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 				this.entity.setHoraFinal(null);
 				super.update();
 			} else {
+				Float saida = 0F;
 				this.entity.setStatus(1);
+				if(this.entity.getZerada() && this.entity.getValorFinal() < this.entity.getValorInicial()){
+					saida = (this.entity.getBomba().getLimiteLeitura() - this.entity.getValorInicial()) + this.entity.getValorFinal();
+				} else {
+					saida = this.entity.getValorFinal() - this.entity.getValorInicial();
+				}
+				this.entity.setQuantidadeSaida(saida);
 				this.entity.setImageStatus("/images/tick.png");
 				this.entity.setHoraFinal(new Date());
 				super.update();
@@ -236,6 +290,9 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	 * atualiza flag ZERADA para TRUE
 	 */
 	public void zerarBomba(){
+		if(this.entity.getValorFinal() == null){
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valFim");
+		}
 		this.entity.setZerada(true);
 	}
 
@@ -254,18 +311,38 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		}
 		return false;
 	}
+	/*
+	 * verificando se a bomba foi zerada
+	 */
+	public boolean verificaBombaZerada(){
 
-	public void verificaBombaZerada(){
-		if(!this.entity.getBomba().getLimiteLeitura().equals(null)){
-			if(this.entity.getValorInicial() > this.entity.getBomba().getLimiteLeitura() || 
-					this.entity.getValorFinal() > this.entity.getBomba().getLimiteLeitura()){
-				setMostrarZeraBomba(true);
-			} else {
-				setMostrarZeraBomba(false);
+		Float limite = this.entity.getBomba().getLimiteLeitura();
+		Float limAlerta = this.entity.getBomba().getLimiteAlerta();
+		Float diferencaLimite;
+		boolean valido = true;
+		
+		if(limAlerta == null){
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limitealerta");
+			valido = false;
+			return valido;
+		}
+
+		if(limite != null){
+			diferencaLimite = limite - limAlerta; // VERIFICA A DIFERENÇA DE LIMITES A PARTIR DA QUAL SERÁ INFORMADO QUE A BOMBA PRECISA SER ZERADA
+			if(this.entity.getValorInicial() != null && this.entity.getValorFinal() != null){
+				if(((limite - this.entity.getValorInicial()) < diferencaLimite) || ((limite - this.entity.getValorFinal()) < diferencaLimite)){
+					setMostrarZeraBomba(true);
+				} else {
+					setMostrarZeraBomba(false);
+				}
 			}
+			valido = true;
+			return valido;
 		} else {
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limiteleitura");
+			valido = false;
 		}
+		return valido;
 	}
 
 	public String voltar(){
@@ -492,5 +569,13 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 
 	public void setPostos(List<Posto> postos) {
 		this.postos = postos;
+	}
+
+	public boolean isLimiteValido() {
+		return limiteValido;
+	}
+
+	public void setLimiteValido(boolean limiteValido) {
+		this.limiteValido = limiteValido;
 	}
 }

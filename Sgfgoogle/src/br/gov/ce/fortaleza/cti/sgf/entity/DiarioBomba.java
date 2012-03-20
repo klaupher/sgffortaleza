@@ -78,7 +78,6 @@ public class DiarioBomba implements Serializable{
 	@Column(name = "hora_fim")
 	private Date horaFinal;
 	
-	@Type(type="boolean")
 	@Column(name="zerada")
 	private Boolean zerada;
 	
@@ -89,6 +88,9 @@ public class DiarioBomba implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "codbomba")
 	private Bomba bomba;
+	
+	@Column(name="qdesaida")
+	private Float quantidadeSaida;
 	
 	@Transient
 	private String imageStatus;
@@ -121,7 +123,8 @@ public class DiarioBomba implements Serializable{
 		((valorFinal == null && other.valorFinal == null) || (valorFinal != null && valorFinal.equals(other.valorFinal))) &&
 		((status == null && other.status == null) || (status != null && status.equals(other.status))) &&
 		((horaInicial == null && other.horaInicial == null) || (horaInicial != null && horaInicial.equals(other.horaInicial))) &&
-		((horaFinal == null && other.horaFinal == null) || (horaFinal != null && horaFinal.equals(other.horaFinal)));
+		((horaFinal == null && other.horaFinal == null) || (horaFinal != null && horaFinal.equals(other.horaFinal))) &&
+		((zerada == null && other.zerada == null) || (zerada != null && zerada.equals(other.zerada)));
 	}
 
 	public Integer getId() {
@@ -227,6 +230,10 @@ public class DiarioBomba implements Serializable{
 	public Boolean isZerada() {
 		return zerada;
 	}
+	
+	public Boolean getZerada() {
+		return zerada;
+	}
 
 	public Date getUltimaAlteracao() {
 		return ultimaAlteracao;
@@ -258,5 +265,13 @@ public class DiarioBomba implements Serializable{
 
 	public void setUsuarioAlteracao(Integer usuarioAlteracao) {
 		this.usuarioAlteracao = usuarioAlteracao;
+	}
+
+	public Float getQuantidadeSaida() {
+		return quantidadeSaida;
+	}
+
+	public void setQuantidadeSaida(Float quantidadeSaida) {
+		this.quantidadeSaida = quantidadeSaida;
 	}
 }

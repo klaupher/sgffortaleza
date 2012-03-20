@@ -83,26 +83,33 @@
 						headerClass="subHeader" 
 						rowClasses="odd,even">
 
-							<rich:column width="3%" style="text-align: center;" > 
+							<rich:column width="2%" style="text-align: center;" > 
 								<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 								<h:outputText value="#{k+1}" style="color: black;"/>
 							</rich:column>
 
-							<rich:column width="8%">
-								<f:facet name="header"><h:outputLabel value="Bomba"/></f:facet>
+							<rich:column sortBy="#{db.bomba}" width="4%">
+								<f:facet name="header"><h:outputLabel value="Nº Bomba"/></f:facet>
 								<h:outputText value="#{db.bomba.numero}"/>
 							</rich:column>
-							
-							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Hora inicial"/></f:facet>
+
+							<rich:column width="6%">
+								<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
+								<h:outputText value="#{db.dataCadastro}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+								</h:outputText>
+							</rich:column>
+
+							<rich:column width="4%">
+								<f:facet name="header"><h:outputLabel value="Hora Leitura Início"/></f:facet>
 								<h:outputText value="#{db.horaInicial}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>				
 
-							<rich:column width="12%">
+							<rich:column width="4%">
 								<f:facet name="header">
-									<h:outputLabel value="Hora final"/>
+									<h:outputLabel value="Hora Leitura Final"/>
 								</f:facet>
 								<h:outputText value="#{db.horaFinal}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
@@ -110,33 +117,26 @@
 							</rich:column>
 							
 							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Valor inicial"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Leitura Inicial(L)"/></f:facet>
 								<h:outputText value="#{db.valorInicial}">
 									<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 								</h:outputText>
 							</rich:column>
 
 							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Valor final"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Leitura Final(L)"/></f:facet>
 								<h:outputText value="#{db.valorFinal}">
 									<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 								</h:outputText>
 							</rich:column>
 
 							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Litros/dia"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Valor Saída(L)"/></f:facet>
 								<h:outputText value="#{db.litrosAbastecidos}" styleClass="align:right">
 									<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 								</h:outputText>
 							</rich:column>
 							
-							<rich:column width="10%">
-								<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
-								<h:outputText value="#{db.dataCadastro}">
-									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-								</h:outputText>
-							</rich:column>
-
 							<f:facet name="footer">
 								<rich:datascroller for="subDataTable"  renderIfSinglePage="true" ajaxSingle="true" reRender="subDataTable"/>
 				            </f:facet>

@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
+import br.gov.ce.fortaleza.cti.sgf.entity.Bomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao;
@@ -623,19 +624,22 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			Float totalLitrosAbastecidos = 0F;
 			for (DiarioBomba diaria : diarioBombas) {
 				RelatorioDTO dto = new RelatorioDTO();
-				Float litrosAbastecidos = 0F;
+				//Float litrosAbastecidos = 0F;
 				if(diaria.getValorFinal() != null && diaria.getValorInicial() != null){
-					if(diaria.getValorFinal() < diaria.getValorInicial()){
-						if(diaria.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && diaria.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
-							litrosAbastecidos =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - diaria.getValorInicial()) + diaria.getValorFinal());
-							diaria.setLitrosAbastecidos(litrosAbastecidos);
-							totalLitrosAbastecidos += litrosAbastecidos;
-						}
-					} else {
-						litrosAbastecidos = diaria.getValorFinal() - diaria.getValorInicial();
-						diaria.setLitrosAbastecidos(litrosAbastecidos);
-						totalLitrosAbastecidos += litrosAbastecidos;
-					}
+//					if(diaria.getValorFinal() < diaria.getValorInicial()){
+//						if(diaria.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && diaria.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+//							litrosAbastecidos =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - diaria.getValorInicial()) + diaria.getValorFinal());
+//							diaria.setLitrosAbastecidos(litrosAbastecidos);
+//							totalLitrosAbastecidos += litrosAbastecidos;
+//						}
+//					} else {
+//						litrosAbastecidos = diaria.getValorFinal() - diaria.getValorInicial();
+//						diaria.setLitrosAbastecidos(litrosAbastecidos);
+//						totalLitrosAbastecidos += litrosAbastecidos;
+//					}
+					diaria.setLitrosAbastecidos(diaria.getQuantidadeSaida());
+					//litrosAbastecidos += diaria.getQuantidadeSaida();
+					totalLitrosAbastecidos += diaria.getQuantidadeSaida();
 				}
 				dto.setDiarioBomba(diaria);
 				dto.setPosto(posto);

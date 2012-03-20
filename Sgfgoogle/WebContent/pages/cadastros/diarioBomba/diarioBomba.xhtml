@@ -47,6 +47,7 @@
 					<h:inputText id="vlrInicial" disabled="#{diario.status == 0}" value="#{diario.valorInicial}" style="color: black;" size="10" 
 						 required="true" requiredMessage="Informe o valor inicial" maxlength="10">
 					</h:inputText>
+					<rich:message errorClass="error" for="vlrInicial" styleClass="message"/>
 					Ex.: 1200.90
 				</rich:column>
 
@@ -55,6 +56,7 @@
 					<h:inputText disabled="#{diario.status == 1}" id="vlrFinal" value="#{diario.valorFinal}" style="color: black;" size="10"
 						 required="#{diario.status == 0}" requiredMessage="Informe o valor final" maxlength="10">
 					</h:inputText>
+					<rich:message errorClass="error" for="vlrFinal" styleClass="message"/>
 					Ex.: 2389.67
 				</rich:column>
 
@@ -83,7 +85,7 @@
 						<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 					</h:commandButton>	
 
-					<h:commandButton value="Zerar Bomba" action="#{diarioBombaBean.zerarBomba}" rendered="#{diarioBombaBean.mostrarZeraBomba}">
+					<h:commandButton value="Zerar Bomba" action="#{diarioBombaBean.zerarBomba}" rendered="#{diarioBombaBean.entity.zerada}">
 			    		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 				    </h:commandButton>	
 

@@ -51,6 +51,9 @@ public class Bomba implements Serializable{
 	@Column(name = "limleitura", nullable = false)
 	private Float limiteLeitura;
 	
+	@Column(name = "limalerta", nullable = false)
+	private Float limiteAlerta;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="CODPOSTO", nullable = false)
@@ -125,6 +128,14 @@ public class Bomba implements Serializable{
 
 	public void setLimiteLeitura(Float limiteLeitura) {
 		this.limiteLeitura = limiteLeitura;
+	}
+	
+	public Float getLimiteAlerta() {
+		return limiteAlerta;
+	}
+
+	public void setLimiteAlerta(Float limiteAlerta) {
+		this.limiteAlerta = limiteAlerta;
 	}
 
 	public boolean equals(Object obj) {

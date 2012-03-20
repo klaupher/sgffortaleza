@@ -24,11 +24,18 @@
 				<h:message for="numero" styleClass="message"/>
 			</dd>
 			
-			<dt><label for="limLeitura">Limite de Leitura</label></dt>
+			<dt><label for="limLeitura">Leitura Máxima</label></dt>
 			<dd>
-				<h:inputText value="#{bombaBean.entity.limiteLeitura}" id="limLeitura"  requiredMessage="Informe a leitura máxima da bomba">
+				<h:inputText value="#{bombaBean.entity.limiteLeitura}" id="limLeitura" required="true"  requiredMessage="Informe a leitura máxima da bomba ...">
 				</h:inputText>
 				<h:message for="limLeitura" styleClass="message"/>
+			</dd>
+			
+			<dt><label for="limAlerta">Alerta</label></dt>
+			<dd>
+				<h:inputText value="#{bombaBean.entity.limiteAlerta}" id="limAlerta" required="true"  requiredMessage="Informe a leitura de alerta ...">
+				</h:inputText>
+				<h:message for="limAlerta" styleClass="message"/>
 			</dd>
 
 			<dt><label for="posto">Posto</label></dt>
@@ -40,7 +47,7 @@
 				<h:message for="posto" tooltip="true" styleClass="message"/>
 			</dd>	
 
-			<dt><label for="combustivel">Combustível</label></dt>
+			<dt><label for="combustivel">Tipo Combustível</label></dt>
 			<dd>
 				<h:selectOneMenu id="combustivel" value="#{bombaBean.entity.combustivel}" required="true" requiredMessage="Informe o tipo de combustível" converter="entityConverter">
 					<f:selectItem itemValue="" itemLabel="Selecione o combustível" />

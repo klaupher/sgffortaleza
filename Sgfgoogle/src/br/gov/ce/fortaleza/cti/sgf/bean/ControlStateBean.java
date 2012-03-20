@@ -377,6 +377,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 	public boolean isAbastecimentoBean() {
 		return AbastecimentoBean.class.getSimpleName().equals(getCurrentBean());
 	}
+	
+	public boolean isAtendimentoAbastecimentoBean() {
+		return AtendimentoAbastecimentoBean.class.getSimpleName().equals(getCurrentBean());
+	}
 
 	public boolean isSincronizaBean() {
 		return SincronizaBean.class.getSimpleName().equals(getCurrentBean());

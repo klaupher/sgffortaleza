@@ -20,23 +20,14 @@
 			<legend>Busca</legend>
 
 	      	<dl>
-				<dt><label for="numeroPesquisa">Nº da Bomba:</label></dt>
+				<dt><label for="numeroPesquisa">Nº Bomba:</label></dt>
 				<dd>
 					<h:inputText value="#{bombaBean.numeroPesquisa}" id="numeroPesquisa">
 						 <rich:jQuery query="numeric()" selector="#numeroPesquisa" timing="onload" />
 					</h:inputText>
 				</dd>	
 
-				<dt><label for="postoPesquisa">Posto:</label></dt>
-				<dd>
-					<h:selectOneMenu id="postoPesquisa" value="#{bombaBean.posto}" required="true" requiredMessage="Informe o posto" 
-						converter="entityConverter">
-						<f:selectItem itemValue="" itemLabel="Selecione o posto" />
-						<t:selectItems value="#{postoBean.postos}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
-					</h:selectOneMenu>
-				</dd>
-
-				<dt><label for="combustivelPesquisa">Combustível:</label></dt>
+				<dt><label for="combustivelPesquisa">Tipo Combustível:</label></dt>
 				<dd>
 					<h:selectOneMenu id="combustivelPesquisa" value="#{bombaBean.combustivel}" required="true" 
 						requiredMessage="Informe o tipo de combustível" converter="entityConverter">
@@ -50,6 +41,16 @@
 						<a4j:support event="onclick" reRender="paginaPrincipal" />
 					</h:commandButton>	
 				</dd>
+
+				<dt><label for="postoPesquisa">Nome do Posto:</label></dt>
+				<dd>
+					<h:selectOneMenu id="postoPesquisa" value="#{bombaBean.posto}" required="true" requiredMessage="Informe o posto" 
+						converter="entityConverter">
+						<f:selectItem itemValue="" itemLabel="Selecione o posto" />
+						<t:selectItems value="#{postoBean.postos}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
+					</h:selectOneMenu>
+				</dd>
+				
 			</dl>
 
 		</fieldset>	
@@ -80,8 +81,13 @@
 				</rich:column>
 				
 				<rich:column width="5%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Lim. Leitura" /></f:facet>
+					<f:facet name="header"><h:outputText value="Leitura Máx." /></f:facet>
 					<h:outputText value="#{bomba.limiteLeitura}" style="color: black;"/>
+				</rich:column>
+				
+				<rich:column width="5%" style="text-align: left;" > 
+					<f:facet name="header"><h:outputText value="Leitura Alerta" /></f:facet>
+					<h:outputText value="#{bomba.limiteAlerta}" style="color: black;"/>
 				</rich:column>
 
 				<rich:column sortBy="#{bomba.posto.descricao}"  width="25%" style="text-align: left;" > 
