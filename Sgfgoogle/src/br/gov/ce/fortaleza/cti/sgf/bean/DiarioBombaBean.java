@@ -145,6 +145,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		if(ultimaDiaria != null){
 			this.entity.setHoraInicial(new Date());
 			this.entity.setValorInicial(ultimaDiaria.getValorFinal());			
+			
 			if(!verificaBombaZerada()){
 				this.entity.setHoraInicial(null);
 				this.entity.setValorInicial(null);
@@ -228,7 +229,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		if(!verificaBombaZerada()){
 			return FAIL;
 		}
-		
+
 		if(validaLeitura()){
 			if(this.entity.getValorInicial() == null){
 				this.entity.setValorFinal(null);
@@ -261,13 +262,20 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		}
 	}
 	/**
-	 * atualiza diário de bomba
+	 * atualizar diário de bomba
 	 * @return
 	 */
 	public String atualizarDiarioBomba(){
 		if(validaLeitura()){
+			Float saida = 0F;
 			this.entity.setUltimaAlteracao(new Date());
 			this.entity.setUsuarioAlteracao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
+			if(this.entity.getZerada() && this.entity.getValorFinal() < this.entity.getValorInicial()){
+				saida = (this.entity.getBomba().getLimiteLeitura() - this.entity.getValorInicial()) + this.entity.getValorFinal();
+			} else {
+				saida = this.entity.getValorFinal() - this.entity.getValorInicial();
+			}
+			this.entity.setQuantidadeSaida(saida);
 			retrieveEntityService().update(this.entity);
 			setCurrentState(RelatorioDTO.SEARCH_DIARIOBOMBA);
 			setCurrentBean(currentBeanName());
@@ -321,26 +329,39 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		Float diferencaLimite;
 		boolean valido = true;
 		
+		if(this.entity.getValorInicial() != null && this.entity.getValorInicial() > limite){
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.leitura.foralimite");
+			valido = false;
+			return valido;
+		} else if(this.entity.getValorFinal() != null && this.entity.getValorFinal() > limite){
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.leitura.foralimite");
+			valido = false;
+			return valido;
+		}
+
 		if(limAlerta == null){
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limitealerta");
 			valido = false;
 			return valido;
 		}
-
-		if(limite != null){
+		
+		if(limite == null){
+			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limiteleitura");
+			valido = false;
+			return valido;
+		} else if(limite != null){
 			diferencaLimite = limite - limAlerta; // VERIFICA A DIFERENÇA DE LIMITES A PARTIR DA QUAL SERÁ INFORMADO QUE A BOMBA PRECISA SER ZERADA
 			if(this.entity.getValorInicial() != null && this.entity.getValorFinal() != null){
-				if(((limite - this.entity.getValorInicial()) < diferencaLimite) || ((limite - this.entity.getValorFinal()) < diferencaLimite)){
+				if((limite - this.entity.getValorInicial()) < diferencaLimite){
 					setMostrarZeraBomba(true);
-				} else {
+				} 
+				if((limite - this.entity.getValorFinal()) < diferencaLimite){ 
+					setMostrarZeraBomba(true);
+				}	else {
 					setMostrarZeraBomba(false);
 				}
 			}
 			valido = true;
-			return valido;
-		} else {
-			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limiteleitura");
-			valido = false;
 		}
 		return valido;
 	}
@@ -352,7 +373,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	}
 
 	/**
-	 * Iniciar as di�rias da bombas de cada posto
+	 * Iniciar as diárias da bombas de cada posto
 	 */
 	public void iniciarDiarias() {
 

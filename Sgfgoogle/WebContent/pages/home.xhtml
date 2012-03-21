@@ -54,7 +54,7 @@
 				
 				<c:if test="#{controlBean.atendimentoAbastecimentoBean}">
 					<c:if test="#{(atendimentoAbastecimentoBean.updateState or atendimentoAbastecimentoBean.saveState)}">
-						<ui:include src="cadastros/abastecimento/abastecimento.xhtml" />
+						<ui:include src="cadastros/abastecimento/atendimentoAbastecimento.xhtml" />
 					</c:if>
 					<c:if test="#{atendimentoAbastecimentoBean.searchState}">
 						<ui:include src="cadastros/abastecimento/atendimentoAbastecimentoList.xhtml" />

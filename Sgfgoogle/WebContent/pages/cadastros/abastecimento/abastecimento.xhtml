@@ -90,7 +90,7 @@
 	            </a4j:region>
 
 				
-	            <dt><label for="dataInicio">Data do abastecimento:</label></dt>
+	            <dt><label for="dataInicio">Data da Solicitação:</label></dt>
 				<dd>
 					<h:inputText id="data" value="#{abastecimentoBean.entity.dataAutorizacao}" style="width:130px" rendered="#{!abastecimentoBean.confirmAtender}" 
 						disabled="#{abastecimentoBean.atender or abastecimentoBean.atendimento}" styleClass="maskData">
@@ -101,7 +101,7 @@
 						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 					</h:inputText>
 				</dd>
-				
+
 				<c:if test="#{abastecimentoBean.atender}">
 					<dt><label for="dataInicio">Hora do atendimento:</label></dt>
 					<dd>

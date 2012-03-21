@@ -3,6 +3,7 @@
  */
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.AtendimentoService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
+import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 
 
 @Scope("session")
@@ -54,6 +56,12 @@ public class AtendimentoAbastecimentoBean extends EntityBean<Integer, Atendiment
 	}
 	
 	@Override
+	public String update(){
+		this.entities = service.findListAbastecimentosVeiculo(this.orgao, this.veiculo, this.dataInicial, this.dataFinal);
+		return super.update();
+	}
+	
+	@Override
 	public String search(){
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
@@ -62,11 +70,14 @@ public class AtendimentoAbastecimentoBean extends EntityBean<Integer, Atendiment
 	
 	public String populate(){
 		this.veiculos = veiculoService.findByUG(this.orgao);
+		this.entities = new ArrayList<AtendimentoAbastecimento>();
 		return super.populate();
 	}
 	
 	public String buscarAtendimentos(){
 		
+		this.dataInicial = DateUtil.getDateStartDay(this.dataInicial);
+		this.dataFinal = DateUtil.getDateStartDay(this.dataFinal);
 		this.entities = service.findListAbastecimentosVeiculo(this.orgao, this.veiculo, this.dataInicial, this.dataFinal);
 		return SUCCESS;
 	}

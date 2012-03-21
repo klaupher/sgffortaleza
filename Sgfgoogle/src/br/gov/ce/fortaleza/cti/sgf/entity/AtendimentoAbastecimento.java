@@ -64,7 +64,7 @@ public class AtendimentoAbastecimento implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DATA")
-	private Date data;
+	private Date data; // DATA DO REGISTRO DO ATENDIMENTO
 
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "STATUS")
@@ -80,12 +80,12 @@ public class AtendimentoAbastecimento implements Serializable {
 	private Double quantidadeAbastecida;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "HORA_ATENDIMENTO")
+	@Column(name = "HORA_ATENDIMENTO") // DATA DO ATENDIMENTO DO ABASTECIMENTO
 	private Date hora;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "HRATENDIMENTO")
-	private Date horaAtendimento;
+	private Date horaAtendimento; // HORA DO ATENDIMENTO INFORMADO
 
 	public Integer getId() {
 		return id;

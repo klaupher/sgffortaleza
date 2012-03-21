@@ -55,7 +55,7 @@
 
 	      		<c:if test="#{multaBean.entitiesSize > 0}" >
 
-					<rich:column width="5%" style="text-align: center;"> 
+					<rich:column width="1%" style="text-align: center;"> 
 						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
@@ -65,12 +65,12 @@
 						<h:outputText value="#{multa.veiculo.placa}  #{multa.veiculo.modelo.descricao}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="30%" sortBy="#{multa.motorista.pessoa.nome}"> 
+					<rich:column width="20%" sortBy="#{multa.motorista.pessoa.nome}"> 
 						<f:facet name="header"><h:outputText value="Motorista" /></f:facet>
 						<h:outputText value="#{multa.motorista.pessoa.nome}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="22%" sortBy="#{multa.infracao.descricao}"> 
+					<rich:column width="20%" sortBy="#{multa.infracao.descricao}"> 
 						<f:facet name="header"><h:outputText value="Infração" /></f:facet>
 						<h:outputText value="#{multa.infracao.descricao}" style="color: black;"/>
 					</rich:column>
@@ -90,21 +90,14 @@
 						<h:outputText value="#{multa.infracao.valor}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="4%" sortBy="#{multa.dataInfracao}">
+					<rich:column width="2%" sortBy="#{multa.dataInfracao}">
 						<f:facet name="header"><h:outputLabel value="Data infração"/></f:facet>
 						<h:outputText value="#{multa.dataInfracao}">
 							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 						</h:outputText>
 					</rich:column>
 
-					<rich:column width="4%" sortBy="#{multa.dataCadastro}">
-						<f:facet name="header"><h:outputLabel value="Data cadastro"/></f:facet>
-						<h:outputText value="#{multa.dataCadastro}">
-							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
-						</h:outputText>
-					</rich:column>
-
-					<rich:column width="3%" style="text-align: center;">
+					<rich:column width="2%" style="text-align: center;">
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{multaBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{multaBean.entity}" value="#{multa}"/>
@@ -112,7 +105,7 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="3%" style="text-align: center;" rendered="#{controlBean.administrador}">
+					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 						<h:commandLink styleClass="excluir"  action="#{multaBean.delete}" value="Excluir" onclick="if(!confirm('Tem certeza que deseja excluir?')) { form.reset();return false;}">
 							<f:setPropertyActionListener target="#{multaBean.entity}" value="#{multa}"/>

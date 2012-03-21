@@ -50,54 +50,54 @@
 
 	      		<c:if test="#{veiculoBean.entitiesSize > 0}" >
 
-					<rich:column width="2%" style="text-align: center;" > 
+					<rich:column width="1%" style="text-align: center;" > 
 						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 						<h:outputText value="#{index+1}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="20%"> 
+					<rich:column width="14%"> 
 						<f:facet name="header"><h:outputText value="UG" /></f:facet>
 						<h:outputText value="#{veiculo.ua.ug.descricao}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="20%">
-						<f:facet name="header"><h:outputText value="UA" /></f:facet>
-						<h:outputText value="#{veiculo.ua.descricao}" style="color: black;"/>
-					</rich:column>
+<!-- 					<rich:column width="16%"> -->
+<!-- 						<f:facet name="header"><h:outputText value="UA" /></f:facet> -->
+<!-- 						<h:outputText value="#{veiculo.ua.descricao}" style="color: black;"/> -->
+<!-- 					</rich:column> -->
 
 					<rich:column width="4%" sortBy="#{veiculo.placa}"> 
 						<f:facet name="header"><h:outputText value="Placa" /></f:facet>
 						<h:outputText value="#{veiculo.placa}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="6%"> 
+					<rich:column width="5%"> 
 						<f:facet name="header"><h:outputText value="Renavam" /></f:facet>
 						<h:outputText value="#{veiculo.renavam}" style="color: black;"/>
 					</rich:column>					
 
-					<rich:column width="14%" sortBy="#{veiculo.modelo.descricao}"> 
+					<rich:column width="10%" sortBy="#{veiculo.modelo.descricao}"> 
 						<f:facet name="header"><h:outputText value="Modelo" /></f:facet>
 						<h:outputText value="#{veiculo.modelo.descricao} #{veiculo.serie}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="4%"> 
-						<f:facet name="header"><h:outputText value="Combustível" /></f:facet>
+					<rich:column width="3%"> 
+						<f:facet name="header"><h:outputText value="Combust" /></f:facet>
 						<h:outputText value="#{veiculo.combustivel}" style="color: black;"/>
 					</rich:column>
 					
-					<rich:column width="3%"> 
-						<f:facet name="header"><h:outputText value="Km Atual"/></f:facet>
-						<h:outputText value="#{veiculo.kmAtual}" style="color: black;"/>
-					</rich:column>
+<!-- 					<rich:column width="2%">  -->
+<!-- 						<f:facet name="header"><h:outputText value="KmAtual"/></f:facet> -->
+<!-- 						<h:outputText value="#{veiculo.kmAtual}" style="color: black;"/> -->
+<!-- 					</rich:column> -->
 
-					<rich:column width="4%" sortBy="#{veiculo.dataCadastro}"> 
-						<f:facet name="header"><h:outputText value="Cadastro" /></f:facet>
-						<h:outputText value="#{veiculo.dataCadastro}" style="color: black;">
-							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
-						</h:outputText>
-					</rich:column>
+<!-- 					<rich:column width="4%" sortBy="#{veiculo.dataCadastro}">  -->
+<!-- 						<f:facet name="header"><h:outputText value="Data" /></f:facet> -->
+<!-- 						<h:outputText value="#{veiculo.dataCadastro}" style="color: black;"> -->
+<!-- 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/> -->
+<!-- 						</h:outputText> -->
+<!-- 					</rich:column> -->
 
-					<rich:column width="2%" style="text-align: center;"  rendered="#{controlBean.administrador}">
+					<rich:column width="1%" style="text-align: center;"  rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{veiculoBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
@@ -105,7 +105,7 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador}">
+					<rich:column width="1%" style="text-align: center;" rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 						<h:commandLink styleClass="excluir" action="#{veiculoBean.delete}" value="Excluir" onclick="if(!confirm('Confirmar Exclusão')){document.getElementById('paginaPrincipal').reset(); return false;}">
 							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>

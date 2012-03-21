@@ -11,7 +11,7 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:300px">  <h:outputText value="#{msg['abastecimento.title']}" /> </h1>
+		<h1 style="width:300px"><h:outputText value="Atendimentos Feitos" /> </h1>
 
 		<fieldset>
 
@@ -22,6 +22,7 @@
 	      		<dt><label for="ugabast">Órgão:</label></dt>
 	      		<dd>
 					<h:selectOneMenu id="ugabast" value="#{atendimentoAbastecimentoBean.orgao}" converter="entityConverter" style="width:450px">
+						<f:selectItem itemValue="" itemLabel="Selecione a UG ..." />
 						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 						<a4j:support event="onchange" action="#{atendimentoAbastecimentoBean.populate}" reRender="veicabast" status="statusloader"/>
 					</h:selectOneMenu>
@@ -32,8 +33,8 @@
 				<dt><label for="veicabast"><h:outputText value="#{msg['abastecimento.veiculo']}:" /></label></dt>
 				<dd>
 				    <h:selectOneMenu id="veicabast" required="true" value="#{atendimentoAbastecimentoBean.veiculo}" converter="entityConverter"> 
-				         <f:selectItem itemValue="" itemLabel="Informe o veículo ..." />
-				         <t:selectItems value="#{atendimentoAbastecimentoBean.veiculos}" var="v" itemLabel="#{v.placa}  #{v.modelo.descricao} #{v.serie}" itemValue="#{v}" />
+				         <f:selectItem itemValue="" itemLabel="Todos ..." />
+				         <t:selectItems value="#{atendimentoAbastecimentoBean.veiculos}" var="v" itemLabel="#{v.placa}"   itemValue="#{v}" />
 				    </h:selectOneMenu>
 					<h:message for="veicabast" tooltip="true" styleClass="message" />
 				</dd>
@@ -94,25 +95,33 @@
 
 				<rich:column width="20%" style="text-align: left;" > 
                     <f:facet name="header"><h:outputText value="Veículo"/></f:facet>
-                     <h:outputText value="#{a.abastecimento.veiculo.placa} #{a.abastecimento.veiculo.modelo.descricao} #{a.abastecimento.veiculo.serie}" style="color: black;"/>
+                     <h:outputText value="#{a.abastecimento.veiculo.placa}" style="color: black;"/>
                 </rich:column>
 
-                <rich:column width="5%" style="text-align: left;" > 
-                    <f:facet name="header"><h:outputText value="Disp." /></f:facet>
-                    <h:outputText value="#{a.abastecimento.veiculo.cota.cotaDisponivel}" style="color: black;"/>
-                </rich:column>
-                
-               <rich:column sortBy="#{a.abastecimento.veiculo.ua.ug.descricao}" width="30%" style="text-align: left;" > 
-                    <f:facet name="header"><h:outputText value="Órgão" /></f:facet>
-                    <h:outputText value="#{a.abastecimento.veiculo.ua.ug.descricao}" style="color: black;"/>
-                </rich:column>
                <rich:column width="7%" style="text-align: left;" > 
                     <f:facet name="header"><h:outputText value="Combust." /></f:facet>
                     <h:outputText value="#{a.abastecimento.combustivel.descricao}" style="color: black;"/>
                 </rich:column>
-
+                
+               <rich:column width="7%" style="text-align: left;" > 
+                    <f:facet name="header"><h:outputText value="KM" /></f:facet>
+                    <h:outputText value="#{a.quilometragem}" style="color: black;"/>
+                </rich:column>
+                
+               <rich:column width="7%" style="text-align: left;" > 
+                    <f:facet name="header"><h:outputText value="Quant.(Lts)" /></f:facet>
+                    <h:outputText value="#{a.quantidadeAbastecida}" style="color: black;"/>
+                </rich:column>
+                
+                <rich:column width="10%" style="text-align: left;">
+                    <f:facet name="header"><h:outputText value="Hora" /></f:facet>
+                    <h:outputText value="#{a.horaAtendimento}" style="color: black;">
+                        <f:convertDateTime  pattern="HH:mm" timeZone="GMT-03:00"/>
+                    </h:outputText>
+                </rich:column>
+                
                 <rich:column width="10%" style="text-align: left;" sortBy="#{a.dataAutorizacao}">
-                    <f:facet name="header"><h:outputText value="Data Aut." /></f:facet>
+                    <f:facet name="header"><h:outputText value="Data Atendimento" /></f:facet>
                     <h:outputText value="#{a.abastecimento.dataAutorizacao}" style="color: black;">
                         <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
                     </h:outputText>

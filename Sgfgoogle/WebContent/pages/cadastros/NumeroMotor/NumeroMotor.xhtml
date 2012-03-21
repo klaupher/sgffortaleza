@@ -56,9 +56,8 @@
 			<dd>
 				<h:inputTextarea value="#{numeroMotorBean.entity.justificativa}" id="justificativa" cols="40" maxlength="255" style="margin-left:10px"/>
 			</dd>
-			
+
 			<p></p>
-			<label style="color:red">* campos obrigatórios</label>
 
 	    </fieldset>
 
@@ -74,6 +73,7 @@
 
 	<h:commandButton action="#{numeroMotorBean.search}" value="Voltar" immediate="true">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
-	</h:commandButton>	
+	</h:commandButton>
+	<label style="color:red">* campos obrigatórios</label>
 
 </ui:composition>
