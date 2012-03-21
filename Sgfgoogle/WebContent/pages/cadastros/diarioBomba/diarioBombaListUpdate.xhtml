@@ -18,13 +18,13 @@
 	      	<legend>Diário de Bomba de Combustível</legend>
 
        		<h:outputText value="Data inicial"/>
-       		<h:inputText value="#{diarioBombaBean.init}" id="dtinit" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:68px">
+       		<h:inputText value="#{diarioBombaBean.init}" id="dtinit" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:76px">
        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
        		</h:inputText>
        		<h:message for="dtinit" styleClass="message"/>
 
 			<h:outputText value="Data final"/>
-       		<h:inputText value="#{diarioBombaBean.finnal}" id="dtfim"  required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:68px">
+       		<h:inputText value="#{diarioBombaBean.finnal}" id="dtfim"  required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:76px">
        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
        		</h:inputText>
        		<h:message for="dtfim" styleClass="message"/>
@@ -70,24 +70,24 @@
 					</rich:column>
 	
 					<rich:column width="20%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="Valor inicial" /></f:facet>
+						<f:facet name="header"><h:outputText value="Leitura Inicial" /></f:facet>
 						<h:outputText value="#{d.valorInicial}" style="color: black;"/>
 					</rich:column>
 	
 					<rich:column width="20%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="Valor final" /></f:facet>
+						<f:facet name="header"><h:outputText value="Leitura Final" /></f:facet>
 						<h:outputText value="#{d.valorFinal}" style="color: black;"/>
 					</rich:column>
 	
 					<rich:column width="15%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="Hora Inicial" /></f:facet>
+						<f:facet name="header"><h:outputText value="Hora Leitura Inicial" /></f:facet>
 						<h:outputText value="#{d.horaInicial}" style="color: black;">
 							<f:convertDateTime type="time" timeStyle="short" timeZone="GMT-03:00"/>
 						</h:outputText>
 					</rich:column>
 	
 					<rich:column width="15%" style="text-align: left;" >
-						<f:facet name="header"><h:outputText value="Hora final" /></f:facet>
+						<f:facet name="header"><h:outputText value="Hora Leitura Final" /></f:facet>
 						<h:outputText value="#{d.horaFinal}" style="color: black;">
 							<f:convertDateTime type="time" timeStyle="short" timeZone="GMT-03:00"/>
 						</h:outputText>

@@ -35,7 +35,7 @@
 					<h:outputText value="#{index+1}" style="color: black;"/>
 				</rich:column>
 
-				<rich:column width="20%" style="text-align: left;" > 
+				<rich:column width="16%" style="text-align: left;" > 
 					<f:facet name="header"><h:outputText value="Data" /></f:facet>
 					<h:inputText value="#{diaria.dataCadastro}" style="color: black;" disabled="true" size="10">
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
@@ -43,15 +43,15 @@
 					<h:graphicImage value="/images/calendar.png" />
 				</rich:column>
 
-				<rich:column width="15%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Valor inicial" /></f:facet>
+				<rich:column width="20%" style="text-align: left;" > 
+					<f:facet name="header"><h:outputText value="Leitura Inicial" /></f:facet>
 					<h:inputText id="vlrInicialEdit" value="#{diaria.valorInicial}" style="color: black;" size="10" 
 						disabled="false">
 					</h:inputText>	
 				</rich:column>
 
-				<rich:column width="15%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Valor final" /></f:facet>
+				<rich:column width="20%" style="text-align: left;" > 
+					<f:facet name="header"><h:outputText value="Leitura Final" /></f:facet>
 					<h:inputText id="vlrFinalEdit" value="#{diaria.valorFinal}" style="color: black;" size="10"
 						disabled="#{diaria.status == 0}">
 					</h:inputText>

@@ -42,22 +42,22 @@
 					<h:graphicImage value="/images/calendar.png" />
 				</rich:column>
 
-				<rich:column width="25%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Valor inicial" /></f:facet>
+				<rich:column width="30%" style="text-align: left;" > 
+					<f:facet name="header"><h:outputText value="Leitura Inicial" /></f:facet>
 					<h:inputText id="vlrInicial" disabled="#{diario.status == 0}" value="#{diario.valorInicial}" style="color: black;" size="10" 
 						 required="true" requiredMessage="Informe o valor inicial" maxlength="10">
 					</h:inputText>
 					<rich:message errorClass="error" for="vlrInicial" styleClass="message"/>
-					Ex.: 1200.90
+					Ex.:1200.90
 				</rich:column>
 
-				<rich:column width="25%" style="text-align: left;" > 
-					<f:facet name="header"><h:outputText value="Valor final" /></f:facet>
+				<rich:column width="30%" style="text-align: left;" > 
+					<f:facet name="header"><h:outputText value="Leitura Final" /></f:facet>
 					<h:inputText disabled="#{diario.status == 1}" id="vlrFinal" value="#{diario.valorFinal}" style="color: black;" size="10"
 						 required="#{diario.status == 0}" requiredMessage="Informe o valor final" maxlength="10">
 					</h:inputText>
 					<rich:message errorClass="error" for="vlrFinal" styleClass="message"/>
-					Ex.: 2389.67
+					Ex.:1389.67
 				</rich:column>
 
 				<rich:column width="5%" style="text-align: left;" > 
