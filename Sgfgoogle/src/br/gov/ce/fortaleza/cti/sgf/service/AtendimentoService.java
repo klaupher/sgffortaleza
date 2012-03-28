@@ -64,7 +64,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	
 	@SuppressWarnings("unchecked")
 	public List<AtendimentoAbastecimento> findListAbastecimentosVeiculo(UG ug, Veiculo veiculo, Date dataInicio, Date dataFim){
-		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.hora between ? and ?");
+		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.abastecimento.dataAutorizacao between ? and ?");
 		
 		if(ug != null){
 			str.append(" and o.abastecimento.veiculo.ua.ug.id = :ugid");

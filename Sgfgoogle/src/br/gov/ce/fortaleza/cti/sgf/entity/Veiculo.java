@@ -31,10 +31,12 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.postgis.Geometry;
 
 @Entity
+
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "TB_CADVEICULO", schema = "SGF")
 @SecondaryTables({

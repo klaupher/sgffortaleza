@@ -888,7 +888,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					item.setSaldoCota(cota - total);
 					item.setSaldoFinal(cota - total);
 					item.setDataAtendimento(DateUtil.parseAsString("dd/MM/yyyy", atendimento.getData()));
-					item.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHora()));
+					item.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHoraAtendimento()));
 					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
 					relatorioVeiculo.setConsumoTotal(relatorioVeiculo.getConsumoTotal() + item.getConsumo());
 					relatorioVeiculo.getRelatorios().add(item);

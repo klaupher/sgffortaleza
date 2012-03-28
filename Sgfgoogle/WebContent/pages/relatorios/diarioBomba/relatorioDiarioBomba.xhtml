@@ -94,14 +94,14 @@
 							</rich:column>
 
 							<rich:column width="6%">
-								<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Data Abastecimento"/></f:facet>
 								<h:outputText value="#{db.dataCadastro}">
 									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 								</h:outputText>
 							</rich:column>
 
 							<rich:column width="4%">
-								<f:facet name="header"><h:outputLabel value="Hora Leitura Início"/></f:facet>
+								<f:facet name="header"><h:outputLabel value="Hora Leit. Inícial"/></f:facet>
 								<h:outputText value="#{db.horaInicial}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
 								</h:outputText>
@@ -109,7 +109,7 @@
 
 							<rich:column width="4%">
 								<f:facet name="header">
-									<h:outputLabel value="Hora Leitura Final"/>
+									<h:outputLabel value="Hora Leit. Final"/>
 								</f:facet>
 								<h:outputText value="#{db.horaFinal}">
 									<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>

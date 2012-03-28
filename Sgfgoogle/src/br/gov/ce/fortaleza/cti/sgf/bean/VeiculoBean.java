@@ -187,6 +187,18 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		setCurrentState(SEARCH);
 		return SUCCESS;
 	}
+	
+	public String inativarVeiculo(){
+		this.entity.setStatus(StatusVeiculo.DELETADO);
+		super.update();
+		return super.search();
+	}
+	
+	public String ativarVeiculo(){
+		this.entity.setStatus(StatusVeiculo.DISPONIVEL);
+		super.update();
+		return super.search();
+	}
 
 	public String loadUas(){
 		this.uas = new ArrayList<UA>();

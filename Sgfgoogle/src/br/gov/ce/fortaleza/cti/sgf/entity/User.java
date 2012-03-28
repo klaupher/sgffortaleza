@@ -22,6 +22,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -84,9 +85,10 @@ public class User implements Serializable, UserDetails {
 	@Column(name="logado")
 	private Boolean logado;
 
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToOne(fetch=FetchType.EAGER,  cascade=CascadeType.MERGE)
 	@JoinTable(name="TB_GRUPOUSUARIO", schema = "SGF", joinColumns=@JoinColumn(name="CODPESSOAUSUARIO"), 
-			inverseJoinColumns=@JoinColumn(name="codgrupo"))
+													   inverseJoinColumns=@JoinColumn(name="CODGRUPO"), 
+													   uniqueConstraints = {@UniqueConstraint(columnNames = {"CODPESSOAUSUARIO", "CODGRUPO"})})
 	private Role role;
 
 	//	@OneToMany(mappedBy="solicitante", fetch=FetchType.LAZY)	

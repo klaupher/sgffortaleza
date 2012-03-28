@@ -97,6 +97,22 @@
 <!-- 						</h:outputText> -->
 <!-- 					</rich:column> -->
 
+					<rich:column width="1%" style="text-align: center;"  rendered="#{controlBean.administrador and veiculo.status != -1}">
+						<f:facet name="header"><h:outputText value="Status" /></f:facet>
+						<h:commandLink styleClass="ativar" action="#{veiculoBean.inativarVeiculo}" value="Inativar" onclick="if(!confirm('O Veículo será INATIVADO. Confirme a ação!')){document.getElementById('paginaPrincipal').reset(); return false;}">
+							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
+							<a4j:support event="onclick" reRender="paginaPrincipal"/>
+						</h:commandLink>
+					</rich:column>
+					
+					<rich:column width="1%" style="text-align: center;"  rendered="#{controlBean.administrador and veiculo.status == -1}">
+						<f:facet name="header"><h:outputText value="Status" /></f:facet>
+						<h:commandLink styleClass="inativar" action="#{veiculoBean.ativarVeiculo}" value="Ativar" onclick="if(!confirm('O Veículo selecionado será ATIVADO. Confirme a ação.')){document.getElementById('paginaPrincipal').reset(); return false;}">
+							<f:setPropertyActionListener target="#{veiculoBean.entity}" value="#{veiculo}"/>
+							<a4j:support event="onclick" reRender="paginaPrincipal"/>
+						</h:commandLink>
+					</rich:column>
+					
 					<rich:column width="1%" style="text-align: center;"  rendered="#{controlBean.administrador}">
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{veiculoBean.prepareUpdate}" value="Editar">
