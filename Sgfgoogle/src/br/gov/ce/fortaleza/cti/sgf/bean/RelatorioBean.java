@@ -826,6 +826,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		Float consumoTotalUg = 0F;
 		Float consumoTotalGasolina = 0F;
 		Float consumoTotalEtanol = 0F;
+		Float consumoTotalDiesel = 0F;
 		for (UG ug : hashAtendimentosUg.keySet()) {
 			
 			List<AtendimentoAbastecimento> abastecimentosUg = hashAtendimentosUg.get(ug);
@@ -893,6 +894,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					relatorioVeiculo.setConsumoTotal(relatorioVeiculo.getConsumoTotal() + item.getConsumo());
 					relatorioVeiculo.getRelatorios().add(item);
 				}
+				
+				Collections.sort(relatorioVeiculo.getRelatorios(), new Comparator<RelatorioDTO>() {
+					public int compare(RelatorioDTO p1, RelatorioDTO p2) {
+						return p1.getDataAtendimento().compareTo(p2.getDataAtendimento());
+					}
+				});
 				relatorioVeiculo.setNumeroAbastecimentos(abastecimentosVeiculos.size());
 				relatorioUg.setConsumoTotal(total);
 				relatorioUg.getRelatorios().add(relatorioVeiculo);
@@ -900,7 +907,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				consumoTotalUg += total;
 				consumoTotalGasolina += totalgas;
 				consumoTotalEtanol += totaletan;
-				consumoTotalEtanol += totaldiesel;
+				consumoTotalDiesel += totaldiesel;
 				total = 0F;
 			}
 			
