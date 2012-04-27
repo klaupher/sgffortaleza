@@ -87,7 +87,7 @@ public class Abastecimento implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DTAUTORIZACAO", nullable = false)
-	private Date dataAutorizacao;
+	private Date dataAutorizacao; // data em que foi registrada a autorização pelo sistema
 
 	@Column(name = "KM_ATENDIMENTO")
 	private Long quilometragem;

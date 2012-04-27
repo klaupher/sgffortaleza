@@ -209,20 +209,9 @@
 			<dl>
 				<dt><h:outputLabel value="Status"/></dt>
 				<dd>
-<!-- 					<h:inputText value="Disponível" rendered="#{veiculoBean.entity.status == 0}"/> -->
-<!-- 					<h:inputText value="Locado" rendered="#{veiculoBean.entity.status == 1}"/> -->
-<!-- 					<h:inputText value="Reservado" rendered="#{veiculoBean.entity.status == 2}"/> -->
-<!-- 					<h:inputText value="Manutenção" rendered="#{veiculoBean.entity.status == 3}"/> -->
-<!-- 					<h:inputText value="Serviço" rendered="#{veiculoBean.entity.status == 4}"/> -->
-<!-- 					<h:inputText value="Transferido" rendered="#{veiculoBean.entity.status == 5}"/> -->
 					
-					<h:selectOneMenu id="veicStatus" value="#{veiculoBean.entity.status}" style="width:40%">
-						<f:selectItem itemLabel="Disponível" itemValue="0"/>
-						<f:selectItem itemLabel="Locado" itemValue="1"/>
-						<f:selectItem itemLabel="Reservado" itemValue="2"/>
-						<f:selectItem itemLabel="Manutenção" itemValue="3"/>
-						<f:selectItem itemLabel="Serviço" itemValue="4"/>
-						<f:selectItem itemLabel="Transferido" itemValue="5"/>
+					<h:selectOneMenu id="veicstatus" value="#{veiculoBean.entity.status}" style="width:40%">
+						<f:selectItem itemLabel="Ativo" itemValue="0"/>
 						<f:selectItem itemLabel="Inativo" itemValue="-1"/>
 					</h:selectOneMenu>
 					

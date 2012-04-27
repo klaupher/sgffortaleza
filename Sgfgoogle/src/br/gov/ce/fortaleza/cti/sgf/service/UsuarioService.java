@@ -74,8 +74,8 @@ public class UsuarioService extends BaseService<Integer, User> {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<User> findByLogin(String login, String status) {
-		Query query = entityManager.createQuery("select o from User o where o.login = ? and (o.status = ? or o.status = ?)");
-		query.setParameter(1, login);
+		Query query = entityManager.createQuery("select o from User o where o.login like ? and (o.status = ? or o.status = ?)");
+		query.setParameter(1, "%" + login + "%");
 		query.setParameter(2, status);
 		query.setParameter(3, status.toLowerCase());
 		return query.getResultList();

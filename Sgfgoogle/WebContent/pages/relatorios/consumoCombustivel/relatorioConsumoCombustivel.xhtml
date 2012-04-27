@@ -45,7 +45,7 @@
 			
 			<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsumoCombustivel}" status="gerarRelatorio" reRender="dataTable"/>
 
-			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="10" rowKeyVar="index"
+			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="10000" rowKeyVar="index"
 				rowClasses="even,odd" 
 				onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')">
@@ -74,13 +74,14 @@
 
 				<c:if test="#{relatorioBean.entitiesSize > 0}">
 
-					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="10" rowKeyVar="k"
+					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="1000" rowKeyVar="ki"
 						headerClass="subHeader" 
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
 						onRowMouseOut="jQuery(this).removeClass('trHover')">
 
 						<rich:column colspan="10" style="font-weight: bold; background:white">
+							<h:outputText value="#{ki +1} -" />
 							<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
 							<h:outputText value="Consumo: #{r.consumoTotal}(L)" style="padding-left:20px"/>
 							<h:outputText value="Cota: #{r.cota}(L)" style="padding-left:20px"/>

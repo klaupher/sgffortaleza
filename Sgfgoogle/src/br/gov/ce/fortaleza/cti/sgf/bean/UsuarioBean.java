@@ -107,6 +107,14 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		}
 		return super.populate();
 	}
+	
+	public String buscarUsuario(){
+		if(this.filter != null){
+			this.entities = service.findByLogin(this.filter, this.status.toString());
+		}
+		
+		return SUCCESS;
+	}
 
 	public String prepareUpdate() {
 

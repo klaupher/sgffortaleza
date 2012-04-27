@@ -81,12 +81,13 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 				JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
 			}
 			return FAIL;
-		} catch(GenericJDBCException e){
-			if(e.getCause().getClass().equals(ConstraintViolationException.class)){
-				JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
-			}
-			return FAIL;
 		} 
+//		catch(GenericJDBCException e){
+//			if(e.getCause().getClass().equals(ConstraintViolationException.class)){
+//				JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
+//			}
+//			return FAIL;
+//		} 
 	}
 
 	public String prepareUpdate() {

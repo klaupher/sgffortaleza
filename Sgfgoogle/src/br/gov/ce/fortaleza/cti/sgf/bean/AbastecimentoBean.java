@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.PersistenceException;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -487,27 +488,29 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return SUCCESS;
 	}
 
+	@SuppressWarnings("finally")
 	@Override
 	public String save() {
-		if (validarAutorizacao()) {
-			if(this.entity.getDataAutorizacao() == null){
-				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
-			} else {
-				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(this.entity.getDataAutorizacao())));
-				this.entity.setDataAutorizacao(DateUtil.adicionarOuDiminuir(this.entity.getDataAutorizacao(), DateUtil.SECOND_IN_MILLIS));
-			}
-			this.entity.setAutorizador(SgfUtil.usuarioLogado());
-
-			try{
-				super.save();	
-			} catch (DataIntegrityViolationException e) {
-				if(e.getCause().getClass().equals(ConstraintViolationException.class)){
-					JSFUtil.getInstance().addErrorMessage("msg.error.operacao.invalida");
+		
+			if (validarAutorizacao()) {
+				if(this.entity.getDataAutorizacao() == null){
+					this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
+				} else {
+					this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(this.entity.getDataAutorizacao())));
+					this.entity.setDataAutorizacao(DateUtil.adicionarOuDiminuir(this.entity.getDataAutorizacao(), DateUtil.SECOND_IN_MILLIS));
 				}
-				return FAIL;
-			}
+				this.entity.setAutorizador(SgfUtil.usuarioLogado());
 
-			return search();
+				try{
+					 retrieveEntityService().save(this.entity);
+					 return SUCCESS;
+				} catch (Exception e) {
+					JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
+					return FAIL;
+				} finally{
+					return FAIL;
+				}
+				
 		}
 		return FAIL;
 	}
@@ -539,6 +542,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setData(this.entity.getDataAutorizacao());
 					atendimento.setHora(currentdate);
 					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
+					
+					System.out.println("HORA = " + atendimento.getHoraAtendimento());
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					atendimento.setQuilometragem(0L);
 					atendimento.setUsuario(SgfUtil.usuarioLogado());

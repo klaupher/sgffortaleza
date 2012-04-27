@@ -25,7 +25,7 @@
 
 	 			<p/>
 			    <h:inputText value="#{usuarioBean.filter}" />
-				<h:commandButton action="#{usuarioBean.searchUsuarios}" value="Pesquisar">
+				<h:commandButton action="#{usuarioBean.buscarUsuario}" value="Pesquisar">
 					<a4j:support event="oncomplete" action="usuarioBean.populate" reRender="dataTable" ajaxSingle="true"/>
 				</h:commandButton>
 	
