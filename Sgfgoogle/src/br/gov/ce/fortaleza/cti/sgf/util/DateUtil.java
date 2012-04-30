@@ -299,7 +299,7 @@ public class DateUtil {
 
 		Calendar t = Calendar.getInstance();
 		t.setTime(date);
-		t.set(Calendar.HOUR, hour);
+		t.set(Calendar.HOUR_OF_DAY, hour);
 		t.set(Calendar.MINUTE, min);
 		t.set(Calendar.SECOND, date.getSeconds());
 		t.set(Calendar.MILLISECOND, 0);

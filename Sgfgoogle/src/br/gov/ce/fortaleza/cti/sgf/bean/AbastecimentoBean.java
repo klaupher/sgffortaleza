@@ -4,6 +4,7 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -503,7 +504,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 				try{
 					 retrieveEntityService().save(this.entity);
-					 return SUCCESS;
+					 //setCurrentBean(currentBeanName());
+					 //setCurrentState(SEARCH);
+					 
+					 return search();
 				} catch (Exception e) {
 					JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
 					return FAIL;
@@ -515,7 +519,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		return FAIL;
 	}
 
-	/**
+	/**pages/home.jsf
 	 * Atualiza o cadastro do  atendimento, veificando se o abastecimento não se refere ao abastecimento 
 	 * de um vasilhame(veículo de modelo com código = 75)
 	 */
@@ -542,8 +546,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setData(this.entity.getDataAutorizacao());
 					atendimento.setHora(currentdate);
 					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes()));
-					
-					System.out.println("HORA = " + atendimento.getHoraAtendimento());
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					atendimento.setQuilometragem(0L);
 					atendimento.setUsuario(SgfUtil.usuarioLogado());
@@ -561,7 +563,8 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setData(this.entity.getDataAutorizacao()); // data da autorização do abastecimento
 					atendimento.setHora(currentdate); // data e hora atual
 					//atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(),
-					atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes())); // data e hora informada pelo operador
+					atendimento.setHoraAtendimento(
+						DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes())); // data e hora informada pelo operador
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
 					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
