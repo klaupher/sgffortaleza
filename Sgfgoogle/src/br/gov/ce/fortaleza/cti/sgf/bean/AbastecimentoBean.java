@@ -504,9 +504,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 
 				try{
 					 retrieveEntityService().save(this.entity);
-					 //setCurrentBean(currentBeanName());
-					 //setCurrentState(SEARCH);
-					 
 					 return search();
 				} catch (Exception e) {
 					JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
@@ -562,7 +559,6 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setBomba(this.bomba);
 					atendimento.setData(this.entity.getDataAutorizacao()); // data da autorização do abastecimento
 					atendimento.setHora(currentdate); // data e hora atual
-					//atendimento.setHoraAtendimento(DateUtil.setHourMinuteSecond(this.entity.getDataAutorizacao(),
 					atendimento.setHoraAtendimento(
 						DateUtil.setHourMinuteSecond(currentdate, this.horaAbastecimento.getHours(), this.horaAbastecimento.getMinutes())); // data e hora informada pelo operador
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
