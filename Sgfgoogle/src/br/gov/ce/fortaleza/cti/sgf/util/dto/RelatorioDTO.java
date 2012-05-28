@@ -41,6 +41,7 @@ public class RelatorioDTO implements Serializable {
 	
 	public static final String SEARCH_DIARIOBOMBA = "SEARCH_DIARIOBOMBA";
 	public static final String UPDATE_DIARIOBOMBA = "UPDATE_DIARIOBOMBA";
+	public static final String NEW_DIARIOBOMBA = "_DIARIOBOMBA";
 
 	private Multa  multa;
 	private Veiculo veiculo;

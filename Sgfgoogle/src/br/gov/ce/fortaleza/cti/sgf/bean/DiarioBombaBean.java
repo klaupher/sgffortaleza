@@ -49,6 +49,9 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	private Date init;
 	private Date finnal;
 	private Posto posto;
+	private Posto postoNew;
+	private Bomba bombaNew;
+	private List<Bomba> bombasPosto = new ArrayList<Bomba>();
 	private boolean limiteValido = true;
 
 	@Override
@@ -84,6 +87,14 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		return retorno;
 	}
 
+
+	public String prepareNew() {
+		this.entity = createNewEntity();
+		setCurrentBean(currentBeanName());
+		setCurrentState(SAVE);
+		return SUCCESS;
+	}
+
 	/**
 	 * validação do diário de bomba de combustível
 	 * @return
@@ -114,16 +125,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			if((this.entity.getValorFinal() < this.entity.getValorInicial()) && !this.entity.getZerada()){
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valFim.inconsistente");
 				return false;
-			} //else 
-			/*
-			 * 	
-			 */
-			//				if((limite - this.entity.getValorInicial()) < 1000){
-			//					JSFUtil.getInstance().addErrorMessage("msg.error.bomba.valorNaoPermitido");
-			//					return false;
-			//				} else {
-			//					return true;
-			//				}
+			}
 			return true;
 		} else {
 			return true;
@@ -145,7 +147,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		if(ultimaDiaria != null){
 			this.entity.setHoraInicial(new Date());
 			this.entity.setValorInicial(ultimaDiaria.getValorFinal());			
-			
+
 			if(!verificaBombaZerada()){
 				this.entity.setHoraInicial(null);
 				this.entity.setValorInicial(null);
@@ -285,6 +287,46 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		}
 	}
 
+	public String salvarNewDiarioBomba(){
+
+		this.bombaNew.setPosto(this.postoNew);
+
+		this.entity.setBomba(this.bombaNew);
+
+		this.entity.setUltimaAlteracao(new Date());
+
+		this.entity.setUsuarioAlteracao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
+
+		this.entity.setZerada(false);
+
+		if(validaLeitura()){
+
+			Float saida = 0F;
+
+			if(this.entity.getZerada() && this.entity.getValorFinal() < this.entity.getValorInicial()){
+				saida = (this.entity.getBomba().getLimiteLeitura() - this.entity.getValorInicial()) + this.entity.getValorFinal();
+			} else {
+				saida = this.entity.getValorFinal() - this.entity.getValorInicial();
+			}
+
+			this.entity.setQuantidadeSaida(saida);
+
+			if( service.findByDate(this.entity.getDataCadastro(), this.postoNew).size() > 0){
+				retrieveEntityService().save(this.entity);
+
+				setCurrentState(RelatorioDTO.SEARCH_DIARIOBOMBA);
+
+				setCurrentBean(currentBeanName());				
+			} else {
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.registro.duplicado");
+			}
+
+			return SUCCESS;
+		} else {
+			return FAIL;
+		}
+	}
+
 	@Override
 	public String searchSort() {
 		iniciarDiarias();
@@ -328,7 +370,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		Float limAlerta = this.entity.getBomba().getLimiteAlerta();
 		Float diferencaLimite;
 		boolean valido = true;
-		
+
 		if(this.entity.getValorInicial() != null && this.entity.getValorInicial() > limite){
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.leitura.foralimite");
 			valido = false;
@@ -344,7 +386,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			valido = false;
 			return valido;
 		}
-		
+
 		if(limite == null){
 			JSFUtil.getInstance().addErrorMessage("msg.error.bomba.semvalor.limiteleitura");
 			valido = false;
@@ -503,12 +545,36 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		return SUCCESS;
 	}
 
+	public String populate(){
+
+		if(this.postoNew != null){
+			this.bombasPosto = bombaService.findBombaByPosto(this.postoNew.getCodPosto());//this.postoNew.getListaBomba();
+		}
+		return super.populate();
+	}
+
+	/**
+	 * prepara para criar um novo diário de bomba. Neste caso, vindo de um cadastro manual
+	 * @return
+	 */
+	public String newDiarioBomba() {
+		this.entity = createNewEntity();
+		this.postos = postoService.retrieveAll();
+		setCurrentState(RelatorioDTO.NEW_DIARIOBOMBA);
+		setCurrentBean(currentBeanName());
+		return SUCCESS;
+	}
+
 	public boolean isSearchDiarioBombaState() {
 		return RelatorioDTO.SEARCH_DIARIOBOMBA.equals(getCurrentState());
 	}
 
 	public boolean isUpdateDiarioBombaState() {
 		return RelatorioDTO.UPDATE_DIARIOBOMBA.equals(getCurrentState());
+	}
+
+	public boolean isNewDiarioBombaState() {
+		return RelatorioDTO.NEW_DIARIOBOMBA.equals(getCurrentState());
 	}
 
 	public Float recuperarValorFinal(DiarioBomba diarioBomba, Bomba bomba) {
@@ -599,4 +665,29 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 	public void setLimiteValido(boolean limiteValido) {
 		this.limiteValido = limiteValido;
 	}
+
+	public Posto getPostoNew() {
+		return postoNew;
+	}
+
+	public void setPostoNew(Posto postoNew) {
+		this.postoNew = postoNew;
+	}
+
+	public Bomba getBombaNew() {
+		return bombaNew;
+	}
+
+	public void setBombaNew(Bomba bombaNew) {
+		this.bombaNew = bombaNew;
+	}
+
+	public List<Bomba> getBombasPosto() {
+		return bombasPosto;
+	}
+
+	public void setBombasPosto(List<Bomba> bombasPosto) {
+		this.bombasPosto = bombasPosto;
+	}
+
 }

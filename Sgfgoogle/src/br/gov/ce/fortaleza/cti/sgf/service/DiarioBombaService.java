@@ -139,4 +139,29 @@ public class DiarioBombaService extends BaseService<Integer, DiarioBomba>{
 		postos = query.getResultList();
 		return postos;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DiarioBomba> findByDate(Date date, Posto posto) {
+		
+		Date dt1 = DateUtil.getDateStartDay(date);
+		Date dt2 = DateUtil.getDateEndDay(date);
+		StringBuffer hql = new StringBuffer("select d from DiarioBomba d where ");
+		hql.append("d.dataCadastro between :dtInicial and  :dtFinal ");
+		
+		if(posto != null){
+			hql.append(" and d.bomba.posto = :posto");
+		}
+		
+		hql.append("order by d.bomba.posto.descricao");
+		
+		Query query = entityManager.createQuery(hql.toString()); 
+		query.setParameter("dtInicial", dt1);
+		query.setParameter("dtFinal", dt2);
+		
+		if(posto != null){
+			query.setParameter("posto", posto);
+		}
+
+		return query.getResultList();
+	}
 }

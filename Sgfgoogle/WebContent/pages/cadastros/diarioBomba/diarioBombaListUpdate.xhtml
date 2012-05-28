@@ -12,6 +12,10 @@
 	<div id="cadastro">
 
 		<h1 style="width:350px"> Diário de Bomba de Combustível</h1>
+		
+       	<h:commandLink action="#{diarioBombaBean.newDiarioBomba}" value="Novo" styleClass="novo" immediate="true" rendered="#{controlBean.administrador}">
+      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+      	</h:commandLink>
 
 		<fieldset>
 

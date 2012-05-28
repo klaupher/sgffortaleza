@@ -106,28 +106,31 @@
 						<ui:include	src="cadastros/solicitacaoVeiculos/solicitacaoVeiculo.xhtml" />
 					</c:if>
 				</c:if>
-		
+
 				<c:if test="#{controlBean.diarioBombaBean}">
+
 					<c:if test="#{diarioBombaBean.searchState}">
 						<ui:include src="cadastros/diarioBomba/diarioBombaList.xhtml" />
 					</c:if>
-					
+
 					<c:if test="#{diarioBombaBean.searchDiarioBombaState}">
 						<ui:include src="cadastros/diarioBomba/diarioBombaListUpdate.xhtml" />
 					</c:if>
-					
-					<c:if test="#{diarioBombaBean.updateDiarioBombaState}">
+
+					<c:if test="#{diarioBombaBean.updateDiarioBombaState || diarioBombaBean.newDiarioBombaState}">
 						<ui:include src="cadastros/diarioBomba/diarioBombaUpdate.xhtml" />
 					</c:if>
-					
+
 					<c:if test="#{diarioBombaBean.saveState || diarioBombaBean.updateState}">
 						<ui:include src="cadastros/diarioBomba/diarioBomba.xhtml" />
 					</c:if>
+
 					<c:if test="#{diarioBombaBean.editState}">
 						<ui:include src="cadastros/diarioBomba/diarioBombaEdit.xhtml" />
 					</c:if>
+
 				</c:if>
-		
+
 				<c:if test="#{controlBean.bombaBean}">
 					<c:if test="#{bombaBean.searchState}">
 						<ui:include src="cadastros/bomba/bombaList.xhtml" />
@@ -136,7 +139,7 @@
 						<ui:include src="cadastros/bomba/bomba.xhtml" />
 					</c:if>
 				</c:if>
-		
+
 				<c:if test="#{controlBean.motoristaBean}">
 					<c:if test="#{motoristaBean.searchState}">
 						<ui:include src="cadastros/motorista/motoristaList.xhtml" />
@@ -145,7 +148,7 @@
 						<ui:include src="cadastros/motorista/motorista.xhtml" />
 					</c:if>
 				</c:if>
-		
+
 				<c:if test="#{controlBean.usuarioBean}">
 					<c:if test="#{usuarioBean.searchState}">
 						<ui:include src="cadastros/usuario/usuarioList.xhtml" />
@@ -154,7 +157,7 @@
 						<ui:include src="cadastros/usuario/usuario.xhtml" />
 					</c:if>
 				</c:if>
-				
+
 				<c:if test="#{controlBean.roleBean}">
 					<c:if test="#{roleBean.searchState}">
 						<ui:include src="cadastros/perfil/perfilList.xhtml" />

@@ -6,10 +6,11 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jstl/core"
+	  xmlns:c="http://java.sun.com/jstl/core"
       xmlns:rich="http://richfaces.org/rich"
-      xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:t="http://myfaces.apache.org/tomahawk">
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:a4j="http://richfaces.org/a4j">
       
     <a4j:loadScript src="../scripts/jquery.alphanumeric.js" />
 
@@ -19,8 +20,67 @@
 
 		<fieldset>
 
-	    	<legend>Alteração</legend>
-			<p></p>
+	    	<legend>
+	    		<h:outputLabel id="alterdiabomba" value="Alteração" rendered="#{diarioBombaBean.updateDiarioBombaState}"/>
+	    		<h:outputLabel id="insertdiabomba" value="Novo diário de bomba" rendered="#{diarioBombaBean.newDiarioBombaState}"/>
+	    	</legend>
+			<p/>
+
+
+			<a4j:region id="postoreg1" rendered="#{diarioBombaBean.updateDiarioBombaState}">
+
+		  		<dt><h:outputLabel id="lblposto1" value="Posto"/></dt>
+			  	<dd>
+			  		<h:selectOneMenu id="postoupdate" value="#{diarioBombaBean.entity.bomba.posto}" rendered="#{diarioBombaBean.updateDiarioBombaState}"	requiredMessage="Informe o posto" converter="entityConverter">
+			  			<f:selectItem itemLabel="Informe o Posto" itemValue=""/>
+			  			<t:selectItems value="#{postoBean.postos}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
+			  		</h:selectOneMenu>
+			  		<rich:message for="postoupdate" styleClass="message"/>
+			  	</dd>
+		  	</a4j:region>
+
+			<a4j:region id="postoreg2" rendered="#{diarioBombaBean.newDiarioBombaState}">
+
+		  		<dt><h:outputLabel id="lblposto2" value="Posto"/></dt>
+			  	<dd>
+
+			  		<h:selectOneMenu id="postonew" value="#{diarioBombaBean.postoNew}" rendered="#{diarioBombaBean.newDiarioBombaState}" requiredMessage="Informe o posto" converter="entityConverter">
+			  			<f:selectItem itemLabel="Informe o Posto" itemValue=""/>
+			  			<t:selectItems value="#{diarioBombaBean.postos}" var="pp" itemLabel="#{pp.descricao}" itemValue="#{pp}"/>
+			  			<a4j:support event="onchange" action="#{diarioBombaBean.populate}" reRender="bombapostonew"/>
+			  		</h:selectOneMenu>
+			  		<rich:message for="postonew" styleClass="message"/>
+			  	</dd>
+		  	</a4j:region>
+
+
+            <a4j:region id="bombapostoreg" rendered="#{diarioBombaBean.newDiarioBombaState}">
+
+	            <dt><label for="bombapostonew"><h:outputText value="Bombas do Posto" /></label></dt>
+	            <dd>
+	                <h:selectOneMenu id="bombapostonew" value="#{diarioBombaBean.bombaNew}" rendered="#{diarioBombaBean.newDiarioBombaState}" required="true" converter="entityConverter">
+	                    <f:selectItem itemValue="" itemLabel="Informe a bomba ..." />
+	                    <t:selectItems value="#{diarioBombaBean.bombasPosto}" var="b" itemLabel="#{b.numero}" itemValue="#{b}"/>
+	                </h:selectOneMenu>
+	                <h:message for="bombapostonew" tooltip="true" styleClass="message"/>
+	            </dd>
+            </a4j:region>
+
+			<dt><label for="vlrinit">Valor Inicial</label></dt>
+			<dd>
+				  <h:inputText id="vlrinit" value="#{diarioBombaBean.entity.valorInicial}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
+				  
+				  </h:inputText>
+				  <rich:message errorClass="error" for="vlrinit" styleClass="message"/>
+			</dd>
+
+			<dt><label for="vlrfinal">Valor Final</label></dt>
+			<dd>
+				  <h:inputText id="vlrfinal" value="#{diarioBombaBean.entity.valorFinal}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
+				  
+				  </h:inputText>
+				  <rich:message errorClass="error" for="vlrfinal" styleClass="message"/>
+			</dd>
 
 			<dt><label for="dtinit">Data cadastro</label></dt>
 			<dd>
@@ -30,37 +90,16 @@
 				</h:inputText>
 				 <rich:message errorClass="error" for="dtinit" styleClass="message"/>
 			</dd>
-			
-	  		<dt><h:outputLabel id="labelPosto" value="Posto"/></dt>
-		  	<dd>
-		  		<h:selectOneMenu id="posto" value="#{diarioBombaBean.entity.bomba.posto}"	requiredMessage="Informe o posto" converter="entityConverter">
-		  			<f:selectItem itemLabel="Informe o Posto" itemValue=""/>
-		  			<t:selectItems value="#{postoBean.postos}" var="posto" itemLabel="#{posto.descricao}" itemValue="#{posto}"/>
-		  		</h:selectOneMenu>
-		  		<rich:message for="posto" styleClass="message"/>
-		  	</dd>
-			
-			<dt><label for="vlrinit">Valor Inicial</label></dt>
-			<dd>
-				  <h:inputText id="vlrinit" value="#{diarioBombaBean.entity.valorInicial}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
-				  
-				  </h:inputText>
-				  <rich:message errorClass="error" for="vlrinit" styleClass="message"/>
-			</dd>
-			
-			<dt><label for="vlrfinal">Valor Final</label></dt>
-			<dd>
-				  <h:inputText id="vlrfinal" value="#{diarioBombaBean.entity.valorFinal}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
-				  
-				  </h:inputText>
-				  <rich:message errorClass="error" for="vlrfinal" styleClass="message"/>
-			</dd>
 
 	    </fieldset>
 
 	</div>
 
-	<h:commandButton action="#{diarioBombaBean.atualizarDiarioBomba}" value="Alterar"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{diarioBombaBean.salvarNewDiarioBomba}" value="Salvar" rendered="#{diarioBombaBean.newDiarioBombaState}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
+	</h:commandButton>
+
+	<h:commandButton action="#{diarioBombaBean.atualizarDiarioBomba}" value="Alterar" rendered="#{diarioBombaBean.updateDiarioBombaState}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 	</h:commandButton>
 
