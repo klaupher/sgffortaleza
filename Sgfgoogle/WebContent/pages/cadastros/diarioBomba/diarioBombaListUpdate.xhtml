@@ -20,19 +20,21 @@
 		<fieldset>
 
 	      	<legend>Diário de Bomba de Combustível</legend>
+	      	<br />
 
-       		<h:outputText value="Data inicial"/>
+       		<h:outputText value="Data Inicial:"/>
        		<h:inputText value="#{diarioBombaBean.init}" id="dtinit" required="true" requiredMessage="Informe a data inicial" styleClass="maskData" style="width:76px">
        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
        		</h:inputText>
        		<h:message for="dtinit" styleClass="message"/>
 
-			<h:outputText value="Data final"/>
+			<h:outputText value="Data Final:"/>
        		<h:inputText value="#{diarioBombaBean.finnal}" id="dtfim"  required="true" requiredMessage="Informe a data final" styleClass="maskData"  style="width:76px">
        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
        		</h:inputText>
        		<h:message for="dtfim" styleClass="message"/>
 
+			<h:outputText value="Posto:"/>
 	  		<h:selectOneMenu id="posto" value="#{diarioBombaBean.posto}"	requiredMessage="Informe o posto" converter="entityConverter">
 	  			<f:selectItem itemLabel="Informe o Posto" itemValue=""/>
 	  			<t:selectItems value="#{postoBean.postos}" var="posto" itemLabel="#{posto.descricao}" itemValue="#{posto}"/>
@@ -84,14 +86,14 @@
 					</rich:column>
 	
 					<rich:column width="15%" style="text-align: left;" > 
-						<f:facet name="header"><h:outputText value="Hora Leitura Inicial" /></f:facet>
+						<f:facet name="header"><h:outputText value="Hora Leit. Inicial" /></f:facet>
 						<h:outputText value="#{d.horaInicial}" style="color: black;">
 							<f:convertDateTime type="time" timeStyle="short" timeZone="GMT-03:00"/>
 						</h:outputText>
 					</rich:column>
 	
 					<rich:column width="15%" style="text-align: left;" >
-						<f:facet name="header"><h:outputText value="Hora Leitura Final" /></f:facet>
+						<f:facet name="header"><h:outputText value="Hora Leit. Final" /></f:facet>
 						<h:outputText value="#{d.horaFinal}" style="color: black;">
 							<f:convertDateTime type="time" timeStyle="short" timeZone="GMT-03:00"/>
 						</h:outputText>

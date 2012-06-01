@@ -45,7 +45,7 @@
 
 		<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsolidadoMensal}" status="gerarRelatorio" reRender="dataTable"/>
 
-		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="r" rowKeyVar="index" rows="100"
+		<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="r" rowKeyVar="index" rows="500"
 			onRowMouseOver="jQuery(this).addClass('trHover')" 
 			onRowMouseOut="jQuery(this).removeClass('trHover')" 
 			rowClasses="even,odd">
@@ -70,7 +70,7 @@
 
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 
-				<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="1000" rowKeyVar="k" 
+				<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="5000" rowKeyVar="k" 
 						headerClass="subHeader" 
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')" 

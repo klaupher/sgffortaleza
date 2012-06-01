@@ -499,7 +499,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		// status = 1 => solicitado
 		// status = 2 => atendido
-		
+
 		Date begin = DateUtil.getDateStartDay( this.dtInicial);
 		Date end = DateUtil.getDateEndDay(this.dtFinal);
 
@@ -626,19 +626,23 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				RelatorioDTO dto = new RelatorioDTO();
 				//Float litrosAbastecidos = 0F;
 				if(diaria.getValorFinal() != null && diaria.getValorInicial() != null){
-//					if(diaria.getValorFinal() < diaria.getValorInicial()){
-//						if(diaria.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && diaria.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
-//							litrosAbastecidos =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - diaria.getValorInicial()) + diaria.getValorFinal());
-//							diaria.setLitrosAbastecidos(litrosAbastecidos);
-//							totalLitrosAbastecidos += litrosAbastecidos;
-//						}
-//					} else {
-//						litrosAbastecidos = diaria.getValorFinal() - diaria.getValorInicial();
-//						diaria.setLitrosAbastecidos(litrosAbastecidos);
-//						totalLitrosAbastecidos += litrosAbastecidos;
-//					}
+					//					if(diaria.getValorFinal() < diaria.getValorInicial()){
+					//						if(diaria.getValorFinal() < Constants.LIMITE_INFERIOR_BOMBACOMBUSTIVEL && diaria.getValorInicial() > Constants.LIMITE_SUPERIOR_BOMBACOMBUSTIVEL){
+					//							litrosAbastecidos =  ((Constants.VALOR_MAXIMO_BOMBACOMBUSTIVEL - diaria.getValorInicial()) + diaria.getValorFinal());
+					//							diaria.setLitrosAbastecidos(litrosAbastecidos);
+					//							totalLitrosAbastecidos += litrosAbastecidos;
+					//						}
+					//					} else {
+					//						litrosAbastecidos = diaria.getValorFinal() - diaria.getValorInicial();
+					//						diaria.setLitrosAbastecidos(litrosAbastecidos);
+					//						totalLitrosAbastecidos += litrosAbastecidos;
+					//					}
 					diaria.setLitrosAbastecidos(diaria.getQuantidadeSaida());
 					//litrosAbastecidos += diaria.getQuantidadeSaida();
+					System.out.println("quant. = " + diaria.getQuantidadeSaida());
+					if(diaria.getQuantidadeSaida() == null){
+						System.out.println("erro");
+					}
 					totalLitrosAbastecidos += diaria.getQuantidadeSaida();
 				}
 				dto.setDiarioBomba(diaria);
@@ -813,7 +817,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		this.dtInicial = DateUtil.getDateStartDay(this.dtInicial);
 		this.dtFinal = DateUtil.getDateEndDay(this.dtFinal);
-		
+
 		Map<UG, List<AtendimentoAbastecimento>> hashAtendimentosUg = new HashMap<UG, List<AtendimentoAbastecimento>>();
 
 		if(this.orgao != null){
@@ -828,7 +832,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		Float consumoTotalEtanol = 0F;
 		Float consumoTotalDiesel = 0F;
 		for (UG ug : hashAtendimentosUg.keySet()) {
-			
+
 			List<AtendimentoAbastecimento> abastecimentosUg = hashAtendimentosUg.get(ug);
 			RelatorioDTO relatorioUg = new RelatorioDTO();
 			relatorioUg.setRelatorios(new ArrayList<RelatorioDTO>());
@@ -836,10 +840,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			consumoTotalUg = 0F;
 			consumoTotalGasolina = 0F;
 			consumoTotalEtanol = 0F;
-			
+
 			Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosVeiculo = new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
 			for (AtendimentoAbastecimento atendimento : abastecimentosUg) {
-				
+
 				Veiculo veiculo = atendimento.getAbastecimento().getVeiculo();
 				if(atendimentosVeiculo.containsKey(veiculo)){
 					atendimentosVeiculo.get(veiculo).add(atendimento);
@@ -849,9 +853,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					atendimentosVeiculo.put(veiculo, newlist);
 				}
 			}
-			
+
 			for (Veiculo veiculo : atendimentosVeiculo.keySet()) {
-				
+
 				RelatorioDTO relatorioVeiculo = new RelatorioDTO();
 				relatorioVeiculo.setOrgao(ug);
 				relatorioVeiculo.setVeiculo(veiculo);
@@ -861,12 +865,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				Float totalgas = 0F;
 				Float totaletan = 0F;
 				Float totaldiesel = 0F;
-				
+
 				List<AtendimentoAbastecimento> abastecimentosVeiculos = atendimentosVeiculo.get(veiculo);
 				for (AtendimentoAbastecimento atendimento : abastecimentosVeiculos) {
 					RelatorioDTO item = new RelatorioDTO();
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0;
-					
+
 					if(atendimento.getAbastecimento().getCombustivel().getId() == 1){
 						totalgas += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0; 
 					}
@@ -876,7 +880,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					if(atendimento.getAbastecimento().getCombustivel().getId() == 3){
 						totaldiesel += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0; 
 					}
-					
+
 					Float cota = veiculo.getCota() != null ? veiculo.getCota().getCota().floatValue() : 0F;
 					item.setOrgao(ug);
 					item.setVeiculo(veiculo);
@@ -894,7 +898,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					relatorioVeiculo.setConsumoTotal(relatorioVeiculo.getConsumoTotal() + item.getConsumo());
 					relatorioVeiculo.getRelatorios().add(item);
 				}
-				
+
 				Collections.sort(relatorioVeiculo.getRelatorios(), new Comparator<RelatorioDTO>() {
 					public int compare(RelatorioDTO p1, RelatorioDTO p2) {
 						return p1.getDataAtendimento().compareTo(p2.getDataAtendimento());
@@ -910,7 +914,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				consumoTotalDiesel += totaldiesel;
 				total = 0F;
 			}
-			
+
 			relatorioUg.setConsumoCombustivelOrgao(consumoTotalUg);
 			relatorioUg.setConsumoGasolina(consumoTotalGasolina);
 			relatorioUg.setConsumoEtanol(consumoTotalEtanol);
@@ -933,7 +937,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		if(this.mes != null){
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
-			
+
 			calendar.set(Calendar.YEAR, this.ano);
 			calendar.set(Calendar.MONTH, this.mes);
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -942,13 +946,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			calendar.set(Calendar.SECOND, 0);
 			calendar.set(Calendar.MILLISECOND, 0);
 			this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
-			
+
 			calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
 			calendar.set(Calendar.HOUR_OF_DAY, 23);
 			calendar.set(calendar.MINUTE, 59);
 			calendar.set(Calendar.SECOND, 59);
 			calendar.set(Calendar.MILLISECOND, 0);
-			
+
 			this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
 
 			if (!DateUtil.compareDate(this.dtInicial, this.dtFinal)) {
@@ -977,8 +981,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		} else { 
 			hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(null, null, this.dtInicial, this.dtFinal);
 		}
-		
-		
+
+
 		for (UG ug : hashAtendimentosUg.keySet()) {
 			Float consumoOrgao = 0F;
 			Float consumoEtanol = 0F;
@@ -987,13 +991,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
 			novo.setOrgao(ug);
 			List<AtendimentoAbastecimento> abastecimentosUg = hashAtendimentosUg.get(ug);
-			
+
 			/*
 			 * Constroi hashs de abastecimento por veículo 
 			 */
 			Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosVeiculo = new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
 			for (AtendimentoAbastecimento atendimento : abastecimentosUg) {
-				
+
 				Veiculo veiculo = atendimento.getAbastecimento().getVeiculo();
 				if(atendimentosVeiculo.containsKey(veiculo)){
 					atendimentosVeiculo.get(veiculo).add(atendimento);
@@ -1003,12 +1007,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					atendimentosVeiculo.put(veiculo, newlist);
 				}
 			}
-			
+
 			/*
 			 * Constroi saída para relatório dos abastecimentos do veículos
 			 */
 			for (Veiculo veiculo : atendimentosVeiculo.keySet()) {
-				
+
 				Float total = 0F;
 				Float totalGasolina = 0F;
 				Float totalEtanol = 0F;
@@ -1023,17 +1027,17 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				 * lista de atendimentos do veículo corrente
 				 */
 				List<AtendimentoAbastecimento> atendimentos =  atendimentosVeiculo.get(veiculo);
-						//atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
+				//atendimentoService.findAtendimentoByVeiculoAbastecimento(ug.getId(), veiculo.getId().toString(), this.dtInicial, this.dtFinal);
 				for (AtendimentoAbastecimento atendimento : atendimentos) {
-					
-					
+
+
 					if(atendimento.getAbastecimento().getCombustivel().getId() == 1){
 						totalGasolina += atendimento.getQuantidadeAbastecida().floatValue();
 					}
 					if(atendimento.getAbastecimento().getCombustivel().getId() == 2){
 						totalEtanol += atendimento.getQuantidadeAbastecida().floatValue();
 					}
-					
+
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0F;
 					Float aux = (atendimento.getQuilometragem() == null)? 0f : atendimento.getQuilometragem();
 					if(kmInicial == 0F){
@@ -1058,28 +1062,29 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				}
 				Float consumo = 0F;
 				dto.setConsumo(total);
-				dto.setKmRodados(kmFinal - kmInicial);
-				
+				dto.setKmRodados(Math.abs(kmFinal - kmInicial));
+
 				if(total == 0){
 					consumo = 0F;
 				} else {
+					
 					consumo = (kmFinal - kmInicial)/total;
+					if(consumo < 0)
+						System.out.println("km ini = " +kmInicial + "  km fim  = " +  kmFinal + " consumo = " + (kmFinal - kmInicial));
 				}
-				
-				dto.setKmPorLitro(consumo);
+
+				dto.setKmPorLitro(Math.abs(consumo));
 				dto.setNumeroAbastecimentos(nrAbastecimentos);
 				consumoOrgao += total;
 				consumoGasolina += totalGasolina;
 				consumoEtanol += totalEtanol;
-				
+
 				novo.getRelatorios().add(dto);
 			}
 			novo.setConsumoCombustivelOrgao(consumoOrgao);
 			novo.setConsumoGasolina(consumoGasolina);
 			novo.setConsumoEtanol(consumoEtanol);
-			
-			System.out.println("GAS: " + consumoGasolina);
-			System.out.println("ETA:" + consumoEtanol);
+
 			this.entities.add(novo);
 		}
 		return SUCCESS;
@@ -1506,14 +1511,14 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			} else if (this.nomeRelatorio.equals(this.relConferenciaAbastecimento)) { // gera pdf do relatório consolidado mensal
 
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
-				
+
 				for (RelatorioDTO r : this.entities) {
-				
+
 					for (RelatorioDTO rr : r.getRelatorios()) {
 
 						//rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
 						//rr.setConsumoTotal(rr.getConsumoTotal() + r.getConsumoTotal());
-					
+
 						for (RelatorioDTO r3 : rr.getRelatorios()) {
 							r3.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
 							r3.setConsumoGasolina(r.getConsumoGasolina());
@@ -1569,7 +1574,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	}
 
 	public void gerarRelatorioCollection(Map<String, Object> parametros, Collection<?> colecao, String filePropertie) 
-	throws IOException, JRException {
+			throws IOException, JRException {
 
 		// Gerando relatorio
 		// Montando jasper path
@@ -1805,5 +1810,5 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	public void setYears(List<SelectItem> years) {
 		this.years = years;
 	}
-	
+
 }

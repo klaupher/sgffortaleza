@@ -66,20 +66,36 @@
 	            </dd>
             </a4j:region>
 
-			<dt><label for="vlrinit">Valor Inicial</label></dt>
+			<dt><label for="vlrinit">Leitura Inicial</label></dt>
 			<dd>
 				  <h:inputText id="vlrinit" value="#{diarioBombaBean.entity.valorInicial}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
 				  
 				  </h:inputText>
 				  <rich:message errorClass="error" for="vlrinit" styleClass="message"/>
 			</dd>
+			
+			<dt><label for="hrInicial">Hora Leit. Inicial</label></dt>
+			<dd>
+				<h:inputText id="hrInicial" value="#{diarioBombaBean.entity.horaInicial}" required="true" requiredMessage="Informe a hora do abastecimento" size="4" styleClass="maskHora">
+					<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="hrInicial" styleClass="message"/>			
+			</dd>
 
-			<dt><label for="vlrfinal">Valor Final</label></dt>
+			<dt><label for="vlrfinal">Leitura Final</label></dt>
 			<dd>
 				  <h:inputText id="vlrfinal" value="#{diarioBombaBean.entity.valorFinal}"  required="true" size="12" maxlength="10" requiredMessage="valor inicial">
 				  
 				  </h:inputText>
 				  <rich:message errorClass="error" for="vlrfinal" styleClass="message"/>
+			</dd>
+			
+			<dt><label for="hrFinal">Hora Leit. Final</label></dt>
+			<dd>
+				<h:inputText id="hrFinal" value="#{diarioBombaBean.entity.horaFinal}" required="true" requiredMessage="Informe a hora do abastecimento" size="4" styleClass="maskHora">
+					<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="hrFinal" styleClass="message"/>			
 			</dd>
 
 			<dt><label for="dtinit">Data cadastro</label></dt>

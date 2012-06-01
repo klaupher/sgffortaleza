@@ -73,7 +73,7 @@
 
 					<rich:column colspan="10" style="font-weight: bold; background:white">
 						<h:outputText value="Posto: #{relatorio.posto.descricao}" />
-						<h:outputText value="Consumo Posto: #{relatorio.consumoPosto}" style="padding-left:30px">
+						<h:outputText value="Total saída: #{relatorio.consumoPosto}(Lts)" style="padding-left:30px">
 							<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 						</h:outputText>
 					</rich:column>
@@ -146,22 +146,22 @@
 			</rich:dataTable>
 			<p/>
 
-				<h:panelGroup rendered="#{not empty relatorioBean.entities}">
+			<h:panelGroup rendered="#{not empty relatorioBean.entities}">
 
-					<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
-		    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
-					</h:commandLink>
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+	    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
+				</h:commandLink>
 
-					<a4j:status id="gerarRelatorio">
-		    			<f:facet name="start">
-		    				<h:panelGroup style="align:center;">
-		    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
-			    				<h:outputText value="Processando..." styleClass="processando"/>
-							</h:panelGroup>
-						</f:facet>
-		    		</a4j:status>
+				<a4j:status id="gerarRelatorio">
+	    			<f:facet name="start">
+	    				<h:panelGroup style="align:center;">
+	    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+		    				<h:outputText value="Processando..." styleClass="processando"/>
+						</h:panelGroup>
+					</f:facet>
+	    		</a4j:status>
 
-	    		</h:panelGroup>
+    		</h:panelGroup>
 
 	    </fieldset> 
 

@@ -292,30 +292,19 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		this.bombaNew.setPosto(this.postoNew);
 
 		this.entity.setBomba(this.bombaNew);
-
 		this.entity.setUltimaAlteracao(new Date());
-
-		this.entity.setUsuarioAlteracao(SgfUtil.usuarioLogado().getCodPessoaUsuario());
-
+		this.entity.setUser(SgfUtil.usuarioLogado());
+		this.entity.setStatus(1);
 		this.entity.setZerada(false);
 
 		if(validaLeitura()){
 
-			Float saida = 0F;
+			this.entity.setQuantidadeSaida(this.entity.getValorFinal() - this.entity.getValorInicial());
+			List<DiarioBomba> diariasExistentes = service.findByDate(this.entity.getDataCadastro(), this.postoNew);
 
-			if(this.entity.getZerada() && this.entity.getValorFinal() < this.entity.getValorInicial()){
-				saida = (this.entity.getBomba().getLimiteLeitura() - this.entity.getValorInicial()) + this.entity.getValorFinal();
-			} else {
-				saida = this.entity.getValorFinal() - this.entity.getValorInicial();
-			}
-
-			this.entity.setQuantidadeSaida(saida);
-
-			if( service.findByDate(this.entity.getDataCadastro(), this.postoNew).size() > 0){
+			if(diariasExistentes.size() == 0){
 				retrieveEntityService().save(this.entity);
-
 				setCurrentState(RelatorioDTO.SEARCH_DIARIOBOMBA);
-
 				setCurrentBean(currentBeanName());				
 			} else {
 				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.registro.duplicado");

@@ -45,7 +45,7 @@
 			
 			<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsumoCombustivel}" status="gerarRelatorio" reRender="dataTable"/>
 
-			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="10000" rowKeyVar="index"
+			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="5000" rowKeyVar="index"
 				rowClasses="even,odd" 
 				onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')">
@@ -74,7 +74,7 @@
 
 				<c:if test="#{relatorioBean.entitiesSize > 0}">
 
-					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="1000" rowKeyVar="ki"
+					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="5000" rowKeyVar="ki"
 						headerClass="subHeader" 
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
