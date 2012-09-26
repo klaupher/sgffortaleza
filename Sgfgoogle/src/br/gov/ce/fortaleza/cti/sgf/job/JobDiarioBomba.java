@@ -21,7 +21,7 @@ import org.quartz.JobExecutionException;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;
 
 /**
- * Classe respons�vel pelo execu��o da tarefa de fechamento autom�tico de bomba
+ * Classe responsável pelo execução da tarefa de fechamento automático de bomba
  * @author Deivid
  * @since 29/01/2010
  */

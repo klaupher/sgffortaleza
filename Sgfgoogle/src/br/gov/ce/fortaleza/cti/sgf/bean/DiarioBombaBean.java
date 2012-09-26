@@ -248,7 +248,8 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 			} else {
 				Float saida = 0F;
 				this.entity.setStatus(1);
-				if(this.entity.getZerada() && this.entity.getValorFinal() < this.entity.getValorInicial()){
+				//if(this.entity.getZerada() && this.entity.getValorFinal() < this.entity.getValorInicial()){
+				if(this.entity.getValorFinal() < this.entity.getValorInicial()){
 					saida = (this.entity.getBomba().getLimiteLeitura() - this.entity.getValorInicial()) + this.entity.getValorFinal();
 				} else {
 					saida = this.entity.getValorFinal() - this.entity.getValorInicial();
