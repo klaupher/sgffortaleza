@@ -899,11 +899,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					relatorioVeiculo.getRelatorios().add(item);
 				}
 
-				Collections.sort(relatorioVeiculo.getRelatorios(), new Comparator<RelatorioDTO>() {
+				/*Collections.sort(relatorioVeiculo.getRelatorios(), new Comparator<RelatorioDTO>() {
 					public int compare(RelatorioDTO p1, RelatorioDTO p2) {
-						return p1.getDataAtendimento().compareTo(p2.getDataAtendimento());
+						//return p1.getDataAtendimento().compareTo(p2.getDataAtendimento());
+						return p1.getHoraAtendimento().compareTo(p2.getHoraAtendimento());
 					}
-				});
+				});*/
 				relatorioVeiculo.setNumeroAbastecimentos(abastecimentosVeiculos.size());
 				relatorioUg.setConsumoTotal(total);
 				relatorioUg.getRelatorios().add(relatorioVeiculo);
