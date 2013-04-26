@@ -10,18 +10,18 @@
 }
 
 .simpleHeader {
-	background-color: #F90;
-	background: #F90;
+	background-color: #E2AF56;
+	background: #E2AF56;
 }
 
 .toolBar {
-	background: #F90;
+	background: #E2AF56;
 }
 
 .separator {
-	background-color: #F90;
-	background: #F90;
-	color: #F90;
+	background-color: #E2AF56;
+	background: #E2AF56;
+	color: #E2AF56;
 }
 
 .processando {
@@ -35,14 +35,14 @@
 }
 
 .panelHeader {
-	background-color: #F90;
-	background: #F90;
+	background-color: #E2AF56;
+	background: #E2AF56;
 }
 
 .panelGrid {
 	padding: 5px;
-	border-top: 3px solid #C00;
-	border-bottom: 1px solid #C00;
+	border-top: 3px solid #905302;
+	border-bottom: 1px solid #905302;
 	position: relative;
 }
 
@@ -55,7 +55,7 @@
 
 .dropDownMenu {
 	height: 25px;
-	background-color: #F90;
+	background-color: #E2AF56;
 	margin-bottom: 1px;
 	color: #FFF;
 	padding: 1px;
@@ -84,7 +84,7 @@
 
 .rich-ddmenu-label-select {
 	color: #3C1700;
-	background-color: #F90;
+	background-color: #E2AF56;
 }
 
 .rich-menu-item {
@@ -100,7 +100,7 @@
 
 .rich-menu-item-hover {
 	color: #3C1700;
-	background-color: #F90;
+	background-color: #E2AF56;
 }
 
 .rich-menu-item-label {
@@ -108,7 +108,7 @@
 }
 
 .drich-menu-list-strut{
-	background-color: #F90;
+	background-color: #E2AF56;
 }
 
 .dr-menu-icon,.rich-menu-item-icon {
@@ -122,7 +122,7 @@
 
 .rich-menu-group-hover {
 	color: #3C1700;
-	background-color: #F90;
+	background-color: #E2AF56;
 }
 
 .rich-table-cell {
@@ -135,12 +135,12 @@
 }
 
 .rich-table-footer {
-	background-color: #C00;
+	background-color: #905302;
 	color: #FFF;
 }
 
 .rich-table-header {
-	background-color: #C00;
+	background-color: #905302;
 	color: #FFF;
 	text-align: left;
 	padding-left: 0.5em;

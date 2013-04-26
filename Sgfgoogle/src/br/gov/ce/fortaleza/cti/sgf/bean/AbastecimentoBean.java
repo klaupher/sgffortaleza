@@ -4,7 +4,6 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -13,12 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.PersistenceException;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
@@ -268,7 +264,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	public void loadMotoristas() {
 		this.motoristas = new ArrayList<Motorista>();
 		if (this.orgaoSelecionado != null) {
-			this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
+			this.motoristas = motoristaService.findByUGStatus(this.orgaoSelecionado.getId(), "true");
 		}
 		Collections.sort(this.motoristas, new Comparator<Motorista>() {
 			public int compare(Motorista p1, Motorista p2) {
@@ -290,10 +286,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		//this.veiculos.add(vasilhame);
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
-			this.motoristas.addAll(motoristaService.findByUG(this.orgaoSelecionado.getId()));
+			this.motoristas.addAll(motoristaService.findByUGStatus(this.orgaoSelecionado.getId(), "true"));
 		} else {
 			this.veiculos.addAll(veiculoService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg()));
-			this.motoristas.addAll(motoristaService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId()));
+			this.motoristas.addAll(motoristaService.findByUGStatus(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId(),"true"));
 		}
 		this.tiposServico.add(tipoServicoService.retrieve(1));
 		if (this.entity.getPosto() != null) {

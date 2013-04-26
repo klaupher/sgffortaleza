@@ -92,8 +92,8 @@ public class DownloadFileUtil extends BaseBean {
 		HttpServletResponse response = (HttpServletResponse) context.getResponse();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String path = request.getSession().getServletContext().getRealPath("images/fortaleza-bela.gif");
-		@SuppressWarnings("unused")
+		String path = request.getSession().getServletContext().getRealPath("images/logo-prefeitura.png");
+		
 		Document document = prepareDocument(header, body, typeId, response, baos, path);
 		response.setHeader("Content-Disposition", "attachment; filename="+ fileName);
 		response.setHeader("Content-Transfer-Encoding", "binary");
@@ -112,8 +112,8 @@ public class DownloadFileUtil extends BaseBean {
 		HttpServletResponse response = (HttpServletResponse) context.getResponse();
 		HttpServletRequest request = (HttpServletRequest) context.getRequest();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		String path = request.getSession().getServletContext().getRealPath("images/fortaleza-bela.gif");
-		@SuppressWarnings("unused")
+		String path = request.getSession().getServletContext().getRealPath("images/logo-prefeitura.png");
+		
 		Document document = documentAutorizacaoSolTrocaLubrificante(header, body, typeId, response, baos, path);
 		response.setHeader("Content-Disposition", "attachment; filename="+ fileName);
 		response.setHeader("Content-Transfer-Encoding", "binary");

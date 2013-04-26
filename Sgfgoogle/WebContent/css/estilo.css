@@ -15,8 +15,8 @@ body
 #topo 
 {
 	padding: 5px;
-	border-top:3px solid #C00;
-	border-bottom:1px solid #C00;
+	border-top:3px solid #905302;
+	border-bottom:1px solid #905302;
 	position:relative;
 }
 
@@ -114,7 +114,7 @@ input[type=submit], input[type=reset], input[type=button]
     border-width: 1px;
     background-position: #FFFFFF;
 	font: bold 0.8em Verdana, Geneva, sans-serif;
-    color: #C00;
+    color: #905302;
     background: #FFFF99;
     padding: 2px 4px;
     border-color: #E6B800;
@@ -124,7 +124,7 @@ input[type=submit], input[type=reset], input[type=button]
 
 .comFoco
 {
-	border-color:#C00 !important;
+	border-color:#905302 !important;
     background:#FFD7C4 !important;
 }
 
@@ -133,7 +133,7 @@ input[type=submit], input[type=reset], input[type=button]
 {
 	margin-top: 1px;
 	padding: 2px;
-	background-color: #C00;
+	background-color: #905302;
 	text-align:right;
 	color:#FFF;
 }
@@ -157,7 +157,7 @@ input[type=submit], input[type=reset], input[type=button]
 #menu 
 {
 	height: 25px;
-	background-color: #F90;
+	background-color: #E2AF56;
 	margin-bottom: 1px;
 	color: #FFF;	
 	padding: 1px;
@@ -192,7 +192,7 @@ input[type=submit], input[type=reset], input[type=button]
 
 #menu ul li:hover
 {
-	background-color:#F90;
+	background-color:#E2AF56;
 }
 
 #menu ul li a 
@@ -205,7 +205,7 @@ input[type=submit], input[type=reset], input[type=button]
 #menu ul li a:hover
 {
     color:#3C1700;
-	background-color:#F90;
+	background-color:#E2AF56;
 }
 
 #menu ul li ul
@@ -240,7 +240,7 @@ input[type=submit], input[type=reset], input[type=button]
 hr 
 {
 	border: none;
-	border-top: 1px solid #F90;
+	border-top: 1px solid #E2AF56;
 	margin-top: 1px;
 	margin-bottom: 1px;
 }
@@ -248,7 +248,7 @@ hr
 #cadastro 
 {
 	margin-top: 10px;
-	border-right: 2px solid #C00;
+	border-right: 2px solid #905302;
 }
 
 #cadastro h1 
@@ -262,15 +262,15 @@ hr
 	float: right;
 	width: 200px;
 	background-color:#FFF;
-	color:#C00;
-	border: 1px solid #C00;
+	color:#905302;
+	border: 1px solid #905302;
 	border-right: none;
 	padding: 0.2em;
 	padding-left: 0.6em;
 }
 
 #cadastro a {
-	color: #C00;
+	color: #905302;
 }
 
 #cadastro a:hover {
@@ -294,7 +294,7 @@ hr
 }
 
 #cadastro table th {
-	background-color: #C00;
+	background-color: #905302;
 	color:#FFF;
 	text-align:left;
 	padding-left: 0.5em;
@@ -430,7 +430,7 @@ input.pequeno
 {
 	margin-top:10px;
 	padding:2px;
-	background-color:#FC9;
+	background-color:#E2AF56;
 	text-transform:uppercase;
 }
 

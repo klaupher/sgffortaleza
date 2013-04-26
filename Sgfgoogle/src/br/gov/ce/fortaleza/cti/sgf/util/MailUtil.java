@@ -14,10 +14,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 
-import com.sun.xml.internal.ws.util.ByteArrayDataSource;
+
 
 public class MailUtil{
 
