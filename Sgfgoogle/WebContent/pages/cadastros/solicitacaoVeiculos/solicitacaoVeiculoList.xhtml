@@ -26,7 +26,7 @@
 				<dt><label for="ugSolicitacao">Órgão:</label></dt>
 				<dd>
 					<h:selectOneMenu id="ugSolicitacao" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList">
-						<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador}">
+						<c:if test="#{controlBean.administrador or controlBean.coordenador or controlBean.operador or controlBean.master}">
 							<f:selectItem itemLabel="Todos ..." itemValue=""/>
 						</c:if>
 						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
@@ -125,7 +125,7 @@
 				</rich:column>
 
 
-				<rich:column width="5%" rendered="#{(controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte)}"  style="text-align: left;">
+				<rich:column width="5%" rendered="#{(controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte or controlBean.master)}"  style="text-align: left;">
 
 					<a4j:commandButton value="Autorizar" action="#{solicitacaoVeiculoBean.prepareEdit}" reRender="paginaPrincipal" 
 						rendered="#{solicitacao.status == 'SOLICITADO'}" image="#{solicitacao.imagemURL}" style="color: black; text-align:center;">

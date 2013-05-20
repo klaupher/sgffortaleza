@@ -43,7 +43,8 @@
 		<sec:intercept-url pattern="/login.jsp*" access="ROLE_ANONYMOUS"/>
 		
 		<sec:intercept-url pattern="/pages/**" 
-		                   access="ROLE_ADMIN, 
+		                   access="ROLE_MASTER,
+		                   			ROLE_ADMIN, 
 									ROLE_CHEFE_TRANSP, 
 									ROLE_COORD_TRANSP, 
 									ROLE_CHEFE_SETOR, 

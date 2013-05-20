@@ -80,6 +80,14 @@ public class SgfUtil{
 		}
 		return false;
 	}
+	
+	// Criei esse método para o super usuário Master
+	public static Boolean isMaster(User user){
+		if(user.getRole().getAuthority().equals("ROLE_MASTER")){
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * EXEMPLO: 234.456.785-XX
@@ -152,4 +160,5 @@ public class SgfUtil{
 		user.getLogin() + "\n sua senha atual é:" + user.getPassword();
 		return MailUtil.sendEmail(mail, "recuperação de login e senha", msg);
 	}
+
 }

@@ -16,7 +16,7 @@
 
 	      <legend>Unidades de Gestão</legend>
 	      
-	      	<h:commandLink action="#{ugBean.prepareSave}"  value="Nova" rendered="#{controlBean.administrador or controlBean.coordenador}" styleClass="novo" immediate="true">
+	      	<h:commandLink action="#{ugBean.prepareSave}"  value="Nova" rendered="#{controlBean.master}" styleClass="novo" immediate="true">
 				<a4j:support event="onclick" reRender="paginaPrincipal"/>
 			</h:commandLink>
 			
@@ -50,13 +50,24 @@
 						<h:outputText value="#{ug.descricao}" style="color: black;"/>
 					</rich:column>
 
-					<rich:column width="3%" style="text-align: center;">
+					<rich:column width="3%" style="text-align: center;" rendered="#{controlBean.master}" >
 						<f:facet name="header"><h:outputText value="Editar" /></f:facet>
 						<h:commandLink styleClass="editar" action="#{ugBean.prepareUpdate}" value="Editar">
 							<f:setPropertyActionListener target="#{ugBean.entity}" value="#{ug}"/>
 							<a4j:support event="onclick" reRender="paginaPrincipal"/>
 						</h:commandLink>
 					</rich:column>
+					
+					
+					<!-- Adicionei isso -->
+					<rich:column width="3%" style="text-align: center;" rendered="#{controlBean.master}" >
+						<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
+						<h:commandLink styleClass="excluir" action="#{ugBean.delete}" value="Excluir">
+							<f:setPropertyActionListener target="#{ugBean.entity}" value="#{ug}"/>
+							<a4j:support event="onclick" reRender="paginaPrincipal"/>
+						</h:commandLink>
+					</rich:column>
+
 
 					<f:facet name="footer">
 						<rich:datascroller renderIfSinglePage="false" for="dataTable"/>

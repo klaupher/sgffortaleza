@@ -21,9 +21,20 @@
 	      	</legend>
 
 			<h:inputHidden value="#{ugBean.entity.id}" rendered="#{ugBean.updateState}"/>
+			
+			
+			<dt><label for="id">Código</label></dt>
+		  	
+		  	<dd>
+		  		<h:inputText id="id" value="#{ugBean.entity.id}" size="50" maxlength="8" required="true" requiredMessage="Informe o Código"/>
+		  	</dd>
 
 			<dt><label for="nome">Nome</label></dt>
-		  	<dd><h:inputText id="nome" value="#{ugBean.entity.descricao}" size="50" maxlength="180" required="true" requiredMessage="Informe o Nome"/></dd>
+		  	
+		  	<dd>
+		  		<h:inputText id="nome" value="#{ugBean.entity.descricao}" size="50" maxlength="180" required="true" requiredMessage="Informe o Nome" />
+		  	</dd>
+		  	
 		  	<h:message for="nome" styleClass="message"/>
 		  	
 		</fieldset>

@@ -27,7 +27,7 @@
 			
 			<a4j:outputPanel>
 			
-				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador}">
+				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
 			
 					<dt>
 						<h:outputLabel value="Órgão:" for="selectUgSolicitacaoVeiculo" 	styleClass="labelNegrito"/>
@@ -42,7 +42,7 @@
 
 				</a4j:region>
 
-				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte}">
+				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte or controlBean.master}">
 					<dt>
 						<h:outputLabel value="Veículo:" styleClass="labelNegrito"/>
 					</dt>

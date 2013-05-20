@@ -81,7 +81,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		}
 	}
 	/**
-	 * verifica se o grupo tem alguma p�gina inicial
+	 * verifica se o grupo tem alguma página inicial
 	 * @return
 	 */
 	public boolean isRolePage(){
@@ -257,6 +257,11 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 
 	public boolean isAdministrador() {
 		return SgfUtil.isAdministrador(this.usuario);
+	}
+	
+	// Adicionei esse novo método
+	public boolean isMaster() {
+		return SgfUtil.isMaster(this.usuario);
 	}
 	
 	public boolean isMonitoramentoVeiculo() {

@@ -14,14 +14,14 @@
 		<h1 style="width:300px">  <h:outputText value="#{msg['abastecimento.title']}" /> </h1>
 
       	<a4j:commandLink id="novaSolicitacaoAbast" action="#{abastecimentoBean.prepareSave}" value="#{msg['label.novo']}" 
-    			rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador}"	
+    			rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador or controlBean.master}"	
     			reRender="paginaPrincipal" immediate="true" styleClass="novo"/>
 
 		<fieldset>
 
 			<legend>Consulta</legend>
 
-			<a4j:outputPanel rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.administrador or  controlBean.operador}">
+			<a4j:outputPanel rendered="#{controlBean.chefeTransporte or controlBean.coordenador or controlBean.master or controlBean.administrador or  controlBean.operador}">
 
 				<a4j:region>
 

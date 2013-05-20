@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -36,8 +37,18 @@ public class UG implements Serializable{
 
 	private static final long serialVersionUID = -8966558699798206692L;
 	
+	/*
+	 * APENAS PARA EXEMPLO
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
+	@SequenceGenerator(name="seq_usuario", sequenceName="sgf.codpessoausuario_seq", allocationSize = 1)
+	@Column(name="CODPESSOAUSUARIO", nullable = false)
+	private Integer codPessoaUsuario;
+	*/
+
+	
+	/* Adicionei isso */
+	@Id
 	@Column(name="cod_ug", nullable = false)
 	private String id;
 	

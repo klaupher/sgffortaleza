@@ -31,7 +31,7 @@ public class Permissao implements Serializable {
 
 	@Column(name="NOMEPERMISSAO", nullable = false, length = 150)
 	private String nome;
-
+	
 	public Integer getCodPermissao() {
 		return codPermissao;
 	}

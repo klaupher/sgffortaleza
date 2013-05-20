@@ -31,12 +31,19 @@ public class UA implements Serializable{
 
 	private static final long serialVersionUID = 6655568880680196547L;
 	
+	/*
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_ua")
 	@SequenceGenerator(name="seq_ua", sequenceName="sgf.codua_seq", allocationSize = 1)
 	@Column(name="COD_UA", nullable = false)
 	private String id;
-
+	*/
+	
+	/* Adicionei isso */
+	@Id
+	@Column(name="cod_ua", nullable = false)
+	private String id;
+	
 	@Column(name="NM_UA")
 	private String descricao;
 

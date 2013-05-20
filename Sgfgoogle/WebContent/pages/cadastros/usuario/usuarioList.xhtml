@@ -17,7 +17,7 @@
 
 	      <legend>Usuários</legend>
 
-	      <h:panelGroup rendered="#{controlBean.administrador or controlBean.coordenador}">
+	      <h:panelGroup rendered="#{controlBean.administrador or controlBean.master}">
 
 		      	<h:commandLink action="#{usuarioBean.prepareSave}" value="Novo" styleClass="novo">
 					<a4j:support event="onclick" reRender="paginaPrincipal"/>
@@ -42,7 +42,8 @@
 	      		rowClasses="even,odd" 
 	      		onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')"
-				width="100%">
+				width="100%"
+				>
 				
 				<c:if test="#{empty usuarioBean.entities}">
 					<rich:column>
@@ -80,7 +81,7 @@
 						</h:commandLink>
 					</rich:column>
 	
-					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador or controlBean.coordenador}">
+					<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
 	
 						<f:facet name="header"><h:outputText>Bloqueio</h:outputText></f:facet>
 	
