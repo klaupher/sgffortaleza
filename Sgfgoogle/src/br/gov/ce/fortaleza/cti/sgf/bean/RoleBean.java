@@ -102,9 +102,8 @@ public class RoleBean extends EntityBean<Integer, Role>{
 	}
 
 	public String add(){
-		this.entity.getPermissoes().add(this.permissao);
+		this.entity.getPermissoes().addAll(permissoes);
 		service.update(entity);
-		this.permissoes.remove(this.permissao);
 		return SUCCESS;
 	}
 

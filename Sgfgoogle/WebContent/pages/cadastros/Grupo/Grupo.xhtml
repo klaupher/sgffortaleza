@@ -41,6 +41,13 @@
 					<rich:ajaxValidator event="onblur" />
 				</h:inputText>
 				<rich:message errorClass="error" for="descricaoGrupo" />
+				
+				<h:outputLabel value="Permissões :" />
+				<h:selectManyMenu id="permissaoGrupo" value="#{roleBean.role.permissoes}" converter="simpleEntityConverter" 
+					style="height:auto; width:180px" required="true" requiredMessage="Permissões é obrigatório">  
+		           <f:selectItems value="#{permissaoBean.lista}" var="permissao" itemLabel="#{permissao.nome}" itemValue="#{permissao}" />  
+    		    </h:selectManyMenu>
+				<rich:message errorClass="error" for="permissaoGrupo" />
 
 			</h:panelGrid>
 

@@ -24,9 +24,9 @@
 					<fieldset>
 
 						<legend>Permissões disponíveis</legend>
-						<h:selectOneMenu id="rolePermissao" value="#{roleBean.permissao}" converter="entityConverter"  rendered="#{roleBean.permissaoStatus}">
+						<h:selectManyMenu id="rolePermissao" value="#{roleBean.permissoes}" converter="entityConverter"  rendered="#{roleBean.permissaoStatus}">
 							<t:selectItems value="#{roleBean.permissoes}" var="p" itemLabel="#{p.descricao}" itemValue="#{p}"/>
-						</h:selectOneMenu>
+						</h:selectManyMenu>
 						<h:commandButton action="#{roleBean.add}" value="adicionar" rendered="#{roleBean.editState and roleBean.permissaoStatus}" styleClass="novo">
 							<a4j:support event="onclick" reRender="dataTable"/>
 						</h:commandButton>

@@ -50,7 +50,10 @@ public class UGService extends BaseService<String, UG>{
 
 		List<UG> ugs = new ArrayList<UG>();
 		User user = SgfUtil.usuarioLogado();
-		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user) || SgfUtil.isOperador(user)){
+		if(SgfUtil.isAdministrador(user) || 
+				SgfUtil.isCoordenador(user) || 
+				SgfUtil.isOperador(user) ||
+				SgfUtil.isMaster(user)){
 			ugs = executeResultListGenericQuery("findSorted");
 		} else {
 			UA ua = user.getPessoa().getUa();

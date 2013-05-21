@@ -7,10 +7,10 @@
 		username="sgf"
 		password="sgf"
 		driverClassName="org.postgresql.Driver"
-		url="jdbc:postgresql://172.31.4.2:5432/pmf"/>
-	<!--  url="jdbc:postgresql://172.31.4.2:5432/pmf_desv"/>	 -->	
-	<!--  url="jdbc:postgresql://172.31.2.9:5432/pmf"/> -->	
-	<!--  url="jdbc:postgresql://172.31.2.12:5432/pmf"/>	 -->
+		url="jdbc:postgresql://172.31.4.2:5432/pmf_desv"/>
+	<!--  url="jdbc:postgresql://172.31.4.2:5432/pmf_desv"/> DEVEL	 -->	
+	<!--  url="jdbc:postgresql://172.31.2.9:5432/pmf"/> PROD -->	
+	<!--  url="jdbc:postgresql://172.31.2.12:5432/pmf"/>	HOMOL -->
 	<Resource
 		name="jdbc/patrimonio"
 		auth="Container"

@@ -412,7 +412,9 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 		this.postos = new ArrayList<Posto>();
 		List<Posto> listPostos = new ArrayList<Posto>();
 
-		if(SgfUtil.isAdministrador(this.user) || SgfUtil.isCoordenador(this.user)){
+		if(SgfUtil.isMaster(this.user) ||
+				SgfUtil.isAdministrador(this.user) || 
+				SgfUtil.isCoordenador(this.user)){
 			listPostos = postoService.retrieveAll();
 		} else if(SgfUtil.isOperador(this.user)){
 			listPostos.add(postoService.retrieve(this.user.getPosto().getCodPosto()));
