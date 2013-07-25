@@ -115,7 +115,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculobyModelo(String filter) {
 		List<Veiculo> listaVeiculo = new ArrayList<Veiculo>();
-		Query query = entityManager.createQuery("Select object(v) from Veiculo v where v.status != -1 and lower(v.modelo.descricao) like lower(:busca)");
+		Query query = entityManager.createQuery("Select object(v) from Veiculo v where v.status != 6 and lower(v.modelo.descricao) like lower(:busca)");
 		query.setParameter("busca", "%"+filter+"%");
 		listaVeiculo = query.getResultList();
 		return listaVeiculo;
@@ -123,7 +123,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> retrieveByUG(String ug){
-		Query query = entityManager.createQuery("Select v from Veiculo v where v.ua.ug.id = ? and v.status != -1");
+		Query query = entityManager.createQuery("Select v from Veiculo v where v.ua.ug.id = ? and v.status != 6");
 		query.setParameter(1, ug);
 		List<Veiculo> result =  query.getResultList();
 		return result;
@@ -149,7 +149,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 		try {
 
-			StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1 ");
+			StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != 6 ");
 			
 			if(orgaoId != null){
 				sql.append(" and v.ua.ug.id = :id");
@@ -193,7 +193,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
 		String ugid = ug.getId();
 		if(ug != null){
-			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.status != -1");
+			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.status != 6");
 			query.setParameter("id", ugid);
 			veiculos = query.getResultList();
 		}
@@ -205,7 +205,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> veiculos = new ArrayList<Veiculo>();
 		String ugid = ug.getId();
 		if(ug != null){
-			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.cota.cotaDisponivel > 0 and o.status != -1");
+			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.cota.cotaDisponivel > 0 and o.status != 6");
 			query.setParameter("id", ugid);
 			veiculos = query.getResultList();
 		}
@@ -245,7 +245,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	public Map<Integer, Veiculo> retrieveMapVeiculo() {
 
 		Map<Integer, Veiculo> map = new HashMap<Integer, Veiculo>();
-		Query query = entityManager.createQuery("SELECT distinct(v) FROM Veiculo v WHERE  v.status != -1");
+		Query query = entityManager.createQuery("SELECT distinct(v) FROM Veiculo v WHERE  v.status != 6");
 		List<Veiculo> veiculos = query.getResultList();
 		for (Veiculo v : veiculos) {
 			if(!map.containsKey(v.getId())){
@@ -265,7 +265,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		String str = sql.toString();
 		str = str.replace("[", "(").replaceAll("]", ")");
-		String sqlq = "SELECT v.placa FROM Veiculo v WHERE v.status != -1 and v.placa IN " + str;
+		String sqlq = "SELECT v.placa FROM Veiculo v WHERE v.status != 6 and v.placa IN " + str;
 		Query query = entityManager.createQuery(sqlq);
 		List<String> result = query.getResultList();
 		placas.removeAll(result);
@@ -274,7 +274,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 	@SuppressWarnings("unchecked")
 	public List<Integer> veiculoIds(String ugId){
-		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != -1");
+		StringBuilder sql = new StringBuilder("SELECT v.id FROM Veiculo v WHERE v.status != 6");
 		if(ugId != null){
 			sql.append(" and v.ua.ug.id = :id");
 		}
@@ -308,10 +308,10 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v where  v.status != -1");
+			query = entityManager.createQuery("select v from Veiculo v where  v.status != 6");
 			result = query.getResultList();
 		} else {
-			query = entityManager.createQuery("select v from Veiculo v where v.ua.ug.id = :ug and v.status != -1");
+			query = entityManager.createQuery("select v from Veiculo v where v.ua.ug.id = :ug and v.status != 6");
 			query.setParameter("ug", user.getPessoa().getUa().getUg().getId());
 			result = query.getResultList();
 		}
@@ -325,10 +325,10 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		List<Veiculo> result = null;
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user)){
-			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status != -1");
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and  v.status != 6");
 			result = query.getResultList();
 		} else {
-			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and v.ua.ug.id = :ug and v.status != -1");
+			query = entityManager.createQuery("select v from Veiculo v where v.dataTransmissao != null and v.ua.ug.id = :ug and v.status != 6");
 			query.setParameter("ug", user.getPessoa().getUa().getUg().getId());
 			result = query.getResultList();
 		}

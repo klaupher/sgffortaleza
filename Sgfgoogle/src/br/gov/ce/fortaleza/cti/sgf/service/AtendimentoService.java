@@ -16,6 +16,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 /**
  * 
@@ -73,7 +74,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 			str.append(" and o.abastecimento.veiculo.id = :vid");
 		}
 		
-		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0 ");
+		str.append(" and o.abastecimento.veiculo.status < "+ StatusVeiculo.baixado.valor +" and o.status = 0 ");
 		str.append(" order by o.hora asc");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
@@ -131,7 +132,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
 		}
-		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0");
+		str.append(" and o.abastecimento.veiculo.status > "+StatusVeiculo.baixado.valor+" and o.status = 0");
 		str.append(" order by o.abastecimento.veiculo.ua.ug.descricao");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
@@ -149,7 +150,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
 		}
-		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 0");
+		str.append(" and o.abastecimento.veiculo.status > "+StatusVeiculo.baixado.valor+" and o.status = 0");
 		str.append(" order by o.abastecimento.veiculo.placa");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
@@ -166,7 +167,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = "+veiculo);
 		}
-		str.append(" and o.abastecimento.veiculo.status > -1 and o.status = 1");
+		str.append(" and o.abastecimento.veiculo.status > "+StatusVeiculo.baixado.valor+" and o.status = 1");
 		str.append(" order by o.data");
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);

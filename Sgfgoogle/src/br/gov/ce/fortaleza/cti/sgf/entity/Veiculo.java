@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +36,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.postgis.Geometry;
 
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
+
 @Entity
 
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -44,14 +48,14 @@ import org.postgis.Geometry;
 })
 
 @NamedQueries( {
-	@NamedQuery(name = "Veiculo.findVeiculosSemCota", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.status != -1"),
-	@NamedQuery(name = "Veiculo.findVeiculosSemCotaByPlaca", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ? and v.status != -1"),
-	@NamedQuery(name = "Veiculo.findVeiculosComCota", query = "select v from Veiculo as v inner join v.cota as cota where v.status != -1"),
+	@NamedQuery(name = "Veiculo.findVeiculosSemCota", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.status != 6"),
+	@NamedQuery(name = "Veiculo.findVeiculosSemCotaByPlaca", query = "select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ? and v.status != 6"),
+	@NamedQuery(name = "Veiculo.findVeiculosComCota", query = "select v from Veiculo as v inner join v.cota as cota where v.status != 6"),
 	@NamedQuery(name = "Veiculo.findByPCR", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?)"),
 	@NamedQuery(name = "Veiculo.findByUGPCR", query = "SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id LIKE ?) AND ((v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?))"),
 	@NamedQuery(name = "Veiculo.findByUG", query = "SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id = ?)"),
-	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != -1 ") })
-	public class Veiculo implements Serializable {
+	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != 6 ") })
+public class Veiculo implements Serializable {
 
 	private static final long serialVersionUID = 1031161986293985845L;
 
@@ -92,7 +96,8 @@ import org.postgis.Geometry;
 	private Integer temSeguro;
 
 	@Column(name = "STATUS")
-	private Integer status;
+	@Enumerated(EnumType.ORDINAL)
+	private StatusVeiculo status;
 
 	@Column(name = "COMBUSTIVEL", length = 50)
 	private String combustivel;
@@ -126,7 +131,7 @@ import org.postgis.Geometry;
 	@JoinColumn(name = "COD_UA_ASI", nullable = false)
 	private UA ua;
 
-	@ManyToOne
+	@ManyToOne 
 	@JoinColumn(name = "CODMODELO")
 	private Modelo modelo;
 
@@ -139,6 +144,9 @@ import org.postgis.Geometry;
 
 	@Transient
 	private Double cotaDisponivel;
+	
+	@OneToOne(mappedBy = "veiculo", fetch=FetchType.LAZY)
+	private CotaKm cotaKm;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE })
 	@Cascade( { org.hibernate.annotations.CascadeType.SAVE_UPDATE,	org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
@@ -262,14 +270,6 @@ import org.postgis.Geometry;
 
 	public void setRenavam(String renavam) {
 		this.renavam = renavam;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public Especie getEspecie() {
@@ -540,5 +540,13 @@ import org.postgis.Geometry;
 		return ((id == null && other.id == null) || (id != null && id.equals(other.id)))
 		&& ((placa == null && other.placa == null) || (placa != null && placa.equals(other.placa)))
 		&& ((ua == null && other.ua == null) || (ua != null && ua.equals(other.ua)));
+	}
+
+	public StatusVeiculo getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusVeiculo status) {
+		this.status = status;
 	}
 }

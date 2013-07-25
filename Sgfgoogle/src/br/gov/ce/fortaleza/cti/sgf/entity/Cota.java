@@ -3,6 +3,9 @@
  */
 package br.gov.ce.fortaleza.cti.sgf.entity;
 
+import groovy.lang.Lazy;
+import groovy.lang.Singleton;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -18,8 +21,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Index;
-
 /**
  * @author Deivid
  * @since 25/11/09
@@ -27,10 +28,10 @@ import org.hibernate.annotations.Index;
 @Entity
 @Table(name = "tb_cotaabastecimento" , schema = "SGF")
 @NamedQueries( {
-		@NamedQuery(name = "Cota.findByVeiculoServico", query = "select o from Cota o where o.veiculo = :veiculo and o.tipoServico = :tipoServico  and (o.veiculo.status > -1)"),
-		@NamedQuery(name = "Cota.findCotasByVeiculo", query = "select o from Cota o where o.veiculo = ?  and (o.veiculo.status > -1)"),
-		@NamedQuery(name = "Cota.findByPlacaVeiculo", query = "select o from Cota o where o.veiculo.placa = ? and (o.veiculo.status > -1)"),
-		@NamedQuery(name = "Cota.findCotasVeiculosAtivos", query = "select o from Cota o where o.veiculo.status > -1")
+		@NamedQuery(name = "Cota.findByVeiculoServico", query = "select o from Cota o where o.veiculo = :veiculo and o.tipoServico = :tipoServico  and (o.veiculo.status > :statusVeiculo)"),
+		@NamedQuery(name = "Cota.findCotasByVeiculo", query = "select o from Cota o where o.veiculo = ?  and (o.veiculo.status > ?)"),
+		@NamedQuery(name = "Cota.findByPlacaVeiculo", query = "select o from Cota o where o.veiculo.placa = ? and (o.veiculo.status > ?)"),
+		@NamedQuery(name = "Cota.findCotasVeiculosAtivos", query = "select o from Cota o where o.veiculo.status > ?")
 })
 
 public class Cota implements Serializable {

@@ -233,7 +233,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 					}
 				}
 			} else {
-				SgfUtil.getRequest().setAttribute("sendmail_err", "N√£o foi encontrado usu√°rio p/ o e-mail informado.");
+				SgfUtil.getRequest().setAttribute("sendmail_err", "N„o foi encontrado usu·rio p/ o e-mail informado.");
 				return FAIL;
 			}
 		} else {
@@ -340,6 +340,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 
 	public boolean isCotaBean(){
 		return CotaBean.class.getSimpleName().equals(getCurrentBean());
+	}	
+	
+	public boolean isCotaKmBean(){
+		return CotaKmBean.class.getSimpleName().equals(getCurrentBean());
 	}	
 
 	public boolean isUABean(){

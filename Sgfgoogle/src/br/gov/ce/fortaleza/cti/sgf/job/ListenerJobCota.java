@@ -31,7 +31,7 @@ public class ListenerJobCota implements ServletContextListener {
 		try {
 			Scheduler scheduler = new StdSchedulerFactory().getScheduler();
 			JobDetail jobDetail = new JobDetail("JobCotaMensal", scheduler.DEFAULT_GROUP, JobCotaMensal.class);
-			CronTrigger cronTrigger = new CronTrigger("TriggerCotaMensal", scheduler.DEFAULT_GROUP, "0 0 0 1 * ?");
+			CronTrigger cronTrigger = new CronTrigger("TriggerCotaMensal", scheduler.DEFAULT_GROUP, "0 0 02 1 * ?");
 			scheduler.scheduleJob(jobDetail, cronTrigger);
 			scheduler.start();
 		} catch (Exception e) {

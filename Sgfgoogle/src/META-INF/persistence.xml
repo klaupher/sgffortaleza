@@ -23,6 +23,7 @@
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.TipoServico</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Cota</class>
+		<class>br.gov.ce.fortaleza.cti.sgf.entity.CotaKm</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Bomba</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario</class>
@@ -42,6 +43,7 @@
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Message</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Page</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Rastreador</class>
+		<class>br.gov.ce.fortaleza.cti.sgf.entity.TipoVeiculo</class>
 		<properties>
 			<property name="hibernate.connection.datasource" value="java:/comp/env/jdbc/sgf" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
@@ -51,6 +53,7 @@
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.current_session_context_class" value="thread" />
+			<!-- <property name="hibernate.hbm2ddl.auto" value="update"/>  -->
 		</properties>
 	</persistence-unit>
 </persistence>

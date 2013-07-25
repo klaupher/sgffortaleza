@@ -988,6 +988,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			Float consumoOrgao = 0F;
 			Float consumoEtanol = 0F;
 			Float consumoGasolina = 0F;
+			Float consumoDiesel = 0F;
 			RelatorioDTO novo = new RelatorioDTO();
 			novo.setRelatorios(new ArrayList<RelatorioDTO>());
 			novo.setOrgao(ug);
@@ -1017,6 +1018,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				Float total = 0F;
 				Float totalGasolina = 0F;
 				Float totalEtanol = 0F;
+				Float totalDiesel = 0F;
 				Float kmInicial = 0F;
 				Float kmFinal = 0F;
 				int nrAbastecimentos = 0;
@@ -1037,6 +1039,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					}
 					if(atendimento.getAbastecimento().getCombustivel().getId() == 2){
 						totalEtanol += atendimento.getQuantidadeAbastecida().floatValue();
+					}
+					if(atendimento.getAbastecimento().getCombustivel().getId() == 3){
+						totalDiesel += atendimento.getQuantidadeAbastecida().floatValue();
 					}
 
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0F;
@@ -1079,12 +1084,14 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				consumoOrgao += total;
 				consumoGasolina += totalGasolina;
 				consumoEtanol += totalEtanol;
+				consumoDiesel += totalDiesel;
 
 				novo.getRelatorios().add(dto);
 			}
 			novo.setConsumoCombustivelOrgao(consumoOrgao);
 			novo.setConsumoGasolina(consumoGasolina);
 			novo.setConsumoEtanol(consumoEtanol);
+			novo.setConsumoDiesel(consumoDiesel);
 
 			this.entities.add(novo);
 		}
@@ -1539,6 +1546,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 						rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
 						rr.setConsumoGasolina(r.getConsumoGasolina());
 						rr.setConsumoEtanol(r.getConsumoEtanol());
+						rr.setConsumoDiesel(r.getConsumoDiesel());
 					}
 					list.addAll(r.getRelatorios());
 				}

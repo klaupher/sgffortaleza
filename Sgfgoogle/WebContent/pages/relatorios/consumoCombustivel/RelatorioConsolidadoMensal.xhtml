@@ -55,19 +55,28 @@
 					<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
 				</rich:column>
 			</c:if>
-
-			<rich:column colspan="4" style="font-weight: bold; background:white">
+			
+			<rich:column colspan="5" style="font-weight: bold; background:white; width:44% ">
 				<h:outputText value="Órgão: #{r.orgao.descricao}" />
 			</rich:column>
 
-			<rich:column colspan="3" style="font-weight: bold; background:white">
-				<h:outputText value="Cons. Gasolina(L): #{r.consumoGasolina}" />
+			<rich:column colspan="2" style="font-weight: bold; background:white; width:19%">
+				<h:outputText value="Gasolina: #{r.consumoGasolina}" />
 			</rich:column>
 			
-			<rich:column colspan="3" style="font-weight: bold; background:white">
-				<h:outputText value="Cons. Etanol(L) #{r.consumoEtanol}" />
+			<rich:column colspan="1" style="font-weight: bold; background:white; width:19% ">
+				<h:outputText value="Etanol: #{r.consumoEtanol}" />
 			</rich:column>
-
+			
+			<rich:column colspan="1" style="font-weight: bold; background:white; width:19%">
+				<h:outputText value="Diesel: #{r.consumoDiesel}" />
+			</rich:column>
+			
+			<rich:column colspan="2" style="font-weight: bold; background:white; width:19%">
+				<h:outputText value="TOTAL: #{r.consumoCombustivelOrgao}" />
+			</rich:column>
+			
+			
 			<c:if test="#{relatorioBean.entitiesSize > 0}">
 
 				<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="5000" rowKeyVar="k" 
@@ -81,62 +90,62 @@
 							<h:outputText value="#{k+1}" />
 						</rich:column>
 
-						<rich:column>
+						<rich:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Placa"/></f:facet>
 							<h:outputText value="#{sr.veiculo.placa}" />
 						</rich:column>
 
-						<rich:column>
+						<rich:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Modelo"/></f:facet>
 							<h:outputText value="#{sr.veiculo.modelo.descricao}" />
 						</rich:column>
 
-						<rich:column>
+						<rich:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Ano"/></f:facet>
 							<h:outputText value="#{sr.veiculo.anoModelo}" />
 						</rich:column>
 
-						<rich:column>
+						<rich:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Lts"/></f:facet>
 							<h:outputText value="#{sr.consumo}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 							</h:outputText>
 						</rich:column>
 
-						<rich:column>
+						<rich:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Kms"/></f:facet>
 							<h:outputText value="#{sr.kmRodados}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 							</h:outputText>
 						</rich:column>
 
-						<rich:column  style="width:2%">
+						<rich:column style="width:10%" >
 							<f:facet name="header"><h:outputLabel value="(Kms/Lts)"/></f:facet>
 							<h:outputText value="#{sr.kmPorLitro}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 							</h:outputText>
 						</rich:column>	
 
-						<rich:column rendered="false">
+						<rich:column style="width:6%" rendered="true">
 							<f:facet name="header"><h:outputLabel value="Cota(lts)"/></f:facet>
 							<h:outputText value="#{sr.cota}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 							</h:outputText>
 						</rich:column>
 
-						<h:column>
+						<h:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Saldo(lts)"/></f:facet>
 							<h:outputText value="#{sr.saldoCota}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
 							</h:outputText>
 						</h:column>
 
-						<rich:column>
+						<rich:column style="width:10%">
 							<f:facet name="header"><h:outputLabel value="Insumo"/></f:facet>
 							<h:outputText value="#{sr.combustivel}" />
 						</rich:column>
 
-						<rich:column  style="width:3%" rendered="false">
+						<rich:column style="width:10%" rendered="false">
 							<f:facet name="header"><h:outputLabel value="Custo(R$)"/></f:facet>
 							<h:outputText value="#{sr.custo}">
 								<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
@@ -153,11 +162,6 @@
 						</f:facet>
 
 					</rich:subTable>
-
-					<f:facet name="footer">
-						<rich:datascroller renderIfSinglePage="false" reRender="dataTable" />
-					</f:facet>
-
 			</c:if>
 
 		</rich:dataTable>

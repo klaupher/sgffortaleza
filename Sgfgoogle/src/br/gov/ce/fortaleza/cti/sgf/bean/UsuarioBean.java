@@ -91,6 +91,11 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		this.ug = new UG();
 		return user;
 	}
+	
+	public String prepareSave() {
+		this.entity = createNewEntity();
+		return super.prepareSave();
+	}
 
 	protected Integer retrieveEntityId(User entity) {
 		return entity.getCodPessoaUsuario().intValue();

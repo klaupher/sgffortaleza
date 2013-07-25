@@ -55,7 +55,7 @@ public class Role implements Serializable, GrantedAuthority{
 	private Set<User> users;
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "tb_grupopage", schema = "SGF", joinColumns=@JoinColumn(name="codgrupo"), 
 			inverseJoinColumns=@JoinColumn(name="codpage"))
 	private Set<Page> pages;

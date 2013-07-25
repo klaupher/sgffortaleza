@@ -29,6 +29,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.ArenaService;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.GeoUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 public class JobArena implements Job {
 
@@ -41,7 +42,7 @@ public class JobArena implements Job {
 		EntityManagerFactory factory = Persistence.createEntityManagerFactory("sgf");
 		EntityManager entityManager = factory.createEntityManager();
 
-		Query query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status != -1 and v.codigoVeiculoArena is not null");
+		Query query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status != "+StatusVeiculo.baixado.valor+" and v.codigoVeiculoArena is not null");
 		List<Veiculo> result = query.getResultList();
 
 		try {

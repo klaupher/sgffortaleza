@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.exception.GenericJDBCException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.hibernate3.HibernateJdbcException;
 
 import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 public abstract class EntityBean<Id extends Serializable, Entity extends Serializable> extends CrudStateBean{
 
@@ -54,7 +54,7 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 	}
 
 	public Integer getEntitiesSize() {
-		return entities == null ? -1 : entities.size();
+		return entities == null ? StatusVeiculo.baixado.valor : entities.size();
 	}
 
 	public String prepareSave() {

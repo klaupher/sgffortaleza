@@ -258,7 +258,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			}
 
 			if(this.entity.getVeiculo() != null ){
-				if(this.entity.getVeiculo().getStatus() == StatusVeiculo.TRANSF_EXTERNA){
+				if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.transfExterna)){
 					JSFUtil.getInstance().addErrorMessage("msg.error.solicitacao.veiculoEmTransferenciaExterna");
 					return FAIL;
 				}

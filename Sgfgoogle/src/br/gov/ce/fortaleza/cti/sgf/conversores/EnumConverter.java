@@ -8,13 +8,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
+
 /**
  * @author Deivid
  * @since 19/01/2010
  */
 public class EnumConverter implements Converter {
 
-	@SuppressWarnings( { "unchecked", "deprecation" })
+	@SuppressWarnings( { "unchecked", "deprecation", "rawtypes" })
 	public Object getAsObject(FacesContext context, UIComponent comp, 
 			String value) throws ConverterException {
 		Class enumType = comp.getValueBinding("value").getType(context);

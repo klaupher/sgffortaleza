@@ -36,8 +36,6 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 @Component("cotaBean")
 public class CotaBean extends EntityBean<Integer, Cota>{
 
-	private static final long serialVersionUID = -30259196714728876L;
-
 	@Autowired
 	private CotaService cotaService;
 
@@ -179,10 +177,10 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String delete(){
-		if(this.entity.getVeiculo().getStatus() == StatusVeiculo.LOCADO){
-			this.botaoExcluir.setOncomplete("alert('NÃ£o Ã© permitido excluir cotas de veÃ­culo ativo!')");
+		if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.locado)){
+			this.botaoExcluir.setOncomplete("alert('Não é permitido excluir cotas de veículo ativo!')");
 			return FAIL;
-		} else if(this.entity.getVeiculo().getStatus() == StatusVeiculo.DISPONIVEL){
+		} else if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.disponivel)){
 			return super.delete();
 		}
 		return FAIL;

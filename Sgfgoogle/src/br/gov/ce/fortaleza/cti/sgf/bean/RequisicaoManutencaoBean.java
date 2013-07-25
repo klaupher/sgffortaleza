@@ -141,7 +141,7 @@ EntityBean<Integer, RequisicaoManutencao> {
 				JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.comManutencao");
 				return FAIL;
 			} else {
-				this.entity.getVeiculo().setStatus(StatusVeiculo.EM_MANUTENCAO);
+				this.entity.getVeiculo().setStatus(StatusVeiculo.emManutencao);
 				this.veiculoService.update(this.entity.getVeiculo());
 				this.entity.setItensRequisicao(new ArrayList<ItemRequisicao>(this.itensRequisicao));
 				this.entity.setStatus(0);
@@ -166,7 +166,7 @@ EntityBean<Integer, RequisicaoManutencao> {
 		this.entity.setDataSaida(new Date());
 		super.update();
 		if (!(service.findByVeiculoStatus(this.entity.getVeiculo().getId(), 0))) {
-			this.entity.getVeiculo().setStatus(StatusVeiculo.EM_MANUTENCAO);
+			this.entity.getVeiculo().setStatus(StatusVeiculo.emManutencao);
 			this.veiculoService.update(this.entity.getVeiculo());
 		}
 		return SUCCESS;
@@ -178,7 +178,7 @@ EntityBean<Integer, RequisicaoManutencao> {
 		this.entity.setDataRetorno(new Date());
 		super.update();
 		if (!(service.findByVeiculoStatus(this.entity.getVeiculo().getId(), 0))) {
-			this.entity.getVeiculo().setStatus(StatusVeiculo.DISPONIVEL);
+			this.entity.getVeiculo().setStatus(StatusVeiculo.disponivel);
 			this.veiculoService.update(this.entity.getVeiculo());
 		}
 		return SUCCESS;

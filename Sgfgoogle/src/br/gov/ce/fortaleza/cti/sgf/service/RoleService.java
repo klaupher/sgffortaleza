@@ -19,6 +19,11 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Role;
 @Repository
 @Transactional
 public class RoleService extends BaseService<Integer, Role>{
+	
+	@Transactional
+	public Role save(Role role) {
+		return update(role);
+	}
 
 	public Role findById(Integer id){
 

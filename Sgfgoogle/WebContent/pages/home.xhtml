@@ -265,6 +265,18 @@
 						<ui:include src="cadastros/cota/visualizarServicos.xhtml" />
 					</c:if>
 				</c:if>
+				
+				<c:if test="#{controlBean.cotaKmBean}">
+					<c:if test="#{cotaKmBean.updateState}">
+						<ui:include src="cadastros/cotaKm/cotaKmServicosModal.xhtml" />
+					</c:if>
+					<c:if test="#{cotaKmBean.saveState}">
+						<ui:include src="cadastros/cotaKm/cotaKm.xhtml" />
+					</c:if>
+					<c:if test="#{cotaKmBean.searchState}">
+						<ui:include src="cadastros/cotaKm/cotaKmList.xhtml" />
+					</c:if>
+				</c:if>
 		
 				<c:if test="#{controlBean.numeroMotorBean}">
 					<c:if

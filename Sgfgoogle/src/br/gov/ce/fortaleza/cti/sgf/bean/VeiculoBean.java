@@ -43,8 +43,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private Integer searchId = 0;
 	private String stringSearch = null;
 	private Area area;
-
-
+	
 	protected Integer retrieveEntityId(Veiculo entity) {
 		return entity.getId();
 	}
@@ -92,7 +91,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	public String save(){
 		boolean valida = true;
-		this.entity.setStatus(StatusVeiculo.DISPONIVEL);
+		this.entity.setStatus(StatusVeiculo.disponivel);
 		this.entity.setDataCadastro(new Date());
 		this.entity.setPlaca(this.entity.getPlaca().toUpperCase());
 		this.entity.setChassi(this.entity.getChassi().toUpperCase());
@@ -189,13 +188,13 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	}
 	
 	public String inativarVeiculo(){
-		this.entity.setStatus(StatusVeiculo.DELETADO);
+		this.entity.setStatus(StatusVeiculo.baixado);
 		super.update();
 		return super.search();
 	}
 	
 	public String ativarVeiculo(){
-		this.entity.setStatus(StatusVeiculo.DISPONIVEL);
+		this.entity.setStatus(StatusVeiculo.disponivel);
 		super.update();
 		return super.search();
 	}
@@ -244,5 +243,14 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	public void setArea(Area area) {
 		this.area = area;
+	}
+
+	public SelectItem[] getStatuses() {
+		SelectItem[] items = new SelectItem[StatusVeiculo.values().length];
+		int i = 0;
+		for (StatusVeiculo status : StatusVeiculo.values()) {
+			items[i++] = new SelectItem(status, status.getLabel());
+		}
+		return items;
 	}
 }

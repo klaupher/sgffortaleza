@@ -15,6 +15,11 @@
 		<fieldset>
 
 	      <legend>Lista de Perfis</legend>
+	      
+	      	<h:commandLink action="#{roleBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{controlBean.administrador}">
+	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+	      	</h:commandLink>
+	      	<p/>
 
 	      	<p></p>
 	      	<rich:dataTable id="dataTable"	value="#{roleBean.entities}" var="role" rows="50" rowKeyVar="k"
@@ -29,7 +34,8 @@
 
 				<rich:column width="50%" style="text-align: left;" > 
 					<f:facet name="header"><h:outputText value="Descrição" /></f:facet>
-					<a4j:commandLink id="roleEdit" action="#{roleBean.prepareEdit}" value="#{role.nome}" style="color: black;text-decoration:none;font-weight: bold;" reRender="paginaPrincipal">
+					<a4j:commandLink id="roleEdit" action="#{roleBean.prepareEdit}" value="#{role.nome}" style="color: black;text-decoration:none;font-weight: bold;" 
+						reRender="paginaPrincipal">
 						<f:setPropertyActionListener target="#{roleBean.entity}" value="#{role}"/>
 					</a4j:commandLink>
 					<rich:toolTip value="Click p/ Editar Permissões do Perfil" for="roleEdit"/>
@@ -37,13 +43,13 @@
 
 				<rich:column width="3%" style="text-align: center;">
 					<f:facet name="header"><h:outputText value="Editar" /></f:facet>
-					<h:commandLink styleClass="editar" action="#{roleBean.prepareUpdate}" value="Editar">
+					<h:commandLink styleClass="editar" action="#{roleBean.prepareEdit}" value="Editar">
 						<f:setPropertyActionListener target="#{roleBean.entity}" value="#{role}"/>
 						<a4j:support event="onclick" reRender="paginaPrincipal"/>
 					</h:commandLink>
 				</rich:column>
 
-				<rich:column width="3%" style="text-align: center;" rendered="false">
+				<rich:column width="3%" style="text-align: center;" >
 					<f:facet name="header"><h:outputText value="Excluir"/></f:facet>
 					<h:commandLink styleClass="excluir"  action="#{roleBean.delete}" value="Excluir"
 						onclick="if(!confirm('Tem certeza que deseja excluir?')) { form.reset();return false;}">

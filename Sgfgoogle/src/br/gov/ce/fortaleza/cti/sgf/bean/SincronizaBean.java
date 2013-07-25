@@ -31,6 +31,7 @@ import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.ConnectOracle;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.dto.RelatorioDTO;
 
 /**
@@ -314,7 +315,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 					this.veiculo.setRenavam(rs.getString("renavam"));
 					this.veiculo.setCombustivel(rs.getString("combustivel"));
 					this.veiculo.setModelo(modelo);
-					this.veiculo.setStatus(0);
+					this.veiculo.setStatus(StatusVeiculo.disponivel);
 					this.veiculo.setTemSeguro(0);
 					if (rs.getString("anofabr") != null	&& rs.getString("anofabr") != "") {
 						this.veiculo.setAnoFabricacao(Integer.parseInt(rs.getString("anofabr")));

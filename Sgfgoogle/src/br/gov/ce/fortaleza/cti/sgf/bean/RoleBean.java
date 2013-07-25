@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -50,6 +49,7 @@ public class RoleBean extends EntityBean<Integer, Role>{
 		this.pages.addAll(pageService.retrieveAll());
 		this.permissao = new Permissao();
 		this.page = new Page();
+		this.rolePages = new ArrayList<Page>();
 		return new Role();
 	}
 
@@ -61,6 +61,22 @@ public class RoleBean extends EntityBean<Integer, Role>{
 	@Override
 	protected RoleService retrieveEntityService() {
 		return this.service;
+	}
+	
+	
+	@Override
+	public String prepareSave() {
+		this.entity = new Role();
+		this.permissoes = new ArrayList<Permissao>();
+		this.pages = new ArrayList<Page>();
+		this.permissoes.addAll(permissaoService.retrieveAll());
+		this.pages.addAll(pageService.retrieveAll());
+		this.permissao = new Permissao();
+		this.page = new Page();
+		this.rolePages = new ArrayList<Page>();
+		setCurrentBean(currentBeanName());
+		setCurrentState(SAVE);
+		return SUCCESS;
 	}
 
 	@Override
@@ -87,6 +103,12 @@ public class RoleBean extends EntityBean<Integer, Role>{
 		this.entity.setPages(new HashSet<Page>(this.rolePages));
 		return super.update();
 	}
+	
+	@Override
+	public String save() {
+		this.entity = service.save(entity);
+		return SUCCESS;
+	}
 
 	public boolean isPermissaoStatus(){
 		return this.permissoes.size() > 0;
@@ -102,14 +124,20 @@ public class RoleBean extends EntityBean<Integer, Role>{
 	}
 
 	public String add(){
-		this.entity.getPermissoes().addAll(permissoes);
-		service.update(entity);
+		if(getCurrentState().equals(EDIT)){
+			this.entity.setPermissoes(permissoes);
+			service.update(entity);
+		}
 		return SUCCESS;
 	}
 
 	public String addPage(){
 		this.rolePages.add(this.page);
-		service.update(entity);
+		if(getCurrentState().equals(EDIT)){
+			service.update(entity);
+		}else if(getCurrentState().equals(SAVE)){
+			this.entity.setPages(new HashSet<Page>(rolePages));
+		}
 		this.pages.remove(this.page);
 		return SUCCESS;
 	}

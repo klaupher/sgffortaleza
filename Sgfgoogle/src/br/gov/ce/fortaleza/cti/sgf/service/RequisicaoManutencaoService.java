@@ -12,6 +12,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao;
 import br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 @Repository
 @Transactional
@@ -29,7 +30,7 @@ public class RequisicaoManutencaoService extends BaseService<Integer, Requisicao
 		} else if(vid != null && stid == 0){
 			list = executeResultListQuery("findByVeiculo", vid);
 		} else if(vid != null && stid == 1){
-			list = executeResultListQuery("findByVeiculoStatus", vid, -1);
+			list = executeResultListQuery("findByVeiculoStatus", vid, StatusVeiculo.baixado);
 		} else if(vid != null && stid == 2){
 			list = executeResultListQuery("findByVeiculoStatus", vid, 1);
 		} else {

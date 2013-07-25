@@ -19,11 +19,22 @@
 	      	<legend>Cadastro de Veículo</legend>
 
 			<h:inputHidden value="#{veiculoBean.entity.id}" rendered="#{veiculoBean.updateState}"/>
-
+			
+	    	<dl>
+				<dt><label for="propriedade">Propriedade</label></dt>
+				<dd>
+					<h:selectOneMenu id="propriedade" value="#{veiculoBean.entity.propriedade}" disabled="#{!controlBean.administrador}">
+						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>					
+			 			<f:selectItems value="#{veiculoBean.proprietarioList}" />
+					</h:selectOneMenu>
+				</dd>
+			</dl>
+			
 			<dl>
 				<dt><label for="ugVeiculo">UG</label></dt>
 		    	<dd>
-		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" disabled="#{!controlBean.administrador}" converter="entityConverter">
+		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" 
+		    			disabled="#{!controlBean.administrador}" converter="entityConverter">
 		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
 		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
@@ -44,6 +55,41 @@
 					<rich:message errorClass="error" for="uaVeiculo" styleClass="message"/>
 				</dd>
 			</h:panelGroup>
+			
+			<dl>
+			  	<dt><label for="especie">Espécie</label></dt>
+				<dd><h:selectOneMenu id="especie" value="#{veiculoBean.entity.especie}" disabled="#{!controlBean.administrador}" required="true" 
+									 requiredMessage="Informe a Espécie" converter="entityConverter">
+					<f:selectItem itemLabel="Selecione a espécie." itemValue=""/>
+		 			<t:selectItems value="#{especieBean.especies}" var="especie" itemLabel="#{especie.descricao}" itemValue="#{especie}"/>
+				</h:selectOneMenu>
+				<label style="color:red">*</label>
+				<rich:message errorClass="error" for="especie" styleClass="message"/>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="modelo">Modelo</label></dt>
+				<dd><h:selectOneMenu id="modelo" value="#{veiculoBean.entity.modelo}" disabled="#{!controlBean.administrador}" requiredMessage="Informe o Modelo" 
+									 required="true" converter="entityConverter">
+					<f:selectItem itemLabel="Selecione o modelo." itemValue=""/>
+		 			<t:selectItems value="#{modeloBean.modelos}" var="modelo" itemLabel="#{modelo.descricao}" itemValue="#{modelo}"/>
+				</h:selectOneMenu>
+				<label style="color:red">*</label>
+				<rich:message errorClass="error" for="modelo" styleClass="message"/>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="combustivel">Combustível</label></dt>
+				<dd><h:selectOneMenu id="combustivel" disabled="#{!controlBean.administrador}" value="#{veiculoBean.entity.combustivel}">
+					<f:selectItem itemLabel="Diesel" itemValue="Diesel"/>
+					<f:selectItem itemLabel="Gasolina" itemValue="Gasolina"/>
+					<f:selectItem itemLabel="Etanol" itemValue="Etanol"/>
+					<f:selectItem itemLabel="Flex" itemValue="Flex"/>
+					<f:selectItem itemLabel="GNV" itemValue="GNV"/>
+				</h:selectOneMenu></dd>
+			</dl>
 
 			<dl>
 			  	<dt><label for="placa">Placa</label></dt>
@@ -97,41 +143,6 @@
 			</dl>
 
 			<dl>
-			  	<dt><label for="especie">Espécie</label></dt>
-				<dd><h:selectOneMenu id="especie" value="#{veiculoBean.entity.especie}" disabled="#{!controlBean.administrador}" required="true" 
-									 requiredMessage="Informe a Espécie" converter="entityConverter">
-					<f:selectItem itemLabel="Selecione a espécie." itemValue=""/>
-		 			<t:selectItems value="#{especieBean.especies}" var="especie" itemLabel="#{especie.descricao}" itemValue="#{especie}"/>
-				</h:selectOneMenu>
-				<label style="color:red">*</label>
-				<rich:message errorClass="error" for="especie" styleClass="message"/>
-				</dd>
-			</dl>
-
-			<dl>
-				<dt><label for="modelo">Modelo</label></dt>
-				<dd><h:selectOneMenu id="modelo" value="#{veiculoBean.entity.modelo}" disabled="#{!controlBean.administrador}" requiredMessage="Informe o Modelo" 
-									 required="true" converter="entityConverter">
-					<f:selectItem itemLabel="Selecione o modelo." itemValue=""/>
-		 			<t:selectItems value="#{modeloBean.modelos}" var="modelo" itemLabel="#{modelo.descricao}" itemValue="#{modelo}"/>
-				</h:selectOneMenu>
-				<label style="color:red">*</label>
-				<rich:message errorClass="error" for="modelo" styleClass="message"/>
-				</dd>
-			</dl>
-
-			<dl>
-				<dt><label for="combustivel">Combustível</label></dt>
-				<dd><h:selectOneMenu id="combustivel" disabled="#{!controlBean.administrador}" value="#{veiculoBean.entity.combustivel}">
-					<f:selectItem itemLabel="Diesel" itemValue="Diesel"/>
-					<f:selectItem itemLabel="Gasolina" itemValue="Gasolina"/>
-					<f:selectItem itemLabel="Etanol" itemValue="Etanol"/>
-					<f:selectItem itemLabel="Flex" itemValue="Flex"/>
-					<f:selectItem itemLabel="GNV" itemValue="GNV"/>
-				</h:selectOneMenu></dd>
-			</dl>
-
-			<dl>
 				<dt><label for="anoFabricacao">Ano Fabricação</label></dt>
 				<dd><h:inputText id="anoFabricacao" required="true" disabled="#{!controlBean.administrador}" requiredMessage="Informe o ano de fabricação" 
 				 				value="#{veiculoBean.entity.anoFabricacao}" size="5"  styleClass="maskInteiro">
@@ -153,7 +164,8 @@
 				<rich:message errorClass="error" for="anoModelo" styleClass="message"/>
 				</dd>
 			</dl>
-
+			
+<!-- 
 			<dl>
 				<dt><label for="numTombamento">Nº Tombamento</label></dt>
 				<dd>
@@ -164,7 +176,7 @@
 					<rich:message errorClass="error" for="numTombamento" styleClass="message"/>			
 				</dd>
 			</dl>
-			
+	 -->		
 			<dl>
 				<dt><label for="numTombamento">Nº Patrimônio</label></dt>
 				<dd>
@@ -175,17 +187,19 @@
 			</dl>			
 
 			<dl>
-				<dt><label for="propriedade">Propriedade</label></dt>
-				<dd>
-					<h:selectOneMenu id="propriedade" value="#{veiculoBean.entity.propriedade}" disabled="#{!controlBean.administrador}">
-			 			<f:selectItems value="#{veiculoBean.proprietarioList}" />
-					</h:selectOneMenu>
-				</dd>
-			</dl>
-
-			<dl>
 				<dt><label for="estacionamento">Estacionamento</label></dt>
 				<dd><h:inputText id="estacionamento" value="#{veiculoBean.entity.estacionamento}" disabled="#{!controlBean.administrador}" maxlength="50" size="20"/></dd>
+			</dl>
+			
+			<dl>
+				<dt><h:outputLabel value="Status"/></dt>
+				<dd>
+					
+					<h:selectOneMenu id="veicstatus" value="#{veiculoBean.entity.status}" style="width:40%" converter="enumConverter">
+						<f:selectItems value="#{veiculoBean.statuses}" var="status" itemLabel="#{text[status.label]}" itemValue="#{status}"/>
+					</h:selectOneMenu>
+					
+				</dd>
 			</dl>
 
 			<dl>
@@ -206,18 +220,6 @@
 				</dd>
 			</dl>
 			
-			<dl>
-				<dt><h:outputLabel value="Status"/></dt>
-				<dd>
-					
-					<h:selectOneMenu id="veicstatus" value="#{veiculoBean.entity.status}" style="width:40%">
-						<f:selectItem itemLabel="Ativo" itemValue="0"/>
-						<f:selectItem itemLabel="Inativo" itemValue="-1"/>
-					</h:selectOneMenu>
-					
-				</dd>
-			</dl>
-
 			<dl>
 				<dt><label for="observacoes">Observações</label></dt>
 				<dd><h:inputTextarea id="observacoes" value="#{veiculoBean.entity.objetivo}" cols="60"/></dd>
