@@ -102,7 +102,7 @@ public class Veiculo implements Serializable {
 	@Column(name = "COMBUSTIVEL", length = 50)
 	private String combustivel;
 
-	@Column(name = "PROPRIEDADE", length = 150)
+	@Column(name = "PROPRIEDADE", length = 150, nullable = false)
 	private String propriedade;
 
 	@Column(name = "ESTACIONAMENTO")
@@ -548,5 +548,13 @@ public class Veiculo implements Serializable {
 
 	public void setStatus(StatusVeiculo status) {
 		this.status = status;
+	}
+
+	public CotaKm getCotaKm() {
+		return cotaKm;
+	}
+
+	public void setCotaKm(CotaKm cotaKm) {
+		this.cotaKm = cotaKm;
 	}
 }

@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Pessoa;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
@@ -69,6 +70,9 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	private String confirmaSenha;
 	private String grupo;
 	private String cpf;
+	private String cpfPesquisa;
+	private String loginPesquisa;
+	private String nomePesquisa;
 
 	private Pessoa pessoa;
 	private Role role;
@@ -89,6 +93,11 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		this.role = new Role();
 		this.ua = new UA();
 		this.ug = new UG();
+		this.cpfPesquisa = null;
+		this.nomePesquisa = null;
+		this.loginPesquisa = null;
+		this.cpf = null;
+		this.entity = null;
 		return user;
 	}
 	
@@ -114,10 +123,27 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	}
 	
 	public String buscarUsuario(){
-		if(this.filter != null){
-			this.entities = service.findByLogin(this.filter, this.status.toString());
+		
+		User user = new User();
+		Pessoa pessoa = new Pessoa();
+		user.setPessoa(pessoa);
+		if(StringUtils.hasText(loginPesquisa)){
+			user.setLogin(loginPesquisa);
 		}
 		
+		if(StringUtils.hasText(nomePesquisa)){
+			user.getPessoa().setNome(nomePesquisa);
+		}
+		if(StringUtils.hasText(cpfPesquisa)){
+			user.getPessoa().setCpf(cpfPesquisa);
+		}
+		if(status != null){
+			user.setStatus(status.toString());
+		}
+		
+		this.entities = service.pesquisar(user);
+		setCurrentBean(currentBeanName());
+		setCurrentState(SEARCH);
 		return SUCCESS;
 	}
 
@@ -199,6 +225,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 
 	@Override
 	public String search() {
+		createNewEntity();
 		User user = SgfUtil.usuarioLogado();
 		this.entities = new ArrayList<User>();
 		if(SgfUtil.isAdministrador(user) ||  SgfUtil.isCoordenador(user)){
@@ -499,5 +526,29 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 
 	public void setMostrarUA(Boolean mostrarUA) {
 		this.mostrarUA = mostrarUA;
+	}
+
+	public String getCpfPesquisa() {
+		return cpfPesquisa;
+	}
+
+	public void setCpfPesquisa(String cpfPesquisa) {
+		this.cpfPesquisa = cpfPesquisa;
+	}
+
+	public String getLoginPesquisa() {
+		return loginPesquisa;
+	}
+
+	public void setLoginPesquisa(String loginPesquisa) {
+		this.loginPesquisa = loginPesquisa;
+	}
+
+	public String getNomePesquisa() {
+		return nomePesquisa;
+	}
+
+	public void setNomePesquisa(String nomePesquisa) {
+		this.nomePesquisa = nomePesquisa;
 	}
 }

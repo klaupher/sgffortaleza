@@ -1,6 +1,7 @@
 package br.gov.ce.fortaleza.cti.sgf.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -17,6 +18,7 @@ import org.postgis.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
@@ -451,5 +453,75 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 			}
 		});
 		return list;
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> pesquisa(Veiculo veiculo, Date dtInicial, Date dtFinal, UG ugPesquisa) {
+		// TODO Auto-generated method stub
+		StringBuilder sql = new StringBuilder("select v from Veiculo v  \n");
+		boolean flag = true;
+		if(dtInicial != null ||
+				dtFinal != null){
+			sql.append("inner join v.abastecimentos as a \n");
+			sql.append("where 1=1 \n");
+			flag = false;
+			if(dtInicial != null){
+				sql.append("and a.dataAutorizacao > :dtInicial \n");
+			}
+			if(dtFinal != null){
+				sql.append("and a.dataAutorizacao < :dtFinal \n");
+			}
+		}
+		
+		if(flag){
+			sql.append("where 1=1 \n");
+		}
+		
+		if(ugPesquisa != null){
+			sql.append("and v.ua.ug.id = '"+ugPesquisa.getId()+"' \n");
+		}
+		
+		if(StringUtils.hasText(veiculo.getPlaca())){
+			sql.append("and v.placa like '%"+veiculo.getPlaca()+"%' \n");
+		}
+		if(StringUtils.hasText(veiculo.getChassi())){
+			sql.append("and v.chassi like '%"+veiculo.getChassi()+"%' \n");
+		}
+		if(StringUtils.hasText(veiculo.getRenavam())){
+			sql.append("and v.renavam like '%"+veiculo.getRenavam()+"%' \n");
+		}
+		
+		
+		Query query = entityManager.createQuery(sql.toString());
+		if(!flag){
+			if(dtInicial != null)
+				query.setParameter("dtInicial", dtInicial);
+			if(dtFinal != null)
+				query.setParameter("dtFinal", dtFinal);
+		}
+		
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public Collection<? extends Veiculo> pesquisaVeiculoCotasKm(Veiculo veiculo, Object object, Object object2, UG ugPesquisa) {
+		// TODO Auto-generated method stub
+		StringBuilder sql = new StringBuilder("select o from Veiculo o where o.propriedade <> 'PMF' and o in(select c.veiculo from CotaKm c) and o.status != 6 ");
+		if(ugPesquisa != null){
+			sql.append("and o.ua.ug.id = '"+ugPesquisa.getId()+"' \n");
+		}
+		
+		if(StringUtils.hasText(veiculo.getPlaca())){
+			sql.append("and o.placa like '%"+veiculo.getPlaca()+"%' \n");
+		}
+		if(StringUtils.hasText(veiculo.getChassi())){
+			sql.append("and o.chassi like '%"+veiculo.getChassi()+"%' \n");
+		}
+		if(StringUtils.hasText(veiculo.getRenavam())){
+			sql.append("and o.renavam like '%"+veiculo.getRenavam()+"%' \n");
+		}
+		Query query = entityManager.createQuery(sql.toString());
+		return query.getResultList();
 	}
 }

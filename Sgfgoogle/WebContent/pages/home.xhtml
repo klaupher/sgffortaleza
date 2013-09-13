@@ -130,6 +130,12 @@
 					</c:if>
 
 				</c:if>
+				
+				<c:if test="#{controlBean.diarioKmBean}">
+					<c:if test="#{diarioKmBean.searchState}">
+						<ui:include src="cadastros/diarioCotaKm/diarioKm.xhtml"/>
+					</c:if>
+				</c:if>
 
 				<c:if test="#{controlBean.bombaBean}">
 					<c:if test="#{bombaBean.searchState}">
@@ -275,6 +281,9 @@
 					</c:if>
 					<c:if test="#{cotaKmBean.searchState}">
 						<ui:include src="cadastros/cotaKm/cotaKmList.xhtml" />
+					</c:if>
+					<c:if test="#{cotaBean.viewState}">
+						<ui:include src="cadastros/cotaKm/visualizarKmServicos.xhtml" />
 					</c:if>
 				</c:if>
 		

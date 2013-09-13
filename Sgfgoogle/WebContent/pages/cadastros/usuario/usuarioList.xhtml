@@ -14,36 +14,58 @@
 		<h1>  Usuário</h1>
 
 		<fieldset>
-
-	      <legend>Usuários</legend>
-
-	      <h:panelGroup rendered="#{controlBean.administrador or controlBean.master}">
-
-		      	<h:commandLink action="#{usuarioBean.prepareSave}" value="Novo" styleClass="novo">
-					<a4j:support event="onclick" reRender="paginaPrincipal"/>
-				</h:commandLink>
-
-	 			<p/>
-			    <h:inputText value="#{usuarioBean.filter}" />
-				<h:commandButton action="#{usuarioBean.buscarUsuario}" value="Pesquisar">
-					<a4j:support event="oncomplete" action="usuarioBean.populate" reRender="dataTable" ajaxSingle="true"/>
-				</h:commandButton>
+			<legend>Pesquisa</legend>
+	      
+			<h:panelGroup rendered="#{controlBean.administrador or controlBean.master}" style="align:center;">
 	
-				<h:selectOneRadio id="radioStatus" styleClass="checkbox" value="#{usuarioBean.status}" label="ativoInativo" style="width:50%;">
-					<f:selectItem itemLabel="Ativo" itemValue="true"/>
-					<f:selectItem itemLabel="Inativo" itemValue="false"/>
-				</h:selectOneRadio>
-
+	 			<dl>
+	 				
+		 			<dt><label>Login:</label></dt>
+				    <dd><h:inputText value="#{usuarioBean.loginPesquisa}" /></dd>
+				    
+				    <dt><label>Nome:</label></dt>
+				    <dd>
+				    	<h:inputText value="#{usuarioBean.nomePesquisa}" />
+				    	
+				    	<rich:spacer width="40"/>
+				    	
+				    	<h:commandButton action="#{usuarioBean.buscarUsuario}" value="Pesquisar">
+							<a4j:support event="oncomplete" action="usuarioBean.populate" reRender="dataTable" ajaxSingle="true"/>
+						</h:commandButton>
+				    	
+				    </dd>
+				    
+				    <dt><label>CPF:</label></dt>
+				    <dd><h:inputText value="#{usuarioBean.cpfPesquisa}" /></dd>
+				    
+				    <dt><label>Status:</label></dt>
+				    <dd>
+					    <h:selectOneRadio id="radioStatus" styleClass="checkbox" value="#{usuarioBean.status}" label="ativoInativo">
+							<f:selectItem itemLabel="Ativo" itemValue="true"/>
+							<f:selectItem itemLabel="Inativo" itemValue="false"/>
+						</h:selectOneRadio>
+					</dd>
+			    </dl>
+			    
+			    <p/>
 			</h:panelGroup>
-			
-	      	<p/>
+		</fieldset>
+	      
+	      <p/>
+	      	
+	      <fieldset>
+
+	      	<legend>Usuários</legend>
+	      	
+	      	<h:commandLink action="#{usuarioBean.prepareSave}" value="Novo" styleClass="novo">
+				<a4j:support event="onclick" reRender="paginaPrincipal"/>
+			</h:commandLink>
 
 	      	<rich:dataTable id="dataTable"	value="#{usuarioBean.entities}" var="usuario" rows="50" rowKeyVar="index"
 	      		rowClasses="even,odd" 
 	      		onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')"
-				width="100%"
-				>
+				width="100%">
 				
 				<c:if test="#{empty usuarioBean.entities}">
 					<rich:column>

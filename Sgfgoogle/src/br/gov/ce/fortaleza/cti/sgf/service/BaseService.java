@@ -15,10 +15,13 @@ import javax.persistence.Query;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SuppressWarnings("unchecked")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public abstract class BaseService<Id extends Serializable, Entity extends Serializable> {
 
 	private static final Log logger = LogFactory.getLog(BaseService.class);
@@ -73,18 +76,21 @@ public abstract class BaseService<Id extends Serializable, Entity extends Serial
 	}
 
 	@Transactional(readOnly = true)
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Entity> retrieveAll() {
 		String simpleName = getPersistentClass().getSimpleName();
 		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e").getResultList();
 	}
 
 	@Transactional(readOnly = true)
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Entity> findAll(String parameter) {
 		String simpleName = getPersistentClass().getSimpleName();
 		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e order by e." + parameter + " desc").getResultList();
 	}
 
 	@Transactional(readOnly = true)
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Entity> findAllByStatus(String parameter) {
 		String simpleName = getPersistentClass().getSimpleName();
 		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e where e.status != -1 order by e." + parameter + " desc").getResultList();

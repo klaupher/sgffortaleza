@@ -47,6 +47,9 @@
 					
 				<rich:menuItem value="Alterar Diário de Bomba" action="#{diarioBombaBean.searchDiarioBomba}" 
 					rendered="#{controlBean.administrador}" immediate="true"/>
+				
+				<rich:menuItem value="Diário de Quilometragem" action="#{diarioKmBean.search}" 
+					rendered="#{controlBean.hasPermission('RULE_DIARIO_COTA_KM')}" immediate="true"/>	
 					
 				<rich:menuItem value="Alterar Atend. Abastecimento" action="#{atendimentoAbastecimentoBean.search}" 
 					rendered="#{controlBean.administrador}" immediate="true"/>
@@ -119,8 +122,8 @@
 				<f:facet name="label"><h:outputText value="#{msg['menu.cadastros']}" /></f:facet>
 				<rich:menuItem value="Bomba Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
 				<rich:menuGroup value="#{msg['menu.cotas']}" direction="right">
-					<rich:menuItem value="Cotas Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
-					<rich:menuItem value="Cotas Quilometragem" action="#{cotaKmBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA_KM')}" immediate="true"/>
+					<rich:menuItem value="Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
+					<rich:menuItem value="Quilometragem" action="#{cotaKmBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA_KM')}" immediate="true"/>
 				</rich:menuGroup>	
 				<rich:menuItem value="Infrações" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
 				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>

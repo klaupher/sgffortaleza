@@ -110,6 +110,15 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		}
 		return false;
 	}
+	
+	public boolean isDiarioKmPage(){
+		if(this.rolePageUrl != null){
+			if(this.rolePageUrl.getBeanName().equals("DiarioKmBean")){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public boolean isAbastecimentoPage(){
 		if(this.rolePageUrl != null){
@@ -233,7 +242,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 					}
 				}
 			} else {
-				SgfUtil.getRequest().setAttribute("sendmail_err", "Não foi encontrado usuário p/ o e-mail informado.");
+				SgfUtil.getRequest().setAttribute("sendmail_err", "Nï¿½o foi encontrado usuï¿½rio p/ o e-mail informado.");
 				return FAIL;
 			}
 		} else {
@@ -269,7 +278,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 			return true;
 		return false;
 	}
-
+	
 	public boolean isCoordenador() {
 		return SgfUtil.isCoordenador(this.usuario);
 	}
@@ -364,6 +373,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 
 	public boolean isDiarioBombaBean(){
 		return DiarioBombaBean.class.getSimpleName().equals(getCurrentBean());
+	}
+	
+	public boolean isDiarioKmBean(){
+		return DiarioKmBean.class.getSimpleName().equals(getCurrentBean());
 	}
 
 	public boolean isSolicitacaoVeiculoBean(){

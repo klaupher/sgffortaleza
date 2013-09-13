@@ -23,12 +23,28 @@
 	    	<dl>
 				<dt><label for="propriedade">Propriedade</label></dt>
 				<dd>
-					<h:selectOneMenu id="propriedade" value="#{veiculoBean.entity.propriedade}" disabled="#{!controlBean.administrador}">
-						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>					
-			 			<f:selectItems value="#{veiculoBean.proprietarioList}" />
+					<h:selectOneMenu id="propriedade" value="#{veiculoBean.entity.propriedade}" disabled="#{!controlBean.administrador}"
+						required="true" requiredMessage="Informe a Propriedade">
+						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>
+						<f:selectItems value="#{veiculoBean.proprietarioList}"/>											
+			 			<a4j:support event="onchange" action="#{veiculoBean.atualizaNrPatrimonio}" reRender="groupNrPatrimonio" ajaxSingle="true"/>
 					</h:selectOneMenu>
+					<label style="color:red">*</label>
 				</dd>
+				<rich:message for="propriedade" styleClass="message"/>
 			</dl>
+			
+			<h:panelGroup id="groupNrPatrimonio">
+				<dl>
+					<dt><label for="numTombamento">Nr. Patrimônio</label></dt>
+					<dd>
+				  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" 
+				  			disabled="#{!veiculoBean.mostraNrPatrimonio}" size="10" maxlength="10">
+						</h:inputText>
+						<label style="color:red">*</label>
+					</dd>
+				</dl>	
+			</h:panelGroup>
 			
 			<dl>
 				<dt><label for="ugVeiculo">UG</label></dt>
@@ -135,7 +151,7 @@
 			<dl>
 			  	<dt><label for="serie">Série</label></dt>
 			  	<dd>
-			  		<h:inputText id="serie" value="#{veiculoBean.entity.serie}" disabled="#{!controlBean.administrador}"  styleClass="maskInteiro" requiredMessage="Informe o renavam do veículo" size="10" maxlength="10">
+			  		<h:inputText id="serie" value="#{veiculoBean.entity.serie}" disabled="#{!controlBean.administrador}"  styleClass="maskInteiro" requiredMessage="Informe a série do veículo" size="10" maxlength="10">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
 					<rich:message errorClass="error" for="serie" styleClass="message"/>
@@ -177,14 +193,6 @@
 				</dd>
 			</dl>
 	 -->		
-			<dl>
-				<dt><label for="numTombamento">Nº Patrimônio</label></dt>
-				<dd>
-			  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" disabled="#{!controlBean.administrador}" size="10" maxlength="10">
-					</h:inputText>
-					<label style="color:red">*</label>
-				</dd>
-			</dl>			
 
 			<dl>
 				<dt><label for="estacionamento">Estacionamento</label></dt>
@@ -236,7 +244,7 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 
-	<h:commandButton action="#{veiculoBean.update}" value="Alterar" rendered="#{veiculoBean.updateState and controlBean.administrador}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+	<h:commandButton action="#{veiculoBean.update}" value="Alterar" rendered="#{veiculoBean.updateState and controlBean.administrador}"  onclick="if(!confirm('Confirmar altera��o de dados.')) { form.reset();return false;}" styleClass="editar">
 		<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
 	</h:commandButton>
 
@@ -244,6 +252,6 @@
 		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	</h:commandButton>
 	
-	<label style="color:red">* campos obrigatórios</label>
+	<label style="color:red">* Campos obrigatórios</label>
 
 </ui:composition>

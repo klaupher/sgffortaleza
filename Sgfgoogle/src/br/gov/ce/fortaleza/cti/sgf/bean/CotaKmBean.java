@@ -72,6 +72,7 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 		return SUCCESS;
 	}
 	
+	
 	public String veiculoSemCotaPorPlaca(){
 		if(this.placa != null && this.placa != ""){
 			if(cotaKmService.findByPlacaVeiculo(this.placa) == null){
@@ -102,7 +103,7 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String delete(){
 		if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.locado)){
-			this.botaoExcluir.setOncomplete("alert('Não é permitido excluir cotas de veículo ativo!')");
+			this.botaoExcluir.setOncomplete("alert('Nï¿½o ï¿½ permitido excluir cotas de veï¿½culo ativo!')");
 			return FAIL;
 		} else if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.disponivel)){
 			return super.delete();
@@ -116,38 +117,45 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 		return super.prepareSave();
 	}
 	
+	@Override
+	public String save() {
+		// TODO Auto-generated method stub
+		this.entity.setCotaKmDisponivel(this.entity.getCotaKm());
+		return super.save();
+	}
+	
 	
 	public String pesquisar(){
-		Cota cota = new Cota();
+		CotaKm cotaKm = new CotaKm();
 		if(StringUtils.hasText(this.veiculoPesquisa)){
-			cota.setVeiculo(new Veiculo());
-			cota.getVeiculo().setModelo(new Modelo());
-			cota.getVeiculo().getModelo().setDescricao(this.veiculoPesquisa);
+			cotaKm.setVeiculo(new Veiculo());
+			cotaKm.getVeiculo().setModelo(new Modelo());
+			cotaKm.getVeiculo().getModelo().setDescricao(this.veiculoPesquisa);
 		}
 		if(StringUtils.hasText(this.placaPesquisa)){
-			if(cota.getVeiculo() != null){
-				cota.getVeiculo().setPlaca(this.placaPesquisa);
+			if(cotaKm.getVeiculo() != null){
+				cotaKm.getVeiculo().setPlaca(this.placaPesquisa);
 			} else {
-				cota.setVeiculo(new Veiculo());
-				cota.getVeiculo().setPlaca(this.placaPesquisa);
+				cotaKm.setVeiculo(new Veiculo());
+				cotaKm.getVeiculo().setPlaca(this.placaPesquisa);
 			}
 		}
 
 		if(StringUtils.hasText(this.marcaPesquisa)){
-			if(cota.getVeiculo() != null){
-				if(cota.getVeiculo().getModelo() != null){
-					cota.getVeiculo().getModelo().setMarca(new Marca());
-					cota.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
+			if(cotaKm.getVeiculo() != null){
+				if(cotaKm.getVeiculo().getModelo() != null){
+					cotaKm.getVeiculo().getModelo().setMarca(new Marca());
+					cotaKm.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
 				}
 			} else {
-				cota.setVeiculo(new Veiculo());
-				cota.getVeiculo().setModelo(new Modelo());
-				cota.getVeiculo().getModelo().setMarca(new Marca());
-				cota.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
+				cotaKm.setVeiculo(new Veiculo());
+				cotaKm.getVeiculo().setModelo(new Modelo());
+				cotaKm.getVeiculo().getModelo().setMarca(new Marca());
+				cotaKm.getVeiculo().getModelo().getMarca().setDescricao(this.marcaPesquisa);
 			}
 		}
 		this.entities = new ArrayList<CotaKm>();
-		this.entities = cotaKmService.pesquisar(cota);
+		this.entities = cotaKmService.pesquisar(cotaKm);
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;

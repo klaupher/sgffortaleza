@@ -14,7 +14,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.User;
 
 public class SgfUtil{
 
-	public static final String MAIL = "suporte.sgf@@fortaleza.ce.gov.br";
+	public static final String MAIL = "suporte.sgf@fortaleza.ce.gov.br";
 	public static final String USUARIO_LOGADO = "usuarioLogado";
 	public static final String SESSION_OPEN = "sessionOpened";
 	public static final String CONECTED_IP = "conectedIp";

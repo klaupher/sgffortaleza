@@ -8,34 +8,67 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:c="http://java.sun.com/jstl/core">
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 
 	<div id="cadastro">
 
 		<h1>  Veículos </h1>
 		
+		<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{controlBean.administrador}">
+    		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+    	</h:commandLink>
+		
+		<fieldset>
+			<legend>Pesquisa</legend>
+			<dl>
+			
+				<dt><label>UG:</label></dt>
+				<dd>
+					<h:selectOneMenu id="ugPesquisa" value="#{veiculoBean.ugPesquisa}" style="width:420px" converter="entityConverter">
+						<f:selectItem itemValue="" itemLabel="Selecione a UG" />
+						<t:selectItems value="#{veiculoBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+					</h:selectOneMenu>
+				</dd>
+				<dt><label>Placa:</label></dt>
+				<dd><h:inputText value="#{veiculoBean.placaPesquisa}"/></dd>
+				<dt><label>Chassi:</label></dt>
+				<dd>
+					<h:inputText value="#{veiculoBean.chassiPesquisa}"/>
+				</dd>
+				<dt><label>Renavam:</label></dt>
+				<dd><h:inputText value="#{veiculoBean.renavamPesquisa}"/></dd>
+				<fieldset>
+					<legend>Abastecimentos</legend>
+					<p/>
+					<dt><label for="dataInicial">Data Início</label></dt>
+					<dd>
+						<h:inputText id="dataInicial" value="#{veiculoBean.dtInicial}" styleClass="maskData">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+					</dd>
+		
+					<dt><label for="dataFinal">Data Final</label></dt>
+					<dd>
+						<h:inputText id="dataFinal" value="#{veiculoBean.dtFinal}" styleClass="maskData">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+						
+						<rich:spacer width="60"/>
+					
+						<h:commandButton value="Pesquisar" action="#{veiculoBean.pesquisar}">
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+						
+					</dd>
+				</fieldset>
+			</dl>
+		</fieldset>
+		
+		
 		<fieldset>
 
 	      	<legend>Veículos</legend>
-
-	       	<h:commandLink action="#{veiculoBean.prepareSave}" value="Novo" styleClass="novo" rendered="#{controlBean.administrador}">
-	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
-	      	</h:commandLink>
-	      	<p/>
-
-			<h:outputText value="(Placa, Chassi ou Renavam)" style="color: red;"/>
-	      	<h:inputText value="#{veiculoBean.filter}"/>
-	      	
-	      	<h:commandButton value="Pesquisar" action="#{veiculoBean.search}">
-	      		<a4j:support event="onclick" reRender="dataTable"/>
-	      	</h:commandButton>
-	      	
-<!--	      	<h:selectOneRadio id="veiculos" value="#{veiculoBean.searchId}" style="width:40%;padding:0px" styleClass="checkbox">-->
-<!--				<f:selectItem itemLabel="Por Placa" itemValue="0"/>-->
-<!--				<f:selectItem itemLabel="Por Chassi" itemValue="1"/>-->
-<!--				<f:selectItem itemLabel="Por Renavam" itemValue="2"/>-->
-<!--			</h:selectOneRadio>-->
-
 
 	      	<rich:dataTable id="dataTable" value="#{veiculoBean.entities}" var="veiculo"  
 	      		rowClasses="even, odd" 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -23,6 +24,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.UAService;
+import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
@@ -37,12 +39,26 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	@Autowired
 	private UAService uaService;
+	
+	@Autowired
+	private UGService ugService;
 
 	private UG ug;
 	private List<UA> uas;
+	private List<UG> ugs;
 	private Integer searchId = 0;
 	private String stringSearch = null;
 	private Area area;
+	private Boolean mostraNrPatrimonio;
+	private UG ugPesquisa;
+	private String placaPesquisa;
+	private String chassiPesquisa;
+	private String renavamPesquisa;
+	private String abastecimentoRadio;
+	private Date dtInicial;
+	private Date dtFinal;
+	
+	private Boolean isAdministrador;
 	
 	protected Integer retrieveEntityId(Veiculo entity) {
 		return entity.getId();
@@ -51,16 +67,37 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	protected VeiculoService retrieveEntityService() {
 		return this.service;
 	}
-
+	
 	protected Veiculo createNewEntity() {
 		Veiculo veiculo = new Veiculo();
 		veiculo.setModelo(new Modelo());
 		veiculo.setEspecie(new Especie());
 		veiculo.setUa(new UA());
-		veiculo.setPropriedade("Locado");
-		veiculo.setTemSeguro(0);		
+		veiculo.setPropriedade("");
+		veiculo.setTemSeguro(0);
+		mostraNrPatrimonio = false;
+		abastecimentoRadio = "0";
 		this.stringSearch = null;
+		ugPesquisa = null;
+		placaPesquisa = null;
+		chassiPesquisa = null;
+		renavamPesquisa = null;		
+		dtInicial = null;
+		dtFinal = null;
 		return veiculo;
+	}
+	
+	@Override
+	public String search() {
+		// TODO Auto-generated method stub
+		ugs = ugService.findAll();
+		return super.search();
+	}
+	
+	public void atualizaNrPatrimonio(){
+		setIsAdministrador(SgfUtil.isAdministrador(SgfUtil.usuarioLogado()));
+		String propriedade = entity.getPropriedade();
+		mostraNrPatrimonio = setIsAdministrador(true && propriedade.equals("PMF") ? true : false);
 	}
 
 	public List<Veiculo> getVeiculos(){
@@ -85,7 +122,6 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		List<SelectItem> result = new ArrayList<SelectItem>();
 		result.add(new SelectItem("PMF", "PMF"));
 		result.add(new SelectItem("Locado", "Locado"));
-		result.add(new SelectItem("Outro", "Outro"));
 		return result;
 	}
 
@@ -120,7 +156,16 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		}
 		return super.prepareUpdate();
 	}
-
+	
+	public String pesquisar(){
+		Hashtable<String, Object> filtros = new Hashtable<String, Object>();
+		Veiculo veiculo = new Veiculo();
+		veiculo.setPlaca(placaPesquisa);
+		veiculo.setChassi(chassiPesquisa);
+		veiculo.setRenavam(renavamPesquisa);
+		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa);
+		return SUCCESS;
+	}
 	
 	public String search2(){
 
@@ -253,4 +298,86 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		}
 		return items;
 	}
+
+	public Boolean getMostraNrPatrimonio() {
+		return mostraNrPatrimonio;
+	}
+
+	public void setMostraNrPatrimonio(Boolean mostraNrPatrimonio) {
+		this.mostraNrPatrimonio = mostraNrPatrimonio;
+	}
+
+	public Boolean getIsAdministrador() {
+		return isAdministrador;
+	}
+
+	public Boolean setIsAdministrador(Boolean isAdministrador) {
+		this.isAdministrador = isAdministrador;
+		return isAdministrador;
+	}
+
+	public String getPlacaPesquisa() {
+		return placaPesquisa;
+	}
+
+	public void setPlacaPesquisa(String placaPesquisa) {
+		this.placaPesquisa = placaPesquisa;
+	}
+
+	public String getChassiPesquisa() {
+		return chassiPesquisa;
+	}
+
+	public void setChassiPesquisa(String chassiPesquisa) {
+		this.chassiPesquisa = chassiPesquisa;
+	}
+
+	public String getRenavamPesquisa() {
+		return renavamPesquisa;
+	}
+
+	public void setRenavamPesquisa(String renavamPesquisa) {
+		this.renavamPesquisa = renavamPesquisa;
+	}
+
+	public String getAbastecimentoRadio() {
+		return abastecimentoRadio;
+	}
+
+	public void setAbastecimentoRadio(String abastecimentoRadio) {
+		this.abastecimentoRadio = abastecimentoRadio;
+	}
+
+	public UG getUgPesquisa() {
+		return ugPesquisa;
+	}
+
+	public void setUgPesquisa(UG ugPesquisa) {
+		this.ugPesquisa = ugPesquisa;
+	}
+
+	public List<UG> getUgs() {
+		return ugs;
+	}
+
+	public void setUgs(List<UG> ugs) {
+		this.ugs = ugs;
+	}
+
+	public Date getDtInicial() {
+		return dtInicial;
+	}
+
+	public void setDtInicial(Date dtInicial) {
+		this.dtInicial = dtInicial;
+	}
+
+	public Date getDtFinal() {
+		return dtFinal;
+	}
+
+	public void setDtFinal(Date dtFinal) {
+		this.dtFinal = dtFinal;
+	}
+
 }

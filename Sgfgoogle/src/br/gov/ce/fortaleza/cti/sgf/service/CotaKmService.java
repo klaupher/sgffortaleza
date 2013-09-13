@@ -30,10 +30,10 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 public class CotaKmService extends BaseService<Integer, CotaKm>{
 
 	@SuppressWarnings("unchecked")
-	public List<CotaKm> pesquisar(Cota cota) {
+	public List<CotaKm> pesquisar(CotaKm cota) {
 		List<CotaKm> cotas = null;
 		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(Cota.class);
+		Criteria criteria = session.createCriteria(CotaKm.class);
 		if(cota.getVeiculo() != null){
 			criteria.createCriteria("veiculo").add(Example.create(cota.getVeiculo()).enableLike(MatchMode.ANYWHERE).ignoreCase());
 			if(cota.getVeiculo().getModelo() != null){

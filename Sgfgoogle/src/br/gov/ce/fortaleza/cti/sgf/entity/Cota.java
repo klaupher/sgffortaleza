@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,11 +48,11 @@ public class Cota implements Serializable {
 	@Column(name = "COTA")
 	private Double cota;
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "CODVEICULO")
 	private Veiculo veiculo;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "CODTIPOSERVICO", nullable = true)
 	private TipoServico tipoServico;
 	/**

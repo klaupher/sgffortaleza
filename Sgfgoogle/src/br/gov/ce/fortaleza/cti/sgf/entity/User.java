@@ -93,7 +93,7 @@ public class User implements Serializable, UserDetails {
 
 	//	@OneToMany(mappedBy="solicitante", fetch=FetchType.LAZY)	
 	//	private Set<SolicitacaoVeiculo> solicitacaoVeiculos;
-
+	
 	@Transient
 	private GrantedAuthority[] authorities;
 
@@ -265,4 +265,5 @@ public class User implements Serializable, UserDetails {
 		return ((codPessoaUsuario == null && other.codPessoaUsuario == null) || (codPessoaUsuario != null && codPessoaUsuario.equals(other.codPessoaUsuario))) &&
 		((login == null && other.login == null) || (login != null && login.equals(other.login)));
 	}
+	
 }

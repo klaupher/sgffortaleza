@@ -112,7 +112,7 @@
 							<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
 							<a4j:commandLink id="linkExcluir" styleClass="excluir"  action="#{cotaBean.delete}" value="Excluir"
 								onclick="if(!confirm('Tem certeza que deseja excluir?')) { document.getElementById('paginaPrincipal').reset();return false;}"
-								binding="#{cotaBean.botaoExcluir}" >
+								binding="#{cotaBean.botaoExcluir}">
 								<f:setPropertyActionListener target="#{cotaBean.entity}" value="#{cota}"/>
 							</a4j:commandLink>
 						</rich:column>

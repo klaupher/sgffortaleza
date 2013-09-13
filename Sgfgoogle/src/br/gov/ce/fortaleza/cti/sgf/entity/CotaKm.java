@@ -4,16 +4,23 @@
 package br.gov.ce.fortaleza.cti.sgf.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * @author deivid
@@ -21,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tb_cota_quilometragem" , schema = "SGF")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class CotaKm implements Serializable{
 	
 	private static final long serialVersionUID = 3034791151106383758L;
@@ -37,9 +45,18 @@ public class CotaKm implements Serializable{
 	@Column(name = "COTA_KM_DISP_MES")
 	private Double cotaKmDisponivel;
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "CODVEICULO")
 	private Veiculo veiculo;
+	
+	@OneToMany(mappedBy = "cotaKm", fetch=FetchType.LAZY)
+	private Set<DiarioKm> diarioKm;
+	
+	@Transient
+	private Double valorInicial;
+	
+	@Transient
+	private Double valorFinal;
 	
 	public Integer getId() {
 		return id;
@@ -110,6 +127,30 @@ public class CotaKm implements Serializable{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Double getValorInicial() {
+		return valorInicial;
+	}
+
+	public void setValorInicial(Double valorInicial) {
+		this.valorInicial = valorInicial;
+	}
+
+	public Double getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(Double valorFinal) {
+		this.valorFinal = valorFinal;
+	}
+
+	public Set<DiarioKm> getDiarioKm() {
+		return diarioKm;
+	}
+
+	public void setDiarioKm(Set<DiarioKm> diarioKm) {
+		this.diarioKm = diarioKm;
 	}
 
 	
