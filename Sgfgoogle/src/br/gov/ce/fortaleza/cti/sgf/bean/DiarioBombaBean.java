@@ -146,7 +146,10 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 
 		if(ultimaDiaria != null){
 			this.entity.setHoraInicial(new Date());
-			this.entity.setValorInicial(ultimaDiaria.getValorFinal());			
+			this.entity.setValorInicial(ultimaDiaria.getValorFinal());
+			if(ultimaDiaria.getValorFinal() == null) {
+				JSFUtil.getInstance().addErrorMessage("msg.error.bomba.naoFechada");
+			}
 
 			if(!verificaBombaZerada()){
 				this.entity.setHoraInicial(null);
@@ -183,7 +186,7 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 
 	@Override
 	public String save() {
-
+		
 		Float limite = this.entity.getBomba().getLimiteLeitura();
 
 		if(verificaBombaZerada()){
@@ -211,7 +214,12 @@ public class DiarioBombaBean extends EntityBean<Integer, DiarioBomba>{
 					this.entity.setZerada(true);
 					//return FAIL;
 				}
-			} 
+			}
+			
+			if(ultimaDiaria.getValorFinal() == null) {
+				ultimaDiaria.setValorFinal( this.entity.getValorInicial() );
+				service.update(ultimaDiaria);
+			}
 
 			this.entity.setStatus(0);
 			this.entity.setImageStatus("/images/open_icon.png");
