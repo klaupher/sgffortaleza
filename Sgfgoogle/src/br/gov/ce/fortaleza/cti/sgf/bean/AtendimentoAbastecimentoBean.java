@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
+import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.AtendimentoService;
@@ -30,6 +31,8 @@ public class AtendimentoAbastecimentoBean extends EntityBean<Integer, Atendiment
 	private VeiculoService veiculoService;
 	
 	private UG orgao;
+	
+	private Posto posto;
 	
 	private Veiculo veiculo;
 	
@@ -57,7 +60,7 @@ public class AtendimentoAbastecimentoBean extends EntityBean<Integer, Atendiment
 	
 	@Override
 	public String update(){
-		this.entities = service.findListAbastecimentosVeiculo(this.orgao, this.veiculo, this.dataInicial, this.dataFinal);
+		this.entities = service.findListAbastecimentosVeiculo(this.orgao, this.posto, this.veiculo, this.dataInicial, this.dataFinal);
 		return super.update();
 	}
 	
@@ -78,7 +81,7 @@ public class AtendimentoAbastecimentoBean extends EntityBean<Integer, Atendiment
 		
 		this.dataInicial = DateUtil.getDateStartDay(this.dataInicial);
 		this.dataFinal = DateUtil.getDateStartDay(this.dataFinal);
-		this.entities = service.findListAbastecimentosVeiculo(this.orgao, this.veiculo, this.dataInicial, this.dataFinal);
+		this.entities = service.findListAbastecimentosVeiculo(this.orgao, this.posto, this.veiculo, this.dataInicial, this.dataFinal);
 		return SUCCESS;
 	}
 

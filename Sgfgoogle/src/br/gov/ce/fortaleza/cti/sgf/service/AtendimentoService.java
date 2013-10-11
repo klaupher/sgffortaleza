@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
+import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
@@ -64,7 +65,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<AtendimentoAbastecimento> findListAbastecimentosVeiculo(UG ug, Veiculo veiculo, Date dataInicio, Date dataFim){
+	public List<AtendimentoAbastecimento> findListAbastecimentosVeiculo(UG ug, Posto posto,  Veiculo veiculo, Date dataInicio, Date dataFim){
 		StringBuffer str = new StringBuffer("select o from AtendimentoAbastecimento o where o.abastecimento.dataAutorizacao between ? and ?");
 		
 		if(ug != null){
@@ -72,6 +73,9 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		}
 		if(veiculo != null){
 			str.append(" and o.abastecimento.veiculo.id = :vid");
+		}
+		if(posto != null) {
+			str.append(" and o.abastecimento.posto.codPosto = :pid");
 		}
 		
 		str.append(" and o.abastecimento.veiculo.status < "+ StatusVeiculo.baixado.valor +" and o.status = 0 ");
@@ -86,14 +90,36 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		if(veiculo != null){
 			query.setParameter("vid", veiculo.getId());
 		}
+		if(posto != null) {
+			query.setParameter("pid", posto.getCodPosto());
+		}
 		List<AtendimentoAbastecimento> result = query.getResultList();
 		return result;
 	}
+	
+	public Map<Posto, List<AtendimentoAbastecimento>> findHashAbastecimentosPosto(UG ug, Posto posto, Veiculo veiculo, Date dataInicio, Date dataFim) {
+		
+		Map<Posto, List<AtendimentoAbastecimento>> mapAbastecimentosPorPosto = new HashMap<Posto, List<AtendimentoAbastecimento>>();
+		List<AtendimentoAbastecimento> result = findListAbastecimentosVeiculo(ug, posto, veiculo, dataInicio, dataFim);
+		
+		for (AtendimentoAbastecimento atend : result) {
+			Posto postoSol = atend.getBomba().getPosto();
+						
+			if(mapAbastecimentosPorPosto.get(postoSol) == null){
+				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
+				novo.add(atend);
+				mapAbastecimentosPorPosto.put(postoSol, novo);
+			} else {
+				mapAbastecimentosPorPosto.get(postoSol).add(atend);
+			}
+		}
+		return mapAbastecimentosPorPosto;
+	}
 
-	public Map<UG, List<AtendimentoAbastecimento>> findHashAbastecimentosVeiculo(UG ug, Veiculo veiculo, Date dataInicio, Date dataFim){
+	public Map<UG, List<AtendimentoAbastecimento>> findHashAbastecimentosVeiculo(UG ug, Posto posto, Veiculo veiculo, Date dataInicio, Date dataFim){
 
 		Map<UG, List<AtendimentoAbastecimento>> mapAbastecimentosPorVeiculo = new HashMap<UG, List<AtendimentoAbastecimento>>();
-		List<AtendimentoAbastecimento> result = findListAbastecimentosVeiculo(ug, veiculo, dataInicio, dataFim);
+		List<AtendimentoAbastecimento> result = findListAbastecimentosVeiculo(ug, posto, veiculo, dataInicio, dataFim);
 		
 		for (AtendimentoAbastecimento atend : result) {
 			UG ugSol = atend.getAbastecimento().getVeiculo().getUa().getUg();

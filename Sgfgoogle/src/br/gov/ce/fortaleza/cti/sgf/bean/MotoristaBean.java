@@ -201,12 +201,13 @@ public class MotoristaBean extends EntityBean<Integer, Motorista>{
 	public String searchMotoristas(){
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
-			String str = this.status == true ? "true" : "false";
-			if(this.filter == ""){
-				this.entities = motoristaService.findByUGNameStatus(null, null, str);
-			} else {
-				this.entities = motoristaService.findByUGNameStatus(null, this.filter, str);
-			}
+			
+			String str 		= this.status == true ? "true" : "false";
+			String idug 	= this.ug.getId() == "" ? null : this.ug.getId();
+			String filter 	= this.filter == "" ? null : this.filter;
+			
+			this.entities = motoristaService.findByUGNameStatus(idug, filter, str);
+			
 		} else {
 			UG ug = user.getPessoa().getUa().getUg();
 			String str = this.status == true ? "true" : "false";

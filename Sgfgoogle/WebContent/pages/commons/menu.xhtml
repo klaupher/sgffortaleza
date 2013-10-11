@@ -72,6 +72,9 @@
 				<rich:menuItem submitMode="server" value="Consolidado Mensal" action="#{relatorioBean.relatorioConsolidadoMensal}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_CONSOLIDADO_MENSAL')}" immediate="true"/>
 
+				<rich:menuItem submitMode="server" value="Abastecimentos por Posto" action="#{relatorioBean.relatorioConsumoPosto}" 
+				rendered="#{controlBean.hasPermission('RULE_REL_CONSUMO_POSTO')}" immediate="true"/>
+				
 				<rich:menuItem submitMode="server" value="Conferência de Abastecimentos" action="#{relatorioBean.relatorioConsumoCombustivel}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_CONSUMO_COMBUSTIVEL')}" immediate="true"/>
 
@@ -121,7 +124,7 @@
 
 				<f:facet name="label"><h:outputText value="#{msg['menu.cadastros']}" /></f:facet>
 				<rich:menuItem value="Bomba Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
-				<rich:menuGroup value="#{msg['menu.cotas']}" direction="right">
+				<rich:menuGroup value="Cotas" direction="right">
 					<rich:menuItem value="Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
 					<rich:menuItem value="Quilometragem" action="#{cotaKmBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA_KM')}" immediate="true"/>
 				</rich:menuGroup>	

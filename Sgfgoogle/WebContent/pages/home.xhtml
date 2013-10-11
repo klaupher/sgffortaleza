@@ -395,6 +395,9 @@
 				<!-- PÁGINAS dos RelatórioS  -->
 
 				<c:if test="#{controlBean.relatorioBean}">
+					<c:if test="#{relatorioBean.relatorioConsumoPostoState}">
+						<ui:include src="relatorios/consumoCombustivel/relatorioConsumoPosto.xhtml" />
+					</c:if>
 					<c:if test="#{relatorioBean.relatorioCotasVeiculosState}">
 						<ui:include src="relatorios/relatorioCotasVeiculos.xhtml" />
 					</c:if>	

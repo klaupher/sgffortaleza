@@ -449,4 +449,11 @@ input.pequeno
  .fieldValue {
      width: 250px;
  }
+ 
+ .postoHeader{
+ 	font-size: 16px;
+ 	background-color: #905302;
+ 	color: #FFFFFF;
+ 	font-weight: bold;
+ }
 

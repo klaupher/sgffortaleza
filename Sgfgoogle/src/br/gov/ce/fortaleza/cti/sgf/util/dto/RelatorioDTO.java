@@ -29,6 +29,7 @@ public class RelatorioDTO implements Serializable {
 	public static final String VEICULO_MULTA = "VEICULO_MULTA";
 	public static final String DIARIO_BOMBA = "DIARIO_BOMBA";
 	public static final String CONFERENCIA_ABASTECIMENTO = "CONFERENCIA_ABASTECIMENTO";
+	public static final String ABASTECIMENTO_POSTO = "ABASTECIMENTO_POSTO";
 	public static final String CONSOLIDADO_MENSAL = "CONSOLIDADO_MENSAL";
 	public static final String HISTORICO_VEICULO_MANUTENCAO = "HISTORICO_VEICULO_MANUTENCAO";
 	public static final String HISTORICO_TROCA_PNEUS = "QUANT_TROCA_PNEUS";

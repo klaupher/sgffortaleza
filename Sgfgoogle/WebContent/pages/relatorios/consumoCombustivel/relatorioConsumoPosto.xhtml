@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<div id="cadastro">
+
+		<h1 style="width:320px">Abastecimentos por Posto</h1>
+
+		<fieldset>
+			<legend>Relatório de Abastecimentos por Posto</legend>
+
+			<dt>
+				<label for="ugList">Órgão</label></dt>
+			<dd>
+		      	<h:selectOneMenu id="ugList" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter"  styleClass="ugList">
+	      			<c:if test="#{controlBean.administrador}">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+					</c:if>
+		   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+		   		</h:selectOneMenu>
+		   	</dd>
+		   	
+		   	<dt><label for="postoList">Posto</label></dt>
+		   	<dd>
+		   		<h:selectOneMenu id="postoList" value="#{relatorioBean.posto}" requiredMessage="Informe o Posto" converter="entityConverter" styleClass="ugList">
+		   			<c:if test="#{controlBean.administrador}">
+		   				<f:selectItem itemLabel="Todos" itemValue="" />
+		   			</c:if>
+		   			<t:selectItems value="#{postoBean.postos}" var="posto" itemLabel="#{posto.descricao}" itemValue="#{posto}" />
+		   		</h:selectOneMenu>
+		   	</dd>
+
+			<dt><label for="dataInicial">Data Início</label></dt>
+			<dd>
+				<h:inputText id="dataInicial" value="#{relatorioBean.dtInicial}" styleClass="maskData" required="true">
+					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="dataInicial" style="color:red" />
+			</dd>
+
+			<dt><label for="dataFinal">Data Final</label></dt>
+			<dd>
+				<h:inputText id="dataFinal" value="#{relatorioBean.dtFinal}" styleClass="maskData" required="true">
+					<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+				</h:inputText>
+				<h:message for="dataFinal" style="color:red" />
+			</dd>
+			
+			<h:commandButton action="#{relatorioBean.consultarConsumoPosto}" value="Pesquisar" >
+				<a4j:support event="onclick" reRender="paginaPrincipal" />
+			</h:commandButton>
+			
+			
+
+			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="50" rowKeyVar="index"
+				rowClasses="even,odd" 
+				onRowMouseOver="jQuery(this).addClass('trHover')" 
+				onRowMouseOut="jQuery(this).removeClass('trHover')">
+
+				
+					<rich:column rendered="#{empty relatorioBean.entities}">
+						<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
+					</rich:column>
+					
+					<rich:column colspan="6" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+						<h:outputText value="Posto: #{relatorio.posto.descricao}"/>
+					</rich:column>
+					
+					<rich:column colspan="4" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+						<h:outputText value="#{relatorio.consumo}(L) Abastecidos"/>
+					</rich:column>
+					
+					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="o" rows="5000" rowKeyVar="ki"
+						headerClass="subHeader" 
+						rowClasses="odd,even"
+						onRowMouseOver="jQuery(this).addClass('trHover')" 
+						onRowMouseOut="jQuery(this).removeClass('trHover')">
+					
+						<rich:column colspan="2" style="font-weight: bold; background:white">
+							<h:outputText value="Órgão: #{o.orgao.descricao}" />
+						</rich:column>
+						
+						<rich:column colspan="1" style="font-weight: bold; background:white">
+							<h:outputText value="Consumo: #{o.consumoCombustivelOrgao}(L)" />
+						</rich:column>
+						
+						<rich:column colspan="2" style="font-weight: bold; background:white">
+							<h:outputText value="Gasolina: #{o.consumoGasolina}(L)" />
+						</rich:column>
+						
+						<rich:column colspan="2" style="font-weight: bold; background:white">
+							<h:outputText value="Etanol: #{o.consumoEtanol}(L)" />
+						</rich:column>
+						
+						<rich:column colspan="2" style="font-weight: bold; background:white">
+							<h:outputText value="Diesel: #{o.consumoDiesel}(L)" />
+						</rich:column>
+						
+						<rich:subTable id="subDataTable" value="#{o.relatorios}" var="r" rows="5000" rowKeyVar="k"
+							headerClass="subHeader" 
+							rowClasses="odd,even"
+							onRowMouseOver="jQuery(this).addClass('trHover')" 
+							onRowMouseOut="jQuery(this).removeClass('trHover')">
+							
+							<rich:column colspan="10" style="font-weight: bold; background:white">
+								<h:outputText value="#{k +1} -" />
+								<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
+								<h:outputText value="Consumo: #{r.consumoTotal}(L)" style="padding-left:20px"/>
+								<h:outputText value="Cota: #{r.cota}(L)" style="padding-left:20px"/>
+							</rich:column>
+							
+							<rich:subTable id="subDataTable" value="#{r.relatorios}" var="sr" rows="10" rowKeyVar="k"
+								headerClass="subHeader" 
+								rowClasses="odd,even"
+								onRowMouseOver="jQuery(this).addClass('trHover')" 
+								onRowMouseOut="jQuery(this).removeClass('trHover')">
+	
+								<rich:column style="width:2%">
+									<f:facet name="header"><h:outputLabel value="Nº" /></f:facet>
+									<h:outputText value="#{k+1}" />
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Motorista"/></f:facet>
+									<h:outputText value="#{sr.abastecimento.motorista.pessoa.nome}" />
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Autorizador"/></f:facet>
+									<h:outputText value="#{sr.abastecimento.autorizador.pessoa.nome}" />
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Data"/></f:facet>
+									<h:outputText value="#{sr.dataAtendimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00" />
+									</h:outputText>
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Hora"/></f:facet>
+									<h:outputText value="#{sr.horaAtendimento}">
+										<f:convertDateTime pattern="HH:mm" timeZone="GMT-03:00"/>
+									</h:outputText>
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Lts"/></f:facet>
+									<h:outputText value="#{sr.consumo}"/>
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Saldo"/></f:facet>
+									<h:outputText value="#{sr.saldoCota}">
+										<f:convertNumber type="number" maxFractionDigits="2" minFractionDigits="2" pattern="###0"/>
+									</h:outputText>
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Km"/></f:facet>
+									<h:outputText value="#{sr.kmAtual}"/>
+								</rich:column>
+	
+								<rich:column>
+									<f:facet name="header"><h:outputLabel value="Operador"/></f:facet>
+									<h:outputText value="#{sr.atendimento.usuario.pessoa.nome}" />
+								</rich:column>
+	
+							</rich:subTable>
+							
+						</rich:subTable>
+					
+					</rich:subTable>
+
+			</rich:dataTable>
+
+			<h:panelGroup id="report" rendered="#{relatorioBean.entitiesSize > 0}">
+
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+					<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
+				</h:commandLink>
+
+			</h:panelGroup>
+
+		</fieldset>
+		
+		<a4j:status id="gerarRelatorio">
+			<f:facet name="start">
+				<h:panelGroup style="align:center;">
+					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+					<h:outputText value="Processando..." styleClass="processando" />
+				</h:panelGroup>
+			</f:facet>
+		</a4j:status>
+
+	</div>
+
+</ui:composition>

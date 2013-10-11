@@ -100,56 +100,58 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	public Map<Veiculo, Float>  mapKilometragem(UG ug, Date begin, Date end){
 		Map<Veiculo, Float> result = new HashMap<Veiculo, Float>();
 		try {
-
-			List<Veiculo> veiculos = veiculoService.findByUG(ug);
-
-			for (Veiculo veiculo : veiculos) {
-				Query query = entityManager.createQuery("SELECT s FROM SolicitacaoVeiculo s WHERE  s.veiculo.id = ? and s.dataHoraSaida = " +
-				"(SELECT min(s1.dataHoraSaida) FROM SolicitacaoVeiculo s1 WHERE  s1.veiculo.id = ? and s1.status != 3 and s1.dataHoraRetorno BETWEEN ? and ?)");
-				Query query2 = entityManager.createQuery("SELECT s FROM SolicitacaoVeiculo s WHERE  s.veiculo.id = ? and s.dataHoraRetorno = " +
-				"(SELECT max(s1.dataHoraRetorno) FROM SolicitacaoVeiculo s1 WHERE  s1.veiculo.id = ? and s1.status != 3 and s1.dataHoraRetorno BETWEEN ? and ?)");
-				query.setParameter(1, veiculo.getId());
-				query.setParameter(2, veiculo.getId());
-				query.setParameter(3, begin);
-				query.setParameter(4, end);
-				query2.setParameter(1, veiculo.getId());
-				query2.setParameter(2, veiculo.getId());
-				query2.setParameter(3, begin);
-				query2.setParameter(4, end);
-
-				SolicitacaoVeiculo min = null;
-				SolicitacaoVeiculo max = null;
-				try {
-					min = (SolicitacaoVeiculo) query.getSingleResult();
-					max = (SolicitacaoVeiculo) query2.getSingleResult();
-				} catch (Exception e) {
-				}
-
-				if(min != null && max != null){
-					if(min != null){
-						Float kmmin = null;
-						Float kmmax = null;
-						Float kmrod = null;
-						try {
-							kmmin = min.getKmSaida().floatValue();
-							kmmax = max.getKmRetorno().floatValue();
-							kmrod = kmmax - kmmin;
-						} catch (Exception e) {
-						}
-						if(result.containsKey(veiculo)){
-							result.put(veiculo, kmrod);
-						} else {
-							result.put(veiculo, kmrod);
-						}
-					}
-				} else {
-					if(result.containsKey(veiculo)){
-						result.put(veiculo, null);
-					} else {
-						result.put(veiculo, null);
-					}
-				}
+			StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
+			if(ug != null){
+				sql.append(" and s.veiculo.ua.ug ="+ug);
 			}
+			sql.append(" GROUP BY s.veiculo");
+			Query query = entityManager.createQuery(sql.toString());
+			query.setParameter(1, begin);
+			query.setParameter(2, end);
+			List<Veiculo> veiculos = query.getResultList();
+							
+					
+//					"(SELECT min(s1.dataHoraSaida) FROM SolicitacaoVeiculo s1 WHERE  s1.status != 3 and s1.dataHoraRetorno BETWEEN ? and ?)");
+//			Query query2 = entityManager.createQuery("SELECT s FROM SolicitacaoVeiculo s WHERE  s.dataHoraRetorno = " +
+//			"(SELECT max(s1.dataHoraRetorno) FROM SolicitacaoVeiculo s1 WHERE  s1.status != 3 and s1.dataHoraRetorno BETWEEN ? and ?)");
+
+			
+
+			
+				
+//				SolicitacaoVeiculo min = null;
+//				SolicitacaoVeiculo max = null;
+//				try {
+//					min = (SolicitacaoVeiculo) query.getSingleResult();
+//					max = (SolicitacaoVeiculo) query2.getSingleResult();
+//				} catch (Exception e) {
+//				}
+//
+//				if(min != null && max != null){
+//					if(min != null){
+//						Float kmmin = null;
+//						Float kmmax = null;
+//						Float kmrod = null;
+//						try {
+//							kmmin = min.getKmSaida().floatValue();
+//							kmmax = max.getKmRetorno().floatValue();
+//							kmrod = kmmax - kmmin;
+//						} catch (Exception e) {
+//						}
+//						if(result.containsKey(veiculo)){
+//							result.put(veiculo, kmrod);
+//						} else {
+//							result.put(veiculo, kmrod);
+//						}
+//					}
+//				} else {
+//					if(result.containsKey(veiculo)){
+//						result.put(veiculo, null);
+//					} else {
+//						result.put(veiculo, null);
+//					}
+//				}
+			
 			return result;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
