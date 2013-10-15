@@ -46,20 +46,29 @@
 						<h:inputText id="dataInicial" value="#{veiculoBean.dtInicial}" styleClass="maskData">
 							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 						</h:inputText>
+						
+						<rich:spacer width="40"/>
+					 
+						<h:commandButton value="Pesquisar" action="#{veiculoBean.pesquisar}">
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+						
 					</dd>
-		
+					
 					<dt><label for="dataFinal">Data Final</label></dt>
 					<dd>
 						<h:inputText id="dataFinal" value="#{veiculoBean.dtFinal}" styleClass="maskData">
 							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 						</h:inputText>
 						
-						<rich:spacer width="60"/>
-					
-						<h:commandButton value="Pesquisar" action="#{veiculoBean.pesquisar}">
-				      		<a4j:support event="onclick" reRender="dataTable"/>
-				      	</h:commandButton>
-						
+					</dd>
+					<dt><label for="abstecimentoCheck"></label></dt>
+					<dd>
+						<h:selectOneRadio id="abstecimentoCheck" styleClass="checkbox" value="#{veiculoBean.abastecimentoRadio}">
+				  			<f:selectItem itemLabel="Com" itemValue="#{true}"/>
+				  			<f:selectItem itemLabel="Sem" itemValue="#{false}"/>
+				  		</h:selectOneRadio>
+				      	
 					</dd>
 				</fieldset>
 			</dl>

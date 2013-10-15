@@ -457,21 +457,37 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 
 	
 	@SuppressWarnings("unchecked")
-	public List<Veiculo> pesquisa(Veiculo veiculo, Date dtInicial, Date dtFinal, UG ugPesquisa) {
+	public List<Veiculo> pesquisa(Veiculo veiculo, Date dtInicial, Date dtFinal, UG ugPesquisa, String abastecimento) {
 		// TODO Auto-generated method stub
-		StringBuilder sql = new StringBuilder("select v from Veiculo v  \n");
+		StringBuilder sql = new StringBuilder("select distinct(v) from Veiculo v  \n");
 		boolean flag = true;
-		if(dtInicial != null ||
-				dtFinal != null){
+		if(abastecimento.equals("true")){
 			sql.append("inner join v.abastecimentos as a \n");
-			sql.append("where 1=1 \n");
+		}else{
+			sql.append("where not exists (from Abastecimento as a where a.veiculo = v \n");
+			if(dtInicial != null ||	dtFinal != null){
+				sql.append("and a.dataAutorizacao > :dtInicial \n");
+				sql.append("and a.dataAutorizacao < :dtFinal \n");
+				sql.append(") \n");
+			}else{
+				sql.append(") \n");
+			}
+				
 			flag = false;
+		}
+		
+		if((dtInicial != null || dtFinal != null) 
+				&& abastecimento.equals("true")){
+			if(flag){
+				sql.append("where 1=1 \n");
+			}	
 			if(dtInicial != null){
 				sql.append("and a.dataAutorizacao > :dtInicial \n");
 			}
 			if(dtFinal != null){
 				sql.append("and a.dataAutorizacao < :dtFinal \n");
 			}
+			flag = false;
 		}
 		
 		if(flag){
@@ -492,7 +508,6 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 			sql.append("and v.renavam like '%"+veiculo.getRenavam()+"%' \n");
 		}
 		
-		
 		Query query = entityManager.createQuery(sql.toString());
 		if(!flag){
 			if(dtInicial != null)
@@ -507,7 +522,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	@SuppressWarnings("unchecked")
 	public Collection<? extends Veiculo> pesquisaVeiculoCotasKm(Veiculo veiculo, Object object, Object object2, UG ugPesquisa) {
 		// TODO Auto-generated method stub
-		StringBuilder sql = new StringBuilder("select o from Veiculo o where o.propriedade <> 'PMF' and o in(select c.veiculo from CotaKm c) and o.status != 6 ");
+		StringBuilder sql = new StringBuilder("select o from Veiculo o where o.propriedade <> 'PMF' and o in(select c.veiculo from CotaKm c) and o.status != 6 \n");
 		if(ugPesquisa != null){
 			sql.append("and o.ua.ug.id = '"+ugPesquisa.getId()+"' \n");
 		}

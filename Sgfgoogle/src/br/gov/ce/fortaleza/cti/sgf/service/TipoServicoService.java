@@ -38,4 +38,12 @@ public class TipoServicoService extends BaseService<Integer, TipoServico>{
 
 		return result;
 	}
+	
+	@Override
+	public TipoServico retrieve(Integer id) {
+		// TODO Auto-generated method stub
+		TipoServico tipoServico = new TipoServico();
+		tipoServico = entityManager.merge(super.retrieve(id));
+		return tipoServico; 
+	}
 }

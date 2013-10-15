@@ -76,7 +76,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setPropriedade("");
 		veiculo.setTemSeguro(0);
 		mostraNrPatrimonio = false;
-		abastecimentoRadio = "0";
+		abastecimentoRadio = "true";
 		this.stringSearch = null;
 		ugPesquisa = null;
 		placaPesquisa = null;
@@ -164,7 +164,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setPlaca(placaPesquisa);
 		veiculo.setChassi(chassiPesquisa);
 		veiculo.setRenavam(renavamPesquisa);
-		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa);
+		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa, abastecimentoRadio);
 		return SUCCESS;
 	}
 	
