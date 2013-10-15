@@ -3,6 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="IMAGEM_URI" class="java.lang.String"/>
 	<field name="orgao" class="br.gov.ce.fortaleza.cti.sgf.entity.UG">
 		<fieldDescription><![CDATA[orgao]]></fieldDescription>
 	</field>
@@ -246,7 +247,7 @@
 			</staticText>
 			<image>
 				<reportElement uuid="3b91d2a4-db61-4665-91ca-e849ddacfaab" x="5" y="9" width="199" height="60"/>
-				<imageExpression><![CDATA["C:\\java\\projetos\\sgf\\WebContent\\images\\brasao-oficial.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"brasao-oficial.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement uuid="f729d1ec-c63e-4fb8-9bae-6cd90b9e377c" x="340" y="9" width="256" height="31"/>
