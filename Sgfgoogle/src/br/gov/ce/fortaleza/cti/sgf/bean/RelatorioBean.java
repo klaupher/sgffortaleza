@@ -1726,16 +1726,22 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			} else if(this.nomeRelatorio.equals(this.relAbastecimentoPosto)) {
 	
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
-				for (RelatorioDTO r : this.entities) {
+				for (RelatorioDTO r : this.entities) { // posto
 
-					for (RelatorioDTO rr : r.getRelatorios()) {
-						rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
-						rr.setConsumoGasolina(r.getConsumoGasolina());
-						rr.setConsumoEtanol(r.getConsumoEtanol());
-						rr.setConsumoDiesel(r.getConsumoDiesel());
-						list.addAll(rr.getRelatorios());
+					for (RelatorioDTO rr : r.getRelatorios()) { //orgaos
+						for(RelatorioDTO r3 : rr.getRelatorios()) { // veiculos
+							for(RelatorioDTO r4 : r3.getRelatorios()) {
+								r4.setPosto(r.getPosto());
+								r4.setConsumoPosto(r.getConsumo());
+								r4.setConsumoCombustivelOrgao(rr.getConsumoCombustivelOrgao());
+								r4.setConsumoGasolina(rr.getConsumoGasolina());
+								r4.setConsumoEtanol(rr.getConsumoEtanol());
+								r4.setConsumoDiesel(rr.getConsumoDiesel());
+							}
+							list.addAll(r3.getRelatorios());
+						}
 					}
-					list.addAll(r.getRelatorios());
+					//list.addAll(r.getRelatorios());
 				}
 				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 				
