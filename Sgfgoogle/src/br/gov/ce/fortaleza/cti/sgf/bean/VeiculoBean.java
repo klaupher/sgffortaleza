@@ -122,6 +122,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		List<SelectItem> result = new ArrayList<SelectItem>();
 		result.add(new SelectItem("PMF", "PMF"));
 		result.add(new SelectItem("Locado", "Locado"));
+		result.add(new SelectItem("Outros", "Outros"));
 		return result;
 	}
 
