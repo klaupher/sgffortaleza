@@ -309,6 +309,7 @@ public class SincronizaBean  extends EntityBean<Integer, RelatorioDTO>{
 				if (this.veiculo == null) {
 					this.veiculo = new Veiculo();
 					this.veiculo.setUa(ua);
+					this.veiculo.setPropriedade("PMF");
 					this.veiculo.setNumeroPatrimonio(rs.getString("cd_bem_perm"));
 					this.veiculo.setPlaca(placaValidada);
 					this.veiculo.setChassi(rs.getString("chassi"));
