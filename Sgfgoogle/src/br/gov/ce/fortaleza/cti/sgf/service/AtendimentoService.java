@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Posto;
+import br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
+import br.gov.ce.fortaleza.cti.sgf.util.StatusAtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
 /**
@@ -133,6 +135,51 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		}
 		return mapAbastecimentosPorVeiculo;
 	}
+	
+	public Map<UG, List<AtendimentoAbastecimento>> findHashVeiculoSemAbastecimento(UG ug, Posto posto, Veiculo veiculo, Date dataInicio, Date dataFim){
+		
+		Map<UG, List<AtendimentoAbastecimento>> mapAbastecimentosPorVeiculo = new HashMap<UG, List<AtendimentoAbastecimento>>();
+		List<AtendimentoAbastecimento> result 	= findListAbastecimentosVeiculo(ug, posto, veiculo, dataInicio, dataFim);
+		List<Veiculo> veiculos 					= findVeiculosUg(ug);
+		
+		for(AtendimentoAbastecimento atend : result) {
+			if( veiculos.contains( atend.getAbastecimento().getVeiculo() ) ) {
+				veiculos.remove( atend.getAbastecimento().getVeiculo() );
+			}
+		}
+		
+		for(Veiculo v : veiculos) {
+			
+			AtendimentoAbastecimento 	atendimentoFake 	= new AtendimentoAbastecimento();
+			Abastecimento 				abastecimentoFake 	= new Abastecimento();
+			TipoCombustivel				combustivelFake		= new TipoCombustivel();
+			UG 							ugVeiculo 			= v.getUa().getUg();
+			
+			atendimentoFake.setStatus( StatusAtendimentoAbastecimento.NEGADO);
+			
+			if(mapAbastecimentosPorVeiculo.get(ugVeiculo) == null) {
+				
+				List<AtendimentoAbastecimento> novo = new ArrayList<AtendimentoAbastecimento>();
+
+				combustivelFake.setId(1);
+				abastecimentoFake.setCombustivel(combustivelFake);
+				abastecimentoFake.setVeiculo(v);
+				atendimentoFake.setAbastecimento(abastecimentoFake);
+				novo.add(atendimentoFake);
+				
+				mapAbastecimentosPorVeiculo.put(ugVeiculo, novo);
+				
+			} else {
+				combustivelFake.setId(1);
+				abastecimentoFake.setCombustivel(combustivelFake);
+				abastecimentoFake.setVeiculo(v);
+				atendimentoFake.setAbastecimento(abastecimentoFake);
+				mapAbastecimentosPorVeiculo.get(ugVeiculo).add(atendimentoFake);
+			}
+		}
+	
+		return mapAbastecimentosPorVeiculo;
+	}
 
 	/**
 	 * Busca a quantidade abastecida no mês pelo veículo
@@ -198,6 +245,17 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		Query query = entityManager.createQuery(str.toString());
 		query.setParameter(1, dataInicio);
 		query.setParameter(2, dataFim);
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findVeiculosUg(UG ug) {
+		StringBuffer str = new StringBuffer("SELECT v FROM Veiculo v");
+		if(ug != null) {
+			str.append(" WHERE v.ua.ug.id = '"+ ug.getId()+"'");
+		}
+		
+		Query query = entityManager.createQuery(str.toString());
 		return query.getResultList();
 	}
 }

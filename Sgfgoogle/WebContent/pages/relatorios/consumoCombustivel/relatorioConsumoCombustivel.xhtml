@@ -11,7 +11,7 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-	<div id="cadastro">
+	<div id="cadastro" class="list-abastecimento">
 
 		<h1 style="width:320px">Conferências de Abastecimentos</h1>
 
@@ -43,9 +43,17 @@
 				</h:inputText>
 			</dd>
 			
+			<dt><label></label></dt>
+			<dd>
+				<h:selectOneRadio id="statusAbastecimento" value="#{relatorioBean.statusAbastecimento}">
+					<f:selectItem itemValue="com" itemLabel="Com Abastecimento" />
+				   	<f:selectItem itemValue="sem" itemLabel="Sem Abastecimento" />
+				</h:selectOneRadio>
+			</dd>
+			
 			<h:commandButton value="Pesquisar" action="#{relatorioBean.consultarConsumoCombustivel}" status="gerarRelatorio" reRender="dataTable"/>
 
-			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="5000" rowKeyVar="index"
+			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rows="5000" rowKeyVar="index" style="width:100%;"
 				rowClasses="even,odd" 
 				onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')">
@@ -73,12 +81,28 @@
 				</rich:column>
 
 				<c:if test="#{relatorioBean.entitiesSize > 0}">
+				
+					<rich:subTable id="subDataTableSem" value="#{relatorio.relatorios}" var="r" rows="5000" rowKeyVar="ki"
+						headerClass="subHeader" 
+						rowClasses="odd,even"
+						onRowMouseOver="jQuery(this).addClass('trHover')" 
+						onRowMouseOut="jQuery(this).removeClass('trHover')"
+						rendered="#{relatorioBean.statusAbastecimento == 'sem'}">
+						
+						<rich:column colspan="10" style="font-weight: bold; background:white; width: 100%">
+							<h:outputText value="#{ki +1} -" />
+							<h:outputText value="Veículo: #{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
+							
+						</rich:column>
+						
+					</rich:subTable>
 
 					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rows="5000" rowKeyVar="ki"
 						headerClass="subHeader" 
 						rowClasses="odd,even"
 						onRowMouseOver="jQuery(this).addClass('trHover')" 
-						onRowMouseOut="jQuery(this).removeClass('trHover')">
+						onRowMouseOut="jQuery(this).removeClass('trHover')"
+						rendered="#{relatorioBean.statusAbastecimento == 'com'}">
 
 						<rich:column colspan="10" style="font-weight: bold; background:white">
 							<h:outputText value="#{ki +1} -" />
@@ -91,7 +115,8 @@
 							headerClass="subHeader" 
 							rowClasses="odd,even"
 							onRowMouseOver="jQuery(this).addClass('trHover')" 
-							onRowMouseOut="jQuery(this).removeClass('trHover')">
+							onRowMouseOut="jQuery(this).removeClass('trHover')"
+							>
 
 							<rich:column style="width:2%">
 								<f:facet name="header"><h:outputLabel value="Nº" /></f:facet>

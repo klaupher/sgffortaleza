@@ -54,7 +54,8 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 	@NamedQuery(name = "Veiculo.findByPCR", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?)"),
 	@NamedQuery(name = "Veiculo.findByUGPCR", query = "SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id LIKE ?) AND ((v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?))"),
 	@NamedQuery(name = "Veiculo.findByUG", query = "SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id = ?)"),
-	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != 6 ") })
+	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != 6 "),
+	@NamedQuery(name = "Veiculo.findById", query = "SELECT v FROM Veiculo AS v WHERE (v.id = ?)") })
 public class Veiculo implements Serializable {
 
 	private static final long serialVersionUID = 1031161986293985845L;

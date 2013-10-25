@@ -11,30 +11,48 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-	<div id="cadastro">
+	<div id="cadastro" class="info-veiculos">
 
 		<h1 style="width:250px">informações de veículos</h1>
 	
 		<fieldset>
-		
 			<legend>Relatório de informações de veículos</legend>
-		
-			<h:panelGroup id="searchUG" style="padding-left:25px">
-
-				<h:outputLabel value="UG:" />
-				<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-					<c:if test="#{controlBean.administrador}">
-						<f:selectItem itemLabel="Todos" itemValue="" />
-					</c:if>
-		    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-				</h:selectOneMenu>
+			<fieldset>
+				<legend>Pesquisa</legend>
+				
+				
+				<dl>
+					<dt><h:outputLabel value="UG:" /></dt>
+					<dd>
+						<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+							<c:if test="#{controlBean.administrador}">
+								<f:selectItem itemLabel="Todos" itemValue="" />
+							</c:if>
+				    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+						</h:selectOneMenu>
+					</dd>
+				</dl>
+				
+				<dl>
+					<dt><h:outputLabel value="Propriedade:" /></dt>
+					<dd>
+						<h:selectOneMenu id="propriedadeVeiculo" value="#{relatorioBean.propriedadeVeiculo}" requiredMessage="Informe a Propriedade do Veículo">
+							<c:if test="#{controlBean.administrador}">
+								<f:selectItem itemLabel="Todos" itemValue="" />
+							</c:if>
+				    		<f:selectItems value="#{relatorioBean.listProprietario}"/>
+						</h:selectOneMenu>
+					</dd>
+				</dl>
+				
+				<rich:spacer width="60"/>
 				
 				<h:commandButton action="#{relatorioBean.consultarInformacoesVeiculo}" value="Consultar" style="margin-left:30px">
 					<a4j:support event="onclick" reRender="dataTable" />
 				</h:commandButton>
+				
+			</fieldset>
 
-			</h:panelGroup>
-	
 			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}"  var="r" rowKeyVar="index"
 				onRowMouseOver="jQuery(this).addClass('trHover')"
 				onRowMouseOut="jQuery(this).removeClass('trHover')"
@@ -90,6 +108,11 @@
 							<h:outputText value="#{sr.veiculo.dataCadastro}">
 								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 							</h:outputText>
+						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Propriedade"/></f:facet>
+							<h:outputText value="#{sr.veiculo.propriedade}" />
 						</rich:column>
 	
 					</rich:subTable>

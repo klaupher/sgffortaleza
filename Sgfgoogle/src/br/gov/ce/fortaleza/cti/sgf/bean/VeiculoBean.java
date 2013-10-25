@@ -57,6 +57,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private String abastecimentoRadio;
 	private Date dtInicial;
 	private Date dtFinal;
+	private String status;
 	
 	private Boolean isAdministrador;
 	
@@ -117,6 +118,16 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		}
 		return result;
 	}
+	
+	public List<SelectItem> getVeiculoPropriedade(){
+		List<Veiculo> list = service.findAll();
+		List<SelectItem> result = new ArrayList<SelectItem>();
+		result.add(new SelectItem(null, "Selecione"));
+		for (Veiculo veiculo : list) {
+			result.add(new SelectItem(veiculo.getId(), veiculo.getPropriedade()));
+		}
+		return result;
+	}
 
 	public List<SelectItem> getProprietarioList(){
 		List<SelectItem> result = new ArrayList<SelectItem>();
@@ -164,6 +175,11 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setPlaca(placaPesquisa);
 		veiculo.setChassi(chassiPesquisa);
 		veiculo.setRenavam(renavamPesquisa);
+		if(this.status.equals("Ativo")) {
+			veiculo.setStatus(StatusVeiculo.disponivel);
+		} else if(this.status.equals("Inativo")) {
+			veiculo.setStatus(StatusVeiculo.baixado);
+		}
 		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa, abastecimentoRadio);
 		return SUCCESS;
 	}
@@ -379,6 +395,14 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	public void setDtFinal(Date dtFinal) {
 		this.dtFinal = dtFinal;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

@@ -287,6 +287,11 @@ hr
 	margin-top: 10px;
 }
 
+#cadastro.list-veiculos table, #cadastro.list-abastecimento table {
+	width: auto;
+	margin-top: 0px;
+}
+
 #cadastro table.checkbox {
 	display: inline;
 	margin-top: 10px;
@@ -407,6 +412,11 @@ input.pequeno
 	float:left;
 	width: 200px;
 	text-align:right;
+}
+
+#cadastro.info-veiculos fieldset dt 
+{
+	width: 70px;
 }
 
 #cadastro fieldset.pequeno dt 

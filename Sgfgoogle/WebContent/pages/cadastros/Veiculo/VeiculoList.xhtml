@@ -11,7 +11,7 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-	<div id="cadastro">
+	<div id="cadastro" class="list-veiculos">
 
 		<h1>  Veículos </h1>
 		
@@ -38,6 +38,16 @@
 				</dd>
 				<dt><label>Renavam:</label></dt>
 				<dd><h:inputText value="#{veiculoBean.renavamPesquisa}"/></dd>
+				<dt><label>Status:</label></dt>
+				<dd>
+					<h:selectOneRadio id="status" value="#{veiculoBean.status}">
+						<f:selectItem itemValue="Ativo" itemLabel="Ativo" />
+					   	<f:selectItem itemValue="Inativo" itemLabel="Inativo" />
+					   	<f:selectItem itemValue="Ambos" itemLabel="Ambos" />
+					</h:selectOneRadio>
+				</dd>
+				
+				
 				<fieldset>
 					<legend>Abastecimentos</legend>
 					<p/>
@@ -54,7 +64,7 @@
 				      	</h:commandButton>
 						
 					</dd>
-					
+		
 					<dt><label for="dataFinal">Data Final</label></dt>
 					<dd>
 						<h:inputText id="dataFinal" value="#{veiculoBean.dtFinal}" styleClass="maskData">

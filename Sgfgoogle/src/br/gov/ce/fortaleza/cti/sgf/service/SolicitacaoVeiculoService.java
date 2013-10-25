@@ -97,10 +97,12 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	 * @param end
 	 * @return
 	 */
+	@SuppressWarnings({ "unchecked", "unused" })
 	public Map<Veiculo, Float>  mapKilometragem(UG ug, Date begin, Date end){
 		Map<Veiculo, Float> result = new HashMap<Veiculo, Float>();
+		List<SolicitacaoVeiculo> veiculos = new ArrayList<SolicitacaoVeiculo>();
 		try {
-			StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
+			StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(s.kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
 			if(ug != null){
 				sql.append(" and s.veiculo.ua.ug ="+ug);
 			}
@@ -108,9 +110,20 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 			Query query = entityManager.createQuery(sql.toString());
 			query.setParameter(1, begin);
 			query.setParameter(2, end);
-			List<Veiculo> veiculos = query.getResultList();
+			veiculos = query.getResultList();
+			
+			for(SolicitacaoVeiculo v : veiculos) {
+				Integer id = (Integer) v.getVeiculo().getId();
+				Long kmRodados = v.getKmRetorno() - v.getKmSaida();
+				
+				Veiculo veiculo = null;
+				veiculo = (Veiculo) entityManager.createNamedQuery("Veiculo.findById")
+									.setParameter(0, id)
+									.getSingleResult();
+			}
 							
-					
+			Veiculo kmRetorno = new Veiculo();
+			//kmRetorno.f
 //					"(SELECT min(s1.dataHoraSaida) FROM SolicitacaoVeiculo s1 WHERE  s1.status != 3 and s1.dataHoraRetorno BETWEEN ? and ?)");
 //			Query query2 = entityManager.createQuery("SELECT s FROM SolicitacaoVeiculo s WHERE  s.dataHoraRetorno = " +
 //			"(SELECT max(s1.dataHoraRetorno) FROM SolicitacaoVeiculo s1 WHERE  s1.status != 3 and s1.dataHoraRetorno BETWEEN ? and ?)");

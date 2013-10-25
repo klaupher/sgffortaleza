@@ -463,16 +463,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		boolean flag = true;
 		if(abastecimento.equals("true")){
 			sql.append("inner join v.abastecimentos as a \n");
-		}else{
-			sql.append("where not exists (from Abastecimento as a where a.veiculo = v \n");
-			if(dtInicial != null ||	dtFinal != null){
-				sql.append("and a.dataAutorizacao > :dtInicial \n");
-				sql.append("and a.dataAutorizacao < :dtFinal \n");
-				sql.append(") \n");
-			}else{
-				sql.append(") \n");
-			}
-				
+			sql.append("where 1=1 \n");
 			flag = false;
 		}
 		
@@ -506,6 +497,9 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		if(StringUtils.hasText(veiculo.getRenavam())){
 			sql.append("and v.renavam like '%"+veiculo.getRenavam()+"%' \n");
+		}
+		if(veiculo.getStatus() != null){
+			sql.append("and v.status = "+veiculo.getStatus().getValor()+" \n");
 		}
 		
 		Query query = entityManager.createQuery(sql.toString());

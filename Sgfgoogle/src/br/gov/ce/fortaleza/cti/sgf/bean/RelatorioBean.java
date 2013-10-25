@@ -115,6 +115,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private List<Posto> postos;
 	private Motorista motorista 		= new Motorista();
 	private Veiculo veiculo;
+	private String propriedadeVeiculo;
 	private DiarioBomba diarioBomba;
 	private List<Veiculo> veiculos 		= new ArrayList<Veiculo>();
 	private List<Motorista> motoristas 	= new ArrayList<Motorista>();
@@ -134,6 +135,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private String nomeRelatorio;
 	private Date dtInicial;
 	private Date dtFinal;
+	private String statusAbastecimento;
 
 	private final String relMotoristaPontuacao 				= "relat.motorista.pontuacao";
 	private final String relDiarioBombas 					= "relat.diario.bomba";
@@ -154,6 +156,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private final String relInformacoesKmsRodadosVeiculo 	= "relat.informacoes.kms.rodados.veiculo";
 	private final String relTrocasLubrificantes 			= "relat.trocas.lubrificante.veiculo";
 	private final String relCotasVeiculos 					= "relat.cotas.veiculos";
+
+	private List<SelectItem> listProprietario;
 
 	@Override
 	protected RelatorioDTO createNewEntity() {
@@ -205,6 +209,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = null;
 		this.generate = false;
 		this.orgao = null;
+		VeiculoBean proprietario = new VeiculoBean();
+		this.setListProprietario(proprietario.getProprietarioList());
 		return SUCCESS;
 	}
 
@@ -847,7 +853,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.dtFinal 	= DateUtil.getDateEndDay(this.dtFinal);
 
 		Map<UG, List<AtendimentoAbastecimento>> hashAtendimentosUg = new HashMap<UG, List<AtendimentoAbastecimento>>();
-		hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(this.orgao, this.posto, null, this.dtInicial, this.dtFinal);
+		
+		if(this.statusAbastecimento.equals("com")) {
+			hashAtendimentosUg = atendimentoService.findHashAbastecimentosVeiculo(this.orgao, this.posto, null, this.dtInicial, this.dtFinal);
+		}else {
+			hashAtendimentosUg = atendimentoService.findHashVeiculoSemAbastecimento(this.orgao, this.posto, null, this.dtInicial, this.dtFinal);
+		}
+		
 
 		this.entities 				= new ArrayList<RelatorioDTO>();
 		Float consumoTotalUg 		= 0F;
@@ -865,21 +877,11 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			consumoTotalGasolina 	= 0F;
 			consumoTotalEtanol 		= 0F;
 			
-			Map<Posto, List<AtendimentoAbastecimento>> atendimentosPosto 		= new HashMap<Posto, List<AtendimentoAbastecimento>>();
 			Map<Veiculo, List<AtendimentoAbastecimento>> atendimentosVeiculo 	= new HashMap<Veiculo, List<AtendimentoAbastecimento>>();
 			
 			for (AtendimentoAbastecimento atendimento : abastecimentosUg) {
 
 				Veiculo veiculo = atendimento.getAbastecimento().getVeiculo();
-				Posto posto		= atendimento.getBomba().getPosto();
-				
-				if(atendimentosVeiculo.containsKey(posto)) {
-					atendimentosPosto.get(posto).add(atendimento);
-				} else {
-					List<AtendimentoAbastecimento> postoList = new ArrayList<AtendimentoAbastecimento>();
-					postoList.add(atendimento);
-					atendimentosPosto.put(posto, postoList);
-				}
 				
 				if(atendimentosVeiculo.containsKey(veiculo)){
 					atendimentosVeiculo.get(veiculo).add(atendimento);
@@ -935,12 +937,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					relatorioVeiculo.getRelatorios().add(item);
 				}
 
-				/*Collections.sort(relatorioVeiculo.getRelatorios(), new Comparator<RelatorioDTO>() {
-					public int compare(RelatorioDTO p1, RelatorioDTO p2) {
-						//return p1.getDataAtendimento().compareTo(p2.getDataAtendimento());
-						return p1.getHoraAtendimento().compareTo(p2.getHoraAtendimento());
-					}
-				});*/
 				relatorioVeiculo.setNumeroAbastecimentos(abastecimentosVeiculos.size());
 				relatorioUg.setConsumoTotal(total);
 				relatorioUg.getRelatorios().add(relatorioVeiculo);
@@ -1548,21 +1544,46 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = new ArrayList<RelatorioDTO>();
 		this.result = new ArrayList<RelatorioDTO>();
 		List<Veiculo> veiculos = null;
+		
+		
+		
 		if(this.orgao == null){
 			veiculos = veiculoService.findAllVeiculosAtivos("placa");
 		} else {
 			veiculos = veiculoService.findVeiculosAtivosByUG(this.orgao);
 		}
+		
 		Map<UG, List<Veiculo>> map = new HashMap<UG, List<Veiculo>>();
 		for (Veiculo veiculo : veiculos) {
-			if(map.containsKey(veiculo.getUa().getUg())){
-				map.get(veiculo.getUa().getUg()).add(veiculo);
-			} else {
-				List<Veiculo> vlist = new ArrayList<Veiculo>();
-				vlist.add(veiculo);
-				map.put(veiculo.getUa().getUg(), vlist);
+			
+			if(veiculo.getPropriedade() == null){
+				veiculo.setPropriedade("Outros");
+			}
+			
+			if(this.propriedadeVeiculo != null && !this.propriedadeVeiculo.equals("Todos")) {
+				
+				if( this.propriedadeVeiculo.equals( veiculo.getPropriedade() ) ) {
+					if(map.containsKey(veiculo.getUa().getUg())){
+						map.get(veiculo.getUa().getUg()).add(veiculo);
+					} else {
+						List<Veiculo> vlist = new ArrayList<Veiculo>();
+						
+						vlist.add(veiculo);
+						map.put(veiculo.getUa().getUg(), vlist);
+					}
+				}
+			}else {
+				if(map.containsKey(veiculo.getUa().getUg())){
+					map.get(veiculo.getUa().getUg()).add(veiculo);
+				} else {
+					List<Veiculo> vlist = new ArrayList<Veiculo>();
+					
+					vlist.add(veiculo);
+					map.put(veiculo.getUa().getUg(), vlist);
+				}
 			}
 		}
+		
 		for (UG ug : map.keySet()) {
 			RelatorioDTO relatorio = new RelatorioDTO();
 			relatorio.setOrgao(ug);
@@ -2025,5 +2046,29 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public void setYears(List<SelectItem> years) {
 		this.years = years;
+	}
+
+	public List<SelectItem> getListProprietario() {
+		return listProprietario;
+	}
+
+	public void setListProprietario(List<SelectItem> listProprietario) {
+		this.listProprietario = listProprietario;
+	}
+
+	public String getPropriedadeVeiculo() {
+		return propriedadeVeiculo;
+	}
+
+	public void setPropriedadeVeiculo(String propriedadeVeiculo) {
+		this.propriedadeVeiculo = propriedadeVeiculo;
+	}
+
+	public String getStatusAbastecimento() {
+		return statusAbastecimento;
+	}
+
+	public void setStatusAbastecimento(String statusAbastecimento) {
+		this.statusAbastecimento = statusAbastecimento;
 	}
 }
