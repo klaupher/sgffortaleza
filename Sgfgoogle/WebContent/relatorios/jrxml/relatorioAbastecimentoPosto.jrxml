@@ -241,7 +241,7 @@
 			<staticText>
 				<reportElement uuid="7e06bbbe-f5cc-47a7-974a-66c83ea13205" x="298" y="9" width="42" height="31"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Aller" size="18" isBold="true"/>
+					<font fontName="SansSerif" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SGF]]></text>
 			</staticText>
@@ -252,14 +252,14 @@
 			<staticText>
 				<reportElement uuid="f729d1ec-c63e-4fb8-9bae-6cd90b9e377c" x="340" y="9" width="256" height="31"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Aller" size="18"/>
+					<font fontName="SansSerif" size="18"/>
 				</textElement>
 				<text><![CDATA[- Sistema de Gestão de Frotas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="b22bdd54-6ecc-4345-a98f-ba9bdd57f8e8" x="298" y="49" width="298" height="20"/>
+				<reportElement uuid="b22bdd54-6ecc-4345-a98f-ba9bdd57f8e8" x="293" y="49" width="311" height="20"/>
 				<textElement>
-					<font fontName="Aller" size="12"/>
+					<font fontName="SansSerif" size="12"/>
 				</textElement>
 				<text><![CDATA[Relatório de Conferência de Abastecimentos por Posto]]></text>
 			</staticText>
@@ -409,7 +409,7 @@
 			<staticText>
 				<reportElement uuid="6f19d103-11e8-47b8-b22d-37b741c51a0f" x="26" y="15" width="298" height="20"/>
 				<textElement>
-					<font fontName="Aller" size="10"/>
+					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<text><![CDATA[Relatório de Conferência de Abastecimentos por Posto]]></text>
 			</staticText>
