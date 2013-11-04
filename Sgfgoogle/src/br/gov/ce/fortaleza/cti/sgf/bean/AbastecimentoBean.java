@@ -351,7 +351,9 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 				return update();
 			}
 		} else {
-			this.kmAtendimento = null;
+			if(this.vasilhame) {
+				this.kmAtendimento = null;
+			}
 			return update();
 		}
 		return SUCCESS;
@@ -489,24 +491,24 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	@Override
 	public String save() {
 		
-			if (validarAutorizacao()) {
-				if(this.entity.getDataAutorizacao() == null){
-					this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
-				} else {
-					this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(this.entity.getDataAutorizacao())));
-					this.entity.setDataAutorizacao(DateUtil.adicionarOuDiminuir(this.entity.getDataAutorizacao(), DateUtil.SECOND_IN_MILLIS));
-				}
-				this.entity.setAutorizador(SgfUtil.usuarioLogado());
+		if (validarAutorizacao()) {
+			if(this.entity.getDataAutorizacao() == null){
+				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(new Date())));
+			} else {
+				this.entity.setDataAutorizacao(DateUtil.getDateTime(DateUtil.getDateStartDay(this.entity.getDataAutorizacao())));
+				this.entity.setDataAutorizacao(DateUtil.adicionarOuDiminuir(this.entity.getDataAutorizacao(), DateUtil.SECOND_IN_MILLIS));
+			}
+			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 
-				try{
-					 retrieveEntityService().save(this.entity);
-					 return search();
-				} catch (Exception e) {
-					JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
-					return FAIL;
-				} finally{
-					return FAIL;
-				}
+			try{
+				 retrieveEntityService().save(this.entity);
+				 return search();
+			} catch (Exception e) {
+				JSFUtil.getInstance().addErrorMessage("msg.error.abastecimento.autoriazacaoExistente");
+				return FAIL;
+			} finally{
+				return FAIL;
+			}
 				
 		}
 		return FAIL;
@@ -549,7 +551,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					return super.update();
 				} else {
 					Double cotaAtualizada = 0.0;
-					this.entity.setQuilometragem(kmAtendimento);
+					this.entity.setQuilometragem(this.kmAtendimento);
 					this.entity.setStatus(StatusAbastecimento.ATENDIDO);
 					AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
 					atendimento.setBomba(this.bomba);
@@ -560,7 +562,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setQuantidadeAbastecida(quantidadeAbastecida);
 					cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
 					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
-					atendimento.setQuilometragem(kmAtendimento);
+					atendimento.setQuilometragem(this.kmAtendimento);
 					atendimento.setUsuario(SgfUtil.usuarioLogado());
 					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
 					atendimento.setAbastecimento(this.entity);

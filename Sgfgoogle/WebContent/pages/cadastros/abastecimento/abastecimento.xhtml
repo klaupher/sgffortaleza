@@ -168,7 +168,7 @@
 
   	</div>
   	
-    <h:commandButton action="#{abastecimentoBean.validarKilometragemInformada}" value="#{msg['label.gravar']}" rendered="#{abastecimentoBean.atender and abastecimentoBean.kmValido}">
+    <h:commandButton action="#{abastecimentoBean.validarKilometragemInformada}" value="#{msg['label.gravar']} abastecimento" rendered="#{abastecimentoBean.atender and abastecimentoBean.kmValido}">
   		<a4j:support event="onclick" reRender="paginaPrincipal" />
   		<f:setPropertyActionListener value="#{true}" target="#{abastecimentoBean.atender}" />
 	</h:commandButton>
