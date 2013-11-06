@@ -96,7 +96,7 @@ input[type=text], input[type=password]
 	border-color:#999;
     background:#f2f2f2;
     height: 16px;
-    padding:4px 0px 0px 0px;
+    padding:4px 0;
 }
 
 select 
@@ -116,7 +116,7 @@ input[type=submit], input[type=reset], input[type=button]
 	font: bold 0.8em Verdana, Geneva, sans-serif;
     color: #905302;
     background: #FFFF99;
-    padding: 2px 4px;
+    padding: 4px;
     border-color: #E6B800;
 	margin: 3px 3px 3px 3px;
 	text-shadow: -1px 1px 0px #FFF;
@@ -414,7 +414,8 @@ input.pequeno
 	text-align:right;
 }
 
-#cadastro.info-veiculos fieldset dt 
+#cadastro.info-veiculos fieldset dt, 
+#cadastro.list-motorista fieldset dt 
 {
 	width: 70px;
 }

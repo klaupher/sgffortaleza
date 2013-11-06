@@ -14,6 +14,23 @@
 		<h1>  Espécie </h1>
 		
 		<fieldset>
+			<legend>Pesquisa:</legend>
+			
+			<h:panelGroup style="align:center;">
+				<dl>
+					<dt><h:outputLabel value="Descrição:" /></dt>
+					<dd>
+						<h:inputText value="#{especieBean.filter}"/>
+						<rich:spacer width="40"/>
+						<h:commandButton action="#{especieBean.search}" value="Pesquisar" >
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+					</dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
+		
+		<fieldset>
 
 	      <legend>Espécie de Veículos</legend>
 
@@ -22,11 +39,9 @@
 	      	</h:commandLink>
 	      	<p></p>
 
-	      	<h:inputText value="#{especieBean.filter}"/>
+	      	
 
-	      	<h:commandButton action="#{especieBean.search}" value="Pesquisar" >
-	      		<a4j:support event="onclick" reRender="dataTable"/>
-	      	</h:commandButton>
+	      	
 
 	      	<rich:dataTable id="dataTable" value="#{especieBean.entities}" rowClasses="even,odd" onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')" var="especie" width="100%" rows="50" rowKeyVar="index">

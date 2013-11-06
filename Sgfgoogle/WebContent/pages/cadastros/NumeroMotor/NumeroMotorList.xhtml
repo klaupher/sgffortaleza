@@ -12,7 +12,24 @@
 
 	<div id="cadastro">
 
-		<h1>  Número de Motor </h1>
+		<h1> Número de Motor</h1>
+		
+		<fieldset>
+			<legend>Pesquisa:</legend>
+			
+			<h:panelGroup rendered="#{controlBean.administrador or controlBean.master}" style="align:center;">
+				<dl>
+					<dt><h:outputLabel value="Descrição:" /></dt>
+					<dd>
+						<h:inputText value="#{numeroMotorBean.filter}"/>
+						<rich:spacer width="40"/>
+						<h:commandButton action="#{numeroMotorBean.search}" value="Pesquisar" >
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+					</dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
 
 		<fieldset>
 
@@ -22,18 +39,6 @@
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	      	</h:commandLink>
 	      	<p></p>
-	      	
-	      	<fieldset>
-
-		      	<legend>Busca</legend>
-	
-		      	<h:inputText value="#{numeroMotorBean.filter}"/>
-	
-		      	<h:commandButton action="#{numeroMotorBean.search}" value="Pesquisar" >
-		      		<a4j:support event="onclick" reRender="dataTable"/>
-		      	</h:commandButton>
-	      	
-	      	</fieldset>
 
 	      	<rich:dataTable id="dataTable" rowClasses="even,odd" onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')" value="#{numeroMotorBean.entities}" var="numeroMotor" width="100%" rows="50" rowKeyVar="index">

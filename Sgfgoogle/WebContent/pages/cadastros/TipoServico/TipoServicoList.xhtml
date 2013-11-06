@@ -11,7 +11,24 @@
 	xmlns:c="http://java.sun.com/jstl/core">
 
 	<div id="cadastro">
-		<h1> Tipos de Serviço </h1>
+		<h1>Tipos de Serviço</h1>
+		
+		<fieldset>
+			<legend>Pesquisa:</legend>
+			
+			<h:panelGroup style="align:center;">
+				<dl>
+					<dt><h:outputLabel value="Descrição:" /></dt>
+					<dd>
+						<h:inputText value="#{tipoServicoBean.filter}" />
+						<rich:spacer width="40"/>
+						<h:commandButton value="Pesquisar" action="#{tipoServicoBean.search}">
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+					</dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
 		
 		<fieldset>
 
@@ -21,17 +38,6 @@
 	      		<a4j:support event="onclick" reRender="dataTable"/>
 	      	</h:commandLink>
 	      	<p/>
-
-			<fieldset>
-	
-		      	<legend>Busca</legend>
-		      	<h:inputText value="#{tipoServicoBean.filter}" />
-	
-		      	<h:commandButton value="Pesquisar" action="#{tipoServicoBean.search}">
-		      		<a4j:support event="onclick" reRender="dataTable"/>
-		      	</h:commandButton>
-	      	
-	      	</fieldset>
 
 	      	<rich:dataTable id="dataTable" value="#{tipoServicoBean.entities}" var="tipoServico" width="100%" rows="50" rowKeyVar="index" 
 	      		rowClasses="even,odd" 

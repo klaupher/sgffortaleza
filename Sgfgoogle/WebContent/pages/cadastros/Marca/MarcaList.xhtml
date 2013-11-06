@@ -14,6 +14,27 @@
 		<h1>  Marca </h1>
 		
 		<fieldset>
+			<legend>Pesquisa:</legend>
+			
+			<h:panelGroup style="align:center;">
+				<dl>
+					<dt><h:outputLabel value="Descrição:" /></dt>
+					<dd>
+						<h:inputText value="#{marcaBean.filter}"/>
+						<rich:spacer width="40"/>
+						<h:commandButton value="Pesquisar"  action="#{marcaBean.search}" style="margin-top: 0px;">
+				      		<a4j:support event="onclick"  reRender="dataTable"/>
+				      	</h:commandButton>	
+					</dd>
+					
+					<dt></dt>
+					<dd></dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
+		
+		
+		<fieldset>
 
 	      <legend>Marcas de Veículos</legend>
 
@@ -22,11 +43,9 @@
 	      	</h:commandLink>
 	      	<p></p>
 
-	      	<h:inputText value="#{marcaBean.filter}"/>
+	      	
 
-	      	<h:commandButton value="Pesquisar"  action="#{marcaBean.search}">
-	      		<a4j:support event="onclick"  reRender="dataTable"/>
-	      	</h:commandButton>
+	      	
 
 	      	<rich:dataTable id="dataTable" rowClasses="even,odd" onRowMouseOver="jQuery(this).addClass('trHover')" 
 				onRowMouseOut="jQuery(this).removeClass('trHover')" value="#{marcaBean.entities}" var="marca" width="100%" rows="50" rowKeyVar="index">

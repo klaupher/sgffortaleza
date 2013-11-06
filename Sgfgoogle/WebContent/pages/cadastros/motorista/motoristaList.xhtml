@@ -10,9 +10,67 @@
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:t="http://myfaces.apache.org/tomahawk">
 
-      <div id="cadastro">
+      <div id="cadastro" class="list-motorista">
 
 		<h1>  Motoristas </h1>
+		
+		<fieldset>
+      		<legend>Pesquisa:</legend>
+      		
+      		<h:panelGroup style="align:center;">
+      			<dl>
+      				<dt>
+      					<h:outputLabel value="Nome:" />
+      				</dt>
+      				<dd>
+      					<h:inputText value="#{motoristaBean.filter}" />
+      				</dd>
+      				
+      				<dt>
+      					<h:outputLabel value="Órgão:" />
+      				</dt>
+      				<dd>
+      					<h:selectOneMenu id="ugMotorista" value="#{motoristaBean.ug}" converter="entityConverter" rendered="#{controlBean.administrador}">
+			    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
+			    			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+			    			<a4j:support event="onchange" actionListener="#{motoristaBean.loadUas}" status="statusPreencherUA"/>
+			    		</h:selectOneMenu>
+      				</dd>
+      				
+      				<dt>
+      					<h:outputLabel value="Status:" />
+      				</dt>
+      				<dd>
+      					<h:panelGroup id="radioStatusGrid">
+							<h:selectOneRadio id="radioStatus" value="#{motoristaBean.status}" style="width:50%;" styleClass="checkbox">
+								<f:selectItem itemLabel="Ativo" itemValue="#{true}"/>
+								<f:selectItem itemLabel="Inativo" itemValue="#{false}"/>
+							</h:selectOneRadio>
+						</h:panelGroup>
+      				</dd>
+      				
+      				<dt></dt>
+      				<dd>
+      					<h:commandButton action="#{motoristaBean.searchMotoristas}" value="Pesquisar" >
+							<a4j:support event="onclick" reRender="paginaPrincipal" />
+						</h:commandButton>
+      				</dd>
+      			</dl>
+      		</h:panelGroup>
+
+			
+		    
+		    
+		    <br />
+		    
+		    
+		    
+
+			
+			
+			
+
+		</fieldset>
 		
 		<fieldset>
 
@@ -22,35 +80,6 @@
 				<a4j:support event="onclick" reRender="paginaPrincipal"/>
 			</h:commandLink>
 		    <p/>
-	      
-	      	<fieldset>
-	      	
-	      		<legend>Busca</legend>
-
-				<h:outputLabel value="Nome:" />
-			    <h:inputText value="#{motoristaBean.filter}" />
-			    
-			    <br />
-			    
-			    <h:outputLabel value="Órgão:" />
-			    <h:selectOneMenu id="ugMotorista" value="#{motoristaBean.ug}" converter="entityConverter" rendered="#{controlBean.administrador}">
-	    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
-	    			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-	    			<a4j:support event="onchange" actionListener="#{motoristaBean.loadUas}" status="statusPreencherUA"/>
-	    		</h:selectOneMenu>
-	
-				<h:commandButton action="#{motoristaBean.searchMotoristas}" value="Pesquisar" >
-					<a4j:support event="onclick" reRender="paginaPrincipal" />
-				</h:commandButton>
-				
-				<h:panelGroup id="radioStatusGrid">
-					<h:selectOneRadio id="radioStatus" value="#{motoristaBean.status}" style="width:50%;" styleClass="checkbox">
-						<f:selectItem itemLabel="Ativo" itemValue="#{true}"/>
-						<f:selectItem itemLabel="Inativo" itemValue="#{false}"/>
-					</h:selectOneRadio>
-				</h:panelGroup>
-
-			</fieldset>
 
 	      	<rich:dataTable id="dataTable"	value="#{motoristaBean.entities}" var="motorista" rows="50" rowKeyVar="index"
 	      		rowClasses="even, odd"

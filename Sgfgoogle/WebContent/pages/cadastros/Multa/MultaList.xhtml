@@ -13,6 +13,36 @@
 	<div id="cadastro">
 
 		<h1><h:outputLabel value="Multas de Veículos"  rendered="#{multaBean.searchState}"/></h1>
+		
+		<fieldset>
+			<legend>Pesquisa:</legend>
+			
+			<h:panelGroup style="align:center;">
+				<dl>
+					<dt><h:outputLabel value="Descrição:" /></dt>
+					<dd>
+						<h:inputText value="#{multaBean.name}"/>
+					</dd>
+					
+					<dt></dt>
+					<dd>
+						<h:panelGroup>
+					      	<h:selectOneRadio id="multas" value="#{multaBean.searchId}" style="width:50%;padding:0px"  styleClass="checkbox">
+								<f:selectItem itemLabel="Por veículo" itemValue="0"/>
+								<f:selectItem itemLabel="Por motorista" itemValue="1"/>
+							</h:selectOneRadio>
+						</h:panelGroup>
+					</dd>
+					
+					<dt></dt>
+					<dd>
+						<h:commandButton id="pesquisar"  value="Pesquisar" action="#{multaBean.searchByName}">
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+					</dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
 
 		<fieldset>
 
@@ -22,25 +52,6 @@
 	      		<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	      	</h:commandLink>
 	      	<p/>
-	      	
-	      	<fieldset>
-
-		      	<legend>Busca</legend>
-
-				<h:inputText value="#{multaBean.name}"/>
-
-		      	<h:commandButton id="pesquisar"  value="Pesquisar" action="#{multaBean.searchByName}">
-		      		<a4j:support event="onclick" reRender="dataTable"/>
-		      	</h:commandButton>
-		      	
-		      	<h:panelGroup>
-			      	<h:selectOneRadio id="multas" value="#{multaBean.searchId}" style="width:50%;padding:0px"  styleClass="checkbox">
-						<f:selectItem itemLabel="Por veículo" itemValue="0"/>
-						<f:selectItem itemLabel="Por motorista" itemValue="1"/>
-					</h:selectOneRadio>
-				</h:panelGroup>
-
-			</fieldset>
 
 	      	<rich:dataTable id="dataTable" value="#{multaBean.entities}" var="multa" width="100%" rows="50" rowKeyVar="index"
 	      		rowClasses="odd,even"

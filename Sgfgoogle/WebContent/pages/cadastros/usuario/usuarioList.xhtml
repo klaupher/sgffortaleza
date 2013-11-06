@@ -11,7 +11,7 @@
    
 	<div id="cadastro">
 
-		<h1>  Usuário</h1>
+		<h1>Usuário</h1>
 
 		<fieldset>
 			<legend>Pesquisa</legend>
@@ -20,10 +20,10 @@
 	
 	 			<dl>
 	 				
-		 			<dt><label>Login:</label></dt>
+		 			<dt><h:outputLabel value="Login:" /></dt>
 				    <dd><h:inputText value="#{usuarioBean.loginPesquisa}" /></dd>
 				    
-				    <dt><label>Nome:</label></dt>
+				    <dt><h:outputLabel value="Nome:" /></dt>
 				    <dd>
 				    	<h:inputText value="#{usuarioBean.nomePesquisa}" />
 				    	
@@ -35,10 +35,10 @@
 				    	
 				    </dd>
 				    
-				    <dt><label>CPF:</label></dt>
+				    <dt><h:outputLabel value="CPF:" /></dt>
 				    <dd><h:inputText value="#{usuarioBean.cpfPesquisa}" styleClass="maskCpf" /></dd>
 				    
-				    <dt><label>Status:</label></dt>
+				    <dt><h:outputLabel value="Status:" /></dt>
 				    <dd>
 					    <h:selectOneRadio id="radioStatus" styleClass="checkbox" value="#{usuarioBean.status}" label="ativoInativo">
 							<f:selectItem itemLabel="Ativo" itemValue="true"/>

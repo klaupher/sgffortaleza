@@ -12,7 +12,25 @@
 
 	<div id="cadastro">
 
-		<h1>  Modelo </h1>
+		<h1>Modelo</h1>
+		
+		<fieldset>
+		
+			<legend>Pesquisa</legend>
+			
+			<h:panelGroup style="align:center;">
+				<dl>
+					<dt><h:outputLabel value="Descrição:" /></dt>
+					<dd>
+						<h:inputText value="#{modeloBean.filter}"/>
+						<rich:spacer width="40"/>
+						<h:commandButton action="#{modeloBean.search}" value="Pesquisar" >
+				      		<a4j:support event="onclick" reRender="dataTable"/>
+				      	</h:commandButton>
+					</dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
 		
 		<fieldset>
 
@@ -24,11 +42,9 @@
 	      	
 	      	<p></p>
 
-	      	<h:inputText value="#{modeloBean.filter}"/>
+	      	
 
-	      	<h:commandButton action="#{modeloBean.search}" value="Pesquisar" >
-	      		<a4j:support event="onclick" reRender="dataTable"/>
-	      	</h:commandButton>
+	      	
 
 	      	<p></p>
 
