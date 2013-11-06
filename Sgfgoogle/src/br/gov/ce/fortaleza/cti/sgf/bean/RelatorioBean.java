@@ -1200,8 +1200,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				Float totalGasolina = 0F;
 				Float totalEtanol = 0F;
 				Float totalDiesel = 0F;
-				Float kmInicial = 0F;
-				Float kmFinal = 0F;
+				Long kmInicial = 0L;
+				Long kmFinal = 0L;
 				int nrAbastecimentos = 0;
 				RelatorioDTO dto = new RelatorioDTO();
 				dto.setOrgao(ug);
@@ -1226,12 +1226,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					}
 
 					total += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0F;
-					Float aux = (atendimento.getQuilometragem() == null)? 0f : atendimento.getQuilometragem();
+					Long aux = (atendimento.getQuilometragem() == null)? 0L : atendimento.getQuilometragem();
 					if(kmInicial == 0F){
 						kmInicial = aux;
 					}
 					if(atendimento.getQuilometragem() != null){
-						kmFinal = (float)atendimento.getQuilometragem();
+						kmFinal = atendimento.getQuilometragem();
 					}
 					nrAbastecimentos++;
 					dto.setCombustivel(atendimento.getAbastecimento().getCombustivel().getDescricao());
@@ -1249,7 +1249,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				}
 				Float consumo = 0F;
 				dto.setConsumo(total);
-				dto.setKmRodados(Math.abs(kmFinal - kmInicial));
+				dto.setKmRodados(kmFinal - kmInicial);
 
 				if(total == 0){
 					consumo = 0F;
@@ -1611,7 +1611,22 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 		this.entities = new ArrayList<RelatorioDTO>();
 		this.result = new ArrayList<RelatorioDTO>();
-		Map<Veiculo, Float> mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
+		Map<Veiculo, Long> mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
+		RelatorioDTO relatorio = new RelatorioDTO();
+		relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+		
+		if(mapKilometragem.size() > 0){
+			for (Veiculo v  : mapKilometragem.keySet()) {
+				RelatorioDTO dto = new RelatorioDTO();
+				dto.setVeiculo(v);
+				dto.setOrgao(orgao);
+				dto.setKmRodados((mapKilometragem.get(v)));
+				this.result.add(dto);
+				relatorio.getRelatorios().add(dto);
+			}
+			this.entities.add(relatorio);
+		}
+		
 //		if(this.orgao != null){
 //			RelatorioDTO relatorio = new RelatorioDTO();
 //			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
