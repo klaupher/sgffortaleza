@@ -104,7 +104,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		try {
 			StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(s.kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
 			if(ug != null){
-				sql.append(" and s.veiculo.ua.ug ="+ug);
+				sql.append(" and s.veiculo.ua.ug.id = '"+ ug.getId() + "'");
 			}
 			sql.append(" GROUP BY s.veiculo.id");
 			Query query = entityManager.createQuery(sql.toString());

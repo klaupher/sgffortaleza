@@ -232,11 +232,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			if (!DateUtil.compareDate(this.entity.getDataHoraSaida(), this.entity.getDataHoraRetorno())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.inconsistentes");
 				return FAIL;
-			} else if (!DateUtil.compareDate(DateUtil.getDateTime(new Date(),"07:59:59"), this.entity.getDataHoraSaida())) {
+			} 
+			/*else if (!DateUtil.compareDate(DateUtil.getDateTime(new Date(),"07:59:59"), this.entity.getDataHoraSaida())) {
 				JSFUtil.getInstance().addErrorMessage("msg.error.datas.invalida");
 				return FAIL;
 			}
-
+			 */
 			/** verificação da disponibilidade do veículo */
 			Boolean disponivel = true;
 			if(this.entity.getVeiculo() != null){

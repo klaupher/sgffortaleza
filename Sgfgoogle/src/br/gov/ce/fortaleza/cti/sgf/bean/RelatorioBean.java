@@ -1609,23 +1609,52 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public String consultarKilometrosRodados(){
 
-		this.entities = new ArrayList<RelatorioDTO>();
-		this.result = new ArrayList<RelatorioDTO>();
-		Map<Veiculo, Long> mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
-		RelatorioDTO relatorio = new RelatorioDTO();
-		relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+		this.entities 			= new ArrayList<RelatorioDTO>();
+		this.result 			= new ArrayList<RelatorioDTO>();
 		
-		if(mapKilometragem.size() > 0){
-			for (Veiculo v  : mapKilometragem.keySet()) {
-				RelatorioDTO dto = new RelatorioDTO();
-				dto.setVeiculo(v);
-				dto.setOrgao(orgao);
-				dto.setKmRodados((mapKilometragem.get(v)));
-				this.result.add(dto);
-				relatorio.getRelatorios().add(dto);
+		if(this.orgao != null) {
+			RelatorioDTO relatorio 	= new RelatorioDTO();
+			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+			Map<Veiculo, Long> mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
+			relatorio.setOrgao(this.orgao);
+			
+			if(mapKilometragem.size() > 0) {
+				for (Veiculo v  : mapKilometragem.keySet()) {
+					RelatorioDTO dto = new RelatorioDTO();
+					dto.setVeiculo(v);
+					dto.setOrgao(orgao);
+					dto.setKmRodados((mapKilometragem.get(v)));
+					this.result.add(dto);
+					relatorio.getRelatorios().add(dto);
+				}
+				this.entities.add(relatorio);
 			}
-			this.entities.add(relatorio);
+			
+		} else {
+			
+			this.orgaos = ugService.retrieveAll();
+			if(this.orgaos.size() > 0) {
+				for(UG ug : this.orgaos) {
+					RelatorioDTO relatorio 	= new RelatorioDTO();
+					relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+					relatorio.setOrgao(ug);
+					Map<Veiculo, Long> mapKilometragem = solicitacaoService.mapKilometragem(ug, dtInicial, dtFinal);
+					
+					if(mapKilometragem.size() > 0) {
+						for (Veiculo v  : mapKilometragem.keySet()) {
+							RelatorioDTO dto = new RelatorioDTO();
+							dto.setVeiculo(v);
+							dto.setOrgao(orgao);
+							dto.setKmRodados((mapKilometragem.get(v)));
+							this.result.add(dto);
+							relatorio.getRelatorios().add(dto);
+						}
+						this.entities.add(relatorio);
+					}
+				}
+			}
 		}
+		
 		
 //		if(this.orgao != null){
 //			RelatorioDTO relatorio = new RelatorioDTO();
@@ -1672,6 +1701,54 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("IMAGEM_URI", RelatorioUtil.getInstance().retornarImagensDir());
 		return parametros;
+	}
+	
+	public void gerarExcel() {
+		Map<String, Object> parametros = null;
+		parametros = montarParametrosRelat();
+		HashMap<String, Integer> relHash = new HashMap<String, Integer>();
+		
+		relHash.put(this.relInformacoesVeiculo, 1);
+		relHash.put(this.relHistoricoVeiculoManutencao, 2);
+		relHash.put(this.relMotoristaPontuacao, 3);
+		relHash.put(this.relCotasVeiculos, 4);
+		relHash.put(this.relTrocasLubrificantes, 5);
+		relHash.put(this.relDiarioBombas, 6);
+		relHash.put(this.relVeiculoMulta, 7);
+		relHash.put(this.relMultasVeiculoByUG, 8);
+		relHash.put(this.relMultasVeiculos, 9);
+		relHash.put(this.relMultasVeiculoByMotorista, 10);
+		relHash.put(this.relConferenciaAbastecimento, 11);
+		relHash.put(this.relAbastecimentoPosto, 12);
+		relHash.put(this.relConsolidadoMensal, 13);
+		relHash.put(this.relVeiculosEmManutencao, 14);
+		relHash.put(this.relHistoricoTrocaPneus, 15);
+		relHash.put(this.relVeiculosSemRetornoManutencao, 16);
+		relHash.put(this.relSolicitacaoVeiculo, 17);
+		relHash.put(this.relInformacoesKmsRodadosVeiculo, 18);
+		
+		try{
+			
+			switch( relHash.containsKey(this.nomeRelatorio) ? relHash.get(this.nomeRelatorio) : -1 ) {
+			
+			case 1: {
+				
+				
+				break;
+			}
+			case 18: {
+				gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
+				break;
+			}
+			}
+			
+		}catch (IOException e) {
+
+			e.printStackTrace();
+		} catch (JRException e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	public void gerarRelatorio() {
@@ -1759,7 +1836,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				}
 				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 
-			} else if(this.nomeRelatorio.equals(this.relAbastecimentoPosto)) {
+			 } else if(this.nomeRelatorio.equals(this.relAbastecimentoPosto)) {
 	
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
 				for (RelatorioDTO r : this.entities) { // posto
@@ -1813,7 +1890,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 			} else if(this.nomeRelatorio.equals(this.relInformacoesKmsRodadosVeiculo)){
 
-				gerarRelatorioCollection(parametros, this.result, this.nomeRelatorio);
+				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+				for (RelatorioDTO r : this.entities) {
+					list.addAll(r.getRelatorios());
+				}
+				
+				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
 			}
 
 		} catch (IOException e) {
@@ -1825,6 +1907,25 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		}
 	}
 
+	public void gerarRelatorioExcel(Map<String, Object> parametros, Collection<?> colecao, String filePropertie) 
+			throws IOException, JRException {
+		
+		String 				jasperPath 	= RelatorioUtil.getInstance().retornarJasperPath(filePropertie);
+		byte[] 				array 		= GeradorRelatorio.gerarExcelCollection(parametros, colecao, jasperPath);
+		HttpServletResponse res 		= JSFUtil.getInstance().getResponse(FacesContext.getCurrentInstance());
+		
+		res.setContentType("application/vnd.ms-excel");     
+	    res.setContentLength(array.length);
+	    res.setHeader("Pragma", "public");
+		res.setHeader("Cache-control", "must-revalidate");
+		res.setHeader("Content-Disposition", "attachment;filename=" + nomeRelatorio + ".xls");
+
+		// Enviando o pdf para o navegador
+		ServletOutputStream servletOutputStream = res.getOutputStream();
+		servletOutputStream.write(array);
+		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
 	public void gerarRelatorioCollection(Map<String, Object> parametros, Collection<?> colecao, String filePropertie) 
 			throws IOException, JRException {
 
