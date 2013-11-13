@@ -99,7 +99,13 @@ public abstract class BaseService<Id extends Serializable, Entity extends Serial
 	@Transactional(readOnly = true)
 	public List<Entity> findAllVeiculosAtivos(String parameter) {
 		String simpleName = getPersistentClass().getSimpleName();
-		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e where e.status != -1 order by e." + parameter + " desc").getResultList();
+		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e where e.status != 6 order by e." + parameter + " desc").getResultList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Entity> findAllVeiculosInativos(String parameter) {
+		String simpleName = getPersistentClass().getSimpleName();
+		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e where e.status = 6 order by e." + parameter + " desc").getResultList();
 	}
 
 	@Transactional(readOnly = true)

@@ -14,44 +14,52 @@
 	<div id="cadastro" class="info-veiculos">
 
 		<h1 style="width:250px">informações de veículos</h1>
+		
+		<fieldset>
+			<legend>Pesquisa</legend>
+			
+			<dl>
+				<dt><h:outputLabel value="UG:" /></dt>
+				<dd>
+					<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+						<c:if test="#{controlBean.administrador}">
+							<f:selectItem itemLabel="Todos" itemValue="" />
+						</c:if>
+			    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+					</h:selectOneMenu>
+				</dd>
+				
+				<dt><h:outputLabel value="Propriedade:" /></dt>
+				<dd>
+					<h:selectOneMenu id="propriedadeVeiculo" value="#{relatorioBean.propriedadeVeiculo}" requiredMessage="Informe a Propriedade do Veículo">
+						<c:if test="#{controlBean.administrador}">
+							<f:selectItem itemLabel="Todos" itemValue="" />
+						</c:if>
+			    		<f:selectItems value="#{relatorioBean.listProprietario}"/>
+					</h:selectOneMenu>
+				</dd>
+				
+				<dt><h:outputLabel value="Status:" /></dt>
+				<dd>
+					<h:panelGroup id="radioStatusGrid">
+						<h:selectOneRadio id="radioStatus" value="#{relatorioBean.statusVeiculo}" style="width:50%;" styleClass="checkbox">
+							<f:selectItem itemLabel="Ativo" itemValue="#{true}"/>
+							<f:selectItem itemLabel="Inativo" itemValue="#{false}"/>
+						</h:selectOneRadio>
+					</h:panelGroup>
+				</dd>
+				
+				<dt></dt>
+				<dd>
+					<h:commandButton action="#{relatorioBean.consultarInformacoesVeiculo}" value="Consultar">
+						<a4j:support event="onclick" reRender="dataTable" />
+					</h:commandButton>
+				</dd>
+			</dl>
+		</fieldset>
 	
 		<fieldset>
 			<legend>Relatório de informações de veículos</legend>
-			<fieldset>
-				<legend>Pesquisa</legend>
-				
-				
-				<dl>
-					<dt><h:outputLabel value="UG:" /></dt>
-					<dd>
-						<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-							<c:if test="#{controlBean.administrador}">
-								<f:selectItem itemLabel="Todos" itemValue="" />
-							</c:if>
-				    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-						</h:selectOneMenu>
-					</dd>
-				</dl>
-				
-				<dl>
-					<dt><h:outputLabel value="Propriedade:" /></dt>
-					<dd>
-						<h:selectOneMenu id="propriedadeVeiculo" value="#{relatorioBean.propriedadeVeiculo}" requiredMessage="Informe a Propriedade do Veículo">
-							<c:if test="#{controlBean.administrador}">
-								<f:selectItem itemLabel="Todos" itemValue="" />
-							</c:if>
-				    		<f:selectItems value="#{relatorioBean.listProprietario}"/>
-						</h:selectOneMenu>
-					</dd>
-				</dl>
-				
-				<rich:spacer width="60"/>
-				
-				<h:commandButton action="#{relatorioBean.consultarInformacoesVeiculo}" value="Consultar" style="margin-left:30px">
-					<a4j:support event="onclick" reRender="dataTable" />
-				</h:commandButton>
-				
-			</fieldset>
 
 			<rich:dataTable id="dataTable" value="#{relatorioBean.entities}"  var="r" rowKeyVar="index"
 				onRowMouseOver="jQuery(this).addClass('trHover')"

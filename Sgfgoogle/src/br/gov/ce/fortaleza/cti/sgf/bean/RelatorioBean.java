@@ -136,6 +136,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private Date dtInicial;
 	private Date dtFinal;
 	private String statusAbastecimento;
+	private String statusVeiculo;
 
 	private final String relMotoristaPontuacao 				= "relat.motorista.pontuacao";
 	private final String relDiarioBombas 					= "relat.diario.bomba";
@@ -1545,12 +1546,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.result = new ArrayList<RelatorioDTO>();
 		List<Veiculo> veiculos = null;
 		
-		
+		Boolean statusVeiculo = Boolean.parseBoolean(this.statusVeiculo);
 		
 		if(this.orgao == null){
-			veiculos = veiculoService.findAllVeiculosAtivos("placa");
+			veiculos = statusVeiculo ? veiculoService.findAllVeiculosAtivos("placa") : veiculoService.findAllVeiculosInativos("placa");
 		} else {
-			veiculos = veiculoService.findVeiculosAtivosByUG(this.orgao);
+			veiculos = statusVeiculo ? veiculoService.findVeiculosAtivosByUG(this.orgao) : veiculoService.findVeiculosInativosByUG(this.orgao);
 		}
 		
 		Map<UG, List<Veiculo>> map = new HashMap<UG, List<Veiculo>>();
@@ -2186,5 +2187,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public void setStatusAbastecimento(String statusAbastecimento) {
 		this.statusAbastecimento = statusAbastecimento;
+	}
+
+	public String getStatusVeiculo() {
+		return statusVeiculo;
+	}
+
+	public void setStatusVeiculo(String statusVeiculo) {
+		this.statusVeiculo = statusVeiculo;
 	}
 }
