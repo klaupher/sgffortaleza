@@ -203,18 +203,19 @@ public class MotoristaBean extends EntityBean<Integer, Motorista>{
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
 			
 			String str 		= this.status == true ? "true" : "false";
-			String idug 	= this.ug.getId() == "" ? null : this.ug.getId();
+			String idug 	= this.ug == null ? null : this.ug.getId();
 			String filter 	= this.filter == "" ? null : this.filter;
+			String cpf		= this.cpf == "" ? null : this.cpf;
 			
-			this.entities = motoristaService.findByUGNameStatus(idug, filter, str);
+			this.entities = motoristaService.findByUGNameStatus(idug, filter, cpf, str);
 			
 		} else {
 			UG ug = user.getPessoa().getUa().getUg();
 			String str = this.status == true ? "true" : "false";
 			if(this.filter == ""){
-				this.entities = motoristaService.findByUGNameStatus(ug.getId(), null, str);
+				this.entities = motoristaService.findByUGNameStatus(ug.getId(), null, null, str);
 			} else {
-				this.entities = motoristaService.findByUGNameStatus(ug.getId(), this.filter, str);
+				this.entities = motoristaService.findByUGNameStatus(ug.getId(), this.filter, this.cpf, str);
 			}
 		}
 		return SUCCESS;

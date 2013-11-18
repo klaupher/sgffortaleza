@@ -26,6 +26,13 @@
       					<h:inputText value="#{motoristaBean.filter}" />
       				</dd>
       				
+      				<dt><h:outputLabel value="CPF:" /></dt>
+      				<dd>
+      					<h:inputText id="cpf" value="#{motoristaBean.cpf}"
+		        			required="true" requiredMessage="Informe o filtro da pesquisa" styleClass="maskCpf">
+		        		</h:inputText>
+      				</dd>
+      				
       				<dt>
       					<h:outputLabel value="Órgão:" />
       				</dt>

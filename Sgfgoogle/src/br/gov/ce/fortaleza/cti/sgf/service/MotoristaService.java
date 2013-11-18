@@ -67,16 +67,25 @@ public class MotoristaService extends BaseService<Integer, Motorista>{
 
 		return executeResultListQuery("findByNameStatus", filter, status);
 	}
+	
+	@Transactional
+	public List<Motorista> findByCpfStatus(String cpf, String status) {
+		return executeResultListQuery("findByCpfStatus", cpf, status);
+	}
 
 	@Transactional
-	public List<Motorista> findByUGNameStatus(String ugid, String filter, String status){
+	public List<Motorista> findByUGNameStatus(String ugid, String filter, String cpf, String status){
 		List<Motorista> motoristas = new ArrayList<Motorista>();
 		if(ugid == null){
 			if(filter != null){
 				filter = "%" + filter + "%";
 				motoristas = findByNameStatus(filter.toUpperCase(), status);
 			} else {
-				motoristas = findByStatus(status);
+				if(cpf != null) {
+					motoristas = findByCpfStatus(cpf, status);
+				}else {
+					motoristas = findByStatus(status);
+				}
 			}
 		} else {
 			if(filter != null){

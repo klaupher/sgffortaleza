@@ -35,6 +35,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 	@NamedQuery(name = "Motorista.findMotoristasBloqueados", query = "select object(o) from Motorista o where o.ativo = ?"),
 	@NamedQuery(name = "Motorista.findByStatus", query = "select o from Motorista o where o.ativo = ? order by o.codMotorista desc"),
 	@NamedQuery(name = "Motorista.findByNameStatus", query = "select o from Motorista o where o.pessoa.nome LIKE ? and o.ativo = ?"),
+	@NamedQuery(name = "Motorista.findByCpfStatus", query = "select o from Motorista o where o.pessoa.cpf = ? and o.ativo = ?"),
 	@NamedQuery(name = "Motorista.findByUGNameStatus", query = "select o from Motorista o where o.pessoa.ua.ug.id = ? and o.pessoa.nome LIKE ? and o.ativo = ?"),
 	@NamedQuery(name = "Motorista.findMotoristaByCPF", query = "select o from Motorista o where o.pessoa.cpf LIKE ?"),
 	@NamedQuery(name = "Motorista.findByUG", query = "select o from Motorista o where o.pessoa.ua.ug.id = ? order by o.pessoa.nome"),
