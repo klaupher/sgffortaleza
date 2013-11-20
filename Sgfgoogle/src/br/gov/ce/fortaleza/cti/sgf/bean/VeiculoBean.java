@@ -92,7 +92,8 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	public String search() {
 		// TODO Auto-generated method stub
 		ugs = ugService.findAll();
-		return super.search();
+//		return super.search();
+		return pesquisar();
 	}
 	
 	public void atualizaNrPatrimonio(){
@@ -182,6 +183,8 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		}
 		entities.clear();
 		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa, abastecimentoRadio);
+		setCurrentBean(currentBeanName());
+		setCurrentState(SEARCH);
 		return SUCCESS;
 	}
 	
