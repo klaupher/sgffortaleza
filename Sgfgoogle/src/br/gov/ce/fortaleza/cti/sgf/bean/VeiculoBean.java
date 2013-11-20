@@ -180,6 +180,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		} else if(this.status.equals("Inativo")) {
 			veiculo.setStatus(StatusVeiculo.baixado);
 		}
+		entities.clear();
 		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa, abastecimentoRadio);
 		return SUCCESS;
 	}

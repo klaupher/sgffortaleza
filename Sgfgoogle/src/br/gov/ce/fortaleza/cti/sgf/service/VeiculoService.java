@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
@@ -471,27 +472,21 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> pesquisa(Veiculo veiculo, Date dtInicial, Date dtFinal, UG ugPesquisa, String abastecimento) {
 		// TODO Auto-generated method stub
+		
 		StringBuilder sql = new StringBuilder("select distinct(v) from Veiculo v  \n");
 		boolean flag = true;
+
+		sql.append("left join v.abastecimentos as a \n");
+		sql.append("with a.dataAutorizacao between :dtInicial and :dtFinal \n");
+		sql.append("where 1=1 \n");
+		flag = false;
+
 		if(abastecimento.equals("true")){
-			sql.append("inner join v.abastecimentos as a \n");
-			sql.append("where 1=1 \n");
-			flag = false;
+			sql.append("and a.veiculo is not null \n");
+		}else {
+			sql.append("and a.veiculo is null \n");
 		}
-		
-		if((dtInicial != null || dtFinal != null) 
-				&& abastecimento.equals("true")){
-			if(flag){
-				sql.append("where 1=1 \n");
-			}	
-			if(dtInicial != null){
-				sql.append("and a.dataAutorizacao > :dtInicial \n");
-			}
-			if(dtFinal != null){
-				sql.append("and a.dataAutorizacao < :dtFinal \n");
-			}
-			flag = false;
-		}
+
 		
 		if(flag){
 			sql.append("where 1=1 \n");
@@ -515,6 +510,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}
 		
 		Query query = entityManager.createQuery(sql.toString());
+		
 		if(!flag){
 			if(dtInicial != null)
 				query.setParameter("dtInicial", dtInicial);

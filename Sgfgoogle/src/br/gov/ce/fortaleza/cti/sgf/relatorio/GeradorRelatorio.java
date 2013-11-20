@@ -64,9 +64,11 @@ public class GeradorRelatorio {
 	    
 	    exporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, impressao);    
 	    exporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, xlsReport);     
-	    exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);     
+	    exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+	    exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
+	    exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.TRUE);
 	    exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.TRUE);     
-	    exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);     
+	    exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);     
 	    exporter.setParameter(JRXlsExporterParameter.OUTPUT_FILE_NAME, "c:/java/relatorio.xls");
 	    exporter.exportReport();     
 	    array = xlsReport.toByteArray();

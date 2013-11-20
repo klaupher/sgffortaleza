@@ -250,9 +250,9 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculosUg(UG ug) {
-		StringBuffer str = new StringBuffer("SELECT v FROM Veiculo v");
+		StringBuffer str = new StringBuffer("SELECT v FROM Veiculo v WHERE status != 6");
 		if(ug != null) {
-			str.append(" WHERE v.ua.ug.id = '"+ ug.getId()+"'");
+			str.append(" AND v.ua.ug.id = '"+ ug.getId()+"'");
 		}
 		
 		Query query = entityManager.createQuery(str.toString());

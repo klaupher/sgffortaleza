@@ -895,10 +895,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 			for (Veiculo veiculo : atendimentosVeiculo.keySet()) {
 
+				Float cota = (veiculo.getCota() == null) ? 0F : veiculo.getCota().getCota().floatValue();
+				
 				RelatorioDTO relatorioVeiculo = new RelatorioDTO();
 				relatorioVeiculo.setOrgao(ug);
 				relatorioVeiculo.setVeiculo(veiculo);
-				relatorioVeiculo.setCota(veiculo.getCota().getCota().floatValue());
+				relatorioVeiculo.setCota(cota);
 				relatorioVeiculo.setRelatorios(new ArrayList<RelatorioDTO>());
 				Float total = 0F;
 				Float totalgas = 0F;
@@ -920,7 +922,6 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 						totaldiesel += atendimento.getQuantidadeAbastecida() != null ? atendimento.getQuantidadeAbastecida().floatValue() : 0; 
 					}
 
-					Float cota = veiculo.getCota() != null ? veiculo.getCota().getCota().floatValue() : 0F;
 					item.setOrgao(ug);
 					item.setVeiculo(veiculo);
 					item.setAtendimento(atendimento);
