@@ -7,7 +7,8 @@
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:rich="http://richfaces.org/rich"
       xmlns:sec="http://www.springframework.org/security/tags"
-      xmlns:a4j="http://richfaces.org/a4j">
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
 
 	<div id="cadastro">
 
@@ -18,7 +19,19 @@
 		<fieldset>
 
 			<legend>Busca</legend>
-
+			
+			<dt>
+				<label for="placaPesquisa">UG:</label>
+			</dt>
+			
+			
+			<dd>
+				<h:selectOneMenu id="ugPesquisa" value="#{cotaKmBean.ugPesquisa}" style="width:420px" converter="entityConverter">
+					<f:selectItem itemValue="" itemLabel="Selecione a UG" />
+					<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+				</h:selectOneMenu>
+			</dd>
+			
 			<dt>
 				<label for="placaPesquisa">Placa:</label>
 			</dt>

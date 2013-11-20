@@ -42,6 +42,9 @@ public class CotaKmService extends BaseService<Integer, CotaKm>{
 					criteria.createCriteria("veiculo.modelo.marca").add(Example.create(cota.getVeiculo().getModelo().getMarca()).enableLike(MatchMode.ANYWHERE).ignoreCase());
 				}
 			}
+			if(cota.getVeiculo().getUa() != null){
+				criteria.createCriteria("veiculo.ua.ug").add(Example.create(cota.getVeiculo().getUa().getUg()));
+			}
 		}
 		cotas = criteria.list();
 		List<CotaKm> remove = new ArrayList<CotaKm>();
@@ -72,7 +75,7 @@ public class CotaKmService extends BaseService<Integer, CotaKm>{
 	@SuppressWarnings("unchecked")
 	public Collection<? extends Veiculo> findVeiculosTerceiros() {
 		// TODO Auto-generated method stub
-		Query query = entityManager.createQuery("select o from Veiculo o where o.propriedade <> 'PMF' and o not in(select c.veiculo from CotaKm c) and o.status != 6");
+		Query query = entityManager.createQuery("select o from Veiculo o where o.propriedade = 'Locado' and o not in(select c.veiculo from CotaKm c) and o.status != 6");
 		
 		List<Veiculo> veiculos = new ArrayList<Veiculo>(query.getResultList());
 		return veiculos;

@@ -127,6 +127,12 @@ public class Veiculo implements Serializable {
 	
 	@Transient
 	private Float valorTotal;
+	
+	@Transient
+	private Float valorInicial;
+	
+	@Transient
+	private Float valorFinal;
 
 	@ManyToOne
 	@JoinColumn(name = "COD_UA_ASI", nullable = false)
@@ -557,5 +563,21 @@ public class Veiculo implements Serializable {
 
 	public void setCotaKm(CotaKm cotaKm) {
 		this.cotaKm = cotaKm;
+	}
+
+	public Float getValorInicial() {
+		return valorInicial;
+	}
+
+	public void setValorInicial(Float valorInicial) {
+		this.valorInicial = valorInicial;
+	}
+
+	public Float getValorFinal() {
+		return valorFinal;
+	}
+
+	public void setValorFinal(Float valorFinal) {
+		this.valorFinal = valorFinal;
 	}
 }

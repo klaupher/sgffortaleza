@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
@@ -19,6 +20,8 @@ import br.gov.ce.fortaleza.cti.sgf.entity.CotaKm;
 import br.gov.ce.fortaleza.cti.sgf.entity.Marca;
 import br.gov.ce.fortaleza.cti.sgf.entity.Modelo;
 import br.gov.ce.fortaleza.cti.sgf.entity.PostoServico;
+import br.gov.ce.fortaleza.cti.sgf.entity.UA;
+import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
 import br.gov.ce.fortaleza.cti.sgf.service.CotaKmService;
@@ -52,6 +55,7 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 
 	private String placa;
 	private Integer cota;
+	private UG ugPesquisa;
 	private String veiculoPesquisa;
 	private String placaPesquisa;
 	private String marcaPesquisa;
@@ -113,6 +117,7 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 	
 	@Override
 	public String prepareSave() {
+		veiculos.clear();
 		veiculos.addAll(cotaKmService.findVeiculosTerceiros());
 		return super.prepareSave();
 	}
@@ -127,6 +132,16 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 	
 	public String pesquisar(){
 		CotaKm cotaKm = new CotaKm();
+		
+		if(ugPesquisa != null){
+			if(cotaKm.getVeiculo() != null){
+				cotaKm.setVeiculo(new Veiculo());
+			}else{
+				cotaKm.getVeiculo();
+			}
+			cotaKm.getVeiculo().setUa(new UA());
+			cotaKm.getVeiculo().getUa().setUg(ugPesquisa);
+		}
 		if(StringUtils.hasText(this.veiculoPesquisa)){
 			cotaKm.setVeiculo(new Veiculo());
 			cotaKm.getVeiculo().setModelo(new Modelo());
@@ -135,7 +150,7 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 		if(StringUtils.hasText(this.placaPesquisa)){
 			if(cotaKm.getVeiculo() != null){
 				cotaKm.getVeiculo().setPlaca(this.placaPesquisa);
-			} else {
+			} else { 
 				cotaKm.setVeiculo(new Veiculo());
 				cotaKm.getVeiculo().setPlaca(this.placaPesquisa);
 			}
@@ -258,6 +273,16 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 
 	public void setBotaoExcluir(HtmlAjaxCommandLink botaoExcluir) {
 		this.botaoExcluir = botaoExcluir;
+	}
+
+
+	public UG getUgPesquisa() {
+		return ugPesquisa;
+	}
+
+
+	public void setUgPesquisa(UG ugPesquisa) {
+		this.ugPesquisa = ugPesquisa;
 	}
 
 }

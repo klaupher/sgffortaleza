@@ -19,26 +19,22 @@
 
 			<a4j:region id="regiaoEdit"> 
 
-		      	<legend>Cadastro Cota de Quilometragem</legend>
-		      	<!-- 
-		      	<h:commandLink action="#{diarioKmBean.prepareSave}" value="Nova" styleClass="novo">
-					<a4j:support event="onclick" reRender="paginaPrincipal"/>
-				</h:commandLink>
- 				-->
+		      	<legend>Cadastro Diario de Quilometragem</legend>
+		      	
 			    <p/>
-			  	<rich:dataTable id="dataTable"	value="#{cotaKmBean.entities}" var="cota" rows="50" rowKeyVar="index"
+			  	<rich:dataTable id="dataTable"	value="#{diarioKmBean.veiculos}" var="veiculo" rows="50" rowKeyVar="index"
 					rowClasses="odd,even" 
 					onRowMouseOver="jQuery(this).addClass('trHover')" 
 					onRowMouseOut="jQuery(this).removeClass('trHover')"
 					width="100%">
 
-		      		<c:if test="#{empty cotaKmBean.entities}">
+		      		<c:if test="#{empty diarioKmBean.veiculos}">
 						<rich:column>
 							<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
 						</rich:column>
 					</c:if>
 
-					<c:if test="#{not empty cotaKmBean.entities}">
+					<c:if test="#{not empty diarioKmBean.veiculos}">
 
 						<rich:column width="2%"> 
 							<f:facet name="header"><h:outputText value="Nº" /></f:facet>
@@ -47,38 +43,22 @@
 
 						<rich:column width="10%" > 
 							<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
-							<h:outputText value="#{cota.veiculo.placa} #{cota.veiculo.modelo.descricao} #{cota.veiculo.serie}"/>
+							<h:outputText value="#{veiculo.placa} #{veiculo.modelo.descricao} #{veiculo.serie}"/>
 						</rich:column>
 						
 						<rich:column width="30%" sortBy="#{cota.veiculo.ua.ug.descricao}"> 
 							<f:facet name="header">	<h:outputText value="UG" /></f:facet>
-							<h:outputText value="#{cota.veiculo.ua.ug.descricao}" style="color: black;"/>
+							<h:outputText value="#{veiculo.ua.ug.descricao}" style="color: black;"/>
 						</rich:column>
 
-						<rich:column width="5%" sortBy="#{cota.cotaKm}"> 
+						<rich:column width="5%" sortBy="#{veiculo.cotaKm.cotaKm}"> 
 							<f:facet name="header">	<h:outputText value="Valor Cota" /></f:facet>
-							<h:outputText value="#{cota.cotaKm}" style="color: black;"/>
+							<h:outputText value="#{veiculo.cotaKm.cotaKm}" style="color: black;"/>
 						</rich:column>
 
-						<rich:column width="5%" sortBy="#{cota.cotaKmDisponivel}"> 
+						<rich:column width="5%" sortBy="#{veiculo.cotaKm.cotaKmDisponivel}"> 
 							<f:facet name="header">	<h:outputText value="Disponível" /></f:facet>
-							<h:outputText value="#{cota.cotaKmDisponivel}" style="color: black;"/>
-						</rich:column>
-
-						<rich:column width="2%">
-							<f:facet name="header"><h:outputText value="Editar" /></f:facet>
-							<h:commandLink styleClass="editar" value="Editar" action="#{cotaKmBean.prepareUpdate}">
-								<f:setPropertyActionListener target="#{cotaKmBean.entity}" value="#{cota}"/>
-							</h:commandLink>
-						</rich:column>
-
-						<rich:column width="2%">
-							<f:facet name="header"><h:outputText value="Excluir" /></f:facet>
-							<a4j:commandLink id="linkExcluir" styleClass="excluir"  action="#{cotaKmBean.delete}" value="Excluir"
-								onclick="if(!confirm('Tem certeza que deseja excluir?')) { document.getElementById('paginaPrincipal').reset();return false;}"
-								binding="#{cotaKmBean.botaoExcluir}" reRender="dataTable">
-								<f:setPropertyActionListener target="#{cotaKmBean.entity}" value="#{cota}"/>
-							</a4j:commandLink>
+							<h:outputText value="#{veiculo.cotaKm.cotaKmDisponivel}" style="color: black;"/>
 						</rich:column>
 
 						<f:facet name="footer">

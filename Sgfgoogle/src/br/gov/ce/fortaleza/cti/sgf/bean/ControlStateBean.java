@@ -242,7 +242,7 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 					}
 				}
 			} else {
-				SgfUtil.getRequest().setAttribute("sendmail_err", "N�o foi encontrado usu�rio p/ o e-mail informado.");
+				SgfUtil.getRequest().setAttribute("sendmail_err", "Não foi encontrado usuário p/ o e-mail informado.");
 				return FAIL;
 			}
 		} else {

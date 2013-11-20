@@ -17,85 +17,100 @@
 		
 		<fieldset>
 			<legend>Pesquisa</legend>
-			<dl>
-			
-				<dt><label>UG:</label></dt>
-				<dd>
-					<h:selectOneMenu id="ugPesquisa" value="#{diarioKmBean.ugPesquisa}" style="width:420px" converter="entityConverter">
-						<f:selectItem itemValue="" itemLabel="Selecione a UG" />
-						<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-					</h:selectOneMenu>
-				</dd>
-				<dt><label>Placa:</label></dt>
-				<dd><h:inputText value="#{diarioKmBean.placaPesquisa}"/></dd>
-				<dt><label>Chassi:</label></dt>
-				<dd>
-					<h:inputText value="#{diarioKmBean.chassiPesquisa}"/>
-				</dd>
-				<dt><label>Renavam:</label></dt>
-				<dd><h:inputText value="#{diarioKmBean.renavamPesquisa}"/></dd>
-				<dd>
-					<h:commandButton value="Pesquisar" action="#{diarioKmBean.pesquisar}">
-			      		<a4j:support event="onclick" reRender="dataTableKm"/>
-			      	</h:commandButton>
-				</dd>
-			</dl>
+			<a4j:outputPanel>
+				<a4j:region>
+					<dl>
+						<dt><label>UG:</label></dt>
+						<dd>
+							<h:selectOneMenu id="ugPesquisa" value="#{diarioKmBean.ugPesquisa}" converter="entityConverter" styleClass="ugList">
+								<f:selectItem itemLabel="Todos ..." itemValue="" rendered="#{controlBean.administrador}"/>
+								<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+							</h:selectOneMenu>
+							
+						</dd>
+						<dt><label>Placa:</label></dt>
+						<dd><h:inputText value="#{diarioKmBean.placaPesquisa}"/></dd>
+						<dt><label>Chassi:</label></dt>
+						<dd>
+							<h:inputText value="#{diarioKmBean.chassiPesquisa}"/>
+						</dd>
+						<dt><label>Renavam:</label></dt>
+						<dd><h:inputText value="#{diarioKmBean.renavamPesquisa}"/></dd>
+						<dd>
+							<h:commandButton value="Pesquisar" action="#{diarioKmBean.pesquisar}">
+					      		<a4j:support event="onclick" reRender="dataTableKm"/>
+					      	</h:commandButton>
+						</dd>
+					</dl>
+				</a4j:region>
+			</a4j:outputPanel>
 		</fieldset>
 
 		<fieldset>
 
 	      <legend>Diário de Quilometragem</legend>
-	      
-		  <rich:dataTable id="dataTableKm" value="#{diarioKmBean.entities}" var="diario" rows="20" rowKeyVar="index"
+	 
+		  <rich:dataTable id="dataTableKm" value="#{diarioKmBean.veiculos}" var="veiculo" rows="20" rowKeyVar="index"
 				rowClasses="even,odd" width="100%">
 
-				<rich:column width="3%" style="text-align: center;" > 
+				<rich:column style="text-align: center;" > 
 					<f:facet name="header"><h:outputText value="Nº" /></f:facet>
 					<h:outputText value="#{index+1}" style="color: black;"/>
 				</rich:column>
 				
-				<rich:column width="14%"> 
+				<rich:column > 
 					<f:facet name="header"><h:outputText value="UG" /></f:facet>
-					<h:outputText value="#{diario.cotaKm.veiculo.ua.ug.descricao}" style="color: black;"/>
+					<h:outputText value="#{veiculo.ua.ug.descricao}" style="color: black;"/>
 				</rich:column>
 
-				<rich:column width="8%" style="text-align: left;" > 
+				<rich:column style="text-align: left;" > 
 					<f:facet name="header">
 						<h:outputText value="Placa" />
 					</f:facet>
-					<h:outputText id="placa" value="#{diario.cotaKm.veiculo.placa}" style="color: black;" size="10"  maxlength="10"/>
+					<h:outputText id="placa" value="#{veiculo.placa}" style="color: black;"/>
 				</rich:column>
 				
-				<rich:column width="20%" style="text-align: left;" > 
+				<rich:column style="text-align: left;" > 
 					<f:facet name="header">
 						<h:outputText value="Modelo" />
 					</f:facet>
-					<h:outputText id="modelo" value="#{diario.cotaKm.veiculo.modelo.descricao}" style="color: black;" size="10"  maxlength="10"/>
+					<h:outputText id="modelo" value="#{veiculo.modelo.descricao}" style="color: black;"/>
 				</rich:column>
 				
-				<rich:column width="8%" style="text-align: left;" > 
+				<rich:column style="text-align: left;" > 
 					<f:facet name="header">
 						<h:outputText value="Valor inicial" />
 					</f:facet>
-					<h:inputText id="vlrInicial" value="#{diario.valorInicial}" style="color: black;" size="6" />
+					<h:inputText id="vlrInicial" binding="#{diarioKmBean.inputValorInicial}" value="#{veiculo.valorInicial}" style="color: black;" size="6" />
 				</rich:column>
 				
-				<rich:column width="8%" style="text-align: left;" > 
+				<rich:column style="text-align: left;" > 
 					<f:facet name="header">
 						<h:outputText value="Valor final" />
 					</f:facet>
-					<h:inputText id="vlrFinal" value="#{diario.valorFinal}" style="color: black;" size="6" />
+					<h:inputText id="vlrFinal" value="#{veiculo.valorFinal}" style="color: black;" size="6" />
 				</rich:column>
 				
-				<rich:column width="8%" style="text-align: left;" > 
+				
+				<rich:column style="text-align: left;" > 
 					<f:facet name="header">
 						<h:outputText value="Cota Disponível" />
 					</f:facet>
 					<h:inputText id="cotaDisponivel" disabled="true" 
-						value="#{diario.cotaKm.cotaKmDisponivel}" style="color: black;" size="8"/>
+						value="#{veiculo.cotaKm.cotaKmDisponivel}" style="color: black;" size="8"/>
 				</rich:column>
 				
+				<rich:column style="text-align: left;" > 
+					<f:facet name="header">
+						<h:outputText value="Salvar" />
+					</f:facet>
+					<h:commandLink id="salvar" styleClass="salvar" action="#{diarioKmBean.saveDiario}" value="Salvar">
+						<f:setPropertyActionListener target="#{diarioKmBean.veiculoSelecionado}" value="#{veiculo}"/>
+						<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
+					</h:commandLink>
+				</rich:column>
 				
+				<!-- 
 				<rich:column width="2%" style="text-align: center;" rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
 					<f:facet name="header"><h:outputText>Editar</h:outputText></f:facet>
 					<h:commandLink id="editar" styleClass="editar" action="#{diarioKmBean.prepareEdit}" value="Editar">
@@ -113,7 +128,7 @@
 						<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
 					</h:commandLink>
 				</rich:column>
-				
+				 -->
 				<f:facet name="footer">
 					<rich:datascroller renderIfSinglePage="false" reRender="dataTableKm" for="dataTableKm" />
 				</f:facet>
