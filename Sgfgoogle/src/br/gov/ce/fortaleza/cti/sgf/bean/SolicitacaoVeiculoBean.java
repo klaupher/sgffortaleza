@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
 import br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo;
+import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
@@ -50,8 +51,10 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	private RegistroVeiculo registro;
 	private UG orgaoSelecionado;
+	private UA uaSelecionada;
 	private Veiculo veiculo;
 	private List<UG> orgaos;
+	private List<UA> uas;
 	private List<Veiculo> veiculos;
 	private List<Motorista> motoristas;
 	private Veiculo veiculoSelecionado;
@@ -192,6 +195,20 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String populate() {
 		return super.populate();
 	}
+	
+	public String carregarUasDaUG() {
+		
+		this.setUas(new ArrayList<UA>());
+		if(SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)) {
+			if(this.orgaoSelecionado != null) {
+				this.setUas(this.orgaoSelecionado.getUas());
+			}
+		}else {
+			this.setUas(this.orgaoSelecionado.getUas());
+		}
+		carregarVeiculosDisponiveis();
+		return SUCCESS;
+	}
 
 	/**
 	 * carrega os veículos disponíveis para a data e período informado
@@ -224,6 +241,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String save() {
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		try {
+			if (SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)) {
+				this.entity.setUaSolicitante(this.uaSelecionada);
+			}else {
+				this.entity.setUaSolicitante(this.usuario.getPessoa().getUa());
+			}
 			this.entity.setSolicitante(usuario);
 			this.entity.setDataHoraSaida(DateUtil.addTime(DateUtil.getDateStartDay(this.dataSaida), this.horaSaida));
 			this.entity.setDataHoraRetorno(DateUtil.addTime(DateUtil.getDateStartDay(this.dataRetorno), this.horaRetorno));
@@ -450,10 +472,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.horaSaidaReal = null;
 		this.horaRetornoReal = null;
 		this.entity.setSolicitante(this.usuario);
-		this.orgaoSelecionado = null;
 		this.veiculos = new ArrayList<Veiculo>();
 		this.veiculo = null;
+		this.orgaoSelecionado 	= SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario) ? null : this.usuario.getPessoa().getUa().getUg();
+		this.uaSelecionada 		= SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario) ? null : this.usuario.getPessoa().getUa();
 		carregarVeiculosDisponiveis();
+		carregarUasDaUG();
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
 		return SUCCESS;
 	}
@@ -775,5 +799,21 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public void setUltimaKilometragem(Long ultimaKilometragem) {
 		this.ultimaKilometragem = ultimaKilometragem;
+	}
+
+	public List<UA> getUas() {
+		return uas;
+	}
+
+	public void setUas(List<UA> uas) {
+		this.uas = uas;
+	}
+
+	public UA getUaSelecionada() {
+		return uaSelecionada;
+	}
+
+	public void setUaSelecionada(UA uaSelecionada) {
+		this.uaSelecionada = uaSelecionada;
 	}
 }

@@ -92,8 +92,8 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	public String search() {
 		// TODO Auto-generated method stub
 		ugs = ugService.findAll();
-//		return super.search();
-		return pesquisar();
+		return super.search();
+		//return pesquisar();
 	}
 	
 	public void atualizaNrPatrimonio(){
@@ -176,10 +176,13 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setPlaca(placaPesquisa);
 		veiculo.setChassi(chassiPesquisa);
 		veiculo.setRenavam(renavamPesquisa);
-		if(this.status.equals("Ativo")) {
-			veiculo.setStatus(StatusVeiculo.disponivel);
-		} else if(this.status.equals("Inativo")) {
-			veiculo.setStatus(StatusVeiculo.baixado);
+		
+		if(this.status != null) {
+			if(this.status.equals("Ativo")) {
+				veiculo.setStatus(StatusVeiculo.disponivel);
+			} else if(this.status.equals("Inativo")) {
+				veiculo.setStatus(StatusVeiculo.baixado);
+			}
 		}
 		entities.clear();
 		entities = service.pesquisa(veiculo, dtInicial, dtFinal, ugPesquisa, abastecimentoRadio);

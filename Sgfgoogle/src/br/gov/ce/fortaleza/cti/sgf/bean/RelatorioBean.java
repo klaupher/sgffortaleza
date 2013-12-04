@@ -677,8 +677,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					System.out.println("quant. = " + diaria.getQuantidadeSaida());
 					if(diaria.getQuantidadeSaida() == null){
 						System.out.println("erro");
+					}else {
+						totalLitrosAbastecidos += diaria.getQuantidadeSaida();
 					}
-					totalLitrosAbastecidos += diaria.getQuantidadeSaida();
 				}
 				dto.setDiarioBomba(diaria);
 				dto.setPosto(posto);
