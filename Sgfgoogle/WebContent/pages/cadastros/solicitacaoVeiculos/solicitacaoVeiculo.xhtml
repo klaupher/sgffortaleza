@@ -23,10 +23,8 @@
 			</legend>
 			<p/>
 
-			
-			
 			<a4j:outputPanel>
-			
+	
 				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
 			
 					<dt>
@@ -36,10 +34,38 @@
 						<h:selectOneMenu id="selectUgSolicitacaoVeiculo" value="#{solicitacaoVeiculoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList" >
 							<f:selectItem itemLabel="Informe o órgão ..." itemValue=""/>
 							<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
-							<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarVeiculosDisponiveis}"  reRender="veiculoSolicitacao" ajaxSingle="true"/>
+							<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.carregarUasDaUG}"  reRender="selectUaSolicitacaoVeiculo, veiculoSolicitacao" ajaxSingle="true"/>
+							
+						</h:selectOneMenu>
+					</dd>
+					
+					<dt>
+						<h:outputLabel value="Setor:" for="selectUaSolicitacaoVeiculo" 	styleClass="labelNegrito"/>
+					</dt>
+					<dd>
+						<h:selectOneMenu id="selectUaSolicitacaoVeiculo" value="#{solicitacaoVeiculoBean.uaSelecionada}" converter="entityConverter" styleClass="ugList" >
+							<f:selectItem itemLabel="Informe o setor..." itemValue=""/>
+							<t:selectItems value="#{solicitacaoVeiculoBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}"/>
 						</h:selectOneMenu>
 					</dd>
 
+				</a4j:region>
+				
+				<a4j:region rendered="#{controlBean.chefeSetor or controlBean.chefeTransporte}">
+				
+					<dt>
+						<h:outputLabel value="Órgão:" for="selectUgSolicitacaoVeiculo" 	styleClass="labelNegrito"/>
+					</dt>
+					<dd>
+						<h:inputText value="#{solicitacaoVeiculoBean.orgaoSelecionado.descricao}" readonly="true" size="80" />
+					</dd>
+					
+					<dt>
+						<h:outputLabel value="Setor:" for="selectUaSolicitacaoVeiculo" 	styleClass="labelNegrito"/>
+					</dt>
+					<dd>
+						<h:inputText value="#{solicitacaoVeiculoBean.uaSelecionada.descricao}" readonly="true" size="80" />
+					</dd>
 				</a4j:region>
 
 				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.chefeTransporte or controlBean.master}">

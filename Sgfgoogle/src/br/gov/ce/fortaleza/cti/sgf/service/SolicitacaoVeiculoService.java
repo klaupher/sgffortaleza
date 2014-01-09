@@ -45,11 +45,8 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
 		try {
 			Query query = null;
-			if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado()) || SgfUtil.isCoordenador(SgfUtil.usuarioLogado())){
-				query = entityManager.createQuery("select s from SolicitacaoVeiculo s where s.solicitante.veiculo.ua.ug.id = ? and s.status = ? order by s.dataHoraSaida desc");
-			} else if(SgfUtil.isChefeTransporte(SgfUtil.usuarioLogado()) || SgfUtil.isChefeSetor(SgfUtil.usuarioLogado())){
-				query = entityManager.createQuery("select s from SolicitacaoVeiculo s where s.solicitante.pessoa.ua.ug.id = ? and s.status = ? order by s.dataHoraSaida desc");
-			}
+
+			query = entityManager.createQuery("select s from SolicitacaoVeiculo s where s.uaSolicitante.ug.id = ? and s.status = ? order by s.dataHoraSaida desc");
 			query.setParameter(1, ug.getId());
 			query.setParameter(2, status);
 			solicitacaoVeiculos = query.getResultList();

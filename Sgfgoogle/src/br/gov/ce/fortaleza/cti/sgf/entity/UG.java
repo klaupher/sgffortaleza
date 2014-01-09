@@ -58,7 +58,7 @@ public class UG implements Serializable{
 	@Column(name="flag")
 	private Integer flag;
 	
-	@OneToMany(mappedBy="ug", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="ug", fetch=FetchType.EAGER)
 	private List<UA> uas;
 	
 	@Transient

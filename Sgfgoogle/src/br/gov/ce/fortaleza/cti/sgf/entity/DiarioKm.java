@@ -34,7 +34,7 @@ public class DiarioKm implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_diario_km")
-	@SequenceGenerator(name = "seq_diario_km", sequenceName = "sgf.coddiariokm_seq", allocationSize = 1)
+	@SequenceGenerator(name = "seq_diario_km", sequenceName = "sgf.tb_diario_quilometragem_coddiariokm_seq", allocationSize = 1)
 	@Column(name="coddiariokm", nullable = false)
 	private Integer id;
 	

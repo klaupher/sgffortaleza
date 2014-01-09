@@ -94,13 +94,13 @@
 	      		onRowMouseOver="jQuery(this).addClass('trHover')" 
 	      		onRowMouseOut="jQuery(this).removeClass('trHover')" width="100%" rows="50" rowKeyVar="index">
 
-	      		<c:if test="#{veiculoBean.entitiesSize == 0}">
+	      		<c:if test="#{empty veiculoBean.entities}">
 					<rich:column>
 						<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
 					</rich:column>
 				</c:if>
 
-	      		<c:if test="#{veiculoBean.entitiesSize > 0}" >
+	      		<c:if test="#{not empty veiculoBean.entities}" >
 
 					<rich:column width="1%" style="text-align: center;" > 
 						<f:facet name="header"><h:outputText value="Nº" /></f:facet>

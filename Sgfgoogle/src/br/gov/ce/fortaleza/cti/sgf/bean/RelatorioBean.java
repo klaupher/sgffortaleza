@@ -1120,6 +1120,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	@SuppressWarnings("static-access")
 	public String consultarConsolidadoMensal() {
 
+		
 		if(this.mes != null){
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Date());
@@ -1165,7 +1166,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		
 		UG orgao 			= this.orgao != null ? this.orgao : null;
 		Posto posto			= this.posto != null ? this.posto : null;
-		hashAtendimentosUg 	= atendimentoService.findHashAbastecimentosVeiculo(orgao, posto, null, this.dtInicial, this.dtFinal);
+		hashAtendimentosUg 	= atendimentoService.findHashAbastecimentosVeiculo(orgao, null, null, this.dtInicial, this.dtFinal);
 
 
 		for (UG ug : hashAtendimentosUg.keySet()) {

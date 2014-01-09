@@ -68,6 +68,10 @@ public class SolicitacaoVeiculo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "CODVEICULOAUT")
 	private Veiculo veiculoAut;
+	
+	@ManyToOne
+	@JoinColumn(name = "CODUA")
+	private UA uaSolicitante;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DATAINI")
@@ -162,6 +166,14 @@ public class SolicitacaoVeiculo implements Serializable {
 
 	public void setVeiculo(Veiculo veiculo) {
 		this.veiculo = veiculo;
+	}
+	
+	public UA getUaSolicitante() {
+		return uaSolicitante;
+	}
+
+	public void setUaSolicitante(UA ua) {
+		this.uaSolicitante = ua;
 	}
 
 	public String getDestino() {

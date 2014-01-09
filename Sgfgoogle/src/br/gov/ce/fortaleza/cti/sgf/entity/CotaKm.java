@@ -35,7 +35,7 @@ public class CotaKm implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cota_km")
-	@SequenceGenerator(name = "seq_cota_km", sequenceName = "sgf.codcotakm_seq", allocationSize = 1)
+	@SequenceGenerator(name = "seq_cota_km", sequenceName = "sgf.tb_cota_quilometragem_codcotakm_seq", allocationSize = 1)
 	@Column(name = "codcotakm", nullable = false)
 	private Integer id;
 	

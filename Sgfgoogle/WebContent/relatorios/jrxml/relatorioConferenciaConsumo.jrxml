@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConferenciaConsumo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e22dd747-acc4-4856-9cb4-cc33c81dfa65">
 	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="343"/>
 	<property name="ireport.y" value="0"/>
 	<style name="zebrado">
 		<conditionalStyle>
@@ -243,13 +243,13 @@
 			<staticText>
 				<reportElement uuid="2d8fadf8-2481-4996-afdb-fab3bdadc10f" x="298" y="11" width="42" height="31"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Aller" size="18" isBold="true"/>
+					<font fontName="SansSerif" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SGF]]></text>
 			</staticText>
 			<image>
 				<reportElement uuid="492a9213-7f23-4be3-a7b3-47c5dec141ae" x="5" y="11" width="199" height="60"/>
-				<imageExpression><![CDATA["C:\\java\\projetos\\sgf\\WebContent\\images\\brasao-oficial.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"brasao-oficial.jpg"]]></imageExpression>
 			</image>
 			<line>
 				<reportElement uuid="72b89d57-d40c-47aa-9392-e162048b8501" x="0" y="2" width="801" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
@@ -257,16 +257,16 @@
 			<staticText>
 				<reportElement uuid="6e804ed4-9e83-43e0-85c1-30814a8bb68b" x="340" y="11" width="256" height="31"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Aller" size="18"/>
+					<font fontName="SansSerif" size="18"/>
 				</textElement>
 				<text><![CDATA[- Sistema de Gestão de Frotas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="3ff67325-3c12-4631-8a78-59c93cb81173" x="298" y="51" width="298" height="20"/>
+				<reportElement uuid="3ff67325-3c12-4631-8a78-59c93cb81173" x="324" y="51" width="246" height="20"/>
 				<textElement>
-					<font fontName="Aller" size="12"/>
+					<font fontName="SansSerif" size="12"/>
 				</textElement>
-				<text><![CDATA[Relatório de Conferência de Abastecimentos por Posto]]></text>
+				<text><![CDATA[Relatório de Conferência de Abastecimentos]]></text>
 			</staticText>
 		</band>
 	</title>
