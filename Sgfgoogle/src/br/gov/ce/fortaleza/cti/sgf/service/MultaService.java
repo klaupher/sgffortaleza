@@ -24,9 +24,26 @@ public class MultaService extends BaseService<Integer, Multa> {
 			} 
 		} else if( sid == 1){
 			if(name != null){
-				result = executeResultListQuery("findByNomeMotorista", name);
+				result = executeResultListQuery("findByNomeMotorista", "%" + name + "%");
 			}
 		}
+		return result;
+	}
+	
+	public List<Multa> findByOptions(String name, Integer sid){
+		List<Multa> result = new ArrayList<Multa>();
+		
+		if(name != null){
+			String findByType = null;
+			if(sid == 0) findByType = "findByPlacaVeiculo";
+			if(sid == 1) findByType = "findByNomeMotorista";
+			if(sid == 2) findByType = "findByCNHMotorista";
+			if(sid == 3) findByType = "findByInfracaoMotorista";
+			
+			if (findByType != null)
+				result = executeResultListQuery(findByType, "%" + name + "%");
+		}
+		
 		return result;
 	}
 

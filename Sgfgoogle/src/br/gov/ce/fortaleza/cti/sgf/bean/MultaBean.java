@@ -43,6 +43,7 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 	private String dataInfracao;
 	private Integer searchId = 0;
 	private String name;
+	private Boolean actionSearchResult = false;
 	private List<Veiculo> veiculos;
 	private List<Motorista> motoristas;
 	private UG ug;
@@ -120,6 +121,7 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 		Date start = DateUtil.adicionarOuDiminuir(end, -180*DateUtil.DAY_IN_MILLIS);
 
 		User user = SgfUtil.usuarioLogado();
+		this.actionSearchResult = false;
 
 		if(SgfUtil.isAdministrador(user)){
 
@@ -168,7 +170,7 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 		this.motoristas = new ArrayList<Motorista>();
 
 		User user = SgfUtil.usuarioLogado();
-
+		
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){
 
 			if (this.ug != null) {
@@ -185,13 +187,14 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 		return SUCCESS;
 	}
 
-	public String searchByName(){
+	public String searchByOptions(){
 
 		this.entities = new ArrayList<Multa>();
 
 		if(this.name != null && this.name.length() > 0){
+			this.actionSearchResult = true;
 
-			this.entities.addAll(service.findByVeiculoMotorista(this.name, searchId));
+			this.entities.addAll(service.findByOptions(this.name, searchId));
 		} else {
 
 			return searchSort();
@@ -243,5 +246,13 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 
 	public void setUg(UG ug) {
 		this.ug = ug;
+	}
+
+	public Boolean getActionSearchResult() {
+		return actionSearchResult;
+	}
+
+	public void setActionSearchResult(Boolean actionSearchResult) {
+		this.actionSearchResult = actionSearchResult;
 	}
 }

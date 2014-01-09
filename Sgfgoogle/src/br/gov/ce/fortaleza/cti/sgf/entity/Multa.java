@@ -24,8 +24,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "TB_MULTA", schema = "SGF")
 @NamedQueries({
-	@NamedQuery(name="Multa.findByPlacaVeiculo", query = "select m from Multa as m where m.veiculo.placa = ?"),
-	@NamedQuery(name="Multa.findByNomeMotorista", query = "select m from Multa as m where m.motorista.pessoa.nome like ?"),
+	@NamedQuery(name="Multa.findByPlacaVeiculo", query = "select m from Multa as m where m.veiculo.placa like upper(?)"),
+	@NamedQuery(name="Multa.findByNomeMotorista", query = "select m from Multa as m where m.motorista.pessoa.nome like upper(?)"),
+	@NamedQuery(name="Multa.findByInfracaoMotorista", query = "select m from Multa as m where m.infracao.descricao like upper(?)"),
+	@NamedQuery(name="Multa.findByCNHMotorista", query = "select m from Multa as m where m.motorista.cnh like upper(?)"),
 	@NamedQuery(name="Multa.findByVeiculo", query = "select m from Multa as m where m.veiculo.id = ? and m.dataCadastro between ? and ?"),
 	@NamedQuery(name="Multa.findByMotorista", query = "select m from Multa as m where m.motorista.codMotorista = ?"),
 	@NamedQuery(name="Multa.findByUG", query = "select m from Multa m where m.veiculo.ua.ug.id = ? and m.dataCadastro between ? and ?"),

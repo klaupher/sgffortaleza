@@ -28,17 +28,22 @@
 					<dd>
 						<h:panelGroup>
 					      	<h:selectOneRadio id="multas" value="#{multaBean.searchId}" style="width:50%;padding:0px"  styleClass="checkbox">
-								<f:selectItem itemLabel="Por veículo" itemValue="0"/>
-								<f:selectItem itemLabel="Por motorista" itemValue="1"/>
+								<f:selectItem itemLabel="Placa Veículo" itemValue="0"/>
+								<f:selectItem itemLabel="Nome Motorista" itemValue="1"/>
+								<f:selectItem itemLabel="CNH Motorista" itemValue="2"/>
+								<f:selectItem itemLabel="Infração" itemValue="3"/>
 							</h:selectOneRadio>
 						</h:panelGroup>
 					</dd>
 					
 					<dt></dt>
 					<dd>
-						<h:commandButton id="pesquisar"  value="Pesquisar" action="#{multaBean.searchByName}">
+						<h:commandButton id="pesquisar"  value="Pesquisar" action="#{multaBean.searchByOptions}">
 				      		<a4j:support event="onclick" reRender="dataTable"/>
 				      	</h:commandButton>
+				      	<c:if test="#{multaBean.actionSearchResult == true}" >
+				      		<h:commandButton value="Voltar" action="#{multaBean.searchSort}" />
+			      		</c:if>
 					</dd>
 				</dl>
 			</h:panelGroup>
@@ -73,12 +78,12 @@
 
 					<rich:column width="10%" sortBy="#{multa.veiculo.modelo.descricao}"> 
 						<f:facet name="header"><h:outputText value="Veiculo" /></f:facet>
-						<h:outputText value="#{multa.veiculo.placa}  #{multa.veiculo.modelo.descricao}" style="color: black;"/>
+						<h:outputText value="#{multa.veiculo.placa} - #{multa.veiculo.modelo.descricao}" style="color: black;"/>
 					</rich:column>
 
 					<rich:column width="20%" sortBy="#{multa.motorista.pessoa.nome}"> 
-						<f:facet name="header"><h:outputText value="Motorista" /></f:facet>
-						<h:outputText value="#{multa.motorista.pessoa.nome}" style="color: black;"/>
+						<f:facet name="header"><h:outputText value="Motorista | CNH" /></f:facet>
+						<h:outputText value="#{multa.motorista.pessoa.nome} - #{multa.motorista.cnh}" style="color: black;"/>
 					</rich:column>
 
 					<rich:column width="20%" sortBy="#{multa.infracao.descricao}"> 
