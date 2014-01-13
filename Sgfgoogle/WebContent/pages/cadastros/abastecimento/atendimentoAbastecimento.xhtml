@@ -36,7 +36,7 @@
 
 	         <dt><label for="ltsabast"><h:outputText value="Litros Abastecidos" /></label></dt>
 	         <dd>
-	         	<h:inputText id="ltsabast" value="#{atendimentoAbastecimentoBean.entity.quantidadeAbastecida}" size="4" maxlength="8" required="true" />
+	         	<h:inputText id="ltsabast" value="#{atendimentoAbastecimentoBean.entity.quantidadeAbastecida}" size="4" styleClass="maskDecimal" maxlength="3" required="true" />
 	         	<h:message for="ltsabast" styleClass="message"/>
 	         </dd>
 	         
