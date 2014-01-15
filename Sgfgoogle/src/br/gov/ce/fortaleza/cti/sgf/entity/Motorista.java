@@ -39,7 +39,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 	@NamedQuery(name = "Motorista.findByUGNameStatus", query = "select o from Motorista o where o.pessoa.ua.ug.id = ? and o.pessoa.nome LIKE ? and o.ativo = ?"),
 	@NamedQuery(name = "Motorista.findMotoristaByCPF", query = "select o from Motorista o where o.pessoa.cpf LIKE ?"),
 	@NamedQuery(name = "Motorista.findByUG", query = "select o from Motorista o where o.pessoa.ua.ug.id = ? order by o.pessoa.nome"),
-	@NamedQuery(name = "Motorista.findByUGStatus", query = "select o from Motorista o where o.pessoa.ua.ug.id = ? and o.ativo = ? order by o.codMotorista desc")
+	@NamedQuery(name = "Motorista.findByUGStatus", query = "select o from Motorista o where o.pessoa.ua.ug.id = ? and o.ativo = ? order by o.pessoa.nome asc")
 })
 public class Motorista implements Serializable{
 
