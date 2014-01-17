@@ -197,7 +197,6 @@ public class MotoristaBean extends EntityBean<Integer, Motorista>{
 		return SUCCESS;
 	}
 
-
 	public String searchMotoristas(){
 		User user = SgfUtil.usuarioLogado();
 		if(SgfUtil.isAdministrador(user) || SgfUtil.isCoordenador(user)){

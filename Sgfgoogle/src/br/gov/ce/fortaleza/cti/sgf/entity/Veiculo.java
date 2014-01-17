@@ -206,6 +206,18 @@ public class Veiculo implements Serializable {
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name = "TB_VEICULO_AREA", schema = "SGF", joinColumns=@JoinColumn(name="CODVEICULO"), inverseJoinColumns=@JoinColumn(name="CODAREA"))
 	private List<Area> area;
+	
+	@OneToOne
+	@JoinColumn(name="CODMOTORISTA")
+	private Motorista motorista;
+
+	public Motorista getMotorista() {
+		return motorista;
+	}
+
+	public void setMotorista(Motorista motorista) {
+		this.motorista = motorista;
+	}
 
 	public Integer getId() {
 		return this.id;

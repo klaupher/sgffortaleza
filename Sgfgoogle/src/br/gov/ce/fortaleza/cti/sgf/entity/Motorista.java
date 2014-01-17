@@ -33,6 +33,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Table(name="tb_pessoamotorista" , schema = "SGF")
 @NamedQueries({
 	@NamedQuery(name = "Motorista.findMotoristasBloqueados", query = "select object(o) from Motorista o where o.ativo = ?"),
+	@NamedQuery(name = "Motorista.findByLocadoraNaoAlocados", query = "select object(o) from Motorista o where o.tipomotorista = ?"),
 	@NamedQuery(name = "Motorista.findByStatus", query = "select o from Motorista o where o.ativo = ? order by o.codMotorista desc"),
 	@NamedQuery(name = "Motorista.findByNameStatus", query = "select o from Motorista o where o.pessoa.nome LIKE ? and o.ativo = ?"),
 	@NamedQuery(name = "Motorista.findByCpfStatus", query = "select o from Motorista o where o.pessoa.cpf = ? and o.ativo = ?"),
@@ -52,14 +53,17 @@ public class Motorista implements Serializable{
 	private Integer codMotorista;
 	
 	@Column(name = "CNH")
-	private String cnh; 
-	
+	private String cnh;
+		
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DATAVALIDADE")
 	private Date dtValidade;
 	
 	@Column(name = "CATEGORIA")
 	private String categoria;
+	
+	@Column(name = "TIPOMOTORISTA")
+	private String tipomotorista;
 	
 	@Column(name = "ATIVO")
 	private String ativo;
@@ -190,5 +194,13 @@ public class Motorista implements Serializable{
 
 	public String getStatus() {
 		return status;
+	}
+
+	public String getTipomotorista() {
+		return tipomotorista;
+	}
+
+	public void setTipomotorista(String tipomotorista) {
+		this.tipomotorista = tipomotorista;
 	}
 }

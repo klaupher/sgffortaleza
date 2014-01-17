@@ -19,10 +19,12 @@ import org.springframework.stereotype.Component;
 import br.gov.ce.fortaleza.cti.sgf.entity.Area;
 import br.gov.ce.fortaleza.cti.sgf.entity.Especie;
 import br.gov.ce.fortaleza.cti.sgf.entity.Modelo;
+import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
+import br.gov.ce.fortaleza.cti.sgf.service.MotoristaService;
 import br.gov.ce.fortaleza.cti.sgf.service.UAService;
 import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
@@ -42,6 +44,9 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	
 	@Autowired
 	private UGService ugService;
+	
+	@Autowired
+	private MotoristaService motoristaService;
 
 	private UG ug;
 	private List<UA> uas;
@@ -50,9 +55,11 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private String stringSearch = null;
 	private Area area;
 	private Boolean mostraNrPatrimonio;
+	private Boolean mostraListaMotoristas;
 	private UG ugPesquisa;
 	private String placaPesquisa;
 	private String chassiPesquisa;
+	List<Motorista> motoristasLocadora;
 	private String renavamPesquisa;
 	private String abastecimentoRadio;
 	private Date dtInicial;
@@ -77,6 +84,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setPropriedade("");
 		veiculo.setTemSeguro(0);
 		mostraNrPatrimonio = false;
+		mostraListaMotoristas = false;
 		abastecimentoRadio = "true";
 		this.stringSearch = null;
 		ugPesquisa = null;
@@ -100,6 +108,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		setIsAdministrador(SgfUtil.isAdministrador(SgfUtil.usuarioLogado()));
 		String propriedade = entity.getPropriedade();
 		mostraNrPatrimonio = setIsAdministrador(true && propriedade.equals("PMF") ? true : false);
+		mostraListaMotoristas = propriedade.equals("Locado") ? true : false;
 	}
 
 	public List<Veiculo> getVeiculos(){
@@ -118,6 +127,10 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 			result.add(new SelectItem(veiculo.getId(), veiculo.getPlaca() +" - " + veiculo.getModelo().getDescricao()));
 		}
 		return result;
+	}
+		
+	public List<Motorista> getMotoristasLocadora(){
+		return new ArrayList<Motorista>(motoristaService.findByLocadoraNaoAlocados());
 	}
 	
 	public List<SelectItem> getVeiculoPropriedade(){
@@ -321,6 +334,14 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 			items[i++] = new SelectItem(status, status.getLabel());
 		}
 		return items;
+	}
+	
+	public Boolean getMostraListaMotoristas() {
+		return mostraListaMotoristas;
+	}
+
+	public void setMostraListaMotoristas(Boolean mostraListaMotoristas) {
+		this.mostraListaMotoristas = mostraListaMotoristas;
 	}
 
 	public Boolean getMostraNrPatrimonio() {

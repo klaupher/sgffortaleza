@@ -127,6 +127,18 @@
 						  		<h:message for="dataValidadeCnh" styleClass="message"/>	
 						  	</dd>
 					  	</dl>
+					  			
+			  			<dl>
+						  	<dt><label for="categoria">Tipo de Motorista</label></dt>
+						  	<dd>
+						  		<h:selectOneMenu id="tipomotorista" value="#{motoristaBean.entity.tipomotorista}">
+						  			<f:selectItem itemLabel="Informe o Tipo" itemValue=""/>
+						  			<f:selectItem itemLabel="Terceirizado" itemValue="TERCEIRIZADO"/>
+						  			<f:selectItem itemLabel="Servidor" itemValue="SERVIDOR"/>
+						  			<f:selectItem itemLabel="Locadora" itemValue="LOCADORA"/>
+						  		</h:selectOneMenu>
+						  	</dd>
+						</dl>
 					  					
 						<dl>
 						  	<dt><label for="categoria">Categoria CNH</label></dt>

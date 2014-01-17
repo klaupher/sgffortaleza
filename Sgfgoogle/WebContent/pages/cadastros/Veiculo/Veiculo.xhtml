@@ -27,13 +27,33 @@
 						required="true" requiredMessage="Informe a Propriedade">
 						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>
 						<f:selectItems value="#{veiculoBean.proprietarioList}"/>											
-			 			<a4j:support event="onchange" action="#{veiculoBean.atualizaNrPatrimonio}" reRender="groupNrPatrimonio" ajaxSingle="true"/>
+			 			<a4j:support event="onchange" action="#{veiculoBean.atualizaNrPatrimonio}" reRender="paginaPrincipal" ajaxSingle="true"/>
 					</h:selectOneMenu>
 					<label style="color:red">*</label>
+					<a4j:status id="statusPreencherUA">
+	    			<f:facet name="start">
+	    				<h:panelGroup style="align:center;">
+	    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+		    				<h:outputText value="Processando..." styleClass="processando"/>
+						</h:panelGroup>
+					</f:facet>
+	    		</a4j:status>
 				</dd>
 				<rich:message for="propriedade" styleClass="message"/>
 			</dl>
 			
+			<h:panelGroup>
+				<dl>
+				  	<dt><label for="categoria">Motoristas</label></dt>
+				  	<dd>
+				  		<h:selectOneMenu id="motorista" value="#{veiculoBean.entity.motorista}" requiredMessage="Informe o motorista">
+				  			<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
+				  			<t:selectItems value="#{veiculoBean.motoristasLocadora}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}"/>
+				  		</h:selectOneMenu>
+				  		<rich:message for="motorista" styleClass="message"/>
+				  	</dd>
+				</dl>
+			</h:panelGroup>
 			<h:panelGroup id="groupNrPatrimonio">
 				<dl>
 					<dt><label for="numTombamento">Nr. Patrimônio</label></dt>
