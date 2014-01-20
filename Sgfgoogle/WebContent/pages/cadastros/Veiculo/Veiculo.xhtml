@@ -8,6 +8,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 
 	<div id="cadastro">
@@ -46,7 +47,7 @@
 				<dl>
 				  	<dt><label for="categoria">Motoristas</label></dt>
 				  	<dd>
-				  		<h:selectOneMenu id="motorista" value="#{veiculoBean.entity.motorista}" requiredMessage="Informe o motorista">
+				  		<h:selectOneMenu id="motorista" value="#{veiculoBean.entity.motorista}" requiredMessage="Informe o motorista" converter="entityConverter">
 				  			<f:selectItem itemLabel="Informe o motorista" itemValue=""/>
 				  			<t:selectItems value="#{veiculoBean.motoristasLocadora}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}"/>
 				  		</h:selectOneMenu>
@@ -54,17 +55,20 @@
 				  	</dd>
 				</dl>
 			</h:panelGroup>
-			<h:panelGroup id="groupNrPatrimonio">
-				<dl>
-					<dt><label for="numTombamento">Nr. Patrimônio</label></dt>
-					<dd>
-				  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" 
-				  			disabled="#{!veiculoBean.mostraNrPatrimonio}" size="10" maxlength="10">
-						</h:inputText>
-						<label style="color:red">*</label>
-					</dd>
-				</dl>	
-			</h:panelGroup>
+			
+			
+				<h:panelGroup id="groupNrPatrimonio">
+					<dl>
+						<dt><label for="numTombamento">Nr. Patrimônio</label></dt>
+						<dd>
+					  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" 
+					  			disabled="#{!veiculoBean.mostraNrPatrimonio}" size="10" maxlength="10">
+							</h:inputText>
+							<label style="color:red">*</label>
+						</dd>
+					</dl>	
+				</h:panelGroup>
+			
 			
 			<dl>
 				<dt><label for="ugVeiculo">UG</label></dt>
