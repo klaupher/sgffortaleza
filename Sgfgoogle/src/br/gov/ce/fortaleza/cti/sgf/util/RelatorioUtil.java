@@ -52,5 +52,14 @@ public class RelatorioUtil {
 		String jasperPath = jasperDir + arquivoJasper;
 		return jasperPath;
 	}
+	public String retornarJasperPathExcel(String filePropertie) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		String propFileName = JSFUtil.getInstance().getInitParameter(context,"properties_file");
+		String jasperDir = retornarJasperDir();
+		Object[] parametros = new Object[] { File.separator, File.separator,File.separator };
+		String arquivoJasper = PropertiesUtil.getInstance().getProperty(propFileName, filePropertie + ".excel", parametros);
+		String jasperPath = jasperDir + arquivoJasper;
+		return jasperPath;
+	}
 
 }

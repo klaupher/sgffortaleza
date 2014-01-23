@@ -1914,7 +1914,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	public void gerarRelatorioExcel(Map<String, Object> parametros, Collection<?> colecao, String filePropertie) 
 			throws IOException, JRException {
 		
-		String 				jasperPath 	= RelatorioUtil.getInstance().retornarJasperPath(filePropertie);
+		String 				jasperPath 	= RelatorioUtil.getInstance().retornarJasperPathExcel(filePropertie);
 		byte[] 				array 		= GeradorRelatorio.gerarExcelCollection(parametros, colecao, jasperPath);
 		HttpServletResponse res 		= JSFUtil.getInstance().getResponse(FacesContext.getCurrentInstance());
 		
