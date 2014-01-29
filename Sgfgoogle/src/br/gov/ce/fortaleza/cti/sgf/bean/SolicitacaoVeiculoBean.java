@@ -359,9 +359,10 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public String autorizarSolicitacao() {
 
-		if(this.veiculo != null){
+		if(this.entity.getVeiculo() != null){
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			this.entity.setStatus(StatusSolicitacaoVeiculo.AUTORIZADO);
+			this.entity.setUsuario(SgfUtil.usuarioLogado());
 			this.flagNegar = false;
 			return super.update();
 		} else {
@@ -566,6 +567,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public String pesquisarSolicitacoesPendentes(){
 		return pesquisarSolicitacoesPendentes(this.entity);
+	}
+	
+	public String pesquisarNomeMotorista() {
+		
+		return SUCCESS;
 	}
 
 	public List<SolicitacaoVeiculo> getSolicitacoesPendentes() {

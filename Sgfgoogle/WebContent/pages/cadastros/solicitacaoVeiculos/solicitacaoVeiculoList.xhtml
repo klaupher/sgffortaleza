@@ -145,10 +145,11 @@
 						<f:setPropertyActionListener value="#{true}" target="#{solicitacaoVeiculoBean.registrar}" />
 					</a4j:commandButton>
 
+					<!-- 
 					<a4j:commandButton value="Registrar" image="#{solicitacao.imagemURL}" rendered="#{solicitacao.status == 'FINALIZADO'}" 
 						reRender="paginaPrincipal" style="color: black; text-align:center;">
 					</a4j:commandButton>
-
+ 					-->
 					<rich:toolTip value="Clique aqui p/ AUTORIZAR A Solicitação" rendered="#{solicitacao.status == 'SOLICITADO'}"/>
 					<rich:toolTip value="Clique aqui p/ REGISTRAR A saída do veículo" rendered="#{solicitacao.status == 'AUTORIZADO'}"/>
 					<rich:toolTip value="Clique aqui p/ REGISTRAR O RETORNO do veículo" rendered="#{solicitacao.status == 'EXTERNO'}"/>
