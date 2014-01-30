@@ -360,6 +360,9 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	public String autorizarSolicitacao() {
 
 		if(this.entity.getVeiculo() != null){
+			if(this.entity.getVeiculo().getPropriedade().equals("Locado")){
+				this.entity.setMotorista(this.entity.getVeiculo().getMotorista());
+			}
 			this.entity.setAutorizador(SgfUtil.usuarioLogado());
 			this.entity.setStatus(StatusSolicitacaoVeiculo.AUTORIZADO);
 			this.entity.setUsuario(SgfUtil.usuarioLogado());
