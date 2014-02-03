@@ -474,30 +474,32 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		// TODO Auto-generated method stub
 		
 		StringBuilder sql = new StringBuilder("select distinct(v) from Veiculo v  \n");
-		boolean flag = true;
+		boolean flag;
+		
+		if(dtInicial != null) {
+			flag = true;
+	
+			sql.append("left join v.abastecimentos as a \n");
+			sql.append("with a.dataAutorizacao between :dtInicial and :dtFinal \n");
+			
+			if(abastecimento.equals("true")){
+				sql.append("and a.veiculo is not null \n");
+			}else {
+				sql.append("and a.veiculo is null \n");
+			}
+			
+		} else {
+			flag = false;
+		}
 
-		sql.append("left join v.abastecimentos as a \n");
-		sql.append("with a.dataAutorizacao between :dtInicial and :dtFinal \n");
 		sql.append("where 1=1 \n");
-		flag = false;
 
-		if(abastecimento.equals("true")){
-			sql.append("and a.veiculo is not null \n");
-		}else {
-			sql.append("and a.veiculo is null \n");
-		}
-
-		
-		if(flag){
-			sql.append("where 1=1 \n");
-		}
-		
 		if(ugPesquisa != null){
 			sql.append("and v.ua.ug.id = '"+ugPesquisa.getId()+"' \n");
 		}
 		
 		if(StringUtils.hasText(veiculo.getPlaca())){
-			sql.append("and v.placa like '%"+veiculo.getPlaca()+"%' \n");
+			sql.append("and v.placa like UPPER('%"+veiculo.getPlaca()+"%') \n");
 		}
 		if(StringUtils.hasText(veiculo.getChassi())){
 			sql.append("and v.chassi like '%"+veiculo.getChassi()+"%' \n");

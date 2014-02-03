@@ -125,6 +125,9 @@ public class Veiculo implements Serializable {
 	@Column(name = "DT_CADASTRO")
 	private Date dataCadastro;
 	
+	@Column(name = "CONTRATO", length = 50)
+	private String numeroContrato;
+	
 	@Transient
 	private Float valorTotal;
 	
@@ -154,6 +157,7 @@ public class Veiculo implements Serializable {
 	
 	@OneToOne(mappedBy = "veiculo", fetch=FetchType.LAZY)
 	private CotaKm cotaKm;
+	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE })
 	@Cascade( { org.hibernate.annotations.CascadeType.SAVE_UPDATE,	org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
@@ -591,5 +595,13 @@ public class Veiculo implements Serializable {
 
 	public void setValorFinal(Float valorFinal) {
 		this.valorFinal = valorFinal;
+	}
+	
+	public String getNumeroContrato() {
+		return numeroContrato;
+	}
+
+	public void setNumeroContrato(String numeroContrato) {
+		this.numeroContrato = numeroContrato;
 	}
 }

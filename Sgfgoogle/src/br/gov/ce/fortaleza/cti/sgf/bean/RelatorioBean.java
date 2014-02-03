@@ -137,6 +137,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private Date dtFinal;
 	private String statusAbastecimento;
 	private String statusVeiculo;
+	private String propriedade;
 
 	private final String relMotoristaPontuacao 				= "relat.motorista.pontuacao";
 	private final String relDiarioBombas 					= "relat.diario.bomba";
@@ -2198,5 +2199,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public void setStatusVeiculo(String statusVeiculo) {
 		this.statusVeiculo = statusVeiculo;
+	}
+
+	public String getPropriedade() {
+		return propriedade;
+	}
+
+	public void setPropriedade(String propriedade) {
+		this.propriedade = propriedade;
 	}
 }

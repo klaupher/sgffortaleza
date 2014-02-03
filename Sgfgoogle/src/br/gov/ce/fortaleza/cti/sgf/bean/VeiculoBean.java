@@ -65,6 +65,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private Date dtInicial;
 	private Date dtFinal;
 	private String status;
+	private String numeroContrato;
 	
 	private Boolean isAdministrador;
 	
@@ -431,6 +432,14 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getNumeroContrato() {
+		return numeroContrato;
+	}
+
+	public void setNumeroContrato(String numeroContrato) {
+		this.numeroContrato = numeroContrato;
 	}
 
 }

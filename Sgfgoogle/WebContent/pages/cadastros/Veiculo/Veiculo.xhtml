@@ -57,12 +57,24 @@
 			</h:panelGroup>
 			
 			
-				<h:panelGroup id="groupNrPatrimonio">
+				<h:panelGroup id="groupNrPatrimonio" rendered="#{veiculoBean.mostraNrPatrimonio}">
 					<dl>
 						<dt><label for="numTombamento">Nr. Patrimônio</label></dt>
 						<dd>
 					  		<h:inputText id="numeroPatrimonio" value="#{veiculoBean.entity.numeroPatrimonio}" 
 					  			disabled="#{!veiculoBean.mostraNrPatrimonio}" size="10" maxlength="10">
+							</h:inputText>
+							<label style="color:red">*</label>
+						</dd>
+					</dl>	
+				</h:panelGroup>
+				
+				<h:panelGroup id="groupNrContrato" rendered="#{!veiculoBean.mostraNrPatrimonio}">
+					<dl>
+						<dt><label for="numTombamento">Nr. do Contrato</label></dt>
+						<dd>
+					  		<h:inputText id="numeroContrato" value="#{veiculoBean.entity.numeroContrato}" 
+					  			disabled="#{veiculoBean.mostraNrPatrimonio}" size="10" maxlength="10">
 							</h:inputText>
 							<label style="color:red">*</label>
 						</dd>

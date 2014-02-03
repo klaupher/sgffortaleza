@@ -44,6 +44,15 @@
 		        		<h:message for="dtFinal" styleClass="message"/>
 					</dd>
 					
+					<dt><h:outputLabel value="Propriedade:" /></dt>
+					<dd>
+						<h:selectOneMenu id="propriedade" value="#{relatorioBean.propriedade}">
+						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>
+						<f:selectItems value="#{veiculoBean.proprietarioList}"/>											
+			 			<a4j:support event="onchange" action="#{veiculoBean.atualizaNrPatrimonio}" reRender="paginaPrincipal" ajaxSingle="true"/>
+					</h:selectOneMenu>
+					</dd>
+					
 					<dt></dt>
 					<dd>
 						<a4j:commandButton action="#{relatorioBean.consultarKilometrosRodados}" value="Consultar"
