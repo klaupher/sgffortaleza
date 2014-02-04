@@ -27,53 +27,52 @@
 		<groupHeader>
 			<band height="47">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="66829d96-3bf3-40f8-a938-304c7b9b941a" x="74" y="2" width="481" height="14"/>
-					<textElement/>
+					<reportElement x="74" y="2" width="481" height="14" uuid="66829d96-3bf3-40f8-a938-304c7b9b941a"/>
 					<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="d3a7d2fa-1c3c-4acb-9a1e-db165f0c11dc" x="0" y="2" width="75" height="14"/>
+					<reportElement x="0" y="2" width="75" height="14" uuid="d3a7d2fa-1c3c-4acb-9a1e-db165f0c11dc"/>
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
 					<text><![CDATA[Orgão:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="3bc0b23b-1a22-408a-a214-9c80d4955ced" mode="Opaque" x="0" y="18" width="75" height="14" forecolor="#FFFFFF" backcolor="#00ABA5"/>
+					<reportElement mode="Opaque" x="0" y="18" width="75" height="14" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="3bc0b23b-1a22-408a-a214-9c80d4955ced"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Placa]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="2a9e01b4-c162-4a8a-abd2-34b5974b0b32" mode="Opaque" x="418" y="18" width="137" height="14" forecolor="#FFFFFF" backcolor="#00ABA5"/>
+					<reportElement mode="Opaque" x="418" y="18" width="137" height="14" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="2a9e01b4-c162-4a8a-abd2-34b5974b0b32"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Kilometros Rodados]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="daf0c633-ad62-4148-ac4f-22107ab4b790" mode="Opaque" x="74" y="18" width="210" height="14" forecolor="#FFFFFF" backcolor="#00ABA5"/>
+					<reportElement mode="Opaque" x="74" y="18" width="210" height="14" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="daf0c633-ad62-4148-ac4f-22107ab4b790"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Modelo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="9441e26c-1e8f-4080-a697-b61cca4ef46d" mode="Opaque" x="283" y="18" width="136" height="14" forecolor="#FFFFFF" backcolor="#00ABA5"/>
+					<reportElement mode="Opaque" x="283" y="18" width="136" height="14" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="9441e26c-1e8f-4080-a697-b61cca4ef46d"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Marca]]></text>
 				</staticText>
 				<line>
-					<reportElement uuid="69f76c2e-d92c-407f-b293-b1b9168be56a" x="0" y="1" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+					<reportElement x="0" y="1" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="69f76c2e-d92c-407f-b293-b1b9168be56a"/>
 				</line>
 				<line>
-					<reportElement uuid="4264ddce-e9e9-475f-862c-d4d375703962" x="0" y="33" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+					<reportElement x="0" y="33" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="4264ddce-e9e9-475f-862c-d4d375703962"/>
 				</line>
 				<line>
-					<reportElement uuid="84cf39ee-9fcf-42ca-ac46-a158dae925b2" x="0" y="16" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+					<reportElement x="0" y="16" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="84cf39ee-9fcf-42ca-ac46-a158dae925b2"/>
 				</line>
 			</band>
 		</groupHeader>
@@ -84,24 +83,24 @@
 	<title>
 		<band height="81" splitType="Stretch">
 			<image>
-				<reportElement uuid="98ff6039-52a0-4d1b-9afd-cd220b8f8623" x="7" y="10" width="199" height="60"/>
-				<imageExpression><![CDATA["C:\\java\\projetos\\sgf\\WebContent\\images\\brasao-oficial.jpg"]]></imageExpression>
+				<reportElement x="7" y="10" width="199" height="60" uuid="98ff6039-52a0-4d1b-9afd-cd220b8f8623"/>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"brasao-oficial.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="4b58c977-436d-4f4f-af11-14d441ac33a0" x="283" y="10" width="272" height="31"/>
+				<reportElement x="283" y="10" width="272" height="31" uuid="4b58c977-436d-4f4f-af11-14d441ac33a0"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SGF - Sistema de Gestão de Frotas]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="2d45281b-ac8c-4e0e-a5ae-a1d3a77b1d7f" x="0" y="1" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+				<reportElement x="0" y="1" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="2d45281b-ac8c-4e0e-a5ae-a1d3a77b1d7f"/>
 			</line>
 			<line>
-				<reportElement uuid="9b5f57a8-b7fb-4d9d-8f11-1d1b7d46ebc5" x="0" y="79" width="554" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+				<reportElement x="0" y="79" width="554" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="9b5f57a8-b7fb-4d9d-8f11-1d1b7d46ebc5"/>
 			</line>
 			<staticText>
-				<reportElement uuid="ebdd399c-bff1-4bd5-87d4-b42f1e1e7f3d" x="284" y="50" width="271" height="20"/>
+				<reportElement x="284" y="50" width="271" height="20" uuid="ebdd399c-bff1-4bd5-87d4-b42f1e1e7f3d"/>
 				<textElement>
 					<font fontName="SansSerif" size="11"/>
 				</textElement>
@@ -112,24 +111,23 @@
 	<pageHeader>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="df69e304-65f1-49b7-819a-6b741c352a40" x="417" y="2" width="138" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="417" y="2" width="138" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="df69e304-65f1-49b7-819a-6b741c352a40"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="c88040bc-ae62-44ae-8d96-7628aaa12c49" x="0" y="2" width="75" height="14"/>
+				<reportElement x="0" y="2" width="75" height="14" uuid="c88040bc-ae62-44ae-8d96-7628aaa12c49"/>
 				<textElement>
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement uuid="1db1330f-795f-4c6c-9347-71fb7f98a538" x="74" y="2" width="344" height="14"/>
-				<textElement/>
+				<reportElement x="74" y="2" width="344" height="14" uuid="1db1330f-795f-4c6c-9347-71fb7f98a538"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement uuid="12ed5b91-b50a-4e8c-8556-6cd694b04eea" x="0" y="18" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+				<reportElement x="0" y="18" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="12ed5b91-b50a-4e8c-8556-6cd694b04eea"/>
 			</line>
 		</band>
 	</pageHeader>
@@ -139,22 +137,20 @@
 	<detail>
 		<band height="17" splitType="Stretch">
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement uuid="5a980ded-5b24-4f77-9f85-626620da89b5" style="zebrado" x="283" y="0" width="136" height="14"/>
+				<reportElement style="zebrado" x="283" y="0" width="136" height="14" uuid="5a980ded-5b24-4f77-9f85-626620da89b5"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getModelo().getMarca().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="54e62b95-a7cc-499b-b6ee-bb82036d02f0" style="zebrado" x="0" y="0" width="75" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="0" y="0" width="75" height="14" uuid="54e62b95-a7cc-499b-b6ee-bb82036d02f0"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="a7b390ed-5b98-4920-9359-a52d58b9c95c" style="zebrado" x="74" y="0" width="210" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="74" y="0" width="210" height="14" uuid="a7b390ed-5b98-4920-9359-a52d58b9c95c"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement uuid="13775103-61d4-4088-a5ff-764dd7fa14fc" style="zebrado" x="418" y="0" width="137" height="14"/>
+				<reportElement style="zebrado" x="418" y="0" width="137" height="14" uuid="13775103-61d4-4088-a5ff-764dd7fa14fc"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{kmRodados}]]></textFieldExpression>
 			</textField>
@@ -163,22 +159,22 @@
 	<pageFooter>
 		<band height="16" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="b53d7e0c-7aa3-4adc-b74f-080578deedba" x="0" y="2" width="284" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="0" y="2" width="284" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="b53d7e0c-7aa3-4adc-b74f-080578deedba"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[Relatório de Informações de Veículos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="63a41a19-cf3a-48e5-9f90-bd3584405fdc" x="283" y="2" width="136" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="283" y="2" width="136" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="63a41a19-cf3a-48e5-9f90-bd3584405fdc"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[V. 1.0]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="62325cee-c4eb-46c1-a326-117482ece69e" x="0" y="1" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5"/>
+				<reportElement x="0" y="1" width="555" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="62325cee-c4eb-46c1-a326-117482ece69e"/>
 			</line>
 			<textField>
-				<reportElement uuid="45577153-aea8-468e-89ae-2cc50a03b308" x="418" y="2" width="137" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="418" y="2" width="137" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="45577153-aea8-468e-89ae-2cc50a03b308"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
