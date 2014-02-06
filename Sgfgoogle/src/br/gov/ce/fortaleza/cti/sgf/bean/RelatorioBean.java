@@ -266,6 +266,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		setCurrentBean(currentBeanName());
 		this.entities = null;
 		this.orgao = null;
+		this.statusAbastecimento = "com";
 		return SUCCESS;
 	}
 	
@@ -1735,16 +1736,33 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		try{
 			
 			switch( relHash.containsKey(this.nomeRelatorio) ? relHash.get(this.nomeRelatorio) : -1 ) {
-			
-			case 1: {
-				
-				
-				break;
-			}
-			case 18: {
-				gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
-				break;
-			}
+				case 11: {
+					List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+
+					for (RelatorioDTO r : this.entities) {
+
+						for (RelatorioDTO rr : r.getRelatorios()) {
+
+							//rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
+							//rr.setConsumoTotal(rr.getConsumoTotal() + r.getConsumoTotal());
+
+							for (RelatorioDTO r3 : rr.getRelatorios()) {
+								r3.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
+								r3.setConsumoGasolina(r.getConsumoGasolina());
+								r3.setConsumoEtanol(r.getConsumoEtanol());
+								r3.setConsumoTotal(rr.getConsumoTotal());
+							}
+							list.addAll(rr.getRelatorios());
+						}
+					}
+					gerarRelatorioExcel(parametros, list, this.nomeRelatorio);
+					break;
+				}
+				case 18: {
+					
+					gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
+					break;
+				}
 			}
 			
 		}catch (IOException e) {
