@@ -311,8 +311,20 @@
 					</h:outputText>
 				</dd>
 				
-				<dt><h:outputLabel value="Km saída:" for="kmSaidaVolta"  styleClass="labelNegrito"/></dt>
-				<dd><h:outputText id="kmSaidaVolta" value="#{solicitacaoVeiculoBean.entity.kmSaida}"/></dd>
+				<h:panelGroup id="kmVoltaPanel" rendered="#{!controlBean.administrador}">
+					<dt><h:outputLabel value="Km saída:" for="kmSaidaVolta"  styleClass="labelNegrito"/></dt>
+					<dd><h:outputText id="kmSaidaVolta" value="#{solicitacaoVeiculoBean.entity.kmSaida}"/></dd>
+				</h:panelGroup>
+				
+				<h:panelGroup id="kmVoltaPanelAdm" rendered="#{controlBean.administrador}">
+					<dt><h:outputLabel value="Km saída:" for="kmSaida"  styleClass="labelNegrito"/></dt>
+					<dd>
+						<h:inputText id="kmSaidaVoltaAdm" value="#{solicitacaoVeiculoBean.entity.kmSaida}" required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
+						</h:inputText>	
+						<h:outputText value=" Últ. Kilometragem: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
+						<h:message for="kmSaidaVoltaAdm" styleClass="message"/>
+					</dd>
+				</h:panelGroup>
 				
 				<dt>
 					<h:outputLabel value="Hora retorno:" for="hrFinalReal" styleClass="labelNegrito"/>
@@ -396,8 +408,7 @@
 				<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 			</h:commandButton>
 			
-	  		<a4j:commandButton action="#{solicitacaoVeiculoBean.negar}" value="Negar" 
-	  			rendered="#{!solicitacaoVeiculoBean.flagNegar and (solicitacaoVeiculoBean.entity.status == 'SOLICITADO')}">
+	  		<a4j:commandButton action="#{solicitacaoVeiculoBean.negar}" value="Negar" rendered="#{!solicitacaoVeiculoBean.flagNegar and (solicitacaoVeiculoBean.entity.status == 'SOLICITADO')}">
 	  			<a4j:support event="onclick" reRender="paginaPrincipal"/>
 	  		</a4j:commandButton>
 	  		
@@ -412,9 +423,7 @@
 			<h:commandButton action="#{solicitacaoVeiculoBean.registrarRetorno}" value="Confirmar Retorno" rendered="#{solicitacaoVeiculoBean.entity.status == 'EXTERNO' and solicitacaoVeiculoBean.veiculoDesignado}"> 
 	  			<a4j:support event="onclick" reRender="paginaPrincipal"/>	
 			</h:commandButton>
-			
-			
-    	
+
     	</h:panelGroup>
 
 		<h:commandButton action="#{solicitacaoVeiculoBean.save}" value="Solicitar" rendered="#{solicitacaoVeiculoBean.saveState}">

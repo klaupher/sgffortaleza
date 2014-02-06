@@ -428,12 +428,21 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	 * @return
 	 */
 	public String registrarRetorno() {
+		
+		
 		Long kmatual = this.entity.getKmRetorno();
 		Veiculo veiculo = this.entity.getVeiculo();
 		if(veiculo.getKmAtual() != null){
-			if(kmatual < veiculo.getKmAtual()){
-				JSFUtil.getInstance().addErrorMessage("msg.error.kmatual.retorno.invalido");
-				return FAIL;
+			if(this.entity.getKmSaida() != veiculo.getKmAtual()) {
+				if(kmatual < this.entity.getKmSaida()){
+					JSFUtil.getInstance().addErrorMessage("msg.error.kmatual.retorno.invalido");
+					return FAIL;
+				}
+			} else {
+				if(kmatual < veiculo.getKmAtual()){
+					JSFUtil.getInstance().addErrorMessage("msg.error.kmatual.retorno.invalido");
+					return FAIL;
+				}
 			}
 		}
 		if(this.entity.getKmRetorno() < this.entity.getKmSaida()){
