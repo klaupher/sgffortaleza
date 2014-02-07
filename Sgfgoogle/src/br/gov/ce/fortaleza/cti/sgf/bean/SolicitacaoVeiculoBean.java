@@ -357,6 +357,11 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		return SUCCESS;
 	}
 
+	public String atualizaStatus(){
+		this.entity.setStatus(this.entity.getStatus());
+		return super.update();
+	}
+	
 	public String autorizarSolicitacao() {
 
 		if(this.entity.getVeiculo() != null){

@@ -14,8 +14,31 @@
 		<h1 style="width:250px">Solicitação de veículo</h1>
 		
 		<!-- 
-		# SOLICIATAÇÃO DO VEÍCULO
-		 -->
+		# MUDANÇA DO STATUS
+		-->
+		<t:fieldset rendered="#{controlBean.administrador and solicitacaoVeiculoBean.editState}">
+			<dt>
+				<h:outputLabel value="Status:" styleClass="labelNegrito"/>
+			</dt>
+			<dd>
+				<h:selectOneMenu id="statusSolicitacao" value="#{solicitacaoVeiculoBean.entity.status}">
+					<f:selectItem itemLabel="Solicitado" itemValue="SOLICITADO"/>
+					<f:selectItem itemLabel="Autorizado" itemValue="AUTORIZADO"/>
+					<f:selectItem itemLabel="Negado" itemValue="NEGADO"/>
+					<f:selectItem itemLabel="Externo" itemValue="EXTERNO"/>
+					<f:selectItem itemLabel="Finalizado" itemValue="FINALIZADO"/>
+					
+					<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.atualizaStatus}" reRender="paginaPrincipal" ajaxSingle="true"/>
+				</h:selectOneMenu>
+				
+			</dd>
+		</t:fieldset>
+		
+		
+		 
+		<!-- 
+		# SOLICITAÇÃO DO VEÍCULO
+		-->
 		<t:fieldset rendered="#{solicitacaoVeiculoBean.saveState}">
 			<legend><h:outputLabel value="Cadastro de solicitação de veículo"/></legend>
 			
