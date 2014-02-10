@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConsolidadoMensalConsumo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="231c93df-796c-4ad7-8682-a69d91950658">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="32"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioConsolidadoMensalConsumo" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="231c93df-796c-4ad7-8682-a69d91950658">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="zebrado">
 		<conditionalStyle>
@@ -43,7 +43,7 @@
 	<field name="kmPorLitro" class="java.lang.Float">
 		<fieldDescription><![CDATA[kmPorLitro]]></fieldDescription>
 	</field>
-	<field name="kmRodados" class="java.lang.Float">
+	<field name="kmRodados" class="java.lang.Long">
 		<fieldDescription><![CDATA[kmRodados]]></fieldDescription>
 	</field>
 	<field name="saldoCota" class="java.lang.Float">
@@ -65,122 +65,118 @@
 	<group name="Orgao" minHeightToStartNewPage="36">
 		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
 		<groupHeader>
-			<band height="59">
+			<band height="42">
 				<line>
-					<reportElement uuid="325ac82e-3586-4553-83d5-62d5e18ef6d2" x="0" y="35" width="555" height="1" forecolor="#990000"/>
+					<reportElement x="0" y="23" width="801" height="1" forecolor="#00ABA1" backcolor="#00ABA1" uuid="325ac82e-3586-4553-83d5-62d5e18ef6d2"/>
 				</line>
 				<staticText>
-					<reportElement uuid="424becac-bc7a-4694-9618-c502f1364e8e" mode="Opaque" x="285" y="37" width="55" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="459" y="25" width="85" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="424becac-bc7a-4694-9618-c502f1364e8e"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Km]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="d00b8eba-c78a-467c-9544-aa3539528d3f" mode="Opaque" x="434" y="37" width="70" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="677" y="25" width="74" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="d00b8eba-c78a-467c-9544-aa3539528d3f"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Insumo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="cf910f65-8b84-472b-a441-ec2b46f5f9cf" mode="Opaque" x="243" y="37" width="42" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="395" y="25" width="63" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="cf910f65-8b84-472b-a441-ec2b46f5f9cf"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Lts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="485f2b7a-3db4-4e24-b7d9-2fec7be756e1" mode="Opaque" x="505" y="37" width="49" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="752" y="25" width="49" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="485f2b7a-3db4-4e24-b7d9-2fec7be756e1"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Abast.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="ce3296ee-f6fa-4fbe-b8c3-f5a1a9c3f063" mode="Opaque" x="341" y="37" width="53" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="545" y="25" width="70" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="ce3296ee-f6fa-4fbe-b8c3-f5a1a9c3f063"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Km/Lts]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="b71a45e4-49b1-4ead-bb41-66da252fc093" mode="Opaque" x="0" y="37" width="62" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="0" y="25" width="62" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="b71a45e4-49b1-4ead-bb41-66da252fc093"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Placa]]></text>
 				</staticText>
 				<line>
-					<reportElement uuid="5461fdab-98b3-4f0a-9981-a46b5e50b3f4" x="0" y="52" width="555" height="1" forecolor="#990000"/>
+					<reportElement x="0" y="40" width="801" height="1" forecolor="#00ABA1" backcolor="#00ABA1" uuid="5461fdab-98b3-4f0a-9981-a46b5e50b3f4"/>
 				</line>
 				<staticText>
-					<reportElement uuid="8b713101-c298-44a7-9476-6b2984c22d5c" mode="Opaque" x="63" y="37" width="132" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="63" y="25" width="264" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="8b713101-c298-44a7-9476-6b2984c22d5c"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Modelo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="30b58730-45d6-4669-9fbd-10b570922913" mode="Opaque" x="196" y="37" width="46" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="328" y="25" width="66" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="30b58730-45d6-4669-9fbd-10b570922913"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Ano]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="a921a9ca-a8a5-400e-be2a-e52ed2075908" mode="Opaque" x="395" y="37" width="38" height="14" forecolor="#FFFFFF" backcolor="#990000"/>
+					<reportElement mode="Opaque" x="616" y="25" width="60" height="14" forecolor="#FFFFFF" backcolor="#00ABA1" uuid="a921a9ca-a8a5-400e-be2a-e52ed2075908"/>
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Saldo]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="db0f1789-f33f-4072-a0e4-885ef7eaa313" x="0" y="1" width="44" height="15"/>
+					<reportElement x="0" y="5" width="44" height="15" uuid="db0f1789-f33f-4072-a0e4-885ef7eaa313"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Orgão:]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="db0721ed-e3c1-4fde-9556-be7657588b22" x="45" y="1" width="308" height="15"/>
-					<textElement/>
+					<reportElement x="45" y="5" width="308" height="15" uuid="db0721ed-e3c1-4fde-9556-be7657588b22"/>
 					<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="43752518-0eb6-43d1-9239-72b5db789d88" x="247" y="17" width="56" height="15"/>
+					<reportElement x="489" y="5" width="56" height="15" uuid="43752518-0eb6-43d1-9239-72b5db789d88"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Gasol(L):]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="f2ad534b-4b6c-4843-a012-b341c4f05245" x="303" y="17" width="40" height="15"/>
-					<textElement/>
+					<reportElement x="545" y="5" width="40" height="15" uuid="f2ad534b-4b6c-4843-a012-b341c4f05245"/>
 					<textFieldExpression><![CDATA[$F{consumoGasolina}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="42472a70-d20c-42ff-99a0-a5c0fa77cb78" x="344" y="17" width="64" height="15"/>
+					<reportElement x="586" y="5" width="64" height="15" uuid="42472a70-d20c-42ff-99a0-a5c0fa77cb78"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Etanol(L):]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="809a4a35-32b3-4a87-90e8-1b706368925b" x="408" y="17" width="41" height="15"/>
-					<textElement/>
+					<reportElement x="650" y="5" width="41" height="15" uuid="809a4a35-32b3-4a87-90e8-1b706368925b"/>
 					<textFieldExpression><![CDATA[$F{consumoEtanol}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="ce189732-3f38-4a63-b314-4ec13f59fbbb" x="449" y="17" width="64" height="15"/>
+					<reportElement x="691" y="5" width="64" height="15" uuid="ce189732-3f38-4a63-b314-4ec13f59fbbb"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Diesel(L):]]></text>
 				</staticText>
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="bdfbbf33-4677-4def-94b5-01a72d67bed4" x="514" y="17" width="41" height="15"/>
-					<textElement/>
+					<reportElement x="756" y="5" width="41" height="15" uuid="bdfbbf33-4677-4def-94b5-01a72d67bed4"/>
 					<textFieldExpression><![CDATA[$F{consumoDiesel}]]></textFieldExpression>
 				</textField>
 			</band>
@@ -188,24 +184,24 @@
 		<groupFooter>
 			<band height="19">
 				<textField isBlankWhenNull="true">
-					<reportElement uuid="e56c6f45-6843-4215-8e6e-4dd070ffc627" x="502" y="2" width="52" height="15"/>
+					<reportElement x="748" y="2" width="52" height="15" uuid="e56c6f45-6843-4215-8e6e-4dd070ffc627"/>
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="7eed5ea3-d0a6-4583-b727-e87f5afd31ce" x="449" y="2" width="53" height="15"/>
+					<reportElement x="695" y="2" width="53" height="15" uuid="7eed5ea3-d0a6-4583-b727-e87f5afd31ce"/>
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Total(L):]]></text>
 				</staticText>
 				<line>
-					<reportElement uuid="252bf123-62d5-4e09-b019-e9ad48bac4be" x="0" y="17" width="555" height="1" forecolor="#990000"/>
+					<reportElement x="0" y="17" width="801" height="1" forecolor="#00ABA1" uuid="252bf123-62d5-4e09-b019-e9ad48bac4be"/>
 				</line>
 				<line>
-					<reportElement uuid="137abb1c-68e5-469c-a7ce-267538d2181b" x="0" y="0" width="555" height="1" forecolor="#990000"/>
+					<reportElement x="0" y="0" width="801" height="1" forecolor="#00ABA1" backcolor="#00ABA1" uuid="137abb1c-68e5-469c-a7ce-267538d2181b"/>
 				</line>
 			</band>
 		</groupFooter>
@@ -214,120 +210,103 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="82" splitType="Stretch">
+		<band height="84" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="801" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="3017530c-e805-4b32-b413-69a00e0186b4"/>
+			</line>
+			<staticText>
+				<reportElement x="305" y="51" width="311" height="20" uuid="b259a040-32d9-46ab-a370-24f9a7330ae5"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<text><![CDATA[Relatório de Conferência de Abastecimentos por Posto]]></text>
+			</staticText>
 			<image>
-				<reportElement uuid="42b53777-8e9a-4af2-8799-0a01f8eb5a3c" x="0" y="4" width="220" height="75" forecolor="#000000" backcolor="#FFFFFF"/>
-				<imageExpression><![CDATA[$P{IMAGEM_URI}+"fortaleza-bela.gif"]]></imageExpression>
+				<reportElement x="7" y="10" width="199" height="60" uuid="48e43c46-15eb-4225-8bd4-72d00f635bad"/>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"brasao-oficial.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="40babb1e-6e8c-4a56-9799-6120905029e1" x="222" y="4" width="305" height="33" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement markup="none">
-					<font fontName="Verdana" size="19"/>
+				<reportElement x="352" y="11" width="256" height="31" uuid="5dbd6d5d-678e-4ae3-a3f2-5f120db441a0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18"/>
 				</textElement>
-				<text><![CDATA[Sistema de Gestão de Frotas]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="ec59c4b8-63ff-4181-90f8-a8fba0f92167" x="222" y="37" width="195" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement>
-					<font fontName="Verdana"/>
-				</textElement>
-				<text><![CDATA[Prefeitura Municipal de Fortaleza]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="f4af6694-b246-47b3-b234-4afeafd14876" x="222" y="59" width="305" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement>
-					<font fontName="Verdana"/>
-				</textElement>
-				<text><![CDATA[Relatório Consolidado Mensal de Consumo de Combustível]]></text>
+				<text><![CDATA[- Sistema de Gestão de Frotas]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="e8af482a-77f8-49c3-ba43-b9eefab91a18" x="0" y="80" width="555" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
+				<reportElement x="0" y="81" width="801" height="1" forecolor="#00ABA5" backcolor="#00ABA5" uuid="a7a53b9b-230d-44f8-a0b3-f126496c064f"/>
 			</line>
-			<line>
-				<reportElement uuid="567f00df-9be0-47e3-a2e1-0a434c53ff41" x="0" y="0" width="555" height="1" forecolor="#990000" backcolor="#FFFFFF"/>
-				<graphicElement>
-					<pen lineWidth="3.0"/>
-				</graphicElement>
-			</line>
+			<staticText>
+				<reportElement x="310" y="11" width="42" height="31" uuid="7829386d-a376-420f-9a08-de9a333aed95"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SGF]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="17" splitType="Stretch">
+		<band height="25" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement uuid="40fac0f0-81c1-4d87-9818-f250fe4f943b" x="515" y="0" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement/>
+				<reportElement x="757" y="5" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="40fac0f0-81c1-4d87-9818-f250fe4f943b"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="b7eee549-2be6-4880-aafd-066177c555b0" x="435" y="0" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="677" y="5" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="b7eee549-2be6-4880-aafd-066177c555b0"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
-			<line>
-				<reportElement uuid="30f21f9e-4b42-4cec-8f3a-a13d71e1870a" x="0" y="15" width="555" height="1" forecolor="#990000"/>
-			</line>
 			<staticText>
-				<reportElement uuid="fd3de06f-3dc7-4c95-96f6-10aaa647fac8" x="0" y="0" width="44" height="15"/>
+				<reportElement x="0" y="3" width="44" height="15" uuid="fd3de06f-3dc7-4c95-96f6-10aaa647fac8"/>
 				<textElement>
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement uuid="65bcefe7-fc39-4d3d-a672-ce74124341f5" x="45" y="0" width="86" height="14"/>
-				<textElement/>
+				<reportElement x="45" y="4" width="86" height="14" uuid="65bcefe7-fc39-4d3d-a672-ce74124341f5"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="2" splitType="Stretch"/>
+		<band height="1" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="14" splitType="Stretch">
+		<band height="17" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="2fe27338-3aec-4230-a37d-d26b04495ab1" style="zebrado" x="0" y="0" width="62" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="0" y="0" width="62" height="14" uuid="2fe27338-3aec-4230-a37d-d26b04495ab1"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="877320d8-2449-46f3-bc13-45621a542ba3" style="zebrado" x="63" y="0" width="132" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="63" y="0" width="264" height="14" uuid="877320d8-2449-46f3-bc13-45621a542ba3"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement uuid="938ef1bc-6e29-41fb-a793-0fb802490626" style="zebrado" x="195" y="0" width="47" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="328" y="0" width="66" height="14" uuid="938ef1bc-6e29-41fb-a793-0fb802490626"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getAnoModelo()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement uuid="47cfa5c6-9640-49fd-8d4e-00740144e30d" style="zebrado" x="243" y="0" width="42" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="395" y="0" width="63" height="14" uuid="47cfa5c6-9640-49fd-8d4e-00740144e30d"/>
 				<textFieldExpression><![CDATA[$F{consumo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement uuid="c17cb068-609e-45d2-9107-3f5e50c6f4b8" style="zebrado" x="341" y="0" width="53" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="545" y="0" width="70" height="14" uuid="c17cb068-609e-45d2-9107-3f5e50c6f4b8"/>
 				<textFieldExpression><![CDATA[$F{kmPorLitro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement uuid="feae86b0-72fc-4138-8009-b9b8fc2fdf0a" style="zebrado" x="285" y="0" width="56" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="459" y="0" width="85" height="14" uuid="feae86b0-72fc-4138-8009-b9b8fc2fdf0a"/>
 				<textFieldExpression><![CDATA[$F{kmRodados}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement uuid="30649d88-54cc-4227-a579-3c8a544cc558" style="zebrado" x="395" y="0" width="38" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="616" y="0" width="60" height="14" uuid="30649d88-54cc-4227-a579-3c8a544cc558"/>
 				<textFieldExpression><![CDATA[$F{saldoCota}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement uuid="576ce7b1-e041-4bdc-9320-d75aa226b07f" style="zebrado" x="434" y="0" width="70" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="677" y="0" width="74" height="14" uuid="576ce7b1-e041-4bdc-9320-d75aa226b07f"/>
 				<textFieldExpression><![CDATA[$F{veiculo}.getCombustivel()]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
-				<reportElement uuid="65e9a991-bb73-45e7-98b2-608f3eba6cde" style="zebrado" x="505" y="0" width="49" height="14"/>
-				<textElement/>
+				<reportElement style="zebrado" x="752" y="0" width="49" height="14" uuid="65e9a991-bb73-45e7-98b2-608f3eba6cde"/>
 				<textFieldExpression><![CDATA[$F{numeroAbastecimentos}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -338,29 +317,28 @@
 	<pageFooter>
 		<band height="18" splitType="Stretch">
 			<textField evaluationTime="Report">
-				<reportElement uuid="b2270d14-9c1c-47c0-a95d-d53bff7d3cdb" x="515" y="3" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
-				<textElement/>
+				<reportElement x="760" y="3" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="b2270d14-9c1c-47c0-a95d-d53bff7d3cdb"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="580b7616-2a43-4c98-ab54-4ed1b88b5cfd" x="0" y="3" width="275" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="0" y="3" width="275" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="580b7616-2a43-4c98-ab54-4ed1b88b5cfd"/>
 				<textElement>
 					<font isBold="false"/>
 				</textElement>
 				<text><![CDATA[Consolidado Mensal de Consumo de Combustível]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="3d997832-3bde-43f0-bba7-f53f2c0735ea" x="435" y="3" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="680" y="3" width="80" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="3d997832-3bde-43f0-bba7-f53f2c0735ea"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="0f72d94e-05bf-4d27-8b43-433b69548f40" x="279" y="3" width="49" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement x="421" y="3" width="49" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="0f72d94e-05bf-4d27-8b43-433b69548f40"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[V. 1.0]]></text>
 			</staticText>
 			<line>
-				<reportElement uuid="bf1ab30f-561f-49dc-9d32-691aedf54cb0" x="0" y="0" width="555" height="1" forecolor="#660000" backcolor="#FFFFFF"/>
+				<reportElement x="0" y="0" width="801" height="1" forecolor="#003333" backcolor="#FFFFFF" uuid="bf1ab30f-561f-49dc-9d32-691aedf54cb0"/>
 			</line>
 		</band>
 	</pageFooter>
