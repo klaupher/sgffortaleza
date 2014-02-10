@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioAbastecimentoPostoExcel" pageWidth="780" pageHeight="802" columnWidth="780" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a12a6c00-c4e1-4f08-bf91-bb9e91e42f8a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IMAGEM_URI" class="java.lang.String"/>
+	<field name="orgao" class="br.gov.ce.fortaleza.cti.sgf.entity.UG">
+		<fieldDescription><![CDATA[orgao]]></fieldDescription>
+	</field>
+	<field name="atendimento" class="br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento">
+		<fieldDescription><![CDATA[atendimento]]></fieldDescription>
+	</field>
+	<field name="veiculo" class="br.gov.ce.fortaleza.cti.sgf.entity.Veiculo">
+		<fieldDescription><![CDATA[veiculo]]></fieldDescription>
+	</field>
+	<field name="cota" class="java.lang.Float">
+		<fieldDescription><![CDATA[cota]]></fieldDescription>
+	</field>
+	<field name="consumoCombustivelOrgao" class="java.lang.Float">
+		<fieldDescription><![CDATA[consumoCombustivelOrgao]]></fieldDescription>
+	</field>
+	<field name="consumoVeiculo" class="java.lang.Float">
+		<fieldDescription><![CDATA[consumoVeiculo]]></fieldDescription>
+	</field>
+	<field name="abastecimento" class="br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento">
+		<fieldDescription><![CDATA[abastecimento]]></fieldDescription>
+	</field>
+	<field name="dataAtendimento" class="java.lang.String">
+		<fieldDescription><![CDATA[dataAtendimento]]></fieldDescription>
+	</field>
+	<field name="horaAtendimento" class="java.lang.String">
+		<fieldDescription><![CDATA[horaAtendimento]]></fieldDescription>
+	</field>
+	<field name="consumo" class="java.lang.Float">
+		<fieldDescription><![CDATA[consumo]]></fieldDescription>
+	</field>
+	<field name="saldoCota" class="java.lang.Float">
+		<fieldDescription><![CDATA[saldoCota]]></fieldDescription>
+	</field>
+	<field name="kmAtual" class="java.lang.Integer">
+		<fieldDescription><![CDATA[kmAtual]]></fieldDescription>
+	</field>
+	<group name="Veiculos">
+		<groupExpression><![CDATA[$F{veiculo}]]></groupExpression>
+		<groupHeader>
+			<band height="77">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="53" width="186" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="e3f30bd7-5435-44ea-a526-20d567c20d14"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Motorista]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="620" y="53" width="160" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="d9cd8f42-91f9-4cd7-83ee-964375b764b3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Operador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="434" y="53" width="62" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="7353b1f2-6e01-4be7-99b3-dd85993fe50d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Litros]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="186" y="53" width="124" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="4f6562be-4f6c-49b5-9e83-718daaafdf6e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Autorizador]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="496" y="53" width="62" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="84941eb9-9385-4f71-864f-76c7722036a6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Saldo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="372" y="53" width="62" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="f2ec123a-83b2-4f08-95e1-3c797be69f0f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Hora]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="558" y="53" width="62" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="8b20b667-df68-4330-9dfa-1e03deaf3056"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Km]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="310" y="53" width="62" height="24" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="3857d561-351f-4f83-881b-2fbbdcfd218f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Verdana" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="62" y="33" width="124" height="20" backcolor="#C0C0C0" uuid="95e08f98-2cf1-4ca6-8f68-efaa04705afd"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="186" y="33" width="124" height="20" backcolor="#C0C0C0" uuid="3e81230c-7887-4efc-bda8-93464620af4d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Cota do veículo:]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="558" y="33" width="222" height="20" backcolor="#C0C0C0" uuid="96a1027a-7a9d-4626-bcf6-001485278332"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{consumoVeiculo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="33" width="62" height="20" backcolor="#C0C0C0" uuid="9f65e22d-e7a5-49bf-8026-5295660bbc51"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Veículo:]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="310" y="33" width="124" height="20" backcolor="#C0C0C0" uuid="c5310cd0-b2e0-4c58-8e08-7ea76c71e424"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cota}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="434" y="33" width="124" height="20" backcolor="#C0C0C0" uuid="16fe83e3-c6b0-41c3-89be-80c341ef315e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Consumo do Veículo:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="780" height="20" uuid="38a237d1-4c30-44b2-a232-1c2942cefb1a"/>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="140" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="62" y="60" width="372" height="20" uuid="2e8d6d9f-68cd-4e47-8770-7af23c4aa551"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="60" width="62" height="20" uuid="2ce34284-035a-419b-b39b-2e4b9641505c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="434" y="40" width="346" height="20" uuid="e323ff8b-e733-4da9-9c63-e9adf54935cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Relatório de Abastecimento por Posto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="434" y="0" width="346" height="40" uuid="dfb6db68-1f95-445f-8bbb-80b7df1bce3e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema de Gestão de Frotas]]></text>
+			</staticText>
+			<image>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="310" height="60" uuid="04ce664f-be55-4a39-90b7-4a9f54400dac"/>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"brasao-oficial.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="434" y="60" width="124" height="20" uuid="f5c56db8-fa59-40da-8598-b9f7bf6879ff"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Órgão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="558" y="60" width="222" height="20" uuid="09ad4505-dd91-48a7-8f98-29e77c5e7b81"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="80" width="62" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="ddb988af-f164-416a-819d-14781ff4431c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Posto:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="62" y="80" width="718" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="f83c1766-ee0d-4b55-bb74-c332464713e0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{atendimento}.getBomba().getPosto().getDescricao()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="100" width="62" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="1cc18a82-a47b-4795-9605-9d9a26f2b986"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Órgão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="62" y="100" width="248" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="ce8cc63d-7f36-4936-9114-ca9e8554de0f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="558" y="100" width="222" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="b0404c69-a588-4793-978e-7fb6a39ad6ae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{consumoCombustivelOrgao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="310" y="100" width="248" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="16c0ae96-4419-425b-8de1-0d56b2ebd469"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Consumo do Órgão:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="120" width="780" height="20" uuid="39d8b951-52b8-4a2d-9a2e-11a9f90c429d"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="186" height="20" uuid="444eb1e7-a92e-4f66-b2a6-45c900b6bfa8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{abastecimento}.getMotorista().getPessoa().getNome()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="0" width="124" height="20" uuid="5a4b76cc-bcbf-46f7-bc41-9e52eb9e7ece"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{abastecimento}.getAutorizador().getPessoa().getNome()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyy">
+				<reportElement x="310" y="0" width="62" height="20" uuid="1be66b35-aebf-401f-8703-55f0b4dccf06"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataAtendimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="372" y="0" width="62" height="20" uuid="34db6714-55e0-4608-9c0e-65c78b7640ef"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{horaAtendimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="0" width="62" height="20" uuid="6be95244-4bf7-45f5-9093-ff2c716410b1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{consumo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="496" y="0" width="62" height="20" uuid="cf8f0770-61ec-4979-965d-ba77e63d79b3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldoCota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="558" y="0" width="62" height="20" uuid="0aba6129-f51f-463f-8644-f6d7f9acbe2b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kmAtual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="620" y="0" width="160" height="20" uuid="f7d92f9d-e4dc-460e-a7a4-90638d2518d1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{atendimento}.getUsuario().getPessoa().getNome()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

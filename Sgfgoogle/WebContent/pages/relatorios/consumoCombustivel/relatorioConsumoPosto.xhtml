@@ -188,6 +188,12 @@
 				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
 					<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal" />
 				</h:commandLink>
+				
+				<rich:spacer width="40"/>
+				 
+				<h:commandLink action="#{relatorioBean.gerarExcel}" value="Gerar Excel" target="blank">
+	    			<a4j:support event="onclick" status="gerarExcel" reRender="paginaPrincipal"/>
+				</h:commandLink>
 
 			</h:panelGroup>
 

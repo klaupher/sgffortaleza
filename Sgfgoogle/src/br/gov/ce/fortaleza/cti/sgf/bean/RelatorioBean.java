@@ -1758,6 +1758,28 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					gerarRelatorioExcel(parametros, list, this.nomeRelatorio);
 					break;
 				}
+				case 12: {
+					List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+					for (RelatorioDTO r : this.entities) { // posto
+
+						for (RelatorioDTO rr : r.getRelatorios()) { //orgaos
+							for(RelatorioDTO r3 : rr.getRelatorios()) { // veiculos
+								for(RelatorioDTO r4 : r3.getRelatorios()) {
+									r4.setPosto(r.getPosto());
+									r4.setConsumoPosto(r.getConsumo());
+									r4.setConsumoCombustivelOrgao(rr.getConsumoCombustivelOrgao());
+									r4.setConsumoGasolina(rr.getConsumoGasolina());
+									r4.setConsumoEtanol(rr.getConsumoEtanol());
+									r4.setConsumoDiesel(rr.getConsumoDiesel());
+								}
+								list.addAll(r3.getRelatorios());
+							}
+						}
+						//list.addAll(r.getRelatorios());
+					}
+					gerarRelatorioExcel(parametros, list, this.nomeRelatorio);
+					break;
+				}
 				case 18: {
 					
 					gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
