@@ -255,7 +255,16 @@
 					</h:selectOneRadio>
 				</dd>
 			</dl>
-
+			
+			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
+				<dl>
+				  	<dt><label for="cor">Km Atual</label></dt>
+				  	<dd>
+				  		<h:inputText id="kmAtual" value="#{veiculoBean.entity.kmAtual}" disabled="#{!controlBean.administrador}" size="15" />
+				  	</dd>
+				</dl>
+			</a4j:region>
+			
 			<dl>
 				<dt><label for="dataCadastro">Data cadastro</label></dt>
 				<dd><h:inputText id="dataCadastro" value="#{veiculoBean.entity.dataCadastro}" disabled="true" maxlength="50" size="20">
