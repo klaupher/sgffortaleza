@@ -496,6 +496,10 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		if(ugPesquisa != null){
 			sql.append("and v.ua.ug.id = '"+ugPesquisa.getId()+"' \n");
 		}
+
+		if(StringUtils.hasText(veiculo.getPropriedade())){
+			sql.append("and v.propriedade = '"+veiculo.getPropriedade()+"' \n");
+		}
 		
 		if(StringUtils.hasText(veiculo.getPlaca())){
 			sql.append("and v.placa like UPPER('%"+veiculo.getPlaca()+"%') \n");

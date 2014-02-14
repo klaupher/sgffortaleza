@@ -22,7 +22,15 @@
 		<fieldset>
 			<legend>Pesquisa</legend>
 			<dl>
-			
+
+				<dt><label>Propriedade</label></dt>
+				<dd>
+					<h:selectOneMenu id="propriedadePesquisa" value="#{veiculoBean.propriedadePesquisa}">
+						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>
+						<f:selectItems value="#{veiculoBean.proprietarioList}"/>											
+					</h:selectOneMenu>
+				</dd>
+				
 				<dt><label>UG:</label></dt>
 				<dd>
 					<h:selectOneMenu id="ugPesquisa" value="#{veiculoBean.ugPesquisa}" style="width:420px" converter="entityConverter">

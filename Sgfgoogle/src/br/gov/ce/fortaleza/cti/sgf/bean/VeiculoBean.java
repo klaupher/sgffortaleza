@@ -57,6 +57,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private Boolean mostraNrPatrimonio;
 	private Boolean mostraListaMotoristas;
 	private UG ugPesquisa;
+	private String propriedadePesquisa;
 	private String placaPesquisa;
 	private String chassiPesquisa;
 	List<Motorista> motoristasLocadora;
@@ -92,7 +93,8 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		ugPesquisa = null;
 		placaPesquisa = null;
 		chassiPesquisa = null;
-		renavamPesquisa = null;		
+		renavamPesquisa = null;
+		propriedadePesquisa = null;
 		dtInicial = null;
 		dtFinal = null;
 		return veiculo;
@@ -191,6 +193,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		veiculo.setPlaca(placaPesquisa);
 		veiculo.setChassi(chassiPesquisa);
 		veiculo.setRenavam(renavamPesquisa);
+		veiculo.setPropriedade(propriedadePesquisa);
 		
 		if(this.status != null) {
 			if(this.status.equals("Ativo")) {
@@ -379,6 +382,14 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		this.chassiPesquisa = chassiPesquisa;
 	}
 
+	public String getPropriedadePesquisa() {
+		return propriedadePesquisa;
+	}
+
+	public void setPropriedadePesquisa(String propriedadePesquisa) {
+		this.propriedadePesquisa = propriedadePesquisa;
+	}
+	
 	public String getRenavamPesquisa() {
 		return renavamPesquisa;
 	}
