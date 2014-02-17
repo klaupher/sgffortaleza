@@ -138,6 +138,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private String statusAbastecimento;
 	private String statusVeiculo;
 	private String propriedade;
+	private Double saldo;
+	private String contrato;
 
 	private final String relMotoristaPontuacao 				= "relat.motorista.pontuacao";
 	private final String relDiarioBombas 					= "relat.diario.bomba";
@@ -937,7 +939,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					item.setSaldoFinal(cota - total);
 					item.setDataAtendimento(DateUtil.parseAsString("dd/MM/yyyy", atendimento.getData()));
 					item.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHoraAtendimento()));
-					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
+					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0L);
 					relatorioVeiculo.setConsumoTotal(relatorioVeiculo.getConsumoTotal() + item.getConsumo());
 					relatorioVeiculo.getRelatorios().add(item);
 				}
@@ -1075,7 +1077,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					item.setSaldoFinal(cota - total);
 					item.setDataAtendimento(DateUtil.parseAsString("dd/MM/yyyy", atendimento.getData()));
 					item.setHoraAtendimento(DateUtil.parseAsString("HH:mm", atendimento.getHoraAtendimento()));
-					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0);
+					item.setKmAtual(atendimento.getQuilometragem() != null ? atendimento.getQuilometragem().intValue() : 0L);
 					relatorioVeiculo.setConsumoTotal(relatorioVeiculo.getConsumoTotal() + item.getConsumo());
 					relatorioVeiculo.getRelatorios().add(item);
 				}
@@ -1618,88 +1620,101 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities 			= new ArrayList<RelatorioDTO>();
 		this.result 			= new ArrayList<RelatorioDTO>();
 		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		
+		calendar.set(Calendar.YEAR, this.ano);
+		calendar.set(Calendar.MONTH, this.mes);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
+
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
+		this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
+		
+		Map<UG, Map<Veiculo, Object[]>> mapsKm 	= new HashMap<UG, Map<Veiculo, Object[]>>();
+		this.saldo				= 0D;
+		
 		if(this.orgao != null) {
-			RelatorioDTO relatorio 	= new RelatorioDTO();
-			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-			Map<Veiculo, Long> mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
-			relatorio.setOrgao(this.orgao);
-			
-			if(mapKilometragem.size() > 0) {
-				for (Veiculo v  : mapKilometragem.keySet()) {
-					RelatorioDTO dto = new RelatorioDTO();
-					dto.setVeiculo(v);
-					dto.setOrgao(orgao);
-					dto.setKmRodados((mapKilometragem.get(v)));
-					this.result.add(dto);
-					relatorio.getRelatorios().add(dto);
-				}
-				this.entities.add(relatorio);
+
+			Map<Veiculo, Object[]> mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
+			if(mapKilometragem.size() > 0){
+				mapsKm.put(this.orgao, mapKilometragem);
 			}
-			
+
 		} else {
 			
 			this.orgaos = ugService.retrieveAll();
 			if(this.orgaos.size() > 0) {
 				for(UG ug : this.orgaos) {
-					RelatorioDTO relatorio 	= new RelatorioDTO();
-					relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-					relatorio.setOrgao(ug);
-					Map<Veiculo, Long> mapKilometragem = solicitacaoService.mapKilometragem(ug, dtInicial, dtFinal);
-					
-					if(mapKilometragem.size() > 0) {
-						for (Veiculo v  : mapKilometragem.keySet()) {
-							RelatorioDTO dto = new RelatorioDTO();
-							dto.setVeiculo(v);
-							dto.setOrgao(orgao);
-							dto.setKmRodados((mapKilometragem.get(v)));
-							this.result.add(dto);
-							relatorio.getRelatorios().add(dto);
-						}
-						this.entities.add(relatorio);
+
+					Map<Veiculo, Object[]> mapKilometragem = solicitacaoService.mapKilometragem(ug, dtInicial, dtFinal);
+					if(mapKilometragem.size() > 0){
+						mapsKm.put(ug, mapKilometragem);
 					}
 				}
 			}
 		}
-		
-		
-//		if(this.orgao != null){
-//			RelatorioDTO relatorio = new RelatorioDTO();
-//			relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-//			relatorio.setOrgao(this.orgao);
-//			mapKilometragem = solicitacaoService.mapKilometragem(this.orgao, dtInicial, dtFinal);
-//			if(mapKilometragem.size() > 0){
-//				for (Veiculo v  : mapKilometragem.keySet()) {
-//					RelatorioDTO dto = new RelatorioDTO();
-//					dto.setVeiculo(v);
-//					dto.setOrgao(orgao);
-//					dto.setKmRodados(mapKilometragem.get(v));
-//					this.result.add(dto);
-//					relatorio.getRelatorios().add(dto);
-//				}
-//				this.entities.add(relatorio);
-//			}
-//		} else {
-//			this.orgaos = ugService.retrieveAll();
-//			if(this.orgaos.size() > 0){
-//				for (UG ug : this.orgaos) {
-//					RelatorioDTO relatorio = new RelatorioDTO();
-//					relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
-//					relatorio.setOrgao(ug);
-//					mapKilometragem = solicitacaoService.mapKilometragem(ug, dtInicial, dtFinal);
-//					if(mapKilometragem.size() > 0){
-//						for (Veiculo v  : mapKilometragem.keySet()) {
-//							RelatorioDTO dto = new RelatorioDTO();
-//							dto.setVeiculo(v);
-//							dto.setOrgao(ug);
-//							dto.setKmRodados(mapKilometragem.get(v));
-//							this.result.add(dto);
-//							relatorio.getRelatorios().add(dto);
-//						}
-//						this.entities.add(relatorio);
-//					}
-//				}
-//			}
-//		}
+			
+		if(mapsKm.size() > 0) {
+			
+			for (UG orgao  : mapsKm.keySet()) {
+				this.saldo				= 0D;
+				RelatorioDTO relatorio 	= new RelatorioDTO();
+				relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+				relatorio.setOrgao(orgao);
+				
+				Map<Veiculo, Object[]> mapKmRodados = mapsKm.get(orgao);
+				if(mapKmRodados.size() > 0) {
+					
+					for (Veiculo v  : mapKmRodados.keySet()) {
+						
+						if(v.getPropriedade().equals(this.propriedade)) {
+							
+							RelatorioDTO dto = new RelatorioDTO();
+							dto.setVeiculo(v);
+							dto.setOrgao(orgao);
+							
+							Object[] array 	= (Object[]) mapKmRodados.get(v);
+							Long kmMax 		= (Long) array[1];
+							Long kmMin 		= (Long) array[2];
+							Long kmRodados 	= kmMax - kmMin;
+							
+							dto.setKmInicial(kmMin);
+							dto.setKmAtual(kmMax);
+							dto.setKmRodados(kmRodados);
+							
+							if(v.getCotaKm() != null) {
+								Double cotaSoma = v.getCotaKm().getCotaKm() - kmRodados;
+								dto.setCotaSoma(cotaSoma);
+								
+								if(cotaSoma < 0) {
+									this.saldo += cotaSoma;
+								}
+							}
+							dto.setSaldoCotaKm(this.saldo);
+							if(!this.contrato.isEmpty()){
+								if(this.contrato.equals(v.getNumeroContrato())){
+									relatorio.setSaldoCotaKm(this.saldo);
+									this.result.add(dto);
+									relatorio.getRelatorios().add(dto);
+								}
+							}else {
+								relatorio.setSaldoCotaKm(this.saldo);
+								this.result.add(dto);
+								relatorio.getRelatorios().add(dto);
+							}
+						}
+					}
+					
+					for (RelatorioDTO repairSaldoKm : relatorio.getRelatorios()) {
+						repairSaldoKm.setSaldoCotaKm(this.saldo);
+					}
+					
+					this.entities.add(relatorio);
+				}
+			}
+		}
+
 		return SUCCESS;
 	}
 
@@ -2247,5 +2262,21 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public void setPropriedade(String propriedade) {
 		this.propriedade = propriedade;
+	}
+
+	public Double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
+	}
+
+	public String getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(String contrato) {
+		this.contrato = contrato;
 	}
 }

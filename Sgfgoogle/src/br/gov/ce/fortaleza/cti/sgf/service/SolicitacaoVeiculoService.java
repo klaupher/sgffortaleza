@@ -95,8 +95,8 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "unused" })
-	public Map<Veiculo, Long>  mapKilometragem(UG ug, Date begin, Date end){
-		Map<Veiculo, Long> result = new HashMap<Veiculo, Long>();
+	public Map<Veiculo, Object[]>  mapKilometragem(UG ug, Date begin, Date end){
+		Map<Veiculo, Object[]> result = new HashMap<Veiculo, Object[]>();
 		List<Object> veiculos = new ArrayList<Object>();
 		try {
 			StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(s.kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
@@ -124,7 +124,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 											.setParameter(1, id)
 											.getSingleResult();
 						
-						result.put(veiculo, kmRodados);
+						result.put(veiculo, array);
 					}
 				}
 				

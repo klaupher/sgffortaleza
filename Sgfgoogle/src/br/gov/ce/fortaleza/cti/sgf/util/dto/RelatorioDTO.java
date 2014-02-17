@@ -66,10 +66,12 @@ public class RelatorioDTO implements Serializable {
 	private Float consumoPosto;
 	private Float cota;
 	private Double cotaSoma;
+	private Double saldoCotaKm;
 	private Long kmRodados;
 	private Float kmPorLitro;
 	private Float custo;
-	private Integer kmAtual;
+	private Long kmInicial;
+	private Long kmAtual;
 	private Integer numeroManutencoes;
 	private Integer numeroAbastecimentos;
 	private Integer quantTrocaPneus;
@@ -285,11 +287,11 @@ public class RelatorioDTO implements Serializable {
 		this.numeroAbastecimentos = numeroAbastecimentos;
 	}
 
-	public Integer getKmAtual() {
+	public Long getKmAtual() {
 		return kmAtual;
 	}
 
-	public void setKmAtual(Integer kmAtual) {
+	public void setKmAtual(Long kmAtual) {
 		this.kmAtual = kmAtual;
 	}
 
@@ -472,5 +474,21 @@ public class RelatorioDTO implements Serializable {
 
 	public void setConsumoDiesel(Float consumoDiesel) {
 		this.consumoDiesel = consumoDiesel;
+	}
+
+	public Long getKmInicial() {
+		return kmInicial;
+	}
+
+	public void setKmInicial(Long kmInicial) {
+		this.kmInicial = kmInicial;
+	}
+
+	public Double getSaldoCotaKm() {
+		return saldoCotaKm;
+	}
+
+	public void setSaldoCotaKm(Double saldoCotaKm) {
+		this.saldoCotaKm = saldoCotaKm;
 	}
 }

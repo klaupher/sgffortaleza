@@ -28,30 +28,27 @@
 				  		</h:selectOneMenu>
 					</dd>
 					
-					<dt><h:outputLabel value="Data Inicial:" /></dt>
+					<dt><label for="anoList">Período</label></dt>
 					<dd>
-						<h:inputText value="#{relatorioBean.dtInicial}" id="dtInicial" required="true" requiredMessage="Informe a data inicial" styleClass="maskData">
-		        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
-		        		</h:inputText>
-		        		<h:message for="dtInicial" styleClass="message"/>
-					</dd>
-					
-					<dt><h:outputLabel value="Data final:" /></dt>
-					<dd>
-						<h:inputText value="#{relatorioBean.dtFinal}" id="dtFinal" required="true" requiredMessage="Informe a data final" styleClass="maskData">
-		        			<f:convertDateTime type="date" dateStyle="short" timeZone="GMT-03:00" pattern="dd/MM/yyyy" />
-		        		</h:inputText>
-		        		<h:message for="dtFinal" styleClass="message"/>
+						<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" style="width:80px" requiredMessage="Informe o mês">
+				   			<f:selectItems value="#{relatorioBean.meses}"/>
+				   		</h:selectOneMenu>
+				   		
+				      	<h:selectOneMenu id="anoList" value="#{relatorioBean.ano}" style="width:80px" requiredMessage="Informe o ano">
+				   			<f:selectItems value="#{relatorioBean.years}"/>
+				   		</h:selectOneMenu>
 					</dd>
 					
 					<dt><h:outputLabel value="Propriedade:" /></dt>
 					<dd>
 						<h:selectOneMenu id="propriedade" value="#{relatorioBean.propriedade}">
-						<f:selectItem itemLabel="Selecione o Proprietário" itemValue=""/>
 						<f:selectItems value="#{veiculoBean.proprietarioList}"/>											
-			 			<a4j:support event="onchange" action="#{veiculoBean.atualizaNrPatrimonio}" reRender="paginaPrincipal" ajaxSingle="true"/>
+			 			
 					</h:selectOneMenu>
 					</dd>
+					
+					<dt><label>Nº Contrato:</label></dt>
+					<dd><h:inputText value="#{relatorioBean.contrato}"/></dd>
 					
 					<dt></dt>
 					<dd>
@@ -78,8 +75,11 @@
 			onRowMouseOut="jQuery(this).removeClass('trHover')" 
 			rendered="#{not empty relatorioBean.entities}">
 			
-			<rich:column colspan="4" style="font-weight: bold; background:white">
+			<rich:column colspan="6" style="font-weight: bold; background:white">
 				<h:outputText value="Órgão: #{relatorio.orgao.descricao}" />
+			</rich:column>
+			<rich:column colspan="4" style="font-weight: bold; background:white">
+				<h:outputText value="Km Excedente: #{relatorio.saldoCotaKm}" />
 			</rich:column>
 
 			<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rowKeyVar="k" rowClasses="odd,even"
@@ -92,18 +92,48 @@
 				</rich:column>
 				
 				<rich:column>
-					<f:facet name="header"><h:outputText value="Placa/Modelo" /></f:facet>
-					<h:outputText value="#{r.veiculo.placa} #{r.veiculo.modelo.descricao}" />
+					<f:facet name="header"><h:outputText value="Placa" /></f:facet>
+					<h:outputText value="#{r.veiculo.placa}" />
 				</rich:column>
 				
-				<rich:column width="20%">
-					<f:facet name="header"><h:outputText value="Marca" /></f:facet>
-					<h:outputText value="#{r.veiculo.modelo.marca.descricao}" />
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Modelo" /></f:facet>
+					<h:outputText value="#{r.veiculo.modelo.descricao}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Ano" /></f:facet>
+					<h:outputText value="#{r.veiculo.anoFabricacao}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Contrato" /></f:facet>
+					<h:outputText value="#{r.veiculo.numeroContrato}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Franquia" /></f:facet>
+					<h:outputText value="#{r.veiculo.cotaKm.cotaKm}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Km Inicial" /></f:facet>
+					<h:outputText value="#{r.kmInicial}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Km Final" /></f:facet>
+					<h:outputText value="#{r.kmAtual}" />
 				</rich:column>
 
-				<rich:column width="2%">
+				<rich:column>
 					<f:facet name="header"><h:outputText value="Kms Rodados" /></f:facet>
 					<h:outputText value="#{r.kmRodados}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Saldo (Kms)" /></f:facet>
+					<h:outputText value="#{r.cotaSoma}" />
 				</rich:column>
 
 	    	</rich:subTable>

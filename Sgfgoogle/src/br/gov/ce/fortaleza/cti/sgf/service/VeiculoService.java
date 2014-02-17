@@ -481,7 +481,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	
 			sql.append("left join v.abastecimentos as a \n");
 			sql.append("with a.dataAutorizacao between :dtInicial and :dtFinal \n");
-			sql.append("where 1=1 \n");
+			
 			
 			if(abastecimento.equals("true")){
 				sql.append("and a.veiculo is not null \n");
@@ -492,13 +492,10 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		} else {
 			flag = false;
 		}
-
+		sql.append("where 1=1 \n");
+		
 		if(ugPesquisa != null){
 			sql.append("and v.ua.ug.id = '"+ugPesquisa.getId()+"' \n");
-		}
-
-		if(StringUtils.hasText(veiculo.getPropriedade())){
-			sql.append("and v.propriedade = '"+veiculo.getPropriedade()+"' \n");
 		}
 		
 		if(StringUtils.hasText(veiculo.getPlaca())){
