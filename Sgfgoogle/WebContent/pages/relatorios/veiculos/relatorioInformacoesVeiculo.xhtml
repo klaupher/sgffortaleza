@@ -22,9 +22,6 @@
 				<dt><h:outputLabel value="UG:" /></dt>
 				<dd>
 					<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
-						<c:if test="#{controlBean.administrador}">
-							<f:selectItem itemLabel="Todos" itemValue="" />
-						</c:if>
 			    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 					</h:selectOneMenu>
 				</dd>
@@ -114,6 +111,13 @@
 						<rich:column>
 							<f:facet name="header"><h:outputLabel value="Data cadastro"/></f:facet>
 							<h:outputText value="#{sr.veiculo.dataCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+							</h:outputText>
+						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Último Abastecimento"/></f:facet>
+							<h:outputText value="#{sr.dataAbastecimento}">
 								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
 							</h:outputText>
 						</rich:column>

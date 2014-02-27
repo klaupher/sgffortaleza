@@ -91,6 +91,7 @@ public class RelatorioDTO implements Serializable {
 	private Float consumoVeiculo = 0F;
 	private String horaAtendimento;
 	private String dataAtendimento;
+	private Date dataAbastecimento;
 
 	private List<Multa> multas;
 	private List<RelatorioDTO> relatorios;
@@ -490,5 +491,13 @@ public class RelatorioDTO implements Serializable {
 
 	public void setSaldoCotaKm(Double saldoCotaKm) {
 		this.saldoCotaKm = saldoCotaKm;
+	}
+
+	public Date getDataAbastecimento() {
+		return dataAbastecimento;
+	}
+
+	public void setDataAbastecimento(Date dataAbastecimento) {
+		this.dataAbastecimento = dataAbastecimento;
 	}
 }

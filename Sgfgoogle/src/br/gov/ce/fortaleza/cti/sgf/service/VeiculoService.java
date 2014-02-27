@@ -1,5 +1,6 @@
 package br.gov.ce.fortaleza.cti.sgf.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javassist.expr.Instanceof;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -21,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
+import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
@@ -92,6 +96,66 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		});
 		return result;
 	}
+	
+	public List<AtendimentoAbastecimento> informacoesVeiculos(UG ug, String propriedade, Boolean status){
+		
+		List<Object> abastecimento = new ArrayList<Object>();
+		List<AtendimentoAbastecimento> result = new ArrayList<AtendimentoAbastecimento>();
+		
+		StringBuilder sql = new StringBuilder("SELECT * FROM ( ");
+		sql.append("SELECT MAX(at.hora_atendimento) OVER (PARTITION BY v.codveiculo) AS ultabast, at.codatendabastecimento, hora_atendimento, v.codveiculo ");
+		sql.append("FROM tb_cadveiculo AS v ");
+		sql.append("LEFT JOIN tb_abastecimento AS ab ON (v.codveiculo = ab.codveiculo) ");
+		sql.append("LEFT JOIN tb_atendabastecimento AS at ON (at.codsolabastecimento = ab.codsolabastecimento) ");
+		sql.append("INNER JOIN tb_ua AS ua ON(v.cod_ua_asi = ua.cod_ua) ");
+		sql.append("INNER JOIN tb_ug as ug ON(ua.cod_ug = ug.cod_ug) ");
+		sql.append("WHERE ug.cod_ug = '"+ ug.getId()+"' ");
+		
+		if(propriedade != null){
+			sql.append(" AND v.propriedade = "+ propriedade);
+		}
+		if(status != null) {
+			if(status){
+			sql.append(" AND v.status != 6 ");
+			}else{
+				sql.append(" AND v.status = 6 ");
+			}
+		}else{
+			sql.append(" AND v.status != 6 ");
+		}
+		
+		sql.append("GROUP BY v.codveiculo, at.codatendabastecimento ");
+		sql.append(") x ");
+		sql.append("WHERE COALESCE(ultabast,to_date('19000101','yyyymmdd')) = COALESCE(hora_atendimento,to_date('19000101','yyyymmdd'))");
+		
+		Query query = entityManager.createNativeQuery(sql.toString());
+		
+		abastecimento = query.getResultList();
+		for (int i = 0; i < abastecimento.size(); i++) {
+			Object[] array = (Object[]) abastecimento.get(i);
+			
+			if(array[1] != null) {
+				AtendimentoAbastecimento atend = (AtendimentoAbastecimento) entityManager.createNamedQuery("AtendimentoAbastecimento.findById")
+						.setParameter(1, array[1])
+						.getSingleResult();
+				result.add(atend);
+				
+			} else {
+				
+				Veiculo veiculo = (Veiculo) entityManager.createNamedQuery("Veiculo.findById")
+						.setParameter(1, array[3])
+						.getSingleResult();
+				
+				AtendimentoAbastecimento atendimento = new AtendimentoAbastecimento();
+				atendimento.setAbastecimento(new Abastecimento());
+				atendimento.getAbastecimento().setVeiculo(veiculo);
+				
+				result.add(atendimento);
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * retorna os veículos com status disponíveis. Se o usuário é administrador, a lista virá com todos os veículos, senão
 	 * lista virá com os veículos do ôrgãos do usuário logado.

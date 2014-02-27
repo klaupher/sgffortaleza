@@ -1,6 +1,7 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -1551,23 +1552,47 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	public String consultarInformacoesVeiculo(){
 		this.entities = new ArrayList<RelatorioDTO>();
 		this.result = new ArrayList<RelatorioDTO>();
-		List<Veiculo> veiculos = null;
-		
+		List<AtendimentoAbastecimento> abastecimentos = null;
 		Boolean statusVeiculo = Boolean.parseBoolean(this.statusVeiculo);
 		
-		if(this.orgao == null){
-			veiculos = statusVeiculo ? veiculoService.findAllVeiculosAtivos("placa") : veiculoService.findAllVeiculosInativos("placa");
-		} else {
-			veiculos = statusVeiculo ? veiculoService.findVeiculosAtivosByUG(this.orgao) : veiculoService.findVeiculosInativosByUG(this.orgao);
-		}
+		List<AtendimentoAbastecimento> result = new ArrayList<AtendimentoAbastecimento>();
 		
-		Map<UG, List<Veiculo>> map = new HashMap<UG, List<Veiculo>>();
-		for (Veiculo veiculo : veiculos) {
+		abastecimentos = veiculoService.informacoesVeiculos(this.orgao, this.propriedade, statusVeiculo);
+		
+		Map<UG, List<RelatorioDTO>> map = new HashMap<UG, List<RelatorioDTO>>();
+		for(AtendimentoAbastecimento abastecimento : abastecimentos) {
 			
-			if(veiculo.getPropriedade() == null){
-				veiculo.setPropriedade("Outros");
+			Veiculo v 				= abastecimento.getAbastecimento().getVeiculo();
+			RelatorioDTO relatorio 	= new RelatorioDTO();
+			
+			relatorio.setDataAbastecimento(abastecimento.getHora());
+			relatorio.setOrgao(v.getUa().getUg());
+			relatorio.setVeiculo(v);
+			
+			if(map.containsKey(v.getUa().getUg())) {
+				map.get(v.getUa().getUg()).add(relatorio);
+			} else {
+				
+				List<RelatorioDTO> rlist = new ArrayList<RelatorioDTO>();
+				
+				rlist.add(relatorio);
+				map.put(v.getUa().getUg(), rlist);
 			}
+		}
+
+		for (UG ug : map.keySet()) {
+			RelatorioDTO ugRelat = new RelatorioDTO();
+			ugRelat.setOrgao(ug);
+			ugRelat.setRelatorios(new ArrayList<RelatorioDTO>());
+			List<RelatorioDTO> vlist = map.get(ug);
+			ugRelat.setRelatorios(vlist);
 			
+			this.entities.add(ugRelat);
+			this.result.addAll(ugRelat.getRelatorios());
+		}
+		/*for (AtendimentoAbastecimento veiculo : veiculos) {
+			
+						
 			if(this.propriedadeVeiculo != null && !this.propriedadeVeiculo.equals("Todos")) {
 				
 				if( this.propriedadeVeiculo.equals( veiculo.getPropriedade() ) ) {
@@ -1605,7 +1630,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			}
 			this.entities.add(relatorio);
 			this.result.addAll(relatorio.getRelatorios());
-		}
+		}*/
 		return SUCCESS;
 	}
 

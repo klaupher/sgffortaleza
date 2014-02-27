@@ -29,6 +29,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusAtendimentoAbastecimento;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "TB_ATENDABASTECIMENTO", schema = "SGF")
 @NamedQueries({
+	@NamedQuery(name = "AtendimentoAbastecimento.findById", query="select o from AtendimentoAbastecimento o where o.id = ?"),
 	@NamedQuery(name = "AtendimentoAbastecimento.findCota", query="select sum(o.quantidadeAbastecida) from " +
 			"AtendimentoAbastecimento o where o.abastecimento.veiculo = :veiculo and month(o.data) = :mes"),
 	@NamedQuery(name = "AtendimentoAbastecimento.findByVeiculo", query = "select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.id = ?)"),
