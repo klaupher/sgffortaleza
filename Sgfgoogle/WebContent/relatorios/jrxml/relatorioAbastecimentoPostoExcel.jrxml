@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioAbastecimentoPostoExcel" pageWidth="780" pageHeight="802" columnWidth="780" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a12a6c00-c4e1-4f08-bf91-bb9e91e42f8a">
-	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="1100"/>
+	<property name="ireport.y" value="287"/>
 	<parameter name="IMAGEM_URI" class="java.lang.String"/>
 	<field name="orgao" class="br.gov.ce.fortaleza.cti.sgf.entity.UG">
 		<fieldDescription><![CDATA[orgao]]></fieldDescription>
@@ -37,7 +37,7 @@
 	<field name="saldoCota" class="java.lang.Float">
 		<fieldDescription><![CDATA[saldoCota]]></fieldDescription>
 	</field>
-	<field name="kmAtual" class="java.lang.Integer">
+	<field name="kmAtual" class="java.lang.Long">
 		<fieldDescription><![CDATA[kmAtual]]></fieldDescription>
 	</field>
 	<group name="Veiculos">
@@ -202,14 +202,14 @@
 				<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="80" width="62" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="ddb988af-f164-416a-819d-14781ff4431c"/>
+				<reportElement mode="Opaque" x="0" y="80" width="62" height="20" forecolor="#000000" backcolor="#FFCC00" uuid="ddb988af-f164-416a-819d-14781ff4431c"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Posto:]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Opaque" x="62" y="80" width="718" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="f83c1766-ee0d-4b55-bb74-c332464713e0"/>
+				<reportElement mode="Opaque" x="62" y="80" width="718" height="20" forecolor="#000000" backcolor="#FFCC00" uuid="f83c1766-ee0d-4b55-bb74-c332464713e0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
@@ -294,18 +294,19 @@
 				<textFieldExpression><![CDATA[$F{saldoCota}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="558" y="0" width="62" height="20" uuid="0aba6129-f51f-463f-8644-f6d7f9acbe2b"/>
-				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{kmAtual}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="620" y="0" width="160" height="20" uuid="f7d92f9d-e4dc-460e-a7a4-90638d2518d1"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{atendimento}.getUsuario().getPessoa().getNome()]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="558" y="0" width="62" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="b307b921-d046-4e28-acee-dbdd8e8e2fc4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="8" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kmAtual}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -66,7 +66,7 @@
 	<field name="saldoCota" class="java.lang.Float">
 		<fieldDescription><![CDATA[saldoCota]]></fieldDescription>
 	</field>
-	<field name="kmAtual" class="java.lang.Integer">
+	<field name="kmAtual" class="java.lang.Long">
 		<fieldDescription><![CDATA[kmAtual]]></fieldDescription>
 	</field>
 	<field name="horaAtendimento" class="java.lang.String">

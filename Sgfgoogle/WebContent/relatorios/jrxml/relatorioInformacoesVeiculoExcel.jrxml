@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorioAbastecimentoPostoExcel" pageWidth="780" pageHeight="802" columnWidth="780" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a12a6c00-c4e1-4f08-bf91-bb9e91e42f8a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="IMAGEM_URI" class="java.lang.String"/>
+	<field name="orgao" class="br.gov.ce.fortaleza.cti.sgf.entity.UG">
+		<fieldDescription><![CDATA[orgao]]></fieldDescription>
+	</field>
+	<field name="veiculo" class="br.gov.ce.fortaleza.cti.sgf.entity.Veiculo">
+		<fieldDescription><![CDATA[veiculo]]></fieldDescription>
+	</field>
+	<field name="dataAbastecimento" class="java.util.Date"/>
+	<group name="Orgao">
+		<groupExpression><![CDATA[$F{orgao}]]></groupExpression>
+		<groupHeader>
+			<band height="43">
+				<staticText>
+					<reportElement mode="Opaque" x="310" y="23" width="99" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="3e81230c-7887-4efc-bda8-93464620af4d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Marca]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="23" width="74" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="9f65e22d-e7a5-49bf-8026-5295660bbc51"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Placa]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="479" y="23" width="84" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="16fe83e3-c6b0-41c3-89be-80c341ef315e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ano Fabric.]]></text>
+				</staticText>
+				<textField>
+					<reportElement mode="Opaque" x="74" y="3" width="706" height="20" forecolor="#000000" backcolor="#FFCC00" uuid="ce8cc63d-7f36-4936-9114-ca9e8554de0f"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{orgao}.getDescricao()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="3" width="74" height="20" forecolor="#000000" backcolor="#FFCC00" uuid="1cc18a82-a47b-4795-9605-9d9a26f2b986"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Órgão:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="74" y="23" width="236" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="964bddf1-546d-4fe3-b51a-ab28ebb358be"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Modelo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="409" y="23" width="70" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="f2d402ce-4216-468a-96df-9cf8330c9962"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ano Modelo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="637" y="23" width="76" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="63b8cd13-f42e-4c2e-886f-bc7f22822b03"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+						<paragraph leftIndent="2"/>
+					</textElement>
+					<text><![CDATA[Abastecimento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="713" y="23" width="67" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="c4e36dc7-0993-46d7-ade1-9e36a101cae9"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Propriedade]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="563" y="23" width="74" height="20" forecolor="#FFFFFF" backcolor="#00ABA5" uuid="b61a00bb-fac3-415a-884a-e47000540a36"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data Cadastro]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<staticText>
+					<reportElement mode="Transparent" x="0" y="0" width="780" height="20" uuid="38a237d1-4c30-44b2-a232-1c2942cefb1a"/>
+					<text><![CDATA[]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="103" splitType="Stretch">
+			<textField>
+				<reportElement mode="Transparent" x="74" y="60" width="236" height="20" uuid="2e8d6d9f-68cd-4e47-8770-7af23c4aa551"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="60" width="74" height="20" uuid="2ce34284-035a-419b-b39b-2e4b9641505c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="310" y="40" width="470" height="20" uuid="e323ff8b-e733-4da9-9c63-e9adf54935cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Relatório de Informações de Veículos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="310" y="0" width="470" height="40" uuid="dfb6db68-1f95-445f-8bbb-80b7df1bce3e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sistema de Gestão de Frotas]]></text>
+			</staticText>
+			<image>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" mode="Transparent" x="0" y="0" width="310" height="60" uuid="04ce664f-be55-4a39-90b7-4a9f54400dac"/>
+				<imageExpression><![CDATA[$P{IMAGEM_URI}+"brasao-oficial.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="81" width="780" height="20" uuid="39d8b951-52b8-4a2d-9a2e-11a9f90c429d"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="26">
+			<textField>
+				<reportElement x="0" y="0" width="74" height="20" uuid="444eb1e7-a92e-4f66-b2a6-45c900b6bfa8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getPlaca()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="99" height="20" uuid="5a4b76cc-bcbf-46f7-bc41-9e52eb9e7ece"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getModelo().getMarca().getDescricao()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="409" y="0" width="70" height="20" uuid="1be66b35-aebf-401f-8703-55f0b4dccf06"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getAnoModelo()]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="479" y="0" width="84" height="20" uuid="34db6714-55e0-4608-9c0e-65c78b7640ef"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getAnoFabricacao()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="563" y="0" width="74" height="20" uuid="6be95244-4bf7-45f5-9093-ff2c716410b1"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getDataCadastro()]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="637" y="0" width="76" height="20" uuid="cf8f0770-61ec-4979-965d-ba77e63d79b3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataAbastecimento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="713" y="0" width="67" height="20" uuid="0aba6129-f51f-463f-8644-f6d7f9acbe2b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getPropriedade()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="0" width="236" height="20" uuid="969b2090-3bee-4a7d-a88a-ace118a02ef5"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{veiculo}.getModelo().getDescricao()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

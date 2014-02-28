@@ -1776,6 +1776,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		try{
 			
 			switch( relHash.containsKey(this.nomeRelatorio) ? relHash.get(this.nomeRelatorio) : -1 ) {
+				case 1:
+					gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
+				break;
+				
 				case 11: {
 					List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
 
@@ -1820,6 +1824,21 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 					gerarRelatorioExcel(parametros, list, this.nomeRelatorio);
 					break;
 				}
+				
+				case 13:
+					List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+					for (RelatorioDTO r : this.entities) {
+						for (RelatorioDTO rr : r.getRelatorios()) {
+							rr.setConsumoCombustivelOrgao(r.getConsumoCombustivelOrgao());
+							rr.setConsumoGasolina(r.getConsumoGasolina());
+							rr.setConsumoEtanol(r.getConsumoEtanol());
+							rr.setConsumoDiesel(r.getConsumoDiesel());
+						}
+						list.addAll(r.getRelatorios());
+					}
+					gerarRelatorioExcel(parametros, list, this.nomeRelatorio);
+				break;
+				
 				case 18: {
 					
 					gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
