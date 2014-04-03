@@ -22,6 +22,9 @@
 				<dt><h:outputLabel value="UG:" /></dt>
 				<dd>
 					<h:selectOneMenu id="ug" value="#{relatorioBean.orgao}" requiredMessage="Informe a UG" converter="entityConverter">
+						<c:if test="#{controlBean.administrador}">
+							<f:selectItem itemLabel="Todos" itemValue="" />
+						</c:if>
 			    		<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
 					</h:selectOneMenu>
 				</dd>
@@ -35,6 +38,9 @@
 			    		<f:selectItems value="#{relatorioBean.listProprietario}"/>
 					</h:selectOneMenu>
 				</dd>
+				
+				<dt><h:outputLabel value="Placa:" /></dt>
+				<dd><h:inputText value="#{relatorioBean.placa}"/></dd>
 				
 				<dt><h:outputLabel value="Status:" /></dt>
 				<dd>

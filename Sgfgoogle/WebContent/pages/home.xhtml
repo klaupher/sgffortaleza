@@ -446,6 +446,9 @@
 					<c:if test="#{relatorioBean.relatorioKilometrosRodadosState}">
 						<ui:include src="relatorios/kmsrodados/relatorioKilometrosRodados.xhtml" />
 					</c:if>
+					<c:if test="#{relatorioBean.relatorioKmRodadosIndividuaisState}">
+						<ui:include src="relatorios/kmsrodados/relatorioKilometrosIndividuais.xhtml" />
+					</c:if>
 				</c:if>
 
 			</c:otherwise>

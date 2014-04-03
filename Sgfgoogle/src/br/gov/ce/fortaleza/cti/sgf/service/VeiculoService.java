@@ -97,7 +97,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return result;
 	}
 	
-	public List<AtendimentoAbastecimento> informacoesVeiculos(UG ug, String propriedade, Boolean status){
+	public List<AtendimentoAbastecimento> informacoesVeiculos(UG ug, String propriedade, String placa, Boolean status){
 		
 		List<Object> abastecimento = new ArrayList<Object>();
 		List<AtendimentoAbastecimento> result = new ArrayList<AtendimentoAbastecimento>();
@@ -109,21 +109,31 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		sql.append("LEFT JOIN tb_atendabastecimento AS at ON (at.codsolabastecimento = ab.codsolabastecimento) ");
 		sql.append("INNER JOIN tb_ua AS ua ON(v.cod_ua_asi = ua.cod_ua) ");
 		sql.append("INNER JOIN tb_ug as ug ON(ua.cod_ug = ug.cod_ug) ");
-		sql.append("WHERE ug.cod_ug = '"+ ug.getId()+"' ");
 		
-		if(propriedade != null){
-			sql.append(" AND v.propriedade = "+ propriedade);
-		}
-		if(status != null) {
-			if(status){
-			sql.append(" AND v.status != 6 ");
-			}else{
-				sql.append(" AND v.status = 6 ");
-			}
+		if(ug != null){
+			sql.append("WHERE ug.cod_ug = '"+ ug.getId()+"' ");
 		}else{
-			sql.append(" AND v.status != 6 ");
+			sql.append("WHERE 1 = 1");
 		}
 		
+		if(!placa.isEmpty()) {
+			sql.append(" AND v.placa LIKE '%"+ placa +"%'");
+		}else{
+			if(propriedade != null){
+				sql.append(" AND v.propriedade = '"+ propriedade+"'");
+			}
+			
+			if(status != null) {
+				if(status){
+				sql.append(" AND v.status != 6 ");
+				}else{
+					sql.append(" AND v.status = 6 ");
+				}
+			}else{
+				sql.append(" AND v.status != 6 ");
+			}
+		}
+
 		sql.append("GROUP BY v.codveiculo, at.codatendabastecimento ");
 		sql.append(") x ");
 		sql.append("WHERE COALESCE(ultabast,to_date('19000101','yyyymmdd')) = COALESCE(hora_atendimento,to_date('19000101','yyyymmdd'))");

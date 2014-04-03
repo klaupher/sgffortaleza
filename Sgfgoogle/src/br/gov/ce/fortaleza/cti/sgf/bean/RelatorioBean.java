@@ -1,7 +1,6 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -23,13 +22,11 @@ import net.sf.jasperreports.engine.JRException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
-import br.gov.ce.fortaleza.cti.sgf.entity.Bomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba;
 import br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao;
@@ -57,7 +54,6 @@ import br.gov.ce.fortaleza.cti.sgf.service.SolicitacaoLubrificanteService;
 import br.gov.ce.fortaleza.cti.sgf.service.SolicitacaoVeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.service.UGService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
-import br.gov.ce.fortaleza.cti.sgf.util.Constants;
 import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.RelatorioUtil;
@@ -141,6 +137,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private String propriedade;
 	private Double saldo;
 	private String contrato;
+	private String placa;
 
 	private final String relMotoristaPontuacao 				= "relat.motorista.pontuacao";
 	private final String relDiarioBombas 					= "relat.diario.bomba";
@@ -159,6 +156,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	private final String relInformacoesVeiculo 				= "relat.informacoes.veiculo";
 	private final String relInformacoesKmsRodadosVeiculo 	= "relat.informacoes.kms.rodados.veiculo";
+	private final String relKmRodadosIndividuais			= "relat.kms.rodados.individuais";
 	private final String relTrocasLubrificantes 			= "relat.trocas.lubrificante.veiculo";
 	private final String relCotasVeiculos 					= "relat.cotas.veiculos";
 
@@ -356,6 +354,23 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.entities = null;
 		return SUCCESS;
 	}
+	
+	public String relatorioKmRodadosIndividuais() {
+		
+		User user = SgfUtil.usuarioLogado();
+		if(SgfUtil.isAdministrador(user)) {
+		this.orgao = null;
+		} else {
+			this.orgao = user.getPessoa().getUa().getUg();
+		}
+		this.populateVeiculos();
+		
+		this.nomeRelatorio = this.relKmRodadosIndividuais;
+		setCurrentState(RelatorioDTO.KMS_RODADOS_INDIVIDUAIS);
+		setCurrentBean(currentBeanName());
+		this.entities = null;
+		return SUCCESS;
+	}
 
 	public boolean isRelatorioCotasVeiculosState() {
 		return RelatorioDTO.COTAS_VEICULOS.equals(getCurrentState());
@@ -418,6 +433,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public boolean isRelatorioKilometrosRodadosState() {
 		return RelatorioDTO.KILOMETROS_RODADOS_VEICULO.equals(getCurrentState());
+	}
+	
+	public boolean isRelatorioKmRodadosIndividuaisState() {
+		return RelatorioDTO.KMS_RODADOS_INDIVIDUAIS.equals(getCurrentState());
 	}
 
 	public String populate() {
@@ -1557,7 +1576,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		
 		List<AtendimentoAbastecimento> result = new ArrayList<AtendimentoAbastecimento>();
 		
-		abastecimentos = veiculoService.informacoesVeiculos(this.orgao, this.propriedade, statusVeiculo);
+		abastecimentos = veiculoService.informacoesVeiculos(this.orgao, this.propriedadeVeiculo, this.placa, statusVeiculo);
 		
 		Map<UG, List<RelatorioDTO>> map = new HashMap<UG, List<RelatorioDTO>>();
 		for(AtendimentoAbastecimento abastecimento : abastecimentos) {
@@ -1743,6 +1762,64 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		return SUCCESS;
 	}
 
+	public String consultarKmRodadosIndividuais() {
+		
+		this.entities 			= new ArrayList<RelatorioDTO>();
+		this.result 			= new ArrayList<RelatorioDTO>();
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.YEAR, this.ano);
+		calendar.set(Calendar.MONTH, this.mes);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		
+		this.dtInicial = DateUtil.getDateStartDay(calendar.getTime());
+		
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
+		this.dtFinal = DateUtil.getDateEndDay(calendar.getTime());
+		
+		this.saldo = null;
+		
+		List<SolicitacaoVeiculo> solicitacoes = solicitacaoService.kilometrosIndividuais(this.veiculo, this.dtInicial, this.dtFinal);
+		
+		RelatorioDTO relatorio = new RelatorioDTO();
+		relatorio.setRelatorios(new ArrayList<RelatorioDTO>());
+		relatorio.setOrgao(orgao);
+		relatorio.setVeiculo(this.veiculo);
+		
+		for (SolicitacaoVeiculo s  : solicitacoes) {
+			
+			RelatorioDTO dto = new RelatorioDTO();
+			dto.setVeiculo(s.getVeiculo());
+			dto.setOrgao(orgao);
+			if(this.saldo == null) {
+				this.saldo = s.getVeiculo().getCotaKm().getCotaKm();
+			}
+			
+			Long kmMax 		= s.getKmRetorno();
+			Long kmMin 		= s.getKmSaida();
+			Long kmRodados 	= kmMax - kmMin;
+			
+			this.saldo = this.saldo - kmRodados;
+
+			dto.setCotaSoma(this.saldo);
+			
+			dto.setKmInicial(kmMin);
+			dto.setKmAtual(kmMax);
+			dto.setKmRodados(kmRodados);
+			dto.setDtInicial(s.getDataHoraSaida());
+			dto.setDtFinal(s.getDataHoraRetorno());
+			dto.setDestino(s.getDestino());
+			dto.setSaldoCotaKm(this.saldo);
+			
+			this.result.add(dto);
+			relatorio.getRelatorios().add(dto);
+		}
+		this.entities.add(relatorio);
+		
+		return SUCCESS;
+	}
+	
 	private Map<String, Object> montarParametrosRelat() {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("IMAGEM_URI", RelatorioUtil.getInstance().retornarImagensDir());
@@ -1772,6 +1849,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		relHash.put(this.relVeiculosSemRetornoManutencao, 16);
 		relHash.put(this.relSolicitacaoVeiculo, 17);
 		relHash.put(this.relInformacoesKmsRodadosVeiculo, 18);
+		relHash.put(this.relKmRodadosIndividuais, 19);
 		
 		try{
 			
@@ -1840,6 +1918,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				break;
 				
 				case 18: {
+					
+					gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
+					break;
+				}
+				
+				case 19: {
 					
 					gerarRelatorioExcel(parametros, this.result, this.nomeRelatorio);
 					break;
@@ -1996,6 +2080,15 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
 				for (RelatorioDTO r : this.entities) {
+					list.addAll(r.getRelatorios());
+				}
+				
+				gerarRelatorioCollection(parametros, list, this.nomeRelatorio);
+			
+			}else if(this.nomeRelatorio.equals(this.relKmRodadosIndividuais)){
+				
+				List<RelatorioDTO> list = new ArrayList<RelatorioDTO>();
+				for(RelatorioDTO r : this.entities){
 					list.addAll(r.getRelatorios());
 				}
 				
@@ -2322,5 +2415,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 
 	public void setContrato(String contrato) {
 		this.contrato = contrato;
+	}
+	
+	public String getPlaca() {
+		return placa;
+	}
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
 	}
 }

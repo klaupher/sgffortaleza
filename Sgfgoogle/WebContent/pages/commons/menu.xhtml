@@ -115,6 +115,9 @@
 				<rich:menuItem submitMode="server" value="Kms Rodados veículo" action="#{relatorioBean.relatorioKilometrosRodadosVeiculo}" 
 				 rendered="#{controlBean.hasPermission('RULE_REL_KILOMETROS_RODADOS_VEICULO')}" immediate="true"/>
 				 
+				<rich:menuItem submitMode="server" value="Kms Rodados Indivuais" action="#{relatorioBean.relatorioKmRodadosIndividuais}" 
+				 rendered="#{controlBean.hasPermission('RULE_REL_KILOMETROS_RODADOS_VEICULO')}" immediate="true"/>
+				 
 				 <rich:menuItem submitMode="server" value="Veículos Inconsistentes" action="#{veiculoInconsistenteBean.exibeInconsistencias}" 
 				rendered="#{controlBean.hasPermission('RULE_REL_VEICULO_INCONSISTENTE')}" immediate="true"/>
 

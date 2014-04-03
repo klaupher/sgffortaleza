@@ -137,6 +137,20 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		return result;
 	}
 
+	public List<SolicitacaoVeiculo> kilometrosIndividuais(Veiculo veiculo, Date begin, Date end) {
+		List<SolicitacaoVeiculo> result = new ArrayList<SolicitacaoVeiculo>();
+		
+		StringBuilder sql = new StringBuilder("SELECT s FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
+		sql.append(" and s.veiculo.placa = '"+ veiculo.getPlaca() + "'");
+		sql.append(" and s.status = 4");
+		
+		Query query = entityManager.createQuery(sql.toString());
+		query.setParameter(1, begin);
+		query.setParameter(2, end);
+		result = query.getResultList();
+		
+		return result;
+	}
 	/**
 	 * s.veiculo.status = 4 � o caso em o ve�culo est� indispon�vel
 	 * @param user

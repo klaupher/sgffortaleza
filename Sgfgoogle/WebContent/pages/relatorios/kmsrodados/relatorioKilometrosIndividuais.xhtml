@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<div id="cadastro">
+	
+		<h1 style="width:250px">Km Rodados Individuais</h1>
+		
+		<fieldset>
+			<legend>Pesquisa</legend>
+			
+			<h:panelGroup style="align:center;">
+			
+				<!-- Caso o usuário seja administrador do sistema, ele poderá modificar seu órgão ou setor -->
+				<a4j:outputPanel>
+				<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
+					<dt>
+						<h:outputLabel value="Órgão:" for="selectUg" styleClass="labelNegrito"/>
+					</dt>
+					<dd>
+						<h:selectOneMenu id="selectUg" value="#{relatorioBean.orgao}" converter="entityConverter" styleClass="ugList" >
+							<f:selectItem itemLabel="Informe o órgão ..." itemValue=""/>
+							<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+							<a4j:support event="onchange" action="#{relatorioBean.populateVeiculos}"  reRender="selectPlaca" ajaxSingle="true"/>
+							
+						</h:selectOneMenu>
+					</dd>
+				</a4j:region>
+				<!-- Caso o usuário seja chefe de setor ou de transporte a UG será a de sua lotação -->
+				<a4j:region rendered="#{controlBean.chefeSetor or controlBean.chefeTransporte}">
+					<dt>
+						<h:outputLabel value="Órgão:" for="selectUg" styleClass="labelNegrito"/>
+					</dt>
+					<dd>
+						<h:inputText value="#{relatorioBean.orgao.descricao}" readonly="true" size="80" />
+					</dd>
+				</a4j:region>
+				</a4j:outputPanel>
+				
+				
+				
+				<dl>
+					<dt><h:outputLabel value="Placa:" for="selectPlaca" styleClass="labelNegrito"/></dt>
+					<dd>
+						<h:selectOneMenu id="selectPlaca" value="#{relatorioBean.veiculo}" converter="entityConverter">
+				  			<c:if test="#{controlBean.administrador}">
+								<f:selectItem itemLabel="Todos" itemValue="" />
+							</c:if>
+				  			<t:selectItems value="#{relatorioBean.veiculos}" var="v" itemLabel="#{v.placa} - #{v.propriedade}" itemValue="#{v}"/>
+				  		</h:selectOneMenu>
+					</dd>
+					
+					<dt><h:outputLabel value="Mês:" for="mesesList" styleClass="labelNegrito"/></dt>
+					<dd>
+				      	<h:selectOneMenu id="mesesList" value="#{relatorioBean.mes}" style="width:80px" requiredMessage="Informe o mês">
+				   			<f:selectItems value="#{relatorioBean.meses}"/>
+				   		</h:selectOneMenu>
+					</dd>
+					
+					<dt><h:outputLabel value="Ano:" for="anoList" styleClass="labelNegrito"/></dt>
+					<dd>
+				      	<h:selectOneMenu id="anoList" value="#{relatorioBean.ano}" requiredMessage="Informe o ano">
+				   			<f:selectItems value="#{relatorioBean.years}"/>
+				   		</h:selectOneMenu>
+					</dd>
+					
+					<dt></dt>
+					<dd>
+						<a4j:commandButton action="#{relatorioBean.consultarKmRodadosIndividuais}" value="Consultar"
+			    			status="loadingSolicitacoes" reRender="paginaPrincipal">
+						</a4j:commandButton>
+		
+						<a4j:status id="loadingSolicitacoes">
+			    			<f:facet name="start">
+			    				<h:panelGroup style="align:center;">
+			    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+				    				<h:outputText value="Processando..." styleClass="processando"/>
+								</h:panelGroup>
+							</f:facet>
+			    		</a4j:status>
+					</dd>
+				</dl>
+			</h:panelGroup>
+		</fieldset>
+
+		
+       <rich:dataTable id="dataTable" value="#{relatorioBean.entities}" var="relatorio" rowKeyVar="index" rowClasses="even,odd" 
+        	onRowMouseOver="jQuery(this).addClass('trHover')" 
+			onRowMouseOut="jQuery(this).removeClass('trHover')" 
+			rendered="#{not empty relatorioBean.entities}">
+			
+			<rich:column colspan="6" style="font-weight: bold; background:white">
+				<h:outputText value="Veículo:  #{relatorio.veiculo.modelo.marca.descricao}  #{relatorio.veiculo.modelo.descricao} - #{relatorio.veiculo.placa}" />
+			</rich:column>
+
+			<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="r" rowKeyVar="k" rowClasses="odd,even"
+				onRowMouseOver="jQuery(this).addClass('trHover')" 
+			    onRowMouseOut="jQuery(this).removeClass('trHover')" >
+
+				<rich:column width="2%"> 
+					<f:facet name="header"><h:outputText value="Data" /></f:facet>
+					<h:outputText value="#{r.dtFinal}" style="color: black;"/>
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Contrato" /></f:facet>
+					<h:outputText value="#{r.destino}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Km Inicial" /></f:facet>
+					<h:outputText value="#{r.kmInicial}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Km Final" /></f:facet>
+					<h:outputText value="#{r.kmAtual}" />
+				</rich:column>
+
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Kms Rodados" /></f:facet>
+					<h:outputText value="#{r.kmRodados}" />
+				</rich:column>
+				
+				<rich:column>
+					<f:facet name="header"><h:outputText value="Saldo (Kms)" /></f:facet>
+					<h:outputText value="#{r.cotaSoma}" />
+				</rich:column>
+
+	    	</rich:subTable>
+	    	
+		</rich:dataTable>
+
+		<a4j:region rendered="#{not empty relatorioBean.entities}">
+
+			<h:panelGroup>
+
+				<h:commandLink action="#{relatorioBean.gerarRelatorio}" value="Gerar Relatório" target="blank">
+	    			<a4j:support event="onclick" status="gerarRelatorio" reRender="paginaPrincipal"/>
+				</h:commandLink>
+				
+				<rich:spacer width="40"/>
+				 
+				<h:commandLink action="#{relatorioBean.gerarExcel}" value="Gerar Excel" target="blank">
+	    			<a4j:support event="onclick" status="gerarExcel" reRender="paginaPrincipal"/>
+				</h:commandLink>	
+
+				<a4j:status id="gerarRelatorio">
+	    			<f:facet name="start">
+	    				<h:panelGroup style="align:center;">
+	    					<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+		    				<h:outputText value="Processando..." styleClass="processando"/>
+						</h:panelGroup>
+					</f:facet>
+	    		</a4j:status>
+
+    		</h:panelGroup>
+
+		</a4j:region>
+
+	</div>
+</ui:composition>		

@@ -38,6 +38,7 @@ public class RelatorioDTO implements Serializable {
 	public static final String MULTAS_VEICULO = "MULTAS_VEICULO";
 	public static final String SOLICITACAO_VEICULO = "SOLICITACAO_VEICULO";
 	public static final String KILOMETROS_RODADOS_VEICULO = "KILOMETROS_RODADOS_VEICULO";
+	public static final String KMS_RODADOS_INDIVIDUAIS = "KMS_RODADOS_INDIVIDUAIS";
 	public static final Integer TROCA_PNEUS = 40;
 	
 	public static final String SEARCH_DIARIOBOMBA = "SEARCH_DIARIOBOMBA";
@@ -92,6 +93,7 @@ public class RelatorioDTO implements Serializable {
 	private String horaAtendimento;
 	private String dataAtendimento;
 	private Date dataAbastecimento;
+	private String destino;
 
 	private List<Multa> multas;
 	private List<RelatorioDTO> relatorios;
@@ -499,5 +501,13 @@ public class RelatorioDTO implements Serializable {
 
 	public void setDataAbastecimento(Date dataAbastecimento) {
 		this.dataAbastecimento = dataAbastecimento;
+	}
+
+	public String getDestino() {
+		return destino;
+	}
+
+	public void setDestino(String destino) {
+		this.destino = destino;
 	}
 }
