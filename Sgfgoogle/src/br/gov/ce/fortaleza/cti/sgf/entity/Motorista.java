@@ -32,6 +32,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name="tb_pessoamotorista" , schema = "SGF")
 @NamedQueries({
+	@NamedQuery(name = "Motorista.findServidor", query = "select o from Motorista o where (o.tipomotorista <> 'LOCADORA' or o.tipomotorista is null) and o.pessoa.ua.ug.id = ? and o.ativo = 'true' order by o.pessoa.nome"),
 	@NamedQuery(name = "Motorista.findMotoristasBloqueados", query = "select object(o) from Motorista o where o.ativo = ?"),
 	@NamedQuery(name = "Motorista.findByLocadoraNaoAlocados", query = "select object(o) from Motorista o where o.tipomotorista = ?"),
 	@NamedQuery(name = "Motorista.findByStatus", query = "select o from Motorista o where o.ativo = ? order by o.codMotorista desc"),

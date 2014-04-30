@@ -264,7 +264,7 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 	public void loadMotoristas() {
 		this.motoristas = new ArrayList<Motorista>();
 		if (this.orgaoSelecionado != null) {
-			this.motoristas = motoristaService.findByUGStatus(this.orgaoSelecionado.getId(), "true");
+			this.motoristas = motoristaService.findMotoristasServidores(this.orgaoSelecionado.getId());
 		}
 		Collections.sort(this.motoristas, new Comparator<Motorista>() {
 			public int compare(Motorista p1, Motorista p2) {
@@ -286,10 +286,10 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 		//this.veiculos.add(vasilhame);
 		if (this.orgaoSelecionado != null) {
 			this.veiculos.addAll(veiculoService.findByUG(this.orgaoSelecionado));
-			this.motoristas.addAll(motoristaService.findByUGStatus(this.orgaoSelecionado.getId(), "true"));
+			this.motoristas.addAll(motoristaService.findMotoristasServidores(this.orgaoSelecionado.getId()));
 		} else {
 			this.veiculos.addAll(veiculoService.findByUG(SgfUtil.usuarioLogado().getPessoa().getUa().getUg()));
-			this.motoristas.addAll(motoristaService.findByUGStatus(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId(),"true"));
+			this.motoristas.addAll(motoristaService.findMotoristasServidores(SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId()));
 		}
 		this.tiposServico.add(tipoServicoService.retrieve(1));
 		if (this.entity.getPosto() != null) {
@@ -546,6 +546,11 @@ public class AbastecimentoBean extends EntityBean<Integer, Abastecimento> {
 					atendimento.setUsuario(SgfUtil.usuarioLogado());
 					atendimento.setStatus(StatusAtendimentoAbastecimento.ATENDIDO);
 					atendimento.setAbastecimento(this.entity);
+					
+					Double cotaAtualizada = this.entity.getVeiculo().getCota().getCotaDisponivel() - this.quantidadeAbastecida;
+					this.entity.getVeiculo().getCota().setCotaDisponivel(cotaAtualizada);
+					this.cotaService.update(this.entity.getVeiculo().getCota());
+					
 					atendimentoService.save(atendimento);
 					this.entity.setAtendimentoAbastecimento(atendimento);
 					return super.update();

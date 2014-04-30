@@ -59,6 +59,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	private List<Motorista> motoristas;
 	private Veiculo veiculoSelecionado;
 	private List<SolicitacaoVeiculo> solicitacoesPendentes;
+	private List<SolicitacaoVeiculo> ultimosKms;
 
 	private Boolean mostrarSolicitacoes;
 	private Boolean flagNegar;
@@ -240,7 +241,10 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public String save() {
 		this.solicitacoesPendentes = new ArrayList<SolicitacaoVeiculo>();
+		
 		try {
+			
+			// coloca a UA na entidade
 			if (SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)) {
 				this.entity.setUaSolicitante(this.uaSelecionada);
 			}else {
@@ -359,6 +363,10 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public String atualizaStatus(){
 		this.entity.setStatus(this.entity.getStatus());
+		if(this.entity.getStatus().equals(StatusSolicitacaoVeiculo.AUTORIZADO)){
+			this.entity.setStatusAtendimento(null);
+		}
+		
 		return super.update();
 	}
 	
@@ -542,12 +550,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			this.desabilita = true;
 		}
 
-		this.dataSaida = this.entity.getDataHoraSaida();
-		this.dataRetorno = this.entity.getDataHoraRetorno();
-		this.horaSaida = this.entity.getDataHoraSaida();
-		this.horaRetorno = this.entity.getDataHoraRetorno();
-		this.horaSaidaReal = this.entity.getDtSaida();
-		this.horaRetornoReal = this.entity.getDtRetorno();
+		this.dataSaida 			= this.entity.getDataHoraSaida();
+		this.dataRetorno		= this.entity.getDataHoraRetorno();
+		this.horaSaida 			= this.entity.getDataHoraSaida();
+		this.horaRetorno 		= this.entity.getDataHoraRetorno();
+		this.horaSaidaReal 		= this.entity.getDtSaida();
+		this.horaRetornoReal 	= this.entity.getDtRetorno();
 
 
 		if (this.entity.getVeiculo() != null) {
@@ -557,10 +565,29 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			}
 			this.veiculoDesignado = true;
 		}
+		
+		this.pesquisaUltimosKms();
+		
 		setCurrentBean(currentBeanName());
 		setCurrentState(EDIT);
 		return SUCCESS;
 	}
+	
+	public String pesquisaUltimosKms() {
+		
+		this.ultimosKms = new ArrayList<SolicitacaoVeiculo>();
+		if(this.veiculo != null) {
+			List<SolicitacaoVeiculo> kms = service.findSolicitacoesVeiculo(this.veiculo, StatusSolicitacaoVeiculo.FINALIZADO);
+			for(SolicitacaoVeiculo s : kms){
+				if(this.ultimosKms.size() <= 5){
+					this.ultimosKms.add(s);
+				}
+			}
+		}
+		
+		return SUCCESS;
+	}
+	
 	/**
 	 * busca solicitações pendentes do veículos selecionado
 	 * @return
@@ -838,5 +865,13 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public void setUaSelecionada(UA uaSelecionada) {
 		this.uaSelecionada = uaSelecionada;
+	}
+
+	public List<SolicitacaoVeiculo> getUltimosKms() {
+		return ultimosKms;
+	}
+
+	public void setUltimosKms(List<SolicitacaoVeiculo> ultimosKms) {
+		this.ultimosKms = ultimosKms;
 	}
 }

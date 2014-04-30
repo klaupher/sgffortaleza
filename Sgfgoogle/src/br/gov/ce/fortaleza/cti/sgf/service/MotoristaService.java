@@ -33,6 +33,10 @@ public class MotoristaService extends BaseService<Integer, Motorista>{
 	public List<Motorista> findByStatus(String status) {
 		return executeResultListQuery("findByStatus", status);
 	}
+	
+	public List<Motorista> findMotoristasServidores(String ugid) {
+		return executeResultListQuery("findServidor", ugid);
+	}
 
 	public List<Motorista> findByLocadoraNaoAlocados() {
 		return executeResultListQuery("findByLocadoraNaoAlocados", "LOCADORA");

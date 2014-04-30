@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:c="http://java.sun.com/jstl/core">
+
+    <rich:modalPanel id="solicitacaoKmsView" autosized="true" top="10" domElementAttachment="form">
+    
+    	<f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Dados dos Kms Rodados"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+
+		<div id="cadastro">      
+
+			<h1>Ultimas Viagens</h1>
+
+			 <fieldset>    
+
+				<legend>Kms rodados</legend>
+				
+				<rich:dataTable id="dataTable"	value="#{solicitacaoVeiculoBean.ultimosKms}" var="kms" rows="50" rowKeyVar="k"
+					rowClasses="even, odd"
+					onRowMouseOver="jQuery(this).addClass('trHover')"
+					onRowMouseOut="jQuery(this).removeClass('trHover')"
+					width="100%">
+					
+					<rich:column style="text-align: center;"> 
+						<f:facet name="header"><h:outputText value="Data"/></f:facet>
+						<h:outputText value="#{kms.dtRetorno}" style="color: black;"/>
+					</rich:column>
+					
+					<rich:column style="text-align: center;"> 
+						<f:facet name="header"><h:outputText value="Km Sa�da"/></f:facet>
+						<h:outputText value="#{kms.kmSaida}" style="color: black;"/>
+					</rich:column>
+					
+					<rich:column style="text-align: center;"> 
+						<f:facet name="header"><h:outputText value="Km Chegada"/></f:facet>
+						<h:outputText value="#{kms.kmRetorno}" style="color: black;"/>
+					</rich:column>
+			
+				</rich:dataTable>
+
+			</fieldset>
+			
+			<h:commandButton value="Voltar" onclick="Richfaces.hideModalPanel;"  immediate="true">
+				<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
+			</h:commandButton> 
+
+		</div>
+
+    </rich:modalPanel>
+
+</ui:composition>
