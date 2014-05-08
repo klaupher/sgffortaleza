@@ -1,6 +1,8 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -1718,10 +1720,13 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 							dto.setVeiculo(v);
 							dto.setOrgao(orgao);
 							
-							Object[] array 	= (Object[]) mapKmRodados.get(v);
-							Long kmMax 		= (Long) array[1];
-							Long kmMin 		= (Long) array[2];
-							Long kmRodados 	= kmMax - kmMin;
+							Object[] array 			= (Object[]) mapKmRodados.get(v);
+							BigInteger kmMinDb		= (BigInteger) array[0];
+							Long kmMin 				= (Long) kmMinDb.longValue();
+							BigInteger kmMaxDb		= (BigInteger) array[1];
+							Long kmMax 				= (Long) kmMaxDb.longValue();
+							BigDecimal kmRodadosBD 	= (BigDecimal) array[2];
+							Long kmRodados 			= (Long) kmRodadosBD.longValue();
 							
 							dto.setKmInicial(kmMin);
 							dto.setKmAtual(kmMax);

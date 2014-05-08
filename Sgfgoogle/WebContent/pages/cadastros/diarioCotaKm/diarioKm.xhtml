@@ -13,7 +13,7 @@
 
 	<div id="cadastro">
 
-		<h1 style="width:350px"> Diário de Quilometragem </h1>
+		<h1 style="width:350px">Diário de Quilometragem</h1>
 		
 		<fieldset>
 			<legend>Pesquisa</legend>
@@ -23,13 +23,22 @@
 						<dt><label>UG:</label></dt>
 						<dd>
 							<h:selectOneMenu id="ugPesquisa" value="#{diarioKmBean.ugPesquisa}" converter="entityConverter" styleClass="ugList">
-								<f:selectItem itemLabel="Todos ..." itemValue="" rendered="#{controlBean.administrador}"/>
 								<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+								<a4j:support event="onchange" action="#{diarioKmBean.carregarVeiculos}"  reRender="veiculos" ajaxSingle="true"/>
 							</h:selectOneMenu>
 							
 						</dd>
-						<dt><label>Placa:</label></dt>
-						<dd><h:inputText value="#{diarioKmBean.placaPesquisa}"/></dd>
+						<dt>
+							<h:outputLabel value="Veículo:"/>
+						</dt>
+						<dd>
+							<h:selectOneMenu id="veiculos" value="#{diarioKmBean.veiculoPesquisa}" requiredMessage="Informe o veículo" converter="entityConverter">
+								<f:selectItem itemLabel="Informe o veículo ..." itemValue=""/>
+				 				<t:selectItems value="#{diarioKmBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}"/>
+							</h:selectOneMenu>
+							<h:message for="veiculos" styleClass="message"/>
+						</dd>
+					
 						<dt><label>Chassi:</label></dt>
 						<dd>
 							<h:inputText value="#{diarioKmBean.chassiPesquisa}"/>

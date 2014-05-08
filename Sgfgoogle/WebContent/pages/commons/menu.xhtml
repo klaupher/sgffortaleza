@@ -49,7 +49,7 @@
 					rendered="#{controlBean.administrador}" immediate="true"/>
 				
 				<rich:menuItem value="Diário de Quilometragem" action="#{diarioKmBean.search}" 
-					rendered="#{controlBean.hasPermission('RULE_DIARIO_COTA_KM')}" immediate="true"/>	
+					rendered="#{controlBean.administrador}" immediate="true"/>	
 					
 				<rich:menuItem value="Alterar Atend. Abastecimento" action="#{atendimentoAbastecimentoBean.search}" 
 					rendered="#{controlBean.administrador}" immediate="true"/>

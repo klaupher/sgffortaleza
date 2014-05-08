@@ -3,6 +3,7 @@
  */
 package br.gov.ce.fortaleza.cti.sgf.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -97,38 +98,58 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	@SuppressWarnings({ "unchecked", "unused" })
 	public Map<Veiculo, Object[]>  mapKilometragem(UG ug, Date begin, Date end){
 		Map<Veiculo, Object[]> result = new HashMap<Veiculo, Object[]>();
-		List<Object> veiculos = new ArrayList<Object>();
+		List<Object> kmRodados = new ArrayList<Object>();
+		
 		try {
-			StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(s.kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
-			if(ug != null){
-				sql.append(" and s.veiculo.ua.ug.id = '"+ ug.getId() + "'");
-			}
-			sql.append(" GROUP BY s.veiculo.id");
-			Query query = entityManager.createQuery(sql.toString());
-			query.setParameter(1, begin);
-			query.setParameter(2, end);
-			veiculos = query.getResultList();
 			
-			for (int i = 0; i < veiculos.size(); i++) {
-				Object[] array = (Object[]) veiculos.get(i);
-				Integer id = (Integer) array[0];
-				Long kmMax = (Long) array[1];
-				Long kmMin = (Long) array[2];
+			List<Veiculo> veiculos = (List<Veiculo>) entityManager.createNamedQuery("Veiculo.findByUG").setParameter(1, ug.getId()).getResultList();
+			
+			for(Veiculo v : veiculos){
+				StringBuilder sqlRodados = new StringBuilder("SELECT MIN(r.kmsaida) as saida, MAX(r.kmretorno) as retorno, SUM(r.kmretorno - r.kmsaida) as total FROM tb_registroveiculos AS r");
+				sqlRodados.append(" INNER JOIN tb_solveiculos AS s ON (r.codsolveiculo = s.codsolveiculo)");
+				sqlRodados.append(" INNER JOIN tb_cadveiculo AS v ON (s.codveiculo = v.codveiculo)");
+				sqlRodados.append(" WHERE v.placa = '"+v.getPlaca()+"'");
+				sqlRodados.append(" AND s.datafim BETWEEN '"+begin+"' AND '"+end+"'");
+				sqlRodados.append(" GROUP BY v.placa");
 				
-				
-				if(kmMax != null && kmMin != null) {
-					Long kmRodados = kmMax - kmMin;
-					if(kmRodados > 0) {
-						Veiculo veiculo = null;
-						veiculo = (Veiculo) entityManager.createNamedQuery("Veiculo.findById")
-											.setParameter(1, id)
-											.getSingleResult();
+				Query queryRodados = entityManager.createNativeQuery(sqlRodados.toString());
+					
 						
-						result.put(veiculo, array);
-					}
-				}
+				kmRodados = queryRodados.getResultList();
 				
+				if(kmRodados.size() > 0) {
+				
+					Object[] arraydb = (Object[]) kmRodados.get(0);
+					Object[] array;
+					
+					//for(Object r : arraydb){
+					//	BigDecimal r = new BigDecimal((char[]) r);
+					//}
+					result.put(v, arraydb);
+				}
 			}
+			
+			//StringBuilder sql = new StringBuilder("SELECT s.veiculo.id, MAX(s.kmRetorno), MIN(s.kmSaida) FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
+			//if(ug != null){
+			//	sql.append(" and s.veiculo.ua.ug.id = '"+ ug.getId() + "'");
+			//}
+			//sql.append(" GROUP BY s.veiculo.id");
+			//Query query = entityManager.createQuery(sql.toString());
+			//query.setParameter(1, begin);
+			//query.setParameter(2, end);
+			//veiculos = query.getResultList();
+			
+			//for (int i = 0; i < veiculos.size(); i++) {
+				//Object[] array = (Object[]) veiculos.get(i);
+				//Integer id = (Integer) array[0];
+				//Long kmMax = (Long) array[1];
+				//Long kmMin = (Long) array[2];
+
+
+			//	Veiculo veiculo = null;
+			//	veiculo = (Veiculo) entityManager.createNamedQuery("Veiculo.findById")
+			//						.setParameter(1, id)
+			//						.getSingleResult();
 			
 			return result;
 		} catch (Exception e) {

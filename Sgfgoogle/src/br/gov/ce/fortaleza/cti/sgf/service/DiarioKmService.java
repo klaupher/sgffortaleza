@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.CotaKm;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm;
+import br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 
@@ -33,7 +34,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
  */
 @Repository
 @Transactional
-public class DiarioKmService extends BaseService<Integer, DiarioKm>{
+public class DiarioKmService extends BaseService<Integer, RegistroVeiculo>{
 
 	@SuppressWarnings("unchecked")
 	public List<DiarioKm> findVeiculosTerceirosComCota() {
