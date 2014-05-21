@@ -223,6 +223,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		if (ug != null) {
 			hql.append("and s.solicitante.pessoa.ua.ug.id = :ugId");
 		}
+		hql.append(" and s.veiculo.dataDut > now()");
 		Query query = entityManager.createQuery(hql.toString());
 		query.setParameter("saida", solicitacao.getDataHoraSaida());
 		query.setParameter("retorno", solicitacao.getDataHoraRetorno());
@@ -289,6 +290,8 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		if(status != null){
 			sql.append(" and s.status = :status");
 		}
+		
+		sql.append(" ORDER BY s.kmRetorno, s.dtRetorno DESC");
 
 		Query query = entityManager.createQuery(sql.toString());
 		query.setParameter("id", veiculo.getId());

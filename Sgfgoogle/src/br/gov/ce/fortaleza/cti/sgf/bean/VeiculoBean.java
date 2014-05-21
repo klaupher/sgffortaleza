@@ -68,6 +68,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private String status;
 	private String numeroContrato;
 	private String kmAtual;
+	private Boolean adesivado;
 	
 	private Boolean isAdministrador;
 	
@@ -173,6 +174,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 			JSFUtil.getInstance().addErrorMessage("msg.error.renavam.nomeexistente");
 		}
 		if(valida){
+			
 			return super.save();
 		} else {
 			return FAIL;
@@ -460,6 +462,19 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 
 	public void setKmAtual(String kmAtual) {
 		this.kmAtual = kmAtual;
+	}
+
+	public Boolean getAdesivado() {
+		return adesivado;
+	}
+
+	public void setAdesivado(Boolean adesivado) {
+		this.adesivado = adesivado;
+		if(this.adesivado){
+			this.entity.setAdesivado(1);
+		}else{
+			this.entity.setAdesivado(0);
+		}
 	}
 
 }

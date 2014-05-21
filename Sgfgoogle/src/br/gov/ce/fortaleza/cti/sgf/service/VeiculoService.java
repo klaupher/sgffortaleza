@@ -176,14 +176,14 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		Query query = null;
 		if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
 			if(ug != null){
-				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 and v.ua.ug.id = :ug");
+				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 and v.ua.ug.id = :ug AND (v.dataDut > NOW() OR v.dataDut IS NULL)");
 				query.setParameter("ug", ug.getId());
 			} else {
 				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0");
 			}
 			return query.getResultList();
 		} else {
-			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0");
+			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0 AND (v.dataDut > NOW() OR v.dataDut is NULL)");
 			query.setParameter("ug", SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId());
 			return query.getResultList();
 		}

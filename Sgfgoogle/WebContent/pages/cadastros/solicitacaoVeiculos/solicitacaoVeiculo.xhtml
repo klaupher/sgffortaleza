@@ -197,7 +197,7 @@
 					<dd>
 						<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.entity.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
 							<f:selectItem itemLabel="Informe o veículo ..." itemValue=""/>
-				 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}"/>
+				 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie} - (#{v.kmAtual} Kms)" itemValue="#{v}"/>
 				 			<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.pesquisarSolicitacoesPendentes}"  reRender="paginaPrincipal" ajaxSingle="true"/>
 						</h:selectOneMenu>
 						<h:message for="veiculoSolicitacao" styleClass="message"/>
@@ -282,13 +282,56 @@
 					</h:inputText>
 					
 					<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
-					<a4j:commandLink id="veiculo" value="Últimos Kms" reRender="paginaPrincipal" 
+					
+					<!-- a4j:commandLink id="veiculo" value="Últimos Kms" reRender="paginaPrincipal" 
 						oncomplete="Richfaces.showModalPanel('solicitacaoKmsView', {width:700, height:400, top:40});" style="color: black;text-decoration:none;">
 					</a4j:commandLink>
-					<rich:toolTip value="Clique aqui para visualizar os dados da Solicitação" for="veiculo"/>
+					<rich:toolTip value="Clique aqui para visualizar os dados da Solicitação" for="veiculo"/ -->
 					
 					
 				</dd>
+			</a4j:outputPanel>
+			
+			<a4j:outputPanel>
+				
+
+		<div id="cadastro">
+
+			 <fieldset>    
+
+				<legend>Últimos Kms rodados</legend>
+				
+				<rich:dataTable id="dataTableKms"	value="#{solicitacaoVeiculoBean.ultimosKms}" var="kms" rows="50" rowKeyVar="k"
+					rowClasses="even, odd"
+					onRowMouseOver="jQuery(this).addClass('trHover')"
+					onRowMouseOut="jQuery(this).removeClass('trHover')"
+					width="100%">
+					
+					<rich:column style="text-align: center;"> 
+						<f:facet name="header"><h:outputText value="Data"/></f:facet>
+						<h:outputText value="#{kms.dtRetorno}" style="color: black;"/>
+					</rich:column>
+					
+					<rich:column style="text-align: center;"> 
+						<f:facet name="header"><h:outputText value="Km Saída"/></f:facet>
+						<h:outputText value="#{kms.kmSaida}" style="color: black;"/>
+					</rich:column>
+					
+					<rich:column style="text-align: center;"> 
+						<f:facet name="header"><h:outputText value="Km Chegada"/></f:facet>
+						<h:outputText value="#{kms.kmRetorno}" style="color: black;"/>
+					</rich:column>
+			
+				</rich:dataTable>
+
+			</fieldset>
+			
+			<h:commandButton value="Voltar" onclick="Richfaces.hideModalPanel;"  immediate="true">
+				<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
+			</h:commandButton> 
+
+		</div>
+				
 			</a4j:outputPanel>
 		</t:fieldset>
 		

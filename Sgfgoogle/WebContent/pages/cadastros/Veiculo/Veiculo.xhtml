@@ -274,6 +274,36 @@
 			</dl>
 			
 			<dl>
+				<dt><label for="adesivado">Adesivado</label></dt>
+				<dd>
+					<h:selectBooleanCheckbox id="adesivado" value="#{veiculoBean.adesivado}" >
+					</h:selectBooleanCheckbox>
+				</dd>
+			</dl>
+			
+			<dl>
+				<dt><label for="dut">DUT</label></dt>
+				<dd>
+					<h:inputText id="dut" value="#{veiculoBean.entity.dut}" size="20" />
+				</dd>
+			</dl>
+			
+			<dl>
+				<dt><label for="dut">Vencimento DUT</label></dt>
+				<dd>
+						<h:inputText id="dataFinal" value="#{veiculoBean.entity.dataDut}" styleClass="maskData">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+						
+					</dd>
+			</dl>
+			
+			<dl>
+				<dt><label for="garagem">Garagem</label></dt>
+				<h:inputText id="garagem" value="#{veiculoBean.entity.garagem}" />
+			</dl>
+			
+			<dl>
 				<dt><label for="observacoes">Observações</label></dt>
 				<dd><h:inputTextarea id="observacoes" value="#{veiculoBean.entity.objetivo}" cols="60"/></dd>
 			</dl>

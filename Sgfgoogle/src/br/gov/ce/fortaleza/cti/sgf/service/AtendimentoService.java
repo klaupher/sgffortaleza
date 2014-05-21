@@ -140,7 +140,7 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 		
 		Map<UG, List<AtendimentoAbastecimento>> mapAbastecimentosPorVeiculo = new HashMap<UG, List<AtendimentoAbastecimento>>();
 		List<AtendimentoAbastecimento> result 	= findListAbastecimentosVeiculo(ug, posto, veiculo, dataInicio, dataFim);
-		List<Veiculo> veiculos 					= findVeiculosUg(ug);
+		List<Veiculo> veiculos 					= findVeiculosPatrimonioUg(ug);
 		
 		for(AtendimentoAbastecimento atend : result) {
 			if( veiculos.contains( atend.getAbastecimento().getVeiculo() ) ) {
@@ -251,6 +251,17 @@ public class AtendimentoService extends BaseService<Integer, AtendimentoAbasteci
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculosUg(UG ug) {
 		StringBuffer str = new StringBuffer("SELECT v FROM Veiculo v WHERE status != 6");
+		if(ug != null) {
+			str.append(" AND v.ua.ug.id = '"+ ug.getId()+"'");
+		}
+		
+		Query query = entityManager.createQuery(str.toString());
+		return query.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findVeiculosPatrimonioUg(UG ug) {
+		StringBuffer str = new StringBuffer("SELECT v FROM Veiculo v WHERE status != 6 AND v.propriedade = 'PMF'");
 		if(ug != null) {
 			str.append(" AND v.ua.ug.id = '"+ ug.getId()+"'");
 		}

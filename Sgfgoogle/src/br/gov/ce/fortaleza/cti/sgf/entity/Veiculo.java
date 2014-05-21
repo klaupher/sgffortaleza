@@ -128,6 +128,19 @@ public class Veiculo implements Serializable {
 	@Column(name = "CONTRATO", length = 50)
 	private String numeroContrato;
 	
+	@Column(name = "ADESIVADO")
+	private Integer adesivado;
+	
+	@Column(name = "DUT", length = 50)
+	private String dut;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DT_DUT")
+	private Date dataDut;
+	
+	@Column(name = "GARAGEM", length = 255)
+	private String garagem;
+	
 	@Transient
 	private Float valorTotal;
 	
@@ -603,5 +616,37 @@ public class Veiculo implements Serializable {
 
 	public void setNumeroContrato(String numeroContrato) {
 		this.numeroContrato = numeroContrato;
+	}
+	
+	public Integer getAdesivado() {
+		return adesivado;
+	}
+
+	public void setAdesivado(Integer adesivado) {
+		this.adesivado = adesivado;
+	}
+	
+	public String getDut() {
+		return dut;
+	}
+
+	public void setDut(String dut) {
+		this.dut = dut;
+	}
+	
+	public Date getDataDut() {
+		return dataDut;
+	}
+
+	public void setDataDut(Date dataDut) {
+		this.dataDut = dataDut;
+	}
+	
+	public String getGaragem() {
+		return garagem;
+	}
+
+	public void setGaragem(String garagem) {
+		this.garagem = garagem;
 	}
 }
