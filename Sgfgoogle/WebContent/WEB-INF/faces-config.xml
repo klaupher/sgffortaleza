@@ -47,6 +47,10 @@
 		<converter-id>enumConverter</converter-id>
 		<converter-class>br.gov.ce.fortaleza.cti.sgf.conversores.EnumConverter</converter-class>
 	</converter>
+	<converter>
+		<converter-id>simpleIndexConverter</converter-id>
+		<converter-class>br.gov.ce.fortaleza.cti.sgf.conversores.SimpleIndexConverter</converter-class>
+	</converter>
 
 	<!-- Validadores -->
 	<validator>

@@ -123,6 +123,14 @@ public abstract class EntityBean<Id extends Serializable, Entity extends Seriali
 		this.entities = retrieveEntityService().filter(this.entities, this.filter);
 		return super.search();
 	}
+	
+	//MODIFICADO 19.05.2014 -- PAULO ANDRE
+	public String searchQtdEspecific() {
+		this.entities = retrieveEntityService().retrieveQtdEspecific("dataCadastro", 1, 30);
+		this.entities = retrieveEntityService().filter(this.entities, this.filter);
+		return super.search();
+	}
+	//FIM
 
 	public String searchSort() {
 		this.entities = retrieveEntityService().findAll("id");

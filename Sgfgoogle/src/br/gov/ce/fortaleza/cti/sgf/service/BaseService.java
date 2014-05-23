@@ -82,6 +82,18 @@ public abstract class BaseService<Id extends Serializable, Entity extends Serial
 		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e").getResultList();
 	}
 
+	//MODIFICADO 19.05.2014 PAULO ANDRE
+	@Transactional(readOnly = true)
+	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+	public List<Entity> retrieveQtdEspecific(String parameter, int qtdMin, int qtdMax) {
+		String simpleName = getPersistentClass().getSimpleName();
+		Query query = entityManager.createQuery("SELECT e FROM " + simpleName + " e order by e." + parameter + " desc");
+		query.setFirstResult(qtdMin);
+		query.setMaxResults(qtdMax);
+		return query.getResultList();
+	}
+	//FIM
+
 	@Transactional(readOnly = true)
 	@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 	public List<Entity> findAll(String parameter) {
@@ -95,13 +107,13 @@ public abstract class BaseService<Id extends Serializable, Entity extends Serial
 		String simpleName = getPersistentClass().getSimpleName();
 		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e where e.status != -1 order by e." + parameter + " desc").getResultList();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public List<Entity> findAllVeiculosAtivos(String parameter) {
 		String simpleName = getPersistentClass().getSimpleName();
 		return (List<Entity>) entityManager.createQuery("SELECT e FROM " + simpleName + " e where e.status != 6 order by e." + parameter + " desc").getResultList();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public List<Entity> findAllVeiculosInativos(String parameter) {
 		String simpleName = getPersistentClass().getSimpleName();

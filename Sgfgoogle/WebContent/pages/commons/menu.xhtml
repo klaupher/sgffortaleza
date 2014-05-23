@@ -140,7 +140,7 @@
 				<rich:menuItem value="Nº Motor" action="#{numeroMotorBean.search}" rendered="#{controlBean.hasPermission('RULE_NR_MOTOR')}"  immediate="true"/>
 				<rich:menuItem value="Oficinas" action="#{oficinaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_OFICINA')}" immediate="true"/>
 				<rich:menuItem value="Tipos Serviço" action="#{tipoServicoBean.search}" rendered="#{controlBean.hasPermission('RULE_TIPO_SERVICO')}" immediate="true"/>
-				<rich:menuItem value="Veículos" action="#{veiculoBean.search}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
+				<rich:menuItem value="Veículos" action="#{veiculoBean.searchQtdEspecific}" rendered="#{controlBean.hasPermission('RULE_VEICULO')}"  immediate="true"/>
 
 			</rich:dropDownMenu>
 

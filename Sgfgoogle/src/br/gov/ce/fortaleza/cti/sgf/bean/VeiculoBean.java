@@ -108,6 +108,17 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		return super.search();
 		//return pesquisar();
 	}
+
+	//MODIFICADO 19.05.2014 -- PAULO ANDRE
+	/**
+	 * Metodo é executado quando o ususario escolhe a opcao cadastro de veiculo no menu
+	 */
+	@Override
+	public String searchQtdEspecific() {
+		ugs = ugService.findAll();
+		return super.searchQtdEspecific();
+	}
+	//FIM
 	
 	public void atualizaNrPatrimonio(){
 		setIsAdministrador(SgfUtil.isAdministrador(SgfUtil.usuarioLogado()));

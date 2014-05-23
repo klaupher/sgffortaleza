@@ -1,6 +1,5 @@
 package br.gov.ce.fortaleza.cti.sgf.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,8 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javassist.expr.Instanceof;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -77,7 +74,14 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return query.getResultList().size() > 0;
 	}
 
-
+	//Modificado 21.05.2014 -- Paulo Andre
+	@Transactional
+	public List<String> verificaNumeroDeContrato(){
+		Query query = entityManager.createQuery("SELECT distinct(v.numeroContrato) FROM Veiculo v WHERE  v.numeroContrato <> ''");
+		return query.getResultList();
+	}
+	//Fim
+	
 	public List<Veiculo> findAll(){
 		List<Veiculo> result = new ArrayList<Veiculo>();
 		User user = SgfUtil.usuarioLogado();
@@ -97,7 +101,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		return result;
 	}
 	
-	public List<AtendimentoAbastecimento> informacoesVeiculos(UG ug, String propriedade, String placa, Boolean status){
+	public List<AtendimentoAbastecimento> informacoesVeiculos(UG ug, String propriedade, String placa, Boolean status, String numeroContrato){
 		
 		List<Object> abastecimento = new ArrayList<Object>();
 		List<AtendimentoAbastecimento> result = new ArrayList<AtendimentoAbastecimento>();
@@ -115,7 +119,11 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		}else{
 			sql.append("WHERE 1 = 1");
 		}
-		
+		//Modificacoes 22.05.2014 --Paulo Andre
+		if(!numeroContrato.isEmpty()) {
+			sql.append(" AND v.contrato = '"+ numeroContrato +"'");
+		}
+			
 		if(!placa.isEmpty()) {
 			sql.append(" AND v.placa LIKE '%"+ placa +"%'");
 		}else{

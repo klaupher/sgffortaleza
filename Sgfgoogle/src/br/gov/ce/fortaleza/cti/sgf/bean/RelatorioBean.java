@@ -163,6 +163,28 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 	private final String relCotasVeiculos 					= "relat.cotas.veiculos";
 
 	private List<SelectItem> listProprietario;
+	
+	//Modificacoes 21.05.2014 --Paulo Andre
+	private List<Veiculo> listaDeContratos;
+	private List<String> listaDeContratosString;
+	
+	public List<String> getListaDeContratosString() {
+		return listaDeContratosString;
+	}
+
+	public void setListaDeContratosString(List<String> listaDeContratosString) {
+		this.listaDeContratosString = listaDeContratosString;
+	}
+
+	public List<Veiculo> getListaDeContratos() {
+		return listaDeContratos;
+	}
+
+	public void setListaDeContratos(List<Veiculo> listaDeContratos) {
+		this.listaDeContratos = listaDeContratos;
+	}
+	//Fim
+
 
 	@Override
 	protected RelatorioDTO createNewEntity() {
@@ -211,6 +233,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.nomeRelatorio = this.relInformacoesVeiculo;
 		setCurrentState(RelatorioDTO.INFORMACOES_VEICULO);
 		setCurrentBean(currentBeanName());
+		
+		//Modificacoes 22.05.2014 --Paulo Andre
+		this.setContrato("");
+		this.preencheListaContratos();
+		//Fim
+		
 		this.entities = null;
 		this.generate = false;
 		this.orgao = null;
@@ -218,7 +246,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		this.setListProprietario(proprietario.getProprietarioList());
 		return SUCCESS;
 	}
-
+	
+	
 	public String relatorioMotoristaPontuacao() {
 		this.nomeRelatorio = this.relMotoristaPontuacao;
 		setCurrentState(RelatorioDTO.PONTUACAO_MOTORISTA);
@@ -354,6 +383,12 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		setCurrentState(RelatorioDTO.KILOMETROS_RODADOS_VEICULO);
 		setCurrentBean(currentBeanName());
 		this.entities = null;
+		
+		//Modificacoes 22.05.2014 --Paulo Andre
+		this.setContrato("");
+		this.preencheListaContratos();
+		//Fim
+				
 		return SUCCESS;
 	}
 	
@@ -1578,7 +1613,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		
 		List<AtendimentoAbastecimento> result = new ArrayList<AtendimentoAbastecimento>();
 		
-		abastecimentos = veiculoService.informacoesVeiculos(this.orgao, this.propriedadeVeiculo, this.placa, statusVeiculo);
+		abastecimentos = veiculoService.informacoesVeiculos(this.orgao, this.propriedadeVeiculo, this.placa, statusVeiculo, this.getContrato());
 		
 		Map<UG, List<RelatorioDTO>> map = new HashMap<UG, List<RelatorioDTO>>();
 		for(AtendimentoAbastecimento abastecimento : abastecimentos) {
@@ -1722,11 +1757,44 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 							
 							Object[] array 			= (Object[]) mapKmRodados.get(v);
 							BigInteger kmMinDb		= (BigInteger) array[0];
-							Long kmMin 				= (Long) kmMinDb.longValue();
+							
+							//Modificacoes 23.05.2014 Paulo Andre
+							// kmMinDb as vezes estava retornando null
+							Long kmMin = null ;
+							if (kmMinDb != null) {
+								kmMin 				= (Long) kmMinDb.longValue();
+							}else {
+								kmMin 				= new Long(0);
+							}
+							//fim
+							
 							BigInteger kmMaxDb		= (BigInteger) array[1];
-							Long kmMax 				= (Long) kmMaxDb.longValue();
+							
+							//Modificacoes 23.05.2014 Paulo Andre
+							// kmMaxDb as vezes estava retornando null
+							Long kmMax 	= null;
+							if (kmMaxDb != null) {
+								kmMax 				= (Long) kmMaxDb.longValue();
+							}else {
+								kmMax 				= new Long(0);
+							}
+							//fim
+							
 							BigDecimal kmRodadosBD 	= (BigDecimal) array[2];
-							Long kmRodados 			= (Long) kmRodadosBD.longValue();
+							
+							//Modificacoes 23.05.2014 Paulo Andre
+							// kmRodadosBD as vezes estava retornando null
+							Long kmRodados = null;
+							if (kmRodadosBD != null) {
+								kmRodados 			= (Long) kmRodadosBD.longValue();
+							}else {
+								kmRodados 				= new Long(0);
+							}
+							//fim
+							
+							
+							
+							
 							
 							dto.setKmInicial(kmMin);
 							dto.setKmAtual(kmMax);
@@ -2172,6 +2240,22 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		servletOutputStream.write(array);
 		FacesContext.getCurrentInstance().responseComplete();
 
+	}
+	
+	public void preencheListaContratos(){
+		//Modificacoes 22.05.2014 --Paulo Andre
+		listaDeContratosString = new ArrayList<String>();
+		listaDeContratosString.addAll(veiculoService.verificaNumeroDeContrato());
+
+		listaDeContratos = new ArrayList<Veiculo>();
+
+
+		for (int i = 0; i < listaDeContratosString.size(); i++) {
+			Veiculo veiculo = new Veiculo();
+			veiculo.setNumeroContrato(listaDeContratosString.get(i));
+			listaDeContratos.add(veiculo);
+		}
+		//fim
 	}
 
 	public UG getOrgao() {

@@ -39,6 +39,17 @@
 					</h:selectOneMenu>
 				</dd>
 				
+				
+				<dt><h:outputLabel value="Contrato:"  /></dt>
+				<dd>
+				<h:selectOneMenu id="contratoVeiculo" value="#{relatorioBean.contrato}" converter="simpleIndexConverter">
+				<c:if test="#{controlBean.administrador}">
+					<f:selectItem itemLabel="Todos" itemValue="" />
+				</c:if>
+			    <t:selectItems value="#{relatorioBean.listaDeContratos}"  var="o" itemValue="#{o.numeroContrato}" itemLabel="#{o.numeroContrato}"/>
+				</h:selectOneMenu>
+				</dd>
+				
 				<dt><h:outputLabel value="Placa:" /></dt>
 				<dd><h:inputText value="#{relatorioBean.placa}"/></dd>
 				
@@ -51,7 +62,7 @@
 						</h:selectOneRadio>
 					</h:panelGroup>
 				</dd>
-				
+
 				<dt></dt>
 				<dd>
 					<h:commandButton action="#{relatorioBean.consultarInformacoesVeiculo}" value="Consultar">
