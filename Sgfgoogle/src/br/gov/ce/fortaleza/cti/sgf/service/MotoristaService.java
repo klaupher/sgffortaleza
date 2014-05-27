@@ -41,6 +41,10 @@ public class MotoristaService extends BaseService<Integer, Motorista>{
 	public List<Motorista> findByLocadoraNaoAlocados() {
 		return executeResultListQuery("findByLocadoraNaoAlocados", "LOCADORA");
 	}
+	
+	public List<Motorista> findByLocadoraUg(UG ug) {
+		return executeResultListQuery("findByLocadoraUg", "LOCADORA", ug.getId());
+	}
 
 	public List<Motorista> findByUG(String ugid){
 		return executeResultListQuery("findByUG", ugid);

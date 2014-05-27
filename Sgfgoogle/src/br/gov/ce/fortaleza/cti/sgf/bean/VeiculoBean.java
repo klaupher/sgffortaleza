@@ -146,7 +146,12 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	}
 		
 	public List<Motorista> getMotoristasLocadora(){
-		return new ArrayList<Motorista>(motoristaService.findByLocadoraNaoAlocados());
+		
+		if(this.ug != null){
+			return new ArrayList<Motorista>(motoristaService.findByLocadoraUg(this.ug));
+		}else{
+			return new ArrayList<Motorista>(motoristaService.findByLocadoraNaoAlocados());
+		}
 	}
 	
 	public List<SelectItem> getVeiculoPropriedade(){
@@ -302,6 +307,9 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	public String loadUas(){
 		this.uas = new ArrayList<UA>();
 		this.uas = uaService.retrieveByUG(this.ug.getId());
+		
+		this.getMotoristasLocadora();
+		
 		return SUCCESS;
 	}
 

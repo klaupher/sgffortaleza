@@ -50,7 +50,7 @@
 		    			disabled="#{!controlBean.administrador}" converter="entityConverter">
 		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
 		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
-		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
+		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo, motorista" ajaxSingle="true"/>
 		    		</h:selectOneMenu>
 		    	</dd>
 		    	<rich:message for="ugVeiculo" styleClass="message"/>
