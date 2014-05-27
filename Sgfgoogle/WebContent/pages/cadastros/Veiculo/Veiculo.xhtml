@@ -43,6 +43,32 @@
 				<rich:message for="propriedade" styleClass="message"/>
 			</dl>
 			
+			<dl>
+				<dt><label for="ugVeiculo">UG</label></dt>
+		    	<dd>
+		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" 
+		    			disabled="#{!controlBean.administrador}" converter="entityConverter">
+		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
+		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
+		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
+		    		</h:selectOneMenu>
+		    	</dd>
+		    	<rich:message for="ugVeiculo" styleClass="message"/>
+	    	</dl>
+	    	
+	    	<h:panelGroup id="uaRegion">
+				<dt><label for="uaVeiculo">UA</label></dt>
+				<dd>
+					<h:selectOneMenu id="uaVeiculo" disabled="#{!controlBean.administrador}" value="#{veiculoBean.entity.ua}" required="true"  
+					requiredMessage="Informe a UA" converter="entityConverter"  style="width:380px">
+						<f:selectItem itemLabel="Informe a UA" itemValue=""/>
+	 					<t:selectItems value="#{veiculoBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}"/>
+					</h:selectOneMenu>
+					<label style="color:red">*</label>
+					<rich:message errorClass="error" for="uaVeiculo" styleClass="message"/>
+				</dd>
+			</h:panelGroup>
+			
 			<h:panelGroup>
 				<dl>
 				  	<dt><label for="categoria">Motoristas</label></dt>
@@ -82,31 +108,9 @@
 				</h:panelGroup>
 			
 			
-			<dl>
-				<dt><label for="ugVeiculo">UG</label></dt>
-		    	<dd>
-		    		<h:selectOneMenu id="ugVeiculo" value="#{veiculoBean.ug}" required="true" requiredMessage="Informe a UG" styleClass="ugList" 
-		    			disabled="#{!controlBean.administrador}" converter="entityConverter">
-		    			<f:selectItem itemValue="" itemLabel="Informe a UG"/>
-		    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
-		    			<a4j:support event="onchange" action="#{veiculoBean.loadUas}" reRender="uaRegion,uaVeiculo" ajaxSingle="true"/>
-		    		</h:selectOneMenu>
-		    	</dd>
-		    	<rich:message for="ugVeiculo" styleClass="message"/>
-	    	</dl>
+			
 
-	    	<h:panelGroup id="uaRegion">
-				<dt><label for="uaVeiculo">UA</label></dt>
-				<dd>
-					<h:selectOneMenu id="uaVeiculo" disabled="#{!controlBean.administrador}" value="#{veiculoBean.entity.ua}" required="true"  
-					requiredMessage="Informe a UA" converter="entityConverter"  style="width:380px">
-						<f:selectItem itemLabel="Informe a UA" itemValue=""/>
-	 					<t:selectItems value="#{veiculoBean.uas}" var="ua" itemLabel="#{ua.descricao}" itemValue="#{ua}"/>
-					</h:selectOneMenu>
-					<label style="color:red">*</label>
-					<rich:message errorClass="error" for="uaVeiculo" styleClass="message"/>
-				</dd>
-			</h:panelGroup>
+	    	
 			
 			<dl>
 			  	<dt><label for="especie">Espécie</label></dt>

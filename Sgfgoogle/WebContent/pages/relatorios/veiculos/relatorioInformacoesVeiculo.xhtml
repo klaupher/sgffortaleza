@@ -143,6 +143,19 @@
 							<f:facet name="header"><h:outputLabel value="Propriedade"/></f:facet>
 							<h:outputText value="#{sr.veiculo.propriedade}" />
 						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Vencimento DUT"/></f:facet>
+							<h:outputText value="#{sr.veiculo.dataDut}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+							</h:outputText>
+						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Adesivado"/></f:facet>
+							<h:outputText value="#{sr.veiculo.adesivado == 1 ? 'Sim' : 'Não'}" />
+							
+						</rich:column>
 	
 					</rich:subTable>
 
