@@ -111,12 +111,12 @@
 					
 					<label for="quantidade">Quant.</label>
 					<h:inputText id="quantidade" value="#{requisicaoManutencaoBean.itemRequisicao.quantidade}" styleClass="maskInteiro" 
-						requiredMessage="Informe a Quantidade" size="4">
+						requiredMessage="Informe a Quantidade" required="true" size="4">
 					</h:inputText>
 
 					<label for="valorUnit">Valor Unit.</label>
 					<h:inputText id="valorUnit" value="#{requisicaoManutencaoBean.itemRequisicao.valorUnitario}" styleClass="maskDecimal-us"
-						requiredMessage="Informe o Valor Unitírio" size="4"  >
+						requiredMessage="Informe o Valor Unitírio" size="4"  required="true">
 					</h:inputText>
 
 					<a4j:commandLink id="addItem" value="Adicionar" action="#{requisicaoManutencaoBean.adicionarNovoItem}" reRender="messagesPanel,itensPanelGroup,tipoServico"  styleClass="novo"/>

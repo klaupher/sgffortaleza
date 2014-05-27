@@ -141,7 +141,7 @@ EntityBean<Integer, RequisicaoManutencao> {
 				JSFUtil.getInstance().addErrorMessage("msg.error.veiculo.comManutencao");
 				return FAIL;
 			} else {
-				this.entity.getVeiculo().setStatus(StatusVeiculo.emManutencao);
+				//this.entity.getVeiculo().setStatus(StatusVeiculo.emManutencao);
 				this.veiculoService.update(this.entity.getVeiculo());
 				this.entity.setItensRequisicao(new ArrayList<ItemRequisicao>(this.itensRequisicao));
 				this.entity.setStatus(0);

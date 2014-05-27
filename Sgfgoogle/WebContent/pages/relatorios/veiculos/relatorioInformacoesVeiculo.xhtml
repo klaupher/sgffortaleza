@@ -156,6 +156,12 @@
 							<h:outputText value="#{sr.veiculo.adesivado == 1 ? 'Sim' : 'Não'}" />
 							
 						</rich:column>
+						
+						<rich:column>
+							<f:facet name="header"><h:outputLabel value="Status"/></f:facet>
+							<h:outputText value="#{sr.veiculo.status}" />
+							
+						</rich:column>
 	
 					</rich:subTable>
 
