@@ -6,13 +6,17 @@ package br.gov.ce.fortaleza.cti.sgf.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.persistence.Query;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Motorista;
+import br.gov.ce.fortaleza.cti.sgf.entity.Multa;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 
 /**
@@ -52,6 +56,21 @@ public class MotoristaService extends BaseService<Integer, Motorista>{
 
 	public List<Motorista> findByUGStatus(String ugid, String status){
 		return executeResultListQuery("findByUGStatus", ugid, status);
+	}
+	
+	public List<Motorista> findMotoristasSemMultas(String ugid){
+		List<Motorista> motoristas = new ArrayList<Motorista>();
+		Session sess = (Session) entityManager.getDelegate();
+		
+//		Criteria crit = sess.createCriteria(Multa.class)
+//				.createCriteria("Motorista")
+//				.add(Restrictions.lt("", 20))
+//		crit.setMaxResults(50);
+//		List cats = crit.list();
+//		String query = entityManager.createQuery("select m.motorista from Multas m where o.pessoa.ua.ug = :ug GROUP BY ");
+//		query.setParameter("ug", ug);
+//		motoristas = query.getResultList();
+		return motoristas;
 	}
 
 	@SuppressWarnings("unchecked")

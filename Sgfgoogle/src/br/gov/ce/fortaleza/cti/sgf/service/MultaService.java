@@ -70,4 +70,6 @@ public class MultaService extends BaseService<Integer, Multa> {
 			return executeResultListQuery("findByPeriodo", inicio, fim);
 		}
 	}
+
+	
 }

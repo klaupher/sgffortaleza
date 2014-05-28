@@ -70,7 +70,6 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 
 	public String prepareSave(){
 		loadVeiculos();
-		loadMotoristas();
 		return super.prepareSave();
 	}
 
@@ -100,6 +99,7 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 
 	public String delete(){
 		this.entity.getMotorista().setPontosCnh(this.entity.getMotorista().getPontosCnh() - this.entity.getInfracao().getPontuacao());
+		motoristaService.update(this.entity.getMotorista());
 		return super.delete();
 	}
 
@@ -175,14 +175,11 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 
 			if (this.ug != null) {
 
-				this.motoristas = motoristaService.findByUG(this.ug.getId());
-			} else {
-
-				this.motoristas = motoristaService.retrieveAll();
-			}
+				this.motoristas = motoristaService.findMotoristasServidores(this.ug.getId());
+			} 
 		} else {
 
-			this.motoristas = motoristaService.findByUG(user.getPessoa().getUa().getUg().getId());
+			this.motoristas = motoristaService.findMotoristasServidores(user.getPessoa().getUa().getUg().getId());
 		}
 		return SUCCESS;
 	}
@@ -254,5 +251,13 @@ public class MultaBean extends EntityBean<Integer, Multa>{
 
 	public void setActionSearchResult(Boolean actionSearchResult) {
 		this.actionSearchResult = actionSearchResult;
+	}
+
+	public List<Motorista> getMotoristas() {
+		return motoristas;
+	}
+
+	public void setMotoristas(List<Motorista> motoristas) {
+		this.motoristas = motoristas;
 	}
 }

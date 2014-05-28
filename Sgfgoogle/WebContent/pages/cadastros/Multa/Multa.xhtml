@@ -31,7 +31,7 @@
 						<f:selectItem itemLabel="Todos ..." itemValue=""/>
 					</c:if>
 	    			<t:selectItems value="#{ugBean.ugs}" var="ugx" itemLabel="#{ugx.descricao}" itemValue="#{ugx}"/>
-	    			<a4j:support event="onchange" action="#{multaBean.loadVeiculos}" reRender="veiculo, motorista" ajaxSingle="true"/>
+	    			<a4j:support event="onchange" action="#{multaBean.loadVeiculos}" reRender="motorista" ajaxSingle="true"/>
 	    		</h:selectOneMenu>
 	    		<rich:message for="ugVeiculo" styleClass="message"/>
 	    	</dd>
@@ -62,7 +62,7 @@
 		  	<dd>
 				<h:selectOneMenu id="motorista" value="#{multaBean.entity.motorista}" required="true" requiredMessage="Selecione o motorista" converter="entityConverter">
 					<f:selectItem itemLabel="Selecione o Motorista" itemValue=""/>
-		 			<t:selectItems value="#{motoristaBean.motoristas}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}"/>
+		 			<t:selectItems value="#{multaBean.motoristas}" var="motorista" itemLabel="#{motorista.pessoa.nome}" itemValue="#{motorista}"/>
 				</h:selectOneMenu>
 				<label style="color:red">*</label>
 				<rich:message for="motorista"  styleClass="message"/>

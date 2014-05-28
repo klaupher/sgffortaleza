@@ -477,7 +477,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		if(SgfUtil.isAdministrador(user)){
 			this.motoristas = motoristaService.retrieveAll();
 		} else {
-			this.motoristas = motoristaService.findByUG(user.getPessoa().getUa().getUg().getId());
+			this.motoristas = motoristaService.findMotoristasServidores(user.getPessoa().getUa().getUg().getId());
 		}
 		setHoraSaida(DateUtil.getDateAsTimeString(this.entity.getDataHoraSaida()));
 		setHoraRetorno(DateUtil.getDateAsTimeString(this.entity.getDataHoraRetorno()));
@@ -524,12 +524,12 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 		if(SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)){
 			if(this.orgaoSelecionado != null){
-				this.motoristas = motoristaService.findByUG(this.orgaoSelecionado.getId());
+				this.motoristas = motoristaService.findMotoristasServidores(this.orgaoSelecionado.getId());
 			}
 			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(this.orgaoSelecionado));
 		} else if(SgfUtil.isChefeTransporte(this.usuario)){
 			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(this.usuario.getPessoa().getUa().getUg()));
-			this.motoristas = motoristaService.findByUG(this.usuario.getPessoa().getUa().getUg().getId());
+			this.motoristas = motoristaService.findMotoristasServidores(this.usuario.getPessoa().getUa().getUg().getId());
 		} else {
 			this.veiculos = new ArrayList<Veiculo>(veiculoService.veiculosDisponiveis(null));
 		}
