@@ -16,7 +16,6 @@ import org.hibernate.criterion.MatchMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.CotaKm;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
@@ -80,5 +79,4 @@ public class CotaKmService extends BaseService<Integer, CotaKm>{
 		List<Veiculo> veiculos = new ArrayList<Veiculo>(query.getResultList());
 		return veiculos;
 	}
-
 }

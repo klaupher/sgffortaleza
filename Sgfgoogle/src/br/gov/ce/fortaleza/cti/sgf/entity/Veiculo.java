@@ -57,7 +57,7 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 	@NamedQuery(name = "Veiculo.findByPlaca", query = "SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != 6 "),
 	@NamedQuery(name = "Veiculo.findById", query = "SELECT v FROM Veiculo AS v WHERE (v.id = ?)") })
 public class Veiculo implements Serializable {
-
+	
 	private static final long serialVersionUID = 1031161986293985845L;
 
 	@Id
@@ -171,7 +171,6 @@ public class Veiculo implements Serializable {
 	@OneToOne(mappedBy = "veiculo", fetch=FetchType.LAZY)
 	private CotaKm cotaKm;
 	
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veiculo", cascade = {CascadeType.PERSIST, CascadeType.MERGE })
 	@Cascade( { org.hibernate.annotations.CascadeType.SAVE_UPDATE,	org.hibernate.annotations.CascadeType.DELETE_ORPHAN })
 	private Set<PostoServicoVeiculo> postosServicosVeiculos;
@@ -227,6 +226,19 @@ public class Veiculo implements Serializable {
 	@OneToOne
 	@JoinColumn(name="CODMOTORISTA")
 	private Motorista motorista;
+	
+	//MODIFICADO 30.05.2014 - PAULO ANDRE
+	@Transient
+	private String valorCotaKm;
+
+	public String getValorCotaKm() {
+		return valorCotaKm;
+	}
+
+	public void setValorCotaKm(String valorCotaKm) {
+		this.valorCotaKm = valorCotaKm;
+	}
+	//FIM
 
 	public Motorista getMotorista() {
 		return motorista;

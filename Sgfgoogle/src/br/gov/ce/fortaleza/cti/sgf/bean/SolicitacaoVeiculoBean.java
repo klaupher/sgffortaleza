@@ -20,6 +20,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
+import br.gov.ce.fortaleza.cti.sgf.service.CotaKmService;
 import br.gov.ce.fortaleza.cti.sgf.service.MotoristaService;
 import br.gov.ce.fortaleza.cti.sgf.service.SolicitacaoVeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
@@ -48,7 +49,16 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	@Autowired
 	private MotoristaService motoristaService;
+	
+	@Autowired
+	private CotaKmService cotaKmService;
+	
 
+	//MODIFICADO 29.05.2014 PAULO ANDRE
+	//atributo para fazer o calculo da cota de km rodados 
+	private double saldo;
+	//FIM
+	
 	private RegistroVeiculo registro;
 	private UG orgaoSelecionado;
 	private UA uaSelecionada;
@@ -442,7 +452,6 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	 */
 	public String registrarRetorno() {
 		
-		
 		Long kmatual = this.entity.getKmRetorno();
 		Veiculo veiculo = this.entity.getVeiculo();
 		if(veiculo.getKmAtual() != null){
@@ -466,6 +475,16 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		this.entity.setStatusAtendimento(StatusRegistroSolicitacaoVeiculo.FINALIZADO);
 		this.entity.setStatus(StatusSolicitacaoVeiculo.FINALIZADO);
 		veiculo.setKmAtual(kmatual);
+		
+		//MODIFICADO 29.05.2014 PAULO ANDRE
+		if(veiculo.getCotaKm() != null){
+			this.saldo = 0;
+			this.saldo = this.entity.getKmRetorno() - this.entity.getKmSaida();
+			veiculo.getCotaKm().setCotaKmDisponivel(veiculo.getCotaKm().getCotaKm() - this.saldo);
+			cotaKmService.update(veiculo.getCotaKm());
+		}//FIM
+		
+		
 		veiculoService.update(veiculo);
 		service.update(this.entity);
 		this.registrar = false;
@@ -568,10 +587,21 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		
 		this.pesquisaUltimosKms();
 		
+		//MODIFICADO 29.05.2014 - PAULO ANDRE
+		//ATUALIZA O CAMPO VALORCOTAKM DE CADA VEICULO NA LISTAGEM DE VEICULOS
+		for (int i = 0; i < veiculos.size() - 1; i++) {
+			if(veiculos.get(i).getCotaKm() == null){
+				veiculos.get(i).setValorCotaKm("Nao possui Cota");
+			}else {
+				veiculos.get(i).setValorCotaKm(veiculos.get(i).getCotaKm().getCotaKmDisponivel().toString());
+			}
+		}		
+		//FIM
+		
 		setCurrentBean(currentBeanName());
 		setCurrentState(EDIT);
 		return SUCCESS;
-	}
+	}	
 	
 	public String pesquisaUltimosKms() {
 		

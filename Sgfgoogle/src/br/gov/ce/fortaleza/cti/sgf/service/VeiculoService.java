@@ -123,7 +123,7 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		if(!numeroContrato.isEmpty()) {
 			sql.append(" AND v.contrato = '"+ numeroContrato +"'");
 		}
-			
+		//FIM
 		if(!placa.isEmpty()) {
 			sql.append(" AND v.placa LIKE '%"+ placa +"%'");
 		}else{
@@ -184,14 +184,14 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		Query query = null;
 		if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
 			if(ug != null){
-				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 and v.ua.ug.id = :ug AND (v.dataDut > NOW() OR v.dataDut IS NULL)");
+				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 and v.ua.ug.id = :ug AND (v.dataDut > NOW() OR v.dataDut IS NULL) order by v.cotaKm");
 				query.setParameter("ug", ug.getId());
 			} else {
-				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0");
+				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 order by v.cotaKm");
 			}
 			return query.getResultList();
 		} else {
-			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0 AND (v.dataDut > NOW() OR v.dataDut is NULL)");
+			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0 AND (v.dataDut > NOW() OR v.dataDut is NULL) order by v.cotaKm");
 			query.setParameter("ug", SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId());
 			return query.getResultList();
 		}

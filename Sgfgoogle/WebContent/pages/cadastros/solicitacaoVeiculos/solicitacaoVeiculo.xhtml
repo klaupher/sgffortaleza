@@ -197,7 +197,7 @@
 					<dd>
 						<h:selectOneMenu id="veiculoSolicitacao" value="#{solicitacaoVeiculoBean.entity.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
 							<f:selectItem itemLabel="Informe o veículo ..." itemValue=""/>
-				 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie} - (#{v.kmAtual} Kms)" itemValue="#{v}"/>
+				 			<t:selectItems value="#{solicitacaoVeiculoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie} - (#{v.valorCotaKm} Kms)" itemValue="#{v}" />
 				 			<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.pesquisarSolicitacoesPendentes}"  reRender="paginaPrincipal" ajaxSingle="true"/>
 						</h:selectOneMenu>
 						<h:message for="veiculoSolicitacao" styleClass="message"/>
