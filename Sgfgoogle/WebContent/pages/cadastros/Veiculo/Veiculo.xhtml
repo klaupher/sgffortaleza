@@ -148,6 +148,20 @@
 			</dl>
 
 			<dl>
+				<dt>
+					<label for="combustivel">Cota Abastecimento</label>
+				</dt>
+				<dd>
+					<h:selectOneMenu id="abastecimentoPmf" disabled="#{!controlBean.administrador}"  requiredMessage="Informe se existe Cota de Abastecimento" value="#{veiculoBean.entity.abastecimento}" rendered="#{veiculoBean.entity.propriedade == 'PMF'}">
+						<f:selectItem itemLabel="SIM" itemValue="1" />
+					</h:selectOneMenu>
+					<h:selectOneMenu id="abastecimento" disabled="#{!controlBean.administrador}"  requiredMessage="Informe se existe Cota de Abastecimento" value="#{veiculoBean.entity.abastecimento}" rendered="#{veiculoBean.entity.propriedade != 'PMF'}">
+						<f:selectItem itemLabel="SIM" itemValue="1" />
+						<f:selectItem itemLabel="NAO" itemValue="0" />
+					</h:selectOneMenu>
+				</dd>
+			</dl>
+			<dl>
 			  	<dt><label for="placa">Placa</label></dt>
 			  	<dd>
 					 <h:inputText id="placa" value="#{veiculoBean.entity.placa}" required="true" disabled="#{!controlBean.administrador}" 

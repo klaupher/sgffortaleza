@@ -119,12 +119,22 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		return super.searchQtdEspecific();
 	}
 	//FIM
+	//MODIFICADO 02.06.2014 -- PAULO ANDRE
+	public void atualizaCotaAbastecimento(){
+		if(entity.getPropriedade().equalsIgnoreCase("PMF")){
+			entity.setAbastecimento(1);
+		}else {
+			entity.setAbastecimento(0);
+		}
+	}
+	//FIM
 	
 	public void atualizaNrPatrimonio(){
 		setIsAdministrador(SgfUtil.isAdministrador(SgfUtil.usuarioLogado()));
 		String propriedade = entity.getPropriedade();
 		mostraNrPatrimonio = setIsAdministrador(true && propriedade.equals("PMF") ? true : false);
 		mostraListaMotoristas = propriedade.equals("Locado") ? true : false;
+		this.atualizaCotaAbastecimento();
 	}
 
 	public List<Veiculo> getVeiculos(){

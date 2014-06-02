@@ -227,6 +227,19 @@ public class Veiculo implements Serializable {
 	@JoinColumn(name="CODMOTORISTA")
 	private Motorista motorista;
 	
+	//MODIFICADO 02.06.2014 - PAULO ANDRE
+	@Column(name = "ABASTECIMENTO")
+	private Integer abastecimento;
+	
+	public Integer getAbastecimento() {
+		return abastecimento;
+	}
+
+	public void setAbastecimento(Integer abastecimento) {
+		this.abastecimento = abastecimento;
+	}
+	//FIM
+	
 	//MODIFICADO 30.05.2014 - PAULO ANDRE
 	@Transient
 	private String valorCotaKm;
