@@ -12,14 +12,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import br.gov.ce.fortaleza.cti.sgf.entity.Cota;
 import br.gov.ce.fortaleza.cti.sgf.entity.CotaKm;
 import br.gov.ce.fortaleza.cti.sgf.entity.Marca;
 import br.gov.ce.fortaleza.cti.sgf.entity.Modelo;
-import br.gov.ce.fortaleza.cti.sgf.entity.PostoServico;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
@@ -63,6 +60,15 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 	
 	private List<Veiculo> veiculos = new ArrayList<Veiculo>();
 	private Veiculo veiculo = new Veiculo();
+			
+	public String searchPaginaInicial() {
+		this.entities = new ArrayList<CotaKm>();
+		this.entities.addAll(cotaKmService.findcotasPaginaInicial());
+		
+		setCurrentBean(currentBeanName());
+		setCurrentState(SEARCH);
+		return SUCCESS;
+	}
 	
 	@Override
 	public String search() {
@@ -70,7 +76,9 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 			return pesquisar();
 		}
 		this.entities = new ArrayList<CotaKm>();
-		this.entities.addAll(cotaKmService.findcotasKmAllVeiculoativos());
+		//this.entities.addAll(cotaKmService.findcotasKmAllVeiculoativos());
+		this.entities.addAll(cotaKmService.findcotasKmAllVeiculoativos2(ugPesquisa));
+		
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;
@@ -139,6 +147,9 @@ public class CotaKmBean extends EntityBean<Integer, CotaKm>{
 			}else{
 				cotaKm.getVeiculo();
 			}
+			//MODIFICACOES 04.06.2014 - PAULO ANDRE
+			cotaKm.setVeiculo(new Veiculo());
+			//FIM
 			cotaKm.getVeiculo().setUa(new UA());
 			cotaKm.getVeiculo().getUa().setUg(ugPesquisa);
 		}

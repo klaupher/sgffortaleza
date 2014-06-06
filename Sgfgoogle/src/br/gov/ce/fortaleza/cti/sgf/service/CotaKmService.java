@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.CotaKm;
+import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
 import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 
@@ -57,12 +59,48 @@ public class CotaKmService extends BaseService<Integer, CotaKm>{
 		return cotas;
 	}
 
+	//MODIFICADO 02.06.2014 - PAULO ANDRE
+	public Collection<? extends CotaKm> findcotasPaginaInicial() {
+		Query query = entityManager.createQuery("SELECT c FROM CotaKm c WHERE c.veiculo.status <> ?");
+		query.setParameter(1, StatusVeiculo.baixado);
+		query.setFirstResult(1);
+		query.setMaxResults(30);
+		List<CotaKm> result = new ArrayList<CotaKm>(query.getResultList());
+		//PREENCHE OS DADOS DE CADA VEICULO DA LISTA
+		//DXA A PESQUISA MAIS LENTA
+		for (CotaKm cotaKm : result) {
+			Hibernate.initialize(cotaKm.getVeiculo());
+		}
+		return result;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Collection<? extends CotaKm> findcotasKmAllVeiculoativos2(UG ug) {
+		Query query;		
+		if(ug != null){
+			query = entityManager.createQuery("SELECT c FROM CotaKm c WHERE c.veiculo.status <> ? and c.veiculo.ua.ug = ?");
+			query.setParameter(1, StatusVeiculo.baixado);
+			query.setParameter(2, ug);
+		}else {
+			query = entityManager.createQuery("SELECT c FROM CotaKm c WHERE c.veiculo.status <> ?");
+			query.setParameter(1, StatusVeiculo.baixado);
+		}
+		List<CotaKm> result = new ArrayList<CotaKm>(query.getResultList());
+		//PREENCHE OS DADOS DE CADA VEICULO DA LISTA
+		for (CotaKm cotaKm : result) {
+			Hibernate.initialize(cotaKm.getVeiculo());
+		}
+		return result;
+	}
+	//FIM
+	
 	@SuppressWarnings("unchecked")
 	public Collection<? extends CotaKm> findcotasKmAllVeiculoativos() {
 		// TODO Auto-generated method stub
 		Query query = entityManager.createQuery("SELECT c FROM CotaKm c WHERE c.veiculo.status <> ?");
 		query.setParameter(1, StatusVeiculo.baixado);
 		List<CotaKm> result = new ArrayList<CotaKm>(query.getResultList());
+		
 		return result;
 	}
 
@@ -73,9 +111,9 @@ public class CotaKmService extends BaseService<Integer, CotaKm>{
 
 	@SuppressWarnings("unchecked")
 	public Collection<? extends Veiculo> findVeiculosTerceiros() {
-		// TODO Auto-generated method stub
-		Query query = entityManager.createQuery("select o from Veiculo o where o.propriedade = 'Locado' and o not in(select c.veiculo from CotaKm c) and o.status != 6");
-		
+		// MODIFICADO 04.06.2014 - PAULO ANDRE
+		//Query query = entityManager.createQuery("select o from Veiculo o where o.propriedade = 'Locado' and o not in(select c.veiculo from CotaKm c) and o.status != 6");
+		Query query = entityManager.createQuery("select o from Veiculo o where o.abastecimento = 0 and o not in(select c.veiculo from CotaKm c) and o.status != 6");
 		List<Veiculo> veiculos = new ArrayList<Veiculo>(query.getResultList());
 		return veiculos;
 	}

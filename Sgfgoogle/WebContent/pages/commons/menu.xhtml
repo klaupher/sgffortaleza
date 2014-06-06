@@ -129,7 +129,7 @@
 				<rich:menuItem value="Bomba Combustível" action="#{bombaBean.search}" rendered="#{controlBean.hasPermission('RULE_BOMBA')}" immediate="true"/>
 				<rich:menuGroup value="Cotas" direction="right">
 					<rich:menuItem value="Abastecimento" action="#{cotaBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA')}" immediate="true"/>
-					<rich:menuItem value="Quilometragem" action="#{cotaKmBean.search}" rendered="#{controlBean.hasPermission('RULE_COTA_KM')}" immediate="true"/>
+					<rich:menuItem value="Quilometragem" action="#{cotaKmBean.searchPaginaInicial}" rendered="#{controlBean.hasPermission('RULE_COTA_KM')}" immediate="true"/>
 				</rich:menuGroup>	
 				<rich:menuItem value="Infrações" action="#{infracaoBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_INFRACAO')}"  immediate="true"/>
 				<rich:menuItem value="Motoristas" action="#{motoristaBean.searchSort}" rendered="#{controlBean.hasPermission('RULE_MOTORISTA')}" immediate="true"/>
