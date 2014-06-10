@@ -237,6 +237,7 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 		//Modificacoes 22.05.2014 --Paulo Andre
 		this.setContrato("");
 		this.preencheListaContratos();
+		//this.setStatusVeiculo("true");
 		//Fim
 		
 		this.entities = null;

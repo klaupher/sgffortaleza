@@ -129,6 +129,11 @@ public class CotaService extends BaseService<Integer, Cota>{
 	public List<Cota> findcotasAllVeiculoativos(){
 		Query query = entityManager.createQuery("SELECT c FROM Cota c WHERE c.veiculo.status <> ?");
 		query.setParameter(1, StatusVeiculo.baixado);
+		//MODIFICADO 09.06.2014 - PAULO ANDRE
+		//METODO SÓ É CHAMADO QDO É CHAMADA A PAGINA INICIA DE CADASTRO DE COTA, RETORNANDO SOMENTE OS 50 PRIMEIROS CORRIGE O ERRO DA PAGINACAO
+		query.setFirstResult(1);
+		query.setMaxResults(50);
+		//FIM
 		List<Cota> result = new ArrayList<Cota>(query.getResultList());
 		return result;
 	}

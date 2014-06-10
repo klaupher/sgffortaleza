@@ -178,7 +178,7 @@ public class CotaBean extends EntityBean<Integer, Cota>{
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String delete(){
 		if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.locado)){
-			this.botaoExcluir.setOncomplete("alert('Não é permitido excluir cotas de veículo ativo!')");
+			this.botaoExcluir.setOncomplete("alert('Nï¿½o ï¿½ permitido excluir cotas de veï¿½culo ativo!')");
 			return FAIL;
 		} else if(this.entity.getVeiculo().getStatus().equals(StatusVeiculo.disponivel)){
 			return super.delete();
