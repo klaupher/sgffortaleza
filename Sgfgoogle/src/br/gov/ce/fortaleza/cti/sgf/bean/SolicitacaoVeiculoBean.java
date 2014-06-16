@@ -590,7 +590,7 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 		//MODIFICADO 29.05.2014 - PAULO ANDRE
 		//ATUALIZA O CAMPO VALORCOTAKM DE CADA VEICULO NA LISTAGEM DE VEICULOS
 		for (int i = 0; i < veiculos.size() - 1; i++) {
-			if(veiculos.get(i).getCotaKm() == null){
+			if(veiculos.get(i).getCotaKm() == null || veiculos.get(i).getCotaKm().getCotaKmDisponivel() == null){
 				veiculos.get(i).setValorCotaKm("Nao possui Cota");
 			}else {
 				veiculos.get(i).setValorCotaKm(veiculos.get(i).getCotaKm().getCotaKmDisponivel().toString());

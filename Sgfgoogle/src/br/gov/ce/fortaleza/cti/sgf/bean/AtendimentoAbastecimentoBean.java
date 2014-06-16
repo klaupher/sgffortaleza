@@ -71,11 +71,25 @@ public class AtendimentoAbastecimentoBean extends EntityBean<Integer, Atendiment
 		return SUCCESS;
 	}
 	
+	//MODIFICADO - PAULO ANDRE
+	//NAO ESTA SENDO USADO
 	public String populate(){
+		if(this.orgao != null){
+			this.veiculos = veiculoService.findByUG(this.orgao);
+			this.entities = new ArrayList<AtendimentoAbastecimento>();
+			return super.populate();
+		}else {
+			this.veiculos = new ArrayList<Veiculo>();
+			this.entities = new ArrayList<AtendimentoAbastecimento>();
+			return SUCCESS;
+		}
+	}
+	//FIM
+	/*public String populate(){
 		this.veiculos = veiculoService.findByUG(this.orgao);
 		this.entities = new ArrayList<AtendimentoAbastecimento>();
 		return super.populate();
-	}
+	}*/
 	
 	public String buscarAtendimentos(){
 		
