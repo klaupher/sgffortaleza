@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<div id="cadastro">
+
+		<h1> Veículo Substituto </h1>
+
+		<fieldset>
+
+	      	<legend>Cadastro de Veículo Substituto</legend>
+
+			
+
+			<a4j:region rendered="#{controlBean.administrador or controlBean.coordenador or controlBean.master}">
+			
+				<h:panelGroup id="groupNew" rendered="#{veiculoSubstitutoBean.saveState}">
+					<dt><h:outputLabel value="Órgão:" for="selectUg" 	styleClass="labelNegrito"/></dt>
+					<dd>
+						<h:selectOneMenu id="selectUg" value="#{veiculoSubstitutoBean.orgaoSelecionado}" converter="entityConverter" styleClass="ugList" >
+							<f:selectItem itemLabel="Informe o órgão ..." itemValue=""/>
+							<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+							<a4j:support event="onchange" action="#{veiculoSubstitutoBean.atualizaVeiculos}"  reRender="paginaPrincipal" ajaxSingle="true"/>
+						</h:selectOneMenu>
+					</dd>
+					
+					<dt><h:outputLabel value="Veículo:" styleClass="labelNegrito"/></dt>
+					<dd>
+						<h:selectOneMenu id="veiculo" value="#{veiculoSubstitutoBean.veiculo}" requiredMessage="Informe o veículo" converter="entityConverter">
+							<f:selectItem itemLabel="Informe o veículo ..." itemValue=""/>
+				 			<t:selectItems value="#{veiculoSubstitutoBean.veiculos}" var="v" itemLabel="#{v.placa} #{v.modelo.descricao} #{v.serie}" itemValue="#{v}" />
+						</h:selectOneMenu>
+						<h:message for="veiculo" styleClass="message"/>
+					</dd>
+				</h:panelGroup>
+			
+			</a4j:region>
+
+			<h:panelGroup id="groupPlaca" rendered="#{veiculoSubstitutoBean.saveState}">
+				<dl>
+					<dt><h:outputLabel value="Placa:" for="placa" styleClass="labelNegrito"/></dt>
+					<dd>
+				  		<h:inputText id="placa" value="#{veiculoSubstitutoBean.placaSubstituto}"></h:inputText>
+						<label style="color:red">*</label>
+					</dd>
+				</dl>	
+			</h:panelGroup>
+			
+			<h:panelGroup id="placaSubstituto" rendered="#{veiculoSubstitutoBean.updateState}">
+			
+				<h:inputHidden value="#{veiculoSubstitutoBean.entity.placa}" rendered="#{veiculoSubstitutoBean.updateState}"/>
+				<rich:dataTable id="dataTableBomba" value="#{veiculoSubstitutoBean.entity}" var="substituto" rows="10" rowKeyVar="index"
+					rowClasses="even,odd" 
+					onRowMouseOver="jQuery(this).addClass('trHover')" 
+					onRowMouseOut="jQuery(this).removeClass('trHover')" 
+					width="100%">
+					
+					<rich:column width="3%" style="text-align: center;" > 
+						<f:facet name="header"><h:outputText value="Nº" /></f:facet>
+						<h:outputText value="#{index+1}" style="color: black;"/>
+					</rich:column>
+					
+					<rich:column width="20%" style="text-align: left;" > 
+						<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
+						<h:inputText id="veiculo" value="#{substituto.veiculo.placa}" style="color: black;" size="10"></h:inputText>
+					</rich:column>
+					
+					<rich:column width="20%" style="text-align: left;" > 
+						<f:facet name="header"><h:outputText value="Veículo Substituto" /></f:facet>
+						<h:inputText id="placaEdit" value="#{substituto.placa}" style="color: black;" size="10"></h:inputText>
+					</rich:column>
+					
+					<rich:column width="30%" style="text-align: left;" > 
+						<h:inputText id="dataInicial" value="#{substituto.dataInicio}" styleClass="maskData">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+					</rich:column>
+					
+					<rich:column width="30%" style="text-align: left;" > 
+						<h:inputText id="dataFim" value="#{substituto.dataFim}" styleClass="maskData">
+							<f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+						</h:inputText>
+					</rich:column>
+				
+				</rich:dataTable>
+				
+			</h:panelGroup>
+
+	    </fieldset>
+
+	</div>
+	
+    <h:commandButton action="#{veiculoSubstitutoBean.save}" value="Gravar" rendered="#{veiculoSubstitutoBean.saveState and controlBean.administrador}">
+		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+	</h:commandButton>
+
+	<h:commandButton action="#{veiculoSubstitutoBean.update}" value="Alterar" rendered="#{veiculoSubstitutoBean.updateState and controlBean.administrador}"  onclick="if(!confirm('Confirmar alteração de dados.')) { form.reset();return false;}" styleClass="editar">
+		<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
+	</h:commandButton>
+
+	<h:commandButton action="#{veiculoSubstitutoBean.search}" value="Voltar"  immediate="true">
+		<a4j:support event="onclick" reRender="paginaPrincipal"/>
+	</h:commandButton>
+	
+	<label style="color:red">* Campos obrigatórios</label>
+
+</ui:composition>

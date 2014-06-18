@@ -69,6 +69,7 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 	private String numeroContrato;
 	private String kmAtual;
 	private Boolean adesivado;
+	private static final String SEARCH_SUBSTITUTOS = "SEARCH SUBSTITUTOS";
 	
 	private Boolean isAdministrador;
 	
@@ -126,9 +127,24 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 		}else {
 			entity.setAbastecimento(0);
 		}
+
 	}
 	//FIM
 	
+	
+	public String searchSubstituto() {
+		ugs = ugService.findAll();
+		setCurrentState(SEARCH_SUBSTITUTOS);
+		setCurrentBean(currentBeanName());
+		return SUCCESS;
+	}
+	
+	public boolean isSubstitutoState() {
+		// TODO Auto-generated method stub
+		return SEARCH_SUBSTITUTOS.equals(getCurrentState());
+	}
+	
+
 	public void atualizaNrPatrimonio(){
 		setIsAdministrador(SgfUtil.isAdministrador(SgfUtil.usuarioLogado()));
 		String propriedade = entity.getPropriedade();
@@ -505,5 +521,4 @@ public class VeiculoBean extends EntityBean<Integer, Veiculo>{
 			this.entity.setAdesivado(0);
 		}
 	}
-
 }

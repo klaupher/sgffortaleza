@@ -45,6 +45,7 @@
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.Rastreador</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.TipoVeiculo</class>
 		<class>br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm</class>
+		<class>br.gov.ce.fortaleza.cti.sgf.entity.VeiculoSubstituto</class>
 		<properties>
 			<property name="hibernate.connection.datasource" value="java:/comp/env/jdbc/sgf" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />

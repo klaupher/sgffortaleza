@@ -331,6 +331,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		return VeiculoBean.class.getSimpleName().equals(getCurrentBean());
 	}
 	
+	public boolean isVeiculoSubstitutoBean(){
+		return VeiculoSubstitutoBean.class.getSimpleName().equals(getCurrentBean());
+	}
+	
 	public boolean isRastreadorBean(){
 		return RastreadorBean.class.getSimpleName().equals(getCurrentBean());
 	}

@@ -250,6 +250,15 @@
 						<ui:include src="cadastros/Veiculo/VeiculoList.xhtml" />
 					</c:if>
 				</c:if>
+				
+				<c:if test="#{controlBean.veiculoSubstitutoBean}">
+					<c:if test="#{veiculoSubstitutoBean.updateState || veiculoSubstitutoBean.saveState}">
+						<ui:include src="cadastros/Veiculo/Substituto.xhtml" />
+					</c:if>
+					<c:if test="#{veiculoSubstitutoBean.searchState}">
+						<ui:include src="cadastros/Veiculo/SubstitutoList.xhtml" />
+					</c:if>
+				</c:if>
 		
 				<c:if test="#{controlBean.pessoaBean}">
 					<c:if test="#{pessoaBean.updateState || pessoaBean.saveState}">

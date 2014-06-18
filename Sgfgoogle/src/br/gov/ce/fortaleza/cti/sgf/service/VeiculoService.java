@@ -625,4 +625,17 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		Query query = entityManager.createQuery(sql.toString());
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findVeiculosLocados(UG ug){
+		
+		StringBuilder sql = new StringBuilder("select o from Veiculo o where o.propriedade = 'Locado' and o.status != 6 \n");
+		if(ug != null){
+			sql.append("and o.ua.ug.id = '"+ug.getId()+"' \n");
+		}
+		
+		Query query = entityManager.createQuery(sql.toString());
+		return query.getResultList();
+	}
+
 }
