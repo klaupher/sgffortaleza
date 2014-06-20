@@ -166,6 +166,18 @@
 						<ui:include src="cadastros/usuario/usuario.xhtml" />
 					</c:if>
 				</c:if>
+				
+				<c:if test="#{controlBean.faltaBean}">
+					<c:if test="#{(faltaBean.updateState or faltaBean.saveState)}">
+						<ui:include src="cadastros/falta/falta.xhtml" />
+					</c:if>
+					<c:if test="#{faltaBean.searchState}">
+						<ui:include src="cadastros/falta/faltaList.xhtml" />
+					</c:if>
+					<c:if test="#{faltaBean.viewState}">
+						<ui:include src="cadastros/falta/falta.xhtml" />
+					</c:if>
+				</c:if>
 
 				<c:if test="#{controlBean.roleBean}">
 					<c:if test="#{roleBean.searchState}">

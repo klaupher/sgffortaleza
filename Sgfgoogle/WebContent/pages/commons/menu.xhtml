@@ -62,6 +62,9 @@
                 
                 <rich:menuItem value="#{msg['solveiculo.menu']}" action="#{solicitacaoVeiculoBean.search}" 
                 	rendered="#{controlBean.hasPermission('RULE_SOLVEICULO')}" immediate="true"/>
+                
+                <rich:menuItem value="#{msg['falta.menu']}" action="#{faltaBean.search}" 
+                	rendered="#{controlBean.hasPermission('RULE_SOLVEICULO')}" immediate="true"/>
 
 			</rich:dropDownMenu>
 		

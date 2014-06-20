@@ -315,6 +315,10 @@ public class ControlStateBean extends BaseStateBean implements Serializable {
 		return EspecieBean.class.getSimpleName().equals(getCurrentBean());
 	}
 
+	public boolean isFaltaBean(){
+		return FaltaBean.class.getSimpleName().equals(getCurrentBean());
+	}
+
 	public boolean isInfracaoBean(){
 		return InfracaoBean.class.getSimpleName().equals(getCurrentBean());
 	}

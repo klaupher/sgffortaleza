@@ -186,9 +186,9 @@ public class Veiculo implements Serializable {
 	@Transient
 	private List<RequisicaoManutencao> manutencoes; 
 
-	@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
-	@Column(name = "GEOMPONTO", table = "TB_ULTIMATRANSMISSAO")
-	private Geometry geometry;
+	//@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
+	//@Column(name = "GEOMPONTO", table = "TB_ULTIMATRANSMISSAO")
+	//private Geometry geometry;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATA_TRANSMISSAO", table = "TB_ULTIMATRANSMISSAO")
@@ -471,13 +471,13 @@ public class Veiculo implements Serializable {
 		this.cotaDisponivel = cotaDisponivel;
 	}
 
-	public Geometry getGeometry() {
-		return geometry;
-	}
+	//public Geometry getGeometry() {
+	//	return geometry;
+	//}
 
-	public void setGeometry(Geometry geometry) {
-		this.geometry = geometry;
-	}
+	//public void setGeometry(Geometry geometry) {
+	//	this.geometry = geometry;
+	//}
 
 	public Float getTemperatura() {
 		return temperatura;

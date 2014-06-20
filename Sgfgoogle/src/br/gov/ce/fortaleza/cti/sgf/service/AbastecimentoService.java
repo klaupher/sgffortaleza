@@ -80,7 +80,7 @@ public class AbastecimentoService extends BaseService<Integer, Abastecimento> {
 		query.setParameter("dataIni", dataIni);
 		query.setParameter("dataFim", dataFim);
 		
-		queryBuffer.append(" orde by a.dataAutorizacao desc");
+		queryBuffer.append(" order by a.dataAutorizacao desc");
 
 		if(status != null){
 			query.setParameter("status", status);

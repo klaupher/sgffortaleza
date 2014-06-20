@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:sec="http://www.springframework.org/security/tags"
+      xmlns:a4j="http://richfaces.org/a4j">
+
+	<a4j:loadScript src="../scripts/jquery.alphanumeric.js" />
+ 
+	<rich:jQuery query="numeric()" selector="#quilometragem" timing="onload" />
+
+	<div id="cadastro">
+
+			<h1 style="width:300px"> 
+				<h:outputText value="#{msg['falta.title']}"/> 
+			</h1>
+
+			<fieldset>
+
+		      	<legend><h:outputText value="#{msg['falta.title']}" /> </legend>
+		      	
+		      	<a4j:region>
+			      	<dt><label for="ugList"><h:outputText value="UG:" /></label></dt>
+			      	<dd>
+				      	<h:selectOneMenu id="ugList" value="#{faltaBean.orgaoSelecionado}" requiredMessage="Informe a UG" converter="entityConverter"
+				      	   	style="width:420px">
+				   			<t:selectItems value="#{ugBean.ugs}" var="ug" itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+				   			<a4j:support event="onchange" action="#{faltaBean.loadVeiculos}" reRender="veiculoFalta" status="statusPreencherPostos"/>
+					   	</h:selectOneMenu>
+				   		<rich:message for="ugList"  styleClass="message"/>
+			   		</dd>
+		   		</a4j:region>
+
+		   		<a4j:region>
+					<dt><label for="veiculoFalta"><h:outputText value="#{msg['abastecimento.veiculo']}:" /></label></dt>
+					<dd>
+					    <h:selectOneMenu id="veiculoFalta" required="true" value="#{faltaBean.entity.veiculo}" disabled="#{controlBean.operador}" converter="entityConverter"> 
+					         <f:selectItem itemValue="" itemLabel="Informe o veículo ..." />
+					         <t:selectItems value="#{faltaBean.veiculos}" var="v" itemLabel="#{v.placa}  #{v.modelo.descricao} #{v.serie}" itemValue="#{v}" />
+					    </h:selectOneMenu>
+						<h:message for="veiculoFalta" tooltip="true" styleClass="message" />
+					</dd>
+				</a4j:region>
+
+	            <dt><label for="dataInicio">Data da Solicitação:</label></dt>
+				<dd>
+					<h:inputText id="data" value="#{faltaBean.entity.dataFalta}" style="width:130px" rendered="#{!faltaBean.confirmAtender}" 
+						styleClass="maskData">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+					</h:inputText>
+					<h:inputText id="data2" value="#{faltaBean.entity.dataFalta}" style="width:130px" rendered="#{faltaBean.confirmAtender}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-03:00"/>
+					</h:inputText>
+				</dd>
+		    </fieldset>
+	</div>
+
+	<h:commandButton action="#{faltaBean.save}" value="#{msg['label.gravar']}" 
+		rendered="#{faltaBean.saveState}">
+        <a4j:support event="onclick" reRender="paginaPrincipal" />
+    </h:commandButton>
+
+	<h:commandButton action="#{faltaBean.update}" value="#{msg['label.alterar']}" 
+		rendered="#{faltaBean.updateState}">
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+
+	<h:commandButton action="#{faltaBean.search}" value="#{msg['label.voltar']}" immediate="true">
+		<a4j:support event="onclick" reRender="paginaPrincipal" />
+	</h:commandButton>
+	
+	<a4j:status id="statusPreencherPostos">
+	 	<f:facet name="start">
+	 		<h:panelGroup style="align:center;">
+	 			<h:graphicImage value="/images/ajax-loader.gif" height="16" width="16" />
+	  			<h:outputText value="Processando..." styleClass="processando"/>
+			</h:panelGroup>
+		</f:facet>
+	</a4j:status>
+
+</ui:composition>
+
