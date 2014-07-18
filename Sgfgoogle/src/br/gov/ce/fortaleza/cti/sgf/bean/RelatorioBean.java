@@ -1881,8 +1881,8 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			dto.setKmInicial(kmMin);
 			dto.setKmAtual(kmMax);
 			dto.setKmRodados(kmRodados);
-			dto.setDtInicial(s.getDataHoraSaida());
-			dto.setDtFinal(s.getDataHoraRetorno());
+			dto.setDtInicial(s.getDtSaida());
+			dto.setDtFinal(s.getDtRetorno());
 			dto.setDestino(s.getDestino());
 			dto.setSaldoCotaKm(this.saldo);
 			

@@ -5,6 +5,7 @@ package br.gov.ce.fortaleza.cti.sgf.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -34,7 +35,7 @@ import br.gov.ce.fortaleza.cti.sgf.entity.Veiculo;
  */
 @Repository
 @Transactional
-public class DiarioKmService extends BaseService<Integer, RegistroVeiculo>{
+public class DiarioKmService extends BaseService<Integer, DiarioKm>{
 
 	@SuppressWarnings("unchecked")
 	public List<DiarioKm> findVeiculosTerceirosComCota() {
@@ -103,22 +104,15 @@ public class DiarioKmService extends BaseService<Integer, RegistroVeiculo>{
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<Veiculo> pesquisar(Veiculo veiculoPesquisa) {
+	public List<RegistroVeiculo> pesquisar(Veiculo veiculoPesquisa, Date dtSaida, Date dtRetorno) {
 		// TODO Auto-generated method stub
 		
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(Veiculo.class, "veiculo")
-				.add(Example.create(veiculoPesquisa).enableLike(MatchMode.ANYWHERE).ignoreCase());
-		DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Veiculo.class, "veiculo2");
-		detachedCriteria.createAlias("veiculo2.cotaKm", "cotaKm");
-		detachedCriteria.add(Restrictions.eqProperty("veiculo.id", "veiculo2.id"))
-			.setProjection(Projections.id());
+		Query query = entityManager.createQuery("select r from RegistroVeiculo r where r.solicitacao.veiculo.id = ? and r.dtRetorno between ? and ? order by r.dtRetorno desc");
+		query.setParameter(1, veiculoPesquisa.getId());
+		query.setParameter(2, dtSaida);
+		query.setParameter(3, dtRetorno);
 		
-		if(veiculoPesquisa.getUa() != null){
-			criteria.createCriteria("ua.ug").add(Example.create(veiculoPesquisa.getUa().getUg()));
-		}
-		criteria.add(Subqueries.exists(detachedCriteria));
-		return criteria.list();
+		return query.getResultList();
 	}
 	
 }

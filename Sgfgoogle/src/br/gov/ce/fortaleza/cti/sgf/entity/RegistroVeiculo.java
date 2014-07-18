@@ -6,6 +6,7 @@ package br.gov.ce.fortaleza.cti.sgf.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,8 +44,12 @@ public class RegistroVeiculo implements Serializable{
 	private User usuario;
 	
 	@ManyToOne
-	@JoinColumn(name="codpessoamotorista", nullable = false)
+	@JoinColumn(name="codpessoamotorista")
 	private Motorista motorista;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="codsolveiculo", nullable = false)
+	private SolicitacaoVeiculo solicitacao;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="dtsaida")
@@ -148,6 +153,14 @@ public class RegistroVeiculo implements Serializable{
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public SolicitacaoVeiculo getSolicitacao() {
+		return solicitacao;
+	}
+
+	public void setSolicitacao(SolicitacaoVeiculo solicitacao) {
+		this.solicitacao = solicitacao;
 	}
 
 }

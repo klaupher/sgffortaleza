@@ -133,10 +133,10 @@
 				
 				<c:if test="#{controlBean.diarioKmBean}">
 					<c:if test="#{diarioKmBean.searchState}">
-						<ui:include src="cadastros/diarioCotaKm/diarioKm.xhtml"/>
+						<ui:include src="cadastros/diarioCotaKm/diarioKmList.xhtml"/>
 					</c:if>
 					<c:if test="#{diarioKmBean.saveState || diarioKmBean.updateState}">
-						<ui:include src="cadastros/diarioCotaKm/diarioKmList.xhtml" />
+						<ui:include src="cadastros/diarioCotaKm/diarioKm.xhtml" />
 					</c:if>					
 				</c:if>
 

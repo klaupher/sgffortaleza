@@ -283,12 +283,6 @@
 					
 					<f:facet name="header"><h:outputText value="Veículo" /></f:facet>
 					
-					<!-- a4j:commandLink id="veiculo" value="Últimos Kms" reRender="paginaPrincipal" 
-						oncomplete="Richfaces.showModalPanel('solicitacaoKmsView', {width:700, height:400, top:40});" style="color: black;text-decoration:none;">
-					</a4j:commandLink>
-					<rich:toolTip value="Clique aqui para visualizar os dados da Solicitação" for="veiculo"/ -->
-					
-					
 				</dd>
 			</a4j:outputPanel>
 			
@@ -325,10 +319,6 @@
 				</rich:dataTable>
 
 			</fieldset>
-			
-			<h:commandButton value="Voltar" onclick="Richfaces.hideModalPanel;"  immediate="true">
-				<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
-			</h:commandButton> 
 
 		</div>
 				
@@ -383,12 +373,7 @@
 					</h:outputText>
 				</dd>
 				
-				<h:panelGroup id="kmVoltaPanel" rendered="#{!controlBean.administrador}">
-					<dt><h:outputLabel value="Km saída:" for="kmSaidaVolta"  styleClass="labelNegrito"/></dt>
-					<dd><h:outputText id="kmSaidaVolta" value="#{solicitacaoVeiculoBean.entity.kmSaida}"/></dd>
-				</h:panelGroup>
 				
-				<h:panelGroup id="kmVoltaPanelAdm" rendered="#{controlBean.administrador}">
 					<dt><h:outputLabel value="Km saída:" for="kmSaida"  styleClass="labelNegrito"/></dt>
 					<dd>
 						<h:inputText id="kmSaidaVoltaAdm" value="#{solicitacaoVeiculoBean.entity.kmSaida}" required="true" requiredMessage="Informe km de saída" styleClass="maskInteiro">
@@ -396,7 +381,7 @@
 						<h:outputText value=" Últ. Kilometragem: #{solicitacaoVeiculoBean.ultimaKilometragem}"  rendered="#{solicitacaoVeiculoBean.ultimaKilometragem != null}"/>
 						<h:message for="kmSaidaVoltaAdm" styleClass="message"/>
 					</dd>
-				</h:panelGroup>
+
 				
 				<dt>
 					<h:outputLabel value="Hora retorno:" for="hrFinalReal" styleClass="labelNegrito"/>

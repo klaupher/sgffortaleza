@@ -32,7 +32,7 @@
 					
 					<rich:column style="text-align: center;"> 
 						<f:facet name="header"><h:outputText value="Data"/></f:facet>
-						<h:outputText value="#{kms.dtRetorno}" style="color: black;"/>
+						<h:outputText value="#{kms.dtRetorno}" style="color: black;" timeZone="GMT-03:00"/>
 					</rich:column>
 					
 					<rich:column style="text-align: center;"> 
@@ -48,10 +48,6 @@
 				</rich:dataTable>
 
 			</fieldset>
-			
-			<h:commandButton value="Voltar" onclick="Richfaces.hideModalPanel;"  immediate="true">
-				<a4j:support event="oncomplete" reRender="paginaPrincipal"/>
-			</h:commandButton> 
 
 		</div>
 

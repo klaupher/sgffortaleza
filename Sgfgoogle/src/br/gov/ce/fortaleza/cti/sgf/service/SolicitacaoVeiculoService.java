@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.gov.ce.fortaleza.cti.sgf.entity.Falta;
 import br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
@@ -110,6 +111,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 				sqlRodados.append(" INNER JOIN tb_cadveiculo AS v ON (s.codveiculo = v.codveiculo)");
 				sqlRodados.append(" WHERE v.placa = '"+v.getPlaca()+"'");
 				sqlRodados.append(" AND s.datafim BETWEEN '"+begin+"' AND '"+end+"'");
+				sqlRodados.append(" AND s.statussol = 4");
 				sqlRodados.append(" GROUP BY v.placa");
 				
 				Query queryRodados = entityManager.createNativeQuery(sqlRodados.toString());
@@ -161,9 +163,10 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	public List<SolicitacaoVeiculo> kilometrosIndividuais(Veiculo veiculo, Date begin, Date end) {
 		List<SolicitacaoVeiculo> result = new ArrayList<SolicitacaoVeiculo>();
 		
-		StringBuilder sql = new StringBuilder("SELECT s FROM SolicitacaoVeiculo s WHERE s.dataHoraRetorno between ? and ?");
+		StringBuilder sql = new StringBuilder("SELECT s FROM SolicitacaoVeiculo s WHERE s.dtRetorno between ? and ?");
 		sql.append(" and s.veiculo.placa = '"+ veiculo.getPlaca() + "'");
 		sql.append(" and s.status = 4");
+		sql.append(" ORDER BY s.dtRetorno");
 		
 		Query query = entityManager.createQuery(sql.toString());
 		query.setParameter(1, begin);
@@ -208,10 +211,13 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> findVeiculosDisponiveis(SolicitacaoVeiculo solicitacao, UG aux) {
 
-		List<Veiculo> veiculos = new ArrayList<Veiculo>();
-		List<SolicitacaoVeiculo> solicitacaoVeiculos = new ArrayList<SolicitacaoVeiculo>();
+		List<Veiculo> veiculos 							= new ArrayList<Veiculo>();
+		List<SolicitacaoVeiculo> solicitacaoVeiculos 	= new ArrayList<SolicitacaoVeiculo>();
+		List<Falta> faltaVeiculos 						= new ArrayList<Falta>();
+		
 		StringBuffer hql = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND " +
 		"(s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
+		
 		UG ug = null;
 		if(aux != null){
 			ug = aux;
@@ -220,6 +226,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 				ug = solicitacao.getSolicitante().getPessoa().getUa().getUg();
 			}
 		}
+		
 		if (ug != null) {
 			hql.append("and s.solicitante.pessoa.ua.ug.id = :ugId");
 		}
@@ -230,6 +237,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		if (ug != null) {
 			query.setParameter("ugId", ug.getId());
 		}
+		
 		solicitacaoVeiculos = query.getResultList();
 		List<Veiculo> remove = new ArrayList<Veiculo>();
 
@@ -291,7 +299,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 			sql.append(" and s.status = :status");
 		}
 		
-		sql.append(" ORDER BY s.kmRetorno, s.dtRetorno DESC");
+		sql.append(" ORDER BY s.dtRetorno DESC");
 
 		Query query = entityManager.createQuery(sql.toString());
 		query.setParameter("id", veiculo.getId());

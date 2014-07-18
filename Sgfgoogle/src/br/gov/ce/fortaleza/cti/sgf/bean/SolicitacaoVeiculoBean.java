@@ -4,6 +4,7 @@
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -414,6 +415,8 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	 * Registra a saida do veículo, atualizando sua kilometragem atual informada
 	 * @return
 	 */
+
+	@SuppressWarnings("deprecation")
 	public String registrarSaida() {
 		Long kmatual = this.entity.getKmSaida();
 		Veiculo veiculo = this.entity.getVeiculo();
@@ -423,8 +426,18 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 				return FAIL;
 			}
 		}
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.entity.getDataHoraSaida());
+		cal.set(Calendar.HOUR_OF_DAY,this.horaSaidaReal.getHours());
+		cal.set(Calendar.MINUTE,this.horaSaidaReal.getMinutes());
+		cal.set(Calendar.SECOND,0);
+		cal.set(Calendar.MILLISECOND,0);
 
-		this.entity.setDtSaida(DateUtil.addTime(DateUtil.getDateStartDay(),this.horaSaidaReal));
+		Date dtSaida = cal.getTime();
+		
+		//this.entity.setDtSaida(DateUtil.addTime(DateUtil.getDateStartDay(),this.horaSaidaReal.get));
+		this.entity.setDtSaida(dtSaida);
 		if(this.entity.getDataHoraSaida().getTime() > DateUtil.getDateEndDay().getTime()){
 			JSFUtil.getInstance().addErrorMessage("msg.error.registro.saida.naopermitida");
 			return FAIL;
@@ -471,7 +484,20 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			JSFUtil.getInstance().addErrorMessage("msg.error.kmretorno.invalido");
 			return FAIL;
 		}
-		this.entity.setDtRetorno(DateUtil.addTime(DateUtil.getDateStartDay(), this.horaRetornoReal));
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.entity.getDataHoraRetorno());
+		cal.set(Calendar.HOUR_OF_DAY,this.horaRetornoReal.getHours());
+		cal.set(Calendar.MINUTE,this.horaRetornoReal.getMinutes());
+		cal.set(Calendar.SECOND,0);
+		cal.set(Calendar.MILLISECOND,0);
+
+		Date dtRetorno = cal.getTime();
+		
+		//this.entity.setDtRetorno(DateUtil.addTime(DateUtil.getDateStartDay(), this.horaRetornoReal));
+		this.entity.setDtRetorno(dtRetorno);
+		
+		
 		this.entity.setStatusAtendimento(StatusRegistroSolicitacaoVeiculo.FINALIZADO);
 		this.entity.setStatus(StatusSolicitacaoVeiculo.FINALIZADO);
 		veiculo.setKmAtual(kmatual);

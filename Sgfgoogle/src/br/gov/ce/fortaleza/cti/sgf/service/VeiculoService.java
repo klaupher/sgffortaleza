@@ -637,5 +637,19 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 		Query query = entityManager.createQuery(sql.toString());
 		return query.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Veiculo> findVeiculosComCotakm(UG ug){
+		
+		List<Veiculo> veiculos = new ArrayList<Veiculo>();
+		String ugid = ug.getId();
+		if(ug != null){
+			Query query = entityManager.createQuery("select o from Veiculo o where o.ua.ug.id = :id and o.cotaKm.cotaKmDisponivel > 0 and o.status != 6");
+			query.setParameter("id", ugid);
+			veiculos = query.getResultList();
+		}
+		return veiculos;
+	}
+	
 
 }

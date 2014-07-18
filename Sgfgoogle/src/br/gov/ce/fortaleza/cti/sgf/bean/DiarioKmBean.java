@@ -3,6 +3,7 @@
  */
 package br.gov.ce.fortaleza.cti.sgf.bean;
 
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.ce.fortaleza.cti.sgf.entity.CotaKm;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm;
 import br.gov.ce.fortaleza.cti.sgf.entity.DiarioKmHistoricoUltrapassado;
+import br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
 import br.gov.ce.fortaleza.cti.sgf.entity.User;
@@ -26,7 +28,9 @@ import br.gov.ce.fortaleza.cti.sgf.service.BaseService;
 import br.gov.ce.fortaleza.cti.sgf.service.CotaKmService;
 import br.gov.ce.fortaleza.cti.sgf.service.DiarioKmHistoricoService;
 import br.gov.ce.fortaleza.cti.sgf.service.DiarioKmService;
+import br.gov.ce.fortaleza.cti.sgf.service.RegistroVeiculoService;
 import br.gov.ce.fortaleza.cti.sgf.service.VeiculoService;
+import br.gov.ce.fortaleza.cti.sgf.util.DateUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.JSFUtil;
 import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
 
@@ -36,10 +40,10 @@ import br.gov.ce.fortaleza.cti.sgf.util.SgfUtil;
  */
 @Scope("session")
 @Component("diarioKmBean")
-public class DiarioKmBean extends EntityBean<Integer, DiarioKm>{
+public class DiarioKmBean extends EntityBean<Integer, RegistroVeiculo>{
 	
 	@Autowired
-	private DiarioKmService service;
+	private RegistroVeiculoService service;
 	
 	@Autowired
 	private CotaKmService cotaKmService;
@@ -51,6 +55,8 @@ public class DiarioKmBean extends EntityBean<Integer, DiarioKm>{
 	private VeiculoService veiculoService;
 	
 	private Collection<Veiculo> veiculos;
+	
+	private List<RegistroVeiculo> viagens;
 	
 	private Veiculo veiculoPesquisa;
 	
@@ -73,52 +79,81 @@ public class DiarioKmBean extends EntityBean<Integer, DiarioKm>{
 	private String chassiPesquisa;
 	private String renavamPesquisa;
 	private List<CotaKm> diarioKms;
+	private Integer mes;
+	private Integer ano;
+	private Date dtInicial;
+	private Date dtFinal;
+	private RegistroVeiculo viagemSelecionada;
 	
 	//Componentes JSF
 	private HtmlInputText inputValorInicial;
 	
 	public void pesquisar(){
-		veiculoPesquisa = new Veiculo();
-		veiculoPesquisa.setPlaca(placaPesquisa);
-		veiculoPesquisa.setRenavam(renavamPesquisa);
-		veiculoPesquisa.setChassi(chassiPesquisa);
-		if(!SgfUtil.isAdministrador(usuario)){
-			ugPesquisa = usuario.getPessoa().getUa().getUg();
-			veiculoPesquisa.setUa(new UA());
-			veiculoPesquisa.getUa().setUg(ugPesquisa);
-		}else if(ugPesquisa != null){
-			veiculoPesquisa.setUa(new UA());
-			veiculoPesquisa.getUa().setUg(ugPesquisa);
-		}
-		veiculos = service.pesquisar(veiculoPesquisa);
-		populaVeiculoUltimaDiaria(veiculos);
+				
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.YEAR, this.ano);
+		calendar.set(Calendar.MONTH, this.mes);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		this.setDtInicial(DateUtil.getDateStartDay(calendar.getTime()));
+
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DATE));
+		calendar.set(Calendar.HOUR_OF_DAY, 23);
+		calendar.set(calendar.MINUTE, 59);
+		calendar.set(Calendar.SECOND, 59);
+		calendar.set(Calendar.MILLISECOND, 0);
+
+		this.setDtFinal(DateUtil.getDateEndDay(calendar.getTime()));
+		
+		//veiculoPesquisa = new Veiculo();
+		//veiculoPesquisa.setPlaca(placaPesquisa);
+
+		
+		viagens = service.pesquisar(this.veiculoPesquisa, this.dtInicial, this.dtFinal);
+		//populaVeiculoUltimaDiaria(veiculos);
+		
 	}
 	
+	public String carregarVeiculos(){
+		
+		this.veiculos = veiculoService.findVeiculosComCotakm(this.ugPesquisa);
+		
+		return SUCCESS;
+	}
 	
 	@Override
 	public String search() {
-		// TODO Auto-generated method stub
-		pesquisar();
-		populaVeiculoUltimaDiaria(veiculos);
+
+		if(this.veiculoPesquisa != null){
+		
+			pesquisar();
+		}
+
 		setCurrentBean(currentBeanName());
 		setCurrentState(SEARCH);
 		return SUCCESS;
 	}
 	
-	private void populaVeiculoUltimaDiaria(Collection<? extends Veiculo> veiculos2){
-		for (Veiculo veiculoT : veiculos2) {
-			DiarioKm diarioKm = service.findUltimaDiaria(veiculoT);
-			if(diarioKm != null){
-				veiculoT.setValorInicial(diarioKm.getValorInicial().floatValue());
-			}
-		}
+	
+	@Override
+	public String prepareUpdate() {
+		
+		Veiculo v = this.entity.getSolicitacao().getVeiculo();
+		v.setKmAtual(this.entity.getKmRetorno());
+		veiculoService.update(v);
+		
+		// TODO Auto-generated method stub
+		return super.prepareUpdate();
 	}
 	
 	
 	@Override
 	public String prepareSave() {
 		// TODO Auto-generated method stub
-		veiculos = service.findVeiculosComCotaKmAtivos();
 		return super.prepareSave();
 	}
 
@@ -136,51 +171,32 @@ public class DiarioKmBean extends EntityBean<Integer, DiarioKm>{
 				valorFinal = veiculo.getValorFinal().doubleValue();
 				kmDia = valorFinal - valorInicial;
 				cotaKmDisponivel = veiculo.getCotaKm().getCotaKmDisponivel();
-				if(validaDiario(veiculo)){
-					entity.setCotaKm(veiculo.getCotaKm());
-					entity.getCotaKm().setCotaKmDisponivel(cotaKmDisponivel - kmDia);
-					entity.getCotaKm().setValorFinal(valorFinal);
-					entity.setValorFinal(valorFinal);
-					entity.setValorInicial(valorInicial);
+
 					try{
-						//Atualiza o saldo da cota de quilometragem
-						cotaKmService.update(entity.getCotaKm());
-						//salva o diario de quilometragem
+
+						
+
 						entity = service.save(entity);
 						retorno = search();
 					}catch(Exception e){
 						JSFUtil.getInstance().addErrorMessage("diarioKm.falha.salvar.diario");
 					}
-					//Salva o histórico da cotaKm caso a mesma já tenha sido ultrapassada.
-					if(isSalvarHistorico){
-						salvarHistorico();
-					}
-				}
+
 			}
 		}
 		return retorno;
 	}
 	
 	
-	public String saveDiario(){
-		veiculos.clear();
-		veiculos.add(veiculoSelecionado);
-		return save();
-	}
-	
-	
-	private void salvarHistorico() {
-		// TODO Auto-generated method stub
-		DiarioKmHistoricoUltrapassado historicoUltrapassado = new DiarioKmHistoricoUltrapassado();
-		historicoUltrapassado.setDataCadastro(new Date());
-		historicoUltrapassado.setDataAtualizacao(new Date());
-		historicoUltrapassado.setCotaDisponivelMes(entity.getCotaKm().getCotaKm());
-		historicoUltrapassado.setCotaKm(entity.getCotaKm());
-		historicoUltrapassado.setCotaUltrapassadaMes(kmDia);
-		historicoUltrapassado.setAnoMes(recuperarAnoMes());
-		historicoService.save(historicoUltrapassado);
-	}
+	public String delete() {
+		
+		Veiculo v = this.entity.getSolicitacao().getVeiculo();
+		v.setKmAtual(this.entity.getKmSaida());
+		veiculoService.update(v);
 
+		return super.delete();
+	}
+	
 
 	private String recuperarAnoMes() {
 		// TODO Auto-generated method stub
@@ -191,50 +207,23 @@ public class DiarioKmBean extends EntityBean<Integer, DiarioKm>{
 	}
 
 
-	public Boolean validaDiario(Veiculo veiculo){
-		if(valorInicial > valorFinal){
-			JSFUtil.getInstance().addErrorMessage("diariokm.valorfinal.maior.valorinicial");
-			return false;
-		}else if(kmDia > cotaKmDisponivel){
-//			Perguntar a Verene se é para salvar a Diária e guardar o histórico?
-//			Quando ultrapassar jogar na tabela de historico 
-//			JSFUtil.getInstance().addErrorMessage("diariokm.cota.ultrapassada");
-			setSalvarHistorico(true);
-		}else if(existeDiaria(veiculo)){
-			JSFUtil.getInstance().addErrorMessage("diariokm.ja.existe.diaria.veiculo");
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean existeDiaria(Veiculo veiculo) {
-		// TODO Auto-generated method stub
-		return service.findDiariaVeiculoNoDia(veiculo);
-	}
-
-
 	@Override
-	protected BaseService<Integer, DiarioKm> retrieveEntityService() {
+	protected RegistroVeiculoService retrieveEntityService() {
 		// TODO Auto-generated method stub
 		return service;
 	}
 
 	@Override
-	protected Integer retrieveEntityId(DiarioKm entity) {
+	protected Integer retrieveEntityId(RegistroVeiculo entity) {
 		// TODO Auto-generated method stub
 		return entity.getId();
 	}
 
 	@Override
-	protected DiarioKm createNewEntity() {
+	protected RegistroVeiculo createNewEntity() {
 		// TODO Auto-generated method stub
-		entity = new DiarioKm();
-		entity.setDataAlteracao(new Date());
-		entity.setDataCadastro(new Date());
-		entity.setUsuarioAlteracao(SgfUtil.usuarioLogado());
-		entity.setUsuarioCricao(SgfUtil.usuarioLogado());
-		entity.setValorFinal(0D);
-		entity.setValorInicial(0D);
+		entity = new RegistroVeiculo();
+		
 		return entity;
 	}
 
@@ -372,6 +361,54 @@ public class DiarioKmBean extends EntityBean<Integer, DiarioKm>{
 
 	public void setVeiculoSelecionado(Veiculo veiculoSelecionado) {
 		this.veiculoSelecionado = veiculoSelecionado;
+	}
+
+	public List<RegistroVeiculo> getViagens() {
+		return viagens;
+	}
+
+	public void setViagens(List<RegistroVeiculo> viagens) {
+		this.viagens = viagens;
+	}
+
+	public Integer getMes() {
+		return mes;
+	}
+
+	public void setMes(Integer mes) {
+		this.mes = mes;
+	}
+
+	public Integer getAno() {
+		return ano;
+	}
+
+	public void setAno(Integer ano) {
+		this.ano = ano;
+	}
+
+	public Date getDtInicial() {
+		return dtInicial;
+	}
+
+	public void setDtInicial(Date dtInicial) {
+		this.dtInicial = dtInicial;
+	}
+
+	public Date getDtFinal() {
+		return dtFinal;
+	}
+
+	public void setDtFinal(Date dtFinal) {
+		this.dtFinal = dtFinal;
+	}
+
+	public RegistroVeiculo getViagemSelecionada() {
+		return viagemSelecionada;
+	}
+
+	public void setViagemSelecionada(RegistroVeiculo viagemSelecionada) {
+		this.viagemSelecionada = viagemSelecionada;
 	}
 
 }
