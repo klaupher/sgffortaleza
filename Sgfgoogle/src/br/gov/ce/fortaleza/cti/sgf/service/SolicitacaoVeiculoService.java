@@ -218,6 +218,8 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		StringBuffer hql = new StringBuffer("SELECT s FROM SolicitacaoVeiculo s WHERE ((s.dataHoraRetorno BETWEEN :saida and :retorno) AND " +
 		"(s.dataHoraSaida BETWEEN :saida and :retorno)) or (s.dataHoraRetorno BETWEEN :saida AND :retorno) or (s.dataHoraSaida BETWEEN :saida AND :retorno)");
 		
+		StringBuffer fsql = new StringBuffer("SELECT f.veiculo FROM Falta f WHERE f.dataFalta = :saida");
+		
 		UG ug = null;
 		if(aux != null){
 			ug = aux;
@@ -234,12 +236,23 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 		Query query = entityManager.createQuery(hql.toString());
 		query.setParameter("saida", solicitacao.getDataHoraSaida());
 		query.setParameter("retorno", solicitacao.getDataHoraRetorno());
+		
+		Query sql = entityManager.createQuery(fsql.toString());
+		sql.setParameter("saida", solicitacao.getDataHoraSaida());
+		
 		if (ug != null) {
 			query.setParameter("ugId", ug.getId());
 		}
 		
 		solicitacaoVeiculos = query.getResultList();
 		List<Veiculo> remove = new ArrayList<Veiculo>();
+		
+		faltaVeiculos = sql.getResultList();
+		List<Veiculo> faltosos = new ArrayList<Veiculo>();
+		
+		for(Veiculo v : faltosos){
+			remove.add(v);
+		}
 
 		for (SolicitacaoVeiculo sol : solicitacaoVeiculos) {
 			remove.add(sol.getVeiculo());
@@ -251,7 +264,7 @@ public class SolicitacaoVeiculoService extends BaseService<Integer, SolicitacaoV
 				return o1.getPlaca().compareTo(o2.getPlaca());
 			}
 		});
-		//veiculos.removeAll(remove);
+		veiculos.removeAll(remove);
 		return veiculos;
 	}
 	/**

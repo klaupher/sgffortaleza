@@ -1,6 +1,7 @@
 package br.gov.ce.fortaleza.cti.sgf.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 
 import br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento;
 import br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento;
+import br.gov.ce.fortaleza.cti.sgf.entity.Falta;
 import br.gov.ce.fortaleza.cti.sgf.entity.Transmissao;
 import br.gov.ce.fortaleza.cti.sgf.entity.UA;
 import br.gov.ce.fortaleza.cti.sgf.entity.UG;
@@ -181,20 +183,64 @@ public class VeiculoService extends BaseService<Integer, Veiculo>{
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Veiculo> veiculosDisponiveis(UG ug){
+		
+		List<Veiculo> veiculos		= new ArrayList<Veiculo>();
+		List<Veiculo> faltaVeiculos = new ArrayList<Veiculo>();
+		
+		StringBuffer fsql = new StringBuffer("SELECT f.veiculo FROM Falta f WHERE f.dataFalta BETWEEN :inicio AND :fim ");
+		
+		Calendar ini = Calendar.getInstance();  
+		ini.setTime(new Date());  
+		ini.set(Calendar.HOUR_OF_DAY, 0);  
+		ini.set(Calendar.MINUTE, 0);  
+		ini.set(Calendar.SECOND, 0);  
+        Date dtIni = ini.getTime();
+        
+        Calendar fim = Calendar.getInstance();  
+        fim.setTime(new Date());  
+        fim.set(Calendar.HOUR_OF_DAY, 23);  
+        fim.set(Calendar.MINUTE, 59);  
+        fim.set(Calendar.SECOND, 59);  
+        Date dtFim = fim.getTime();
+
 		Query query = null;
+		Query faltosos = null;
+		
 		if(SgfUtil.isAdministrador(SgfUtil.usuarioLogado())){
 			if(ug != null){
 				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 and v.ua.ug.id = :ug AND (v.dataDut > NOW() OR v.dataDut IS NULL) order by v.cotaKm");
 				query.setParameter("ug", ug.getId());
+				
+				
+				
+				fsql.append("and f.veiculo.ua.ug.id = :ug ");
+				faltosos = entityManager.createQuery(fsql.toString());
+				faltosos.setParameter("ug", ug.getId());
+				
+				
 			} else {
 				query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.status = 0 order by v.cotaKm");
 			}
-			return query.getResultList();
+			//return query.getResultList();
 		} else {
 			query = entityManager.createQuery("SELECT v FROM Veiculo v WHERE v.ua.ug.id = :ug and v.status = 0 AND (v.dataDut > NOW() OR v.dataDut is NULL) order by v.cotaKm");
 			query.setParameter("ug", SgfUtil.usuarioLogado().getPessoa().getUa().getUg().getId());
-			return query.getResultList();
+			
+			fsql.append("and f.veiculo.ua.ug.id = :ug ");
+			faltosos = entityManager.createQuery(fsql.toString());
+			faltosos.setParameter("ug", ug.getId());
+			
+			//return query.getResultList();
 		}
+		
+		faltosos.setParameter("inicio", dtIni);
+		faltosos.setParameter("fim", dtFim);
+		
+		faltaVeiculos 	= faltosos.getResultList();
+		veiculos		= query.getResultList();
+		veiculos.removeAll(faltaVeiculos);
+
+		return veiculos;
 	}
 
 	@SuppressWarnings("unchecked")
