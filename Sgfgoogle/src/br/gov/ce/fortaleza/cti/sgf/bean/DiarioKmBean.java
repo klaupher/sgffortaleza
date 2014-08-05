@@ -142,14 +142,24 @@ public class DiarioKmBean extends EntityBean<Integer, RegistroVeiculo>{
 	@Override
 	public String prepareUpdate() {
 		
-		Veiculo v = this.entity.getSolicitacao().getVeiculo();
-		v.setKmAtual(this.entity.getKmRetorno());
-		veiculoService.update(v);
+		//Veiculo v = this.entity.getSolicitacao().getVeiculo();
+		//v.setKmAtual(this.entity.getKmRetorno());
+		//veiculoService.update(v);
 		
 		// TODO Auto-generated method stub
 		return super.prepareUpdate();
 	}
 	
+	@Override
+	public String update() {
+		
+		Veiculo v = this.entity.getSolicitacao().getVeiculo();
+		v.setKmAtual(this.entity.getKmRetorno());
+		veiculoService.update(v);
+		
+		// TODO Auto-generated method stub
+		return super.update();
+	}
 	
 	@Override
 	public String prepareSave() {
@@ -173,11 +183,9 @@ public class DiarioKmBean extends EntityBean<Integer, RegistroVeiculo>{
 				cotaKmDisponivel = veiculo.getCotaKm().getCotaKmDisponivel();
 
 					try{
-
-						
-
 						entity = service.save(entity);
 						retorno = search();
+											
 					}catch(Exception e){
 						JSFUtil.getInstance().addErrorMessage("diarioKm.falha.salvar.diario");
 					}
