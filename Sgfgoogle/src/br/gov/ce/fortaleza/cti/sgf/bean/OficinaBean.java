@@ -17,7 +17,7 @@ import br.gov.ce.fortaleza.cti.sgf.service.OficinaService;
 @Scope("session")
 @Component("oficinaBean")
 public class OficinaBean extends EntityBean<Integer, Oficina> {
-
+	
 	@Autowired
 	private OficinaService service;
 
@@ -37,18 +37,20 @@ public class OficinaBean extends EntityBean<Integer, Oficina> {
 
 		return oficina;
 	}
+	
+	
 
 	public String search(){
-
-		this.searchSort();
-
+		entities = service.findOficinasAtivas();
+		setCurrentState(SEARCH);
+		setCurrentBean(currentBeanName());
 		return SUCCESS;
 	}
 
 	public List<SelectItem> getOficinaList(){
 
 		List<SelectItem> result = new ArrayList<SelectItem>();
-		List<Oficina> oficinas = service.retrieveAll();
+		List<Oficina> oficinas = service.findOficinasAtivas();
 		
 		Collections.sort(oficinas, new Comparator<Oficina>() {
 			public int compare(Oficina o1, Oficina o2) {
@@ -65,7 +67,7 @@ public class OficinaBean extends EntityBean<Integer, Oficina> {
 
 	public synchronized List<Oficina> getOficinas(){
 
-		List<Oficina> oficinas = service.retrieveAll();
+		List<Oficina> oficinas = service.findOficinasAtivas();
 
 		Collections.sort(oficinas, new Comparator<Oficina>() {
 			public int compare(Oficina o1, Oficina o2) {

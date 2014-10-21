@@ -1,6 +1,7 @@
 package br.gov.ce.fortaleza.cti.sgf.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -34,6 +37,10 @@ public class Oficina implements Serializable {
 	
 	@Column(name="RESPONSAVEL", length = 100)
 	private String responsavel;
+	
+	@Column(name="DT_BLOQUEIO")
+	@Temporal(TemporalType.DATE)
+	private Date dtBloqueio;
 
 	public Integer getId() {
 		return id;
@@ -89,6 +96,14 @@ public class Oficina implements Serializable {
 		Oficina other = (Oficina) obj;
 
 		return ((id == null && other.id == null) || (id != null && id.equals(other.id)));
+	}
+
+	public Date getDtBloqueio() {
+		return dtBloqueio;
+	}
+
+	public void setDtBloqueio(Date dtBloqueio) {
+		this.dtBloqueio = dtBloqueio;
 	}
 
 }
