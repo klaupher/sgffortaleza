@@ -7,7 +7,7 @@
 		username="sgf"
 		password="sgf"
 		driverClassName="org.postgresql.Driver"
-		url="jdbc:postgresql://172.31.2.9:5432/pmf"/>
+		url="jdbc:postgresql://172.19.4.17:5432/pmf_desv"/>
 		
 	<!--  url="jdbc:postgresql://172.19.4.17:5432/pmf_desv"/> SEPOG -->
 	<!--  url="jdbc:postgresql://172.31.4.2:5432/pmf_desv"/> DEVEL	 -->	

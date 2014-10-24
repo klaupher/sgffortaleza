@@ -86,7 +86,11 @@ public class PessoaBean extends EntityBean<Integer, Pessoa>{
 				this.entities.add(pessoa);
 			}
 		} else if(SgfUtil.isAdministrador(user)){
-			this.entities = service.retrieveAll();
+			if(this.ug != null){
+				this.entities = service.findByUG(this.ug.getId());
+			}else{
+				this.entities = service.retrieveAll();
+			}
 		} else if(this.ug != null){
 			this.entities = service.findByUG(user.getPessoa().getUa().getUg().getId());
 		}

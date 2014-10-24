@@ -183,10 +183,11 @@
 			<dl>
 			  	<dt><label for="chassi">Chassi</label></dt>
 			  	<dd>
-		  			<h:inputText id="chassi" value="#{veiculoBean.entity.chassi}" disabled="#{!controlBean.administrador}" 
+		  			<h:inputText id="chassi" value="#{veiculoBean.entity.chassi}"  required="true" disabled="#{!controlBean.administrador}" 
 		  				requiredMessage="Informe o chassi do veículo" size="20" maxlength="20">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
+					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="chassi" styleClass="message"/>
 			  	</dd>
 			</dl>
@@ -194,10 +195,11 @@
 			<dl>
 			  	<dt><label for="renavam">Renavam</label></dt>
 			  	<dd>
-			  		<h:inputText id="renavam" value="#{veiculoBean.entity.renavam}" disabled="#{!controlBean.administrador}"  styleClass="maskInteiro" 
+			  		<h:inputText id="renavam" value="#{veiculoBean.entity.renavam}"  required="true" disabled="#{!controlBean.administrador}"  styleClass="maskInteiro" 
 			  			requiredMessage="Informe o renavam do veículo" size="10" maxlength="10">
 						<rich:ajaxValidator event="onblur"/>
 					</h:inputText>
+					<label style="color:red">*</label>
 					<rich:message errorClass="error" for="renavam" styleClass="message"/>
 	 		  	</dd>
 			</dl>

@@ -1061,6 +1061,10 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 			relatorioPosto.setPosto(posto);
 			relatorioPosto.setConsumo(0F);
 			
+			relatorioPosto.setConsumoGasolina(0F);
+			relatorioPosto.setConsumoEtanol(0F);
+			relatorioPosto.setConsumoDiesel(0F);
+			
 			/*
 			 * Órgãos
 			 */
@@ -1164,6 +1168,9 @@ public class RelatorioBean extends EntityBean<Integer, RelatorioDTO> {
 				RelatorioDTO rel = (RelatorioDTO) pairs.getValue();
 				
 				relatorioPosto.setConsumo(relatorioPosto.getConsumo() + rel.getConsumoCombustivelOrgao());
+				relatorioPosto.setConsumoGasolina(relatorioPosto.getConsumoGasolina() + rel.getConsumoGasolina());
+				relatorioPosto.setConsumoEtanol(relatorioPosto.getConsumoEtanol() + rel.getConsumoEtanol());
+				relatorioPosto.setConsumoDiesel(relatorioPosto.getConsumoDiesel() + rel.getConsumoDiesel());
 				relatorioPosto.getRelatorios().add(rel);
 			}
 

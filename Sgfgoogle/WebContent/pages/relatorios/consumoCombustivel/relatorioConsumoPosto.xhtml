@@ -71,12 +71,22 @@
 						<f:facet name="header">Nenhum registro foi encontrado.</f:facet>
 					</rich:column>
 					
-					<rich:column colspan="6" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+					<rich:column colspan="2" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
 						<h:outputText value="Posto: #{relatorio.posto.descricao}"/>
 					</rich:column>
 					
-					<rich:column colspan="4" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+					<rich:column colspan="2" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
 						<h:outputText value="#{relatorio.consumo}(L) Abastecidos"/>
+					</rich:column>
+					
+					<rich:column colspan="2" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+						<h:outputText value="#{relatorio.consumoGasolina}(L) Gasolina"/>
+					</rich:column>
+					<rich:column colspan="2" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+						<h:outputText value="#{relatorio.consumoEtanol}(L) Etanol"/>
+					</rich:column>
+					<rich:column colspan="2" styleClass="postoHeader" rendered="#{not empty relatorioBean.entities}">
+						<h:outputText value="#{relatorio.consumoDiesel}(L) Diesel"/>
 					</rich:column>
 					
 					<rich:subTable id="subDataTable" value="#{relatorio.relatorios}" var="o" rows="5000" rowKeyVar="ki"
