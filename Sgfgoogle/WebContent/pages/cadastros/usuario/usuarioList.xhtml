@@ -7,7 +7,8 @@
       xmlns:rich="http://richfaces.org/rich"
       xmlns:sec="http://www.springframework.org/security/tags"
       xmlns:a4j="http://richfaces.org/a4j"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
    
 	<div id="cadastro">
 
@@ -37,6 +38,14 @@
 				    
 				    <dt><h:outputLabel value="CPF:" /></dt>
 				    <dd><h:inputText value="#{usuarioBean.cpfPesquisa}" styleClass="maskCpf" /></dd>
+				    
+				   <dt><label for="ugList">Órgão</label></dt>
+					<dd>
+				      	<h:selectOneMenu id="ugList" value="#{usuarioBean.ugPesquisa}" requiredMessage="Informe a UG" converter="entityConverter" styleClass="ugList">
+				   			<t:selectItems value="#{ugBean.ugs}" var="ug"  itemLabel="#{ug.descricao}" itemValue="#{ug}"/>
+				   		</h:selectOneMenu>
+					</dd>
+
 				    
 				    <dt><h:outputLabel value="Status:" /></dt>
 				    <dd>

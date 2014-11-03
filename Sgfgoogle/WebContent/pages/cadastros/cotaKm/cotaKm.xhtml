@@ -19,6 +19,12 @@
 
 		<legend>Nova Cota de Quilometragem</legend>
 		
+		<h:inputText value="#{cotaKmBean.placa}"/>
+
+		<h:commandButton action="#{cotaKmBean.veiculoSemCotaPorPlaca}" value="Consultar">
+			<a4j:support event="onclick" reRender="dataTable"/>
+		</h:commandButton>
+		
 			<rich:messages/>
 		
 		  	<rich:dataTable id="dataTable" value="#{cotaKmBean.veiculos}" var="veiculo" rows="10" rowKeyVar="k"	

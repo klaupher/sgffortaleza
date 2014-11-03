@@ -73,6 +73,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 	private String cpfPesquisa;
 	private String loginPesquisa;
 	private String nomePesquisa;
+	private UG	   ugPesquisa;
 
 	private Pessoa pessoa;
 	private Role role;
@@ -126,6 +127,7 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		
 		User user = new User();
 		Pessoa pessoa = new Pessoa();
+		
 		user.setPessoa(pessoa);
 		if(StringUtils.hasText(loginPesquisa)){
 			user.setLogin(loginPesquisa);
@@ -139,6 +141,12 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 		}
 		if(status != null){
 			user.setStatus(status.toString());
+		}
+		if(this.ugPesquisa != null){
+			UA uaPesquisa = new UA();
+			uaPesquisa.setUg(this.ugPesquisa);
+			pessoa.setUa(uaPesquisa);
+			user.setPessoa(pessoa);
 		}
 		
 		this.entities = service.pesquisar(user);
@@ -550,5 +558,13 @@ public class UsuarioBean extends EntityBean<Integer, User>{
 
 	public void setNomePesquisa(String nomePesquisa) {
 		this.nomePesquisa = nomePesquisa;
+	}
+
+	public UG getUgPesquisa() {
+		return ugPesquisa;
+	}
+
+	public void setUgPesquisa(UG ugPesquisa) {
+		this.ugPesquisa = ugPesquisa;
 	}
 }

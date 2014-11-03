@@ -172,6 +172,10 @@ public class UsuarioService extends BaseService<Integer, User> {
 			if(StringUtils.hasText(user.getPessoa().getCpf())){
 				sql.append(" and u.pessoa.cpf = '"+user.getPessoa().getCpf()+"' ");
 			}
+			
+			if(StringUtils.hasText( user.getPessoa().getUa().getUg().getDescricao())){
+				sql.append(" and u.pessoa.ua.ug = '"+user.getPessoa().getUa().getUg().getId()+"' ");
+			}
 		}
 		
 		
