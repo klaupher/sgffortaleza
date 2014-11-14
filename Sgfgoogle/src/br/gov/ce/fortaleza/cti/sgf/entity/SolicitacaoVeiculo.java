@@ -129,6 +129,9 @@ public class SolicitacaoVeiculo implements Serializable {
 	
 	@Column(name="statusregistro", table="TB_REGISTROVEICULOS")
 	private Integer statusAtendimento;
+	
+	@Transient
+	private Boolean marcado;
 
 	public int hashCode() {
 		int result = 1;
@@ -318,5 +321,13 @@ public class SolicitacaoVeiculo implements Serializable {
 
 	public void setStatusAtendimento(Integer statusAtendimento) {
 		this.statusAtendimento = statusAtendimento;
+	}
+
+	public Boolean getMarcado() {
+		return marcado;
+	}
+
+	public void setMarcado(Boolean marcado) {
+		this.marcado = marcado;
 	}
 }

@@ -43,7 +43,6 @@ import br.gov.ce.fortaleza.cti.sgf.util.StatusVeiculo;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "TB_CADVEICULO", schema = "SGF")
 @SecondaryTables({
-	@SecondaryTable(name = "TB_ULTIMATRANSMISSAO", schema = "SGF"),
 	@SecondaryTable(name="TB_EQUIPAMENTO", schema = "SGF")
 })
 
@@ -189,7 +188,7 @@ public class Veiculo implements Serializable {
 	//@Type(type="br.gov.ce.fortaleza.cti.sgf.conversores.GeometryType")
 	//@Column(name = "GEOMPONTO", table = "TB_ULTIMATRANSMISSAO")
 	//private Geometry geometry;
-
+/*
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="DATA_TRANSMISSAO", table = "TB_ULTIMATRANSMISSAO")
 	private Date dataTransmissao;
@@ -212,7 +211,7 @@ public class Veiculo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="CODPONTO", table = "TB_ULTIMATRANSMISSAO")
 	private Ponto pontoProximo;
-	
+	*/
 	@Column(name="CODVEICARENA", table = "TB_EQUIPAMENTO")
 	private Integer codigoVeiculoArena;
 	
@@ -478,7 +477,7 @@ public class Veiculo implements Serializable {
 	//public void setGeometry(Geometry geometry) {
 	//	this.geometry = geometry;
 	//}
-
+/*
 	public Float getTemperatura() {
 		return temperatura;
 	}
@@ -542,7 +541,7 @@ public class Veiculo implements Serializable {
 	public void setIgnicao(Boolean ignicao) {
 		this.ignicao = ignicao;
 	}
-
+*/
 	public String getObjetivo() {
 		return objetivo;
 	}

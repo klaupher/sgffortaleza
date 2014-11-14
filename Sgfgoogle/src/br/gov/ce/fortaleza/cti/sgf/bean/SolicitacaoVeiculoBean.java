@@ -93,6 +93,8 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 	private Boolean veiculoDesignado = true;
 	private User usuario = SgfUtil.usuarioLogado();
 	private Long ultimaKilometragem;
+	private SolicitacaoVeiculo solicitacaoVeiculoMarcado;
+	private Boolean marcarTodos;
 
 	@Override
 	protected SolicitacaoVeiculo createNewEntity() {
@@ -135,7 +137,34 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 			this.mostrarSolicitacoes = false;
 		}
 	}
+	
+	public void rejeitarSolicitacao() {
+		for (SolicitacaoVeiculo s : this.entities) {
+			if(s.getMarcado() == null){
+				return;	
+			}
 
+			if(s.getMarcado()){
+				s.setAutorizador(SgfUtil.usuarioLogado());
+				s.setStatus(StatusSolicitacaoVeiculo.NEGADO);
+				s.setUsuario(SgfUtil.usuarioLogado());
+				s.setStatusAtendimento(2);
+				service.update(s);
+			}
+		}
+		this.search();
+	}
+
+	public void marcarRejeitarAll() {
+		int c = 0;
+		for (SolicitacaoVeiculo s : this.entities) {
+			if(c < 50){
+				s.setMarcado(getMarcarTodos());
+			}
+			c++;
+		}
+	}
+	
 	public void searchSolicitacaoByUG() {
 
 		if (SgfUtil.isAdministrador(this.usuario) || SgfUtil.isCoordenador(this.usuario)) {
@@ -929,5 +958,21 @@ public class SolicitacaoVeiculoBean extends EntityBean<Integer, SolicitacaoVeicu
 
 	public void setUltimosKms(List<SolicitacaoVeiculo> ultimosKms) {
 		this.ultimosKms = ultimosKms;
+	}
+
+	public SolicitacaoVeiculo getSolicitacaoVeiculoMarcado() {
+		return solicitacaoVeiculoMarcado;
+	}
+
+	public void setSolicitacaoVeiculoMarcado(SolicitacaoVeiculo solicitacaoVeiculoMarcado) {
+		this.solicitacaoVeiculoMarcado = solicitacaoVeiculoMarcado;
+	}
+
+	public Boolean getMarcarTodos() {
+		return marcarTodos;
+	}
+
+	public void setMarcarTodos(Boolean marcarTodos) {
+		this.marcarTodos = marcarTodos;
 	}
 }

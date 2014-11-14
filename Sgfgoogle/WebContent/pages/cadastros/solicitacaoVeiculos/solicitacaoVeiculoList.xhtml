@@ -81,6 +81,19 @@
 
 			<c:if test="#{not empty solicitacaoVeiculoBean.entities}">
 
+				<rich:column width="2%" style="text-align: center;">
+				
+					<f:facet name="header" rendered="#{controlBean.administrador}">
+						<h:selectBooleanCheckbox id="t0" onclick="checkAll( this.id, this.checked );" value="#{solicitacaoVeiculoBean.marcarTodos}" >
+							<a4j:support event="onchange" action="#{solicitacaoVeiculoBean.marcarRejeitarAll}" reRender="dataTable" />
+						</h:selectBooleanCheckbox>
+					</f:facet>
+				
+					<h:selectBooleanCheckbox id="t1" value="#{solicitacao.marcado}" >
+						
+					</h:selectBooleanCheckbox>
+				</rich:column>
+
 				<rich:column width="2%" style="text-align: center;"> 
 					<f:facet name="header"><h:outputText value="Nº"/></f:facet>
 					<h:outputText value="#{k+1}" style="color: black;"/>
@@ -163,9 +176,36 @@
 			</c:if>
 
 		</rich:dataTable>
-
+		<a4j:region rendered="#{controlBean.administrador}">
+			<h:commandButton value="Negar Selecionados" action="#{solicitacaoVeiculoBean.rejeitarSolicitacao}" reRender="dataTable" />
+		</a4j:region>
 	</div>
 	
 	<a4j:include viewId="visualizarSolicitacaoVeiculos.xhtml" />
-
+<script type="text/javascript">  
+  //<![CDATA[  
+    // RichFaces datatable select all -checkbox  
+         function checkAll( inputId, state ){  
+                
+           var idNew = inputId.substr(0, inputId.lastIndexOf(':'));  
+               var idtab = idNew;  
+           var elemetos = document.getElementById(idtab );  
+           var inputs = elemetos.getElementsByTagName('input');  
+  
+           for (var i = 0; i <= inputs.length; i++){  
+             var input = inputs[i];  
+             if (input != undefined) {  
+               if( input.getAttribute('type') == 'checkbox' && state){  
+                  
+                     input.checked=true;  
+               } else{  
+                      
+                 input.checked=false;  
+                
+               }  
+             }  
+           }  
+         }  
+         //]]>  
+   </script>  
 </ui:composition>
