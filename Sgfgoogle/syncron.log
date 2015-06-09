@@ -1,0 +1,433 @@
+2015-05-28 20:55:50,088 [main] INFO   org.hibernate.cfg.annotations.Version - Hibernate Annotations 3.4.0.CR1
+2015-05-28 20:55:50,136 [main] INFO   org.hibernate.cfg.Environment - Hibernate 3.3.0.SP1
+2015-05-28 20:55:50,139 [main] INFO   org.hibernate.cfg.Environment - hibernate.properties not found
+2015-05-28 20:55:50,141 [main] INFO   org.hibernate.cfg.Environment - Bytecode provider name : javassist
+2015-05-28 20:55:50,145 [main] INFO   org.hibernate.cfg.Environment - using JDK 1.4 java.sql.Timestamp handling
+2015-05-28 20:55:50,216 [main] INFO   org.hibernate.annotations.common.Version - Hibernate Commons Annotations 3.1.0.GA
+2015-05-28 20:55:50,218 [main] INFO   org.hibernate.cfg.Configuration - configuring from resource: /hibernate.cfg.xml
+2015-05-28 20:55:50,218 [main] INFO   org.hibernate.cfg.Configuration - Configuration resource: /hibernate.cfg.xml
+2015-05-28 20:56:28,138 [main] INFO   org.hibernate.cfg.annotations.Version - Hibernate Annotations 3.4.0.CR1
+2015-05-28 20:56:28,147 [main] INFO   org.hibernate.cfg.Environment - Hibernate 3.3.0.SP1
+2015-05-28 20:56:28,150 [main] INFO   org.hibernate.cfg.Environment - hibernate.properties not found
+2015-05-28 20:56:28,152 [main] INFO   org.hibernate.cfg.Environment - Bytecode provider name : javassist
+2015-05-28 20:56:28,155 [main] INFO   org.hibernate.cfg.Environment - using JDK 1.4 java.sql.Timestamp handling
+2015-05-28 20:56:28,197 [main] INFO   org.hibernate.annotations.common.Version - Hibernate Commons Annotations 3.1.0.GA
+2015-05-28 20:56:28,200 [main] INFO   org.hibernate.cfg.Configuration - configuring from resource: /hibernate.cfg.xml
+2015-05-28 20:56:28,200 [main] INFO   org.hibernate.cfg.Configuration - Configuration resource: /hibernate.cfg.xml
+2015-05-28 20:57:14,252 [main] INFO   org.hibernate.cfg.annotations.Version - Hibernate Annotations 3.4.0.CR1
+2015-05-28 20:57:14,261 [main] INFO   org.hibernate.cfg.Environment - Hibernate 3.3.0.SP1
+2015-05-28 20:57:14,263 [main] INFO   org.hibernate.cfg.Environment - hibernate.properties not found
+2015-05-28 20:57:14,265 [main] INFO   org.hibernate.cfg.Environment - Bytecode provider name : javassist
+2015-05-28 20:57:14,268 [main] INFO   org.hibernate.cfg.Environment - using JDK 1.4 java.sql.Timestamp handling
+2015-05-28 20:57:14,311 [main] INFO   org.hibernate.annotations.common.Version - Hibernate Commons Annotations 3.1.0.GA
+2015-05-28 20:57:14,313 [main] INFO   org.hibernate.cfg.Configuration - configuring from resource: /hibernate.cfg.xml
+2015-05-28 20:57:14,313 [main] INFO   org.hibernate.cfg.Configuration - Configuration resource: /hibernate.cfg.xml
+2015-05-28 20:57:14,461 [main] INFO   org.hibernate.cfg.Configuration - Configured SessionFactory: 
+2015-05-28 20:57:14,471 [main] INFO   org.hibernate.dialect.Dialect - Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-05-28 20:57:14,585 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Pessoa
+2015-05-28 20:57:14,591 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Pessoa.findByCPF => select p from Pessoa p where p.cpf = ?
+2015-05-28 20:57:14,591 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Pessoa.findByUG => select p from Pessoa p where p.ua.ug.id = ?
+2015-05-28 20:57:14,591 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Pessoa.findByUGAndCPF => select p from Pessoa p where p.ua.ug.id = ? and p.cpf = ?
+2015-05-28 20:57:14,609 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Pessoa on table TB_CADPESSOA
+2015-05-28 20:57:14,653 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Ponto
+2015-05-28 20:57:14,653 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Ponto on table TB_PONTO
+2015-05-28 20:57:14,660 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Posto
+2015-05-28 20:57:14,660 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Posto on table tb_posto
+2015-05-28 20:57:14,682 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Permissao
+2015-05-28 20:57:14,682 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Permissao on table tb_permissao
+2015-05-28 20:57:14,684 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Page
+2015-05-28 20:57:14,684 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Page on table TB_PAGE
+2015-05-28 20:57:14,686 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Parametro
+2015-05-28 20:57:14,686 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Parametro.findByTipo => select p from Parametro p where p.tipo = ?
+2015-05-28 20:57:14,686 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Parametro.findByNome => select p from Parametro p where p.nome = ?
+2015-05-28 20:57:14,686 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Parametro on table TB_PARAMETRO
+2015-05-28 20:57:14,687 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Area
+2015-05-28 20:57:14,688 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Area on table TB_AREA
+2015-05-28 20:57:14,690 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Bomba
+2015-05-28 20:57:14,690 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Bomba.findBombasPosto => select b from Bomba b where b.posto.codPosto = ?
+2015-05-28 20:57:14,690 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Bomba on table tb_bomba
+2015-05-28 20:57:14,695 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Cota
+2015-05-28 20:57:14,695 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findByVeiculoServico => select o from Cota o where o.veiculo = :veiculo and o.tipoServico = :tipoServico  and (o.veiculo.status > :statusVeiculo)
+2015-05-28 20:57:14,695 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findCotasByVeiculo => select o from Cota o where o.veiculo = ?  and (o.veiculo.status > ?)
+2015-05-28 20:57:14,695 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findByPlacaVeiculo => select o from Cota o where o.veiculo.placa = ? and (o.veiculo.status > ?)
+2015-05-28 20:57:14,695 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findCotasVeiculosAtivos => select o from Cota o where o.veiculo.status > ?
+2015-05-28 20:57:14,696 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Cota on table tb_cotaabastecimento
+2015-05-28 20:57:14,697 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.CotaKm
+2015-05-28 20:57:14,698 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.CotaKm on table tb_cota_quilometragem
+2015-05-28 20:57:14,700 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba
+2015-05-28 20:57:14,700 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: DiarioBomba.findLastDiariaByDate => select max(db.horaInicial) from DiarioBomba db where db.bomba.id = ?
+2015-05-28 20:57:14,701 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: DiarioBomba.findDiariasByBomba => select db from DiarioBomba db where db.bomba = ?
+2015-05-28 20:57:14,701 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: DiarioBomba.findCurrentDiaryByBomba => select db from DiarioBomba db where db.bomba.id = ? and day(db.horaInicial) = ?
+2015-05-28 20:57:14,701 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba on table tb_diariobomba
+2015-05-28 20:57:14,708 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm
+2015-05-28 20:57:14,708 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm on table tb_diario_quilometragem
+2015-05-28 20:57:14,710 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.DiarioKmHistoricoUltrapassado
+2015-05-28 20:57:14,711 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.DiarioKmHistoricoUltrapassado on table tb_diario_hist_ultrapassado
+2015-05-28 20:57:14,713 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Especie
+2015-05-28 20:57:14,713 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Especie on table TB_ESPECIE
+2015-05-28 20:57:14,714 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Falta
+2015-05-28 20:57:14,714 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Falta.findCota => select sum(1) from Falta o where o.veiculo.id = :id and (o.dataFalta >= :inicio and o.dataFalta <= :fim)
+2015-05-28 20:57:14,714 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Falta on table TB_FALTA
+2015-05-28 20:57:14,716 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Infracao
+2015-05-28 20:57:14,716 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Infracao on table TB_INFRACAO
+2015-05-28 20:57:14,718 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Marca
+2015-05-28 20:57:14,719 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Marca on table TB_MARCA
+2015-05-28 20:57:14,729 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Message
+2015-05-28 20:57:14,729 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Message on table TB_MESSAGE
+2015-05-28 20:57:14,733 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Modelo
+2015-05-28 20:57:14,733 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Modelo.findByDesc => SELECT m FROM Modelo m WHERE m.descricao LIKE :descricao
+2015-05-28 20:57:14,733 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Modelo on table TB_MODELO
+2015-05-28 20:57:14,737 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario
+2015-05-28 20:57:14,737 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: LogUsuario.findByUsuarioAndData => SELECT ul FROM LogUsuario ul WHERE ul.usuario.id = ? AND ul.dataLogin BETWEEN ? AND ?
+2015-05-28 20:57:14,737 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: LogUsuario.findUltimoLogin => SELECT ul FROM LogUsuario ul WHERE ul.usuario.id = ? and ul.dataLogin = (SELECT max(u.dataLogin) FROM LogUsuario u WHERE u.usuario.id = ?)
+2015-05-28 20:57:14,738 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario on table TB_LOGUSUARIO
+2015-05-28 20:57:14,740 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento
+2015-05-28 20:57:14,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findLast => select a from Abastecimento a where a.id = (select max(a1.id) from Abastecimento a1 where a1.veiculo.id = ? and a1.status = 2)
+2015-05-28 20:57:14,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findByPosto => select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc
+2015-05-28 20:57:14,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findByPeriodoAndPosto => select a from Abastecimento a where a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc
+2015-05-28 20:57:14,741 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findByPeriodoAndPostoUG => select a from Abastecimento a where a.veiculo.ua.ug.id = ? and a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc
+2015-05-28 20:57:14,741 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento on table TB_ABASTECIMENTO
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findById => select o from AtendimentoAbastecimento o where o.id = ?
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findCota => select sum(o.quantidadeAbastecida) from AtendimentoAbastecimento o where o.abastecimento.veiculo = :veiculo and month(o.data) = :mes
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByVeiculo => select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.id = ?)
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByVeiculoAndPeriodo => select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.id = ? and o.data >= ? and o.data <= ?)
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByPeriodo => select o from AtendimentoAbastecimento o where o.data >= ? and o.data <= ?) order by o.data asc
+2015-05-28 20:57:14,750 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByMesAno => select o from AtendimentoAbastecimento o where month(o.data) = ? and year(o.data) = ?) order by o.data asc
+2015-05-28 20:57:14,751 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByUGMesAno => select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.ua.ug.id = ? and month(o.data) = ? and year(o.data) = ?) order by o.data asc
+2015-05-28 20:57:14,751 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento on table TB_ATENDABASTECIMENTO
+2015-05-28 20:57:14,755 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao
+2015-05-28 20:57:14,755 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: ItemRequisicao.findByIdRequisicao => select r from ItemRequisicao as r where r.requisicaoManutencao.id = ?
+2015-05-28 20:57:14,755 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: ItemRequisicao.findByVeiculoTipoServico => select i from ItemRequisicao i where i.tipoServico.codTipoServico = ? and i.requisicaoManutencao.veiculo.id = ?
+2015-05-28 20:57:14,756 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: ItemRequisicao.findByTipoServico => select i from ItemRequisicao i where i.tipoServico.codTipoServico = ?
+2015-05-28 20:57:14,756 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao on table TB_REQUISICAOITEM
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Motorista
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findServidor => select o from Motorista o where (o.tipomotorista <> 'LOCADORA' or o.tipomotorista is null) and o.pessoa.ua.ug.id = ? and o.ativo = 'true' and o.pontosCnh < 20 order by o.pessoa.nome
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findMotoristasBloqueados => select object(o) from Motorista o where o.ativo = ?
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByLocadoraNaoAlocados => select object(o) from Motorista o where o.tipomotorista = ? order by o.pessoa.nome asc
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByLocadoraUg => select object(o) from Motorista o where o.tipomotorista = ? and o.pessoa.ua.ug.id = ? order by o.pessoa.nome asc
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByStatus => select o from Motorista o where o.ativo = ? order by o.codMotorista desc
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByNameStatus => select o from Motorista o where o.pessoa.nome LIKE ? and o.ativo = ?
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByCpfStatus => select o from Motorista o where o.pessoa.cpf = ? and o.ativo = ?
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByUGNameStatus => select o from Motorista o where o.pessoa.ua.ug.id = ? and o.pessoa.nome LIKE ? and o.ativo = ?
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findMotoristaByCPF => select o from Motorista o where o.pessoa.cpf LIKE ?
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByUG => select o from Motorista o where o.pessoa.ua.ug.id = ? and o.pontosCnh < 20 order by o.pessoa.nome 
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByUGStatus => select o from Motorista o where o.pessoa.ua.ug.id = ? and o.ativo = ? order by o.pessoa.nome asc
+2015-05-28 20:57:14,758 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Motorista on table tb_pessoamotorista
+2015-05-28 20:57:14,763 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Multa
+2015-05-28 20:57:14,763 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByPlacaVeiculo => select m from Multa as m where m.veiculo.placa like upper(?)
+2015-05-28 20:57:14,763 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByNomeMotorista => select m from Multa as m where m.motorista.pessoa.nome like upper(?)
+2015-05-28 20:57:14,763 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByInfracaoMotorista => select m from Multa as m where m.infracao.descricao like upper(?)
+2015-05-28 20:57:14,763 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByCNHMotorista => select m from Multa as m where m.motorista.cnh like upper(?)
+2015-05-28 20:57:14,763 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByVeiculo => select m from Multa as m where m.veiculo.id = ? and m.dataCadastro between ? and ?
+2015-05-28 20:57:14,764 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByMotorista => select m from Multa as m where m.motorista.codMotorista = ?
+2015-05-28 20:57:14,764 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByUG => select m from Multa m where m.veiculo.ua.ug.id = ? and m.dataCadastro between ? and ?
+2015-05-28 20:57:14,764 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByPeriodo => select m from Multa m where m.dataCadastro between ? and ?
+2015-05-28 20:57:14,764 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Multa on table TB_MULTA
+2015-05-28 20:57:14,768 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.NumeroMotor
+2015-05-28 20:57:14,768 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.NumeroMotor on table TB_NUMEROMOTOR
+2015-05-28 20:57:14,771 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Oficina
+2015-05-28 20:57:14,772 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Oficina on table TB_OFICINA
+2015-05-28 20:57:14,774 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.PostoServico
+2015-05-28 20:57:14,775 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: PostoServico.findByPostoServico => select ps from PostoServico as ps where ps.posto = ?
+2015-05-28 20:57:14,775 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: PostoServico.findByPostoServicoCombustivel => select ps from PostoServico as ps where ps.posto = ? and ps.tipoServico = ? and ps.tipoCombustivel = ?
+2015-05-28 20:57:14,775 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: PostoServico.findByPosto => select distinct(ps) from PostoServico as ps where ps.posto.codPosto = ?
+2015-05-28 20:57:14,775 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.PostoServico on table tb_postoservico
+2015-05-28 20:57:14,781 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.PostoServicoVeiculo
+2015-05-28 20:57:14,781 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.PostoServicoVeiculo on table tb_postoservicoveiculo
+2015-05-28 20:57:14,783 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Rastreador
+2015-05-28 20:57:14,783 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Rastreador on table TB_RASTREADOR
+2015-05-28 20:57:14,784 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.Rastreador -> TB_VEICULORASTREADOR
+2015-05-28 20:57:14,787 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo
+2015-05-28 20:57:14,787 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo on table TB_REGISTROVEICULOS
+2015-05-28 20:57:14,790 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao
+2015-05-28 20:57:14,790 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByVeiculo => select r from RequisicaoManutencao as r where r.veiculo.id = ?
+2015-05-28 20:57:14,790 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByVeiculoMesAno => select r from RequisicaoManutencao as r where r.veiculo.id = ? and (month(r.dataInicio) >= ? and month(r.dataFim) <= ?) and year(r.dataInicio) = ? and  year(r.dataFim) = ?
+2015-05-28 20:57:14,791 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByMesAno => select r from RequisicaoManutencao as r where month(r.dataInicio) >= ? and month(r.dataFim) <= ? and year(r.dataInicio) = ? and  year(r.dataFim) = ?
+2015-05-28 20:57:14,791 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByVeiculoLivre => select r from RequisicaoManutencao as r where r.veiculo.id = ? and ((r.dataInicio < ? and r.dataFim >= ?) or (r.dataInicio >= ? and r.dataFim <= ?) or (r.dataInicio <= ? and r.dataFim > ?))
+2015-05-28 20:57:14,791 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao on table TB_REQUISICAOMANUTENCAO
+2015-05-28 20:57:14,796 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Role
+2015-05-28 20:57:14,796 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Role.findById => select object(o) from Role o where o.codGrupo = ?
+2015-05-28 20:57:14,796 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Role on table tb_grupo
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByStatus => select s from SolicitacaoLubrificante as s where s.status = ? and s.posto.codPosto = ? and s.status != -1 order by s.id desc
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByVeiculo => select s from SolicitacaoLubrificante as s where s.veiculo.id = ? and s.posto.codPosto = ? and s.status != -1  order by s.id desc
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByVeiculoStatus => select s from SolicitacaoLubrificante as s where s.veiculo.id = ? and s.status = ? and s.posto.codPosto = ? and s.status != -1 order by s.id desc
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findUltimoByVeiculoTipoServico => select s from SolicitacaoLubrificante as s where s.tipoServico.codTipoServico = ? and s.veiculo.id = ? and s.posto.codPosto = ? and s.status != -1 and s.dataAutorizacao = (select max(x.dataAutorizacao) from SolicitacaoLubrificante as x where x.veiculo.id = ? and x.status = 2)
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByPosto => select s from SolicitacaoLubrificante as s where s.posto.codPosto = ?  and s.posto.codPosto = ? and s.status != -1  order by s.id desc
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByPostoStatus => select s from SolicitacaoLubrificante as s where s.posto.codPosto = ? and s.status = ? order by s.id desc
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findBySolicitacaoDodia => select s from SolicitacaoLubrificante as s order by s.dataAutorizacao desc
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante on table TB_SOLTROCALUBRIFICANTE
+2015-05-28 20:57:14,800 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante -> TB_ATENDTROCALUB
+2015-05-28 20:57:14,805 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo
+2015-05-28 20:57:14,805 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoVeiculo.findByStatus => select s from SolicitacaoVeiculo s where s.status = ? order by s.dataHoraSaida desc
+2015-05-28 20:57:14,805 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoVeiculo.findByUsuarioStatus => select s from SolicitacaoVeiculo s where s.solicitante.codPessoaUsuario = ? and s.status = ? and s.veiculo.status != 4
+2015-05-28 20:57:14,805 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoVeiculo.veiculosIndisponiveis => select o from SolicitacaoVeiculo o where (o.dataHoraSaida <= :saida or o.dataHoraSaida <= :retorno) and (o.dataHoraRetorno >= :saida or o.dataHoraRetorno >= :retorno)
+2015-05-28 20:57:14,805 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo on table TB_SOLVEICULOS
+2015-05-28 20:57:14,805 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo -> TB_REGISTROVEICULOS
+2015-05-28 20:57:14,812 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel
+2015-05-28 20:57:14,812 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel on table tb_tipocombustivel
+2015-05-28 20:57:14,813 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.TipoServico
+2015-05-28 20:57:14,813 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: TipoServico.findByTipo => select t from TipoServico t where t.manutencao = ?
+2015-05-28 20:57:14,814 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.TipoServico on table tb_tiposervico
+2015-05-28 20:57:14,815 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.TipoVeiculo
+2015-05-28 20:57:14,815 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.TipoVeiculo on table TB_TIPO_VEICULO
+2015-05-28 20:57:14,816 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Transmissao
+2015-05-28 20:57:14,816 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Transmissao.findByVeiculo => SELECT p FROM Transmissao p WHERE p.veiculoId = ?  AND p.dataTransmissao between ? AND ? ORDER BY p.dataTransmissao desc
+2015-05-28 20:57:14,816 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Transmissao.findByVeiculoVelocidade => SELECT p FROM Transmissao p WHERE p.ponto.id != 0 AND p.veiculoId = ?  AND p.dataTransmissao between ? AND ? AND p.velocidade >= ? ORDER BY p.dataTransmissao
+2015-05-28 20:57:14,816 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Transmissao on table TB_TRANSMISSAO
+2015-05-28 20:57:14,820 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.UA
+2015-05-28 20:57:14,820 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findBy => select object(v) from Veiculo v
+2015-05-28 20:57:14,820 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findByUG => select ua from UA ua where ua.ug = ?
+2015-05-28 20:57:14,820 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findByID => select ua from UA ua where ua.id = ?
+2015-05-28 20:57:14,820 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findSorted => select ua from UA ua order by ua.descricao
+2015-05-28 20:57:14,820 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.UA on table TB_UA
+2015-05-28 20:57:14,821 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.UG
+2015-05-28 20:57:14,821 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UG.findByID => select ug from UG ug where ug.id = ?
+2015-05-28 20:57:14,821 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UG.findSorted => select ug from UG ug order by ug.descricao
+2015-05-28 20:57:14,821 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.UG on table tb_ug
+2015-05-28 20:57:14,823 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.User
+2015-05-28 20:57:14,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByLogin => select o from User o where o.login = ? and (o.status != ? and o.status != ?)
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByStatus => select o from User o where o.status = ? or o.status = ?
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByLoginAndStatus => select o from User o where o.login = ? and o.status = ?
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUGAndLogin => select o from User o where o.pessoa.ua.ug.id = ? and o.login = ? and (o.status = ? or o.status = ?)
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByCpf => select u from User u where u.pessoa.cpf = ?
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUGAndCpf => select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.cpf = ?
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUA => select u from User u where u.pessoa.ua.id = ?
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByName => select u from User u where u.pessoa.nome LIKE ? and (u.status = ? or u.status = ?)
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUG => select u from User u where u.pessoa.ua.ug.id = ? and (u.status = ? or u.status = ?)
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUGAndName => select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.nome LIKE ? and (u.status = ? or u.status = ?)
+2015-05-28 20:57:14,824 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.User on table TB_PESSOAUSUARIO
+2015-05-28 20:57:14,831 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.User -> TB_GRUPOUSUARIO
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Veiculo
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findVeiculosSemCota => select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.status != 6
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findVeiculosSemCotaByPlaca => select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ? and v.status != 6
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findVeiculosComCota => select v from Veiculo as v inner join v.cota as cota where v.status != 6
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByPCR => SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?)
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByUGPCR => SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id LIKE ?) AND ((v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?))
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByUG => SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id = ?)
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByPlaca => SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != 6 
+2015-05-28 20:57:14,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findById => SELECT v FROM Veiculo AS v WHERE (v.id = ?)
+2015-05-28 20:57:14,833 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Veiculo on table TB_CADVEICULO
+2015-05-28 20:57:14,833 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.Veiculo -> TB_EQUIPAMENTO
+2015-05-28 20:58:07,169 [main] INFO   org.hibernate.cfg.annotations.Version - Hibernate Annotations 3.4.0.CR1
+2015-05-28 20:58:07,179 [main] INFO   org.hibernate.cfg.Environment - Hibernate 3.3.0.SP1
+2015-05-28 20:58:07,183 [main] INFO   org.hibernate.cfg.Environment - hibernate.properties not found
+2015-05-28 20:58:07,185 [main] INFO   org.hibernate.cfg.Environment - Bytecode provider name : javassist
+2015-05-28 20:58:07,188 [main] INFO   org.hibernate.cfg.Environment - using JDK 1.4 java.sql.Timestamp handling
+2015-05-28 20:58:07,234 [main] INFO   org.hibernate.annotations.common.Version - Hibernate Commons Annotations 3.1.0.GA
+2015-05-28 20:58:07,237 [main] INFO   org.hibernate.cfg.Configuration - configuring from resource: /hibernate.cfg.xml
+2015-05-28 20:58:07,237 [main] INFO   org.hibernate.cfg.Configuration - Configuration resource: /hibernate.cfg.xml
+2015-05-28 20:58:07,359 [main] INFO   org.hibernate.cfg.Configuration - Configured SessionFactory: 
+2015-05-28 20:58:07,371 [main] INFO   org.hibernate.dialect.Dialect - Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2015-05-28 20:58:07,500 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Pessoa
+2015-05-28 20:58:07,505 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Pessoa.findByCPF => select p from Pessoa p where p.cpf = ?
+2015-05-28 20:58:07,505 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Pessoa.findByUG => select p from Pessoa p where p.ua.ug.id = ?
+2015-05-28 20:58:07,505 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Pessoa.findByUGAndCPF => select p from Pessoa p where p.ua.ug.id = ? and p.cpf = ?
+2015-05-28 20:58:07,529 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Pessoa on table TB_CADPESSOA
+2015-05-28 20:58:07,592 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Ponto
+2015-05-28 20:58:07,592 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Ponto on table TB_PONTO
+2015-05-28 20:58:07,602 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Posto
+2015-05-28 20:58:07,603 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Posto on table tb_posto
+2015-05-28 20:58:07,638 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Permissao
+2015-05-28 20:58:07,638 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Permissao on table tb_permissao
+2015-05-28 20:58:07,641 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Page
+2015-05-28 20:58:07,641 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Page on table TB_PAGE
+2015-05-28 20:58:07,643 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Parametro
+2015-05-28 20:58:07,644 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Parametro.findByTipo => select p from Parametro p where p.tipo = ?
+2015-05-28 20:58:07,644 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Parametro.findByNome => select p from Parametro p where p.nome = ?
+2015-05-28 20:58:07,644 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Parametro on table TB_PARAMETRO
+2015-05-28 20:58:07,646 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Area
+2015-05-28 20:58:07,646 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Area on table TB_AREA
+2015-05-28 20:58:07,650 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Bomba
+2015-05-28 20:58:07,650 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Bomba.findBombasPosto => select b from Bomba b where b.posto.codPosto = ?
+2015-05-28 20:58:07,651 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Bomba on table tb_bomba
+2015-05-28 20:58:07,658 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Cota
+2015-05-28 20:58:07,658 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findByVeiculoServico => select o from Cota o where o.veiculo = :veiculo and o.tipoServico = :tipoServico  and (o.veiculo.status > :statusVeiculo)
+2015-05-28 20:58:07,658 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findCotasByVeiculo => select o from Cota o where o.veiculo = ?  and (o.veiculo.status > ?)
+2015-05-28 20:58:07,658 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findByPlacaVeiculo => select o from Cota o where o.veiculo.placa = ? and (o.veiculo.status > ?)
+2015-05-28 20:58:07,658 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Cota.findCotasVeiculosAtivos => select o from Cota o where o.veiculo.status > ?
+2015-05-28 20:58:07,659 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Cota on table tb_cotaabastecimento
+2015-05-28 20:58:07,661 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.CotaKm
+2015-05-28 20:58:07,662 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.CotaKm on table tb_cota_quilometragem
+2015-05-28 20:58:07,679 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba
+2015-05-28 20:58:07,679 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: DiarioBomba.findLastDiariaByDate => select max(db.horaInicial) from DiarioBomba db where db.bomba.id = ?
+2015-05-28 20:58:07,679 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: DiarioBomba.findDiariasByBomba => select db from DiarioBomba db where db.bomba = ?
+2015-05-28 20:58:07,679 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: DiarioBomba.findCurrentDiaryByBomba => select db from DiarioBomba db where db.bomba.id = ? and day(db.horaInicial) = ?
+2015-05-28 20:58:07,679 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.DiarioBomba on table tb_diariobomba
+2015-05-28 20:58:07,690 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm
+2015-05-28 20:58:07,690 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.DiarioKm on table tb_diario_quilometragem
+2015-05-28 20:58:07,694 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.DiarioKmHistoricoUltrapassado
+2015-05-28 20:58:07,694 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.DiarioKmHistoricoUltrapassado on table tb_diario_hist_ultrapassado
+2015-05-28 20:58:07,698 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Especie
+2015-05-28 20:58:07,698 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Especie on table TB_ESPECIE
+2015-05-28 20:58:07,700 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Falta
+2015-05-28 20:58:07,700 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Falta.findCota => select sum(1) from Falta o where o.veiculo.id = :id and (o.dataFalta >= :inicio and o.dataFalta <= :fim)
+2015-05-28 20:58:07,700 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Falta on table TB_FALTA
+2015-05-28 20:58:07,702 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Infracao
+2015-05-28 20:58:07,702 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Infracao on table TB_INFRACAO
+2015-05-28 20:58:07,706 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Marca
+2015-05-28 20:58:07,706 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Marca on table TB_MARCA
+2015-05-28 20:58:07,708 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Message
+2015-05-28 20:58:07,708 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Message on table TB_MESSAGE
+2015-05-28 20:58:07,709 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Modelo
+2015-05-28 20:58:07,710 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Modelo.findByDesc => SELECT m FROM Modelo m WHERE m.descricao LIKE :descricao
+2015-05-28 20:58:07,710 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Modelo on table TB_MODELO
+2015-05-28 20:58:07,711 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario
+2015-05-28 20:58:07,712 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: LogUsuario.findByUsuarioAndData => SELECT ul FROM LogUsuario ul WHERE ul.usuario.id = ? AND ul.dataLogin BETWEEN ? AND ?
+2015-05-28 20:58:07,712 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: LogUsuario.findUltimoLogin => SELECT ul FROM LogUsuario ul WHERE ul.usuario.id = ? and ul.dataLogin = (SELECT max(u.dataLogin) FROM LogUsuario u WHERE u.usuario.id = ?)
+2015-05-28 20:58:07,712 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.LogUsuario on table TB_LOGUSUARIO
+2015-05-28 20:58:07,715 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento
+2015-05-28 20:58:07,715 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findLast => select a from Abastecimento a where a.id = (select max(a1.id) from Abastecimento a1 where a1.veiculo.id = ? and a1.status = 2)
+2015-05-28 20:58:07,715 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findByPosto => select a from Abastecimento a where a.posto.codPosto = ? and a.status = ? order by a.dataAutorizacao desc
+2015-05-28 20:58:07,715 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findByPeriodoAndPosto => select a from Abastecimento a where a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc
+2015-05-28 20:58:07,715 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Abastecimento.findByPeriodoAndPostoUG => select a from Abastecimento a where a.veiculo.ua.ug.id = ? and a.posto.codPosto = ? and a.dataAutorizacao BETWEEN ? and ? and a.status = ?  order by a.dataAutorizacao desc
+2015-05-28 20:58:07,716 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Abastecimento on table TB_ABASTECIMENTO
+2015-05-28 20:58:07,729 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento
+2015-05-28 20:58:07,729 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findById => select o from AtendimentoAbastecimento o where o.id = ?
+2015-05-28 20:58:07,729 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findCota => select sum(o.quantidadeAbastecida) from AtendimentoAbastecimento o where o.abastecimento.veiculo = :veiculo and month(o.data) = :mes
+2015-05-28 20:58:07,730 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByVeiculo => select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.id = ?)
+2015-05-28 20:58:07,730 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByVeiculoAndPeriodo => select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.id = ? and o.data >= ? and o.data <= ?)
+2015-05-28 20:58:07,730 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByPeriodo => select o from AtendimentoAbastecimento o where o.data >= ? and o.data <= ?) order by o.data asc
+2015-05-28 20:58:07,730 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByMesAno => select o from AtendimentoAbastecimento o where month(o.data) = ? and year(o.data) = ?) order by o.data asc
+2015-05-28 20:58:07,730 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: AtendimentoAbastecimento.findByUGMesAno => select o from AtendimentoAbastecimento o where o.abastecimento.veiculo.ua.ug.id = ? and month(o.data) = ? and year(o.data) = ?) order by o.data asc
+2015-05-28 20:58:07,730 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.AtendimentoAbastecimento on table TB_ATENDABASTECIMENTO
+2015-05-28 20:58:07,736 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao
+2015-05-28 20:58:07,737 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: ItemRequisicao.findByIdRequisicao => select r from ItemRequisicao as r where r.requisicaoManutencao.id = ?
+2015-05-28 20:58:07,737 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: ItemRequisicao.findByVeiculoTipoServico => select i from ItemRequisicao i where i.tipoServico.codTipoServico = ? and i.requisicaoManutencao.veiculo.id = ?
+2015-05-28 20:58:07,737 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: ItemRequisicao.findByTipoServico => select i from ItemRequisicao i where i.tipoServico.codTipoServico = ?
+2015-05-28 20:58:07,737 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.ItemRequisicao on table TB_REQUISICAOITEM
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Motorista
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findServidor => select o from Motorista o where (o.tipomotorista <> 'LOCADORA' or o.tipomotorista is null) and o.pessoa.ua.ug.id = ? and o.ativo = 'true' and o.pontosCnh < 20 order by o.pessoa.nome
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findMotoristasBloqueados => select object(o) from Motorista o where o.ativo = ?
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByLocadoraNaoAlocados => select object(o) from Motorista o where o.tipomotorista = ? order by o.pessoa.nome asc
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByLocadoraUg => select object(o) from Motorista o where o.tipomotorista = ? and o.pessoa.ua.ug.id = ? order by o.pessoa.nome asc
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByStatus => select o from Motorista o where o.ativo = ? order by o.codMotorista desc
+2015-05-28 20:58:07,740 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByNameStatus => select o from Motorista o where o.pessoa.nome LIKE ? and o.ativo = ?
+2015-05-28 20:58:07,741 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByCpfStatus => select o from Motorista o where o.pessoa.cpf = ? and o.ativo = ?
+2015-05-28 20:58:07,741 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByUGNameStatus => select o from Motorista o where o.pessoa.ua.ug.id = ? and o.pessoa.nome LIKE ? and o.ativo = ?
+2015-05-28 20:58:07,741 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findMotoristaByCPF => select o from Motorista o where o.pessoa.cpf LIKE ?
+2015-05-28 20:58:07,741 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByUG => select o from Motorista o where o.pessoa.ua.ug.id = ? and o.pontosCnh < 20 order by o.pessoa.nome 
+2015-05-28 20:58:07,741 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Motorista.findByUGStatus => select o from Motorista o where o.pessoa.ua.ug.id = ? and o.ativo = ? order by o.pessoa.nome asc
+2015-05-28 20:58:07,741 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Motorista on table tb_pessoamotorista
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Multa
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByPlacaVeiculo => select m from Multa as m where m.veiculo.placa like upper(?)
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByNomeMotorista => select m from Multa as m where m.motorista.pessoa.nome like upper(?)
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByInfracaoMotorista => select m from Multa as m where m.infracao.descricao like upper(?)
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByCNHMotorista => select m from Multa as m where m.motorista.cnh like upper(?)
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByVeiculo => select m from Multa as m where m.veiculo.id = ? and m.dataCadastro between ? and ?
+2015-05-28 20:58:07,746 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByMotorista => select m from Multa as m where m.motorista.codMotorista = ?
+2015-05-28 20:58:07,747 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByUG => select m from Multa m where m.veiculo.ua.ug.id = ? and m.dataCadastro between ? and ?
+2015-05-28 20:58:07,747 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Multa.findByPeriodo => select m from Multa m where m.dataCadastro between ? and ?
+2015-05-28 20:58:07,747 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Multa on table TB_MULTA
+2015-05-28 20:58:07,751 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.NumeroMotor
+2015-05-28 20:58:07,751 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.NumeroMotor on table TB_NUMEROMOTOR
+2015-05-28 20:58:07,754 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Oficina
+2015-05-28 20:58:07,754 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Oficina on table TB_OFICINA
+2015-05-28 20:58:07,757 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.PostoServico
+2015-05-28 20:58:07,757 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: PostoServico.findByPostoServico => select ps from PostoServico as ps where ps.posto = ?
+2015-05-28 20:58:07,757 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: PostoServico.findByPostoServicoCombustivel => select ps from PostoServico as ps where ps.posto = ? and ps.tipoServico = ? and ps.tipoCombustivel = ?
+2015-05-28 20:58:07,757 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: PostoServico.findByPosto => select distinct(ps) from PostoServico as ps where ps.posto.codPosto = ?
+2015-05-28 20:58:07,758 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.PostoServico on table tb_postoservico
+2015-05-28 20:58:07,764 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.PostoServicoVeiculo
+2015-05-28 20:58:07,764 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.PostoServicoVeiculo on table tb_postoservicoveiculo
+2015-05-28 20:58:07,766 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Rastreador
+2015-05-28 20:58:07,766 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Rastreador on table TB_RASTREADOR
+2015-05-28 20:58:07,768 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.Rastreador -> TB_VEICULORASTREADOR
+2015-05-28 20:58:07,772 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo
+2015-05-28 20:58:07,772 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.RegistroVeiculo on table TB_REGISTROVEICULOS
+2015-05-28 20:58:07,777 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao
+2015-05-28 20:58:07,777 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByVeiculo => select r from RequisicaoManutencao as r where r.veiculo.id = ?
+2015-05-28 20:58:07,777 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByVeiculoMesAno => select r from RequisicaoManutencao as r where r.veiculo.id = ? and (month(r.dataInicio) >= ? and month(r.dataFim) <= ?) and year(r.dataInicio) = ? and  year(r.dataFim) = ?
+2015-05-28 20:58:07,777 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByMesAno => select r from RequisicaoManutencao as r where month(r.dataInicio) >= ? and month(r.dataFim) <= ? and year(r.dataInicio) = ? and  year(r.dataFim) = ?
+2015-05-28 20:58:07,777 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: RequisicaoManutencao.findByVeiculoLivre => select r from RequisicaoManutencao as r where r.veiculo.id = ? and ((r.dataInicio < ? and r.dataFim >= ?) or (r.dataInicio >= ? and r.dataFim <= ?) or (r.dataInicio <= ? and r.dataFim > ?))
+2015-05-28 20:58:07,777 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao on table TB_REQUISICAOMANUTENCAO
+2015-05-28 20:58:07,783 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Role
+2015-05-28 20:58:07,783 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Role.findById => select object(o) from Role o where o.codGrupo = ?
+2015-05-28 20:58:07,783 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Role on table tb_grupo
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByStatus => select s from SolicitacaoLubrificante as s where s.status = ? and s.posto.codPosto = ? and s.status != -1 order by s.id desc
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByVeiculo => select s from SolicitacaoLubrificante as s where s.veiculo.id = ? and s.posto.codPosto = ? and s.status != -1  order by s.id desc
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByVeiculoStatus => select s from SolicitacaoLubrificante as s where s.veiculo.id = ? and s.status = ? and s.posto.codPosto = ? and s.status != -1 order by s.id desc
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findUltimoByVeiculoTipoServico => select s from SolicitacaoLubrificante as s where s.tipoServico.codTipoServico = ? and s.veiculo.id = ? and s.posto.codPosto = ? and s.status != -1 and s.dataAutorizacao = (select max(x.dataAutorizacao) from SolicitacaoLubrificante as x where x.veiculo.id = ? and x.status = 2)
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByPosto => select s from SolicitacaoLubrificante as s where s.posto.codPosto = ?  and s.posto.codPosto = ? and s.status != -1  order by s.id desc
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findByPostoStatus => select s from SolicitacaoLubrificante as s where s.posto.codPosto = ? and s.status = ? order by s.id desc
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoLubrificante.findBySolicitacaoDodia => select s from SolicitacaoLubrificante as s order by s.dataAutorizacao desc
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante on table TB_SOLTROCALUBRIFICANTE
+2015-05-28 20:58:07,789 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoLubrificante -> TB_ATENDTROCALUB
+2015-05-28 20:58:07,796 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo
+2015-05-28 20:58:07,796 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoVeiculo.findByStatus => select s from SolicitacaoVeiculo s where s.status = ? order by s.dataHoraSaida desc
+2015-05-28 20:58:07,796 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoVeiculo.findByUsuarioStatus => select s from SolicitacaoVeiculo s where s.solicitante.codPessoaUsuario = ? and s.status = ? and s.veiculo.status != 4
+2015-05-28 20:58:07,796 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: SolicitacaoVeiculo.veiculosIndisponiveis => select o from SolicitacaoVeiculo o where (o.dataHoraSaida <= :saida or o.dataHoraSaida <= :retorno) and (o.dataHoraRetorno >= :saida or o.dataHoraRetorno >= :retorno)
+2015-05-28 20:58:07,796 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo on table TB_SOLVEICULOS
+2015-05-28 20:58:07,797 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.SolicitacaoVeiculo -> TB_REGISTROVEICULOS
+2015-05-28 20:58:07,805 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel
+2015-05-28 20:58:07,806 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel on table tb_tipocombustivel
+2015-05-28 20:58:07,808 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.TipoServico
+2015-05-28 20:58:07,808 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: TipoServico.findByTipo => select t from TipoServico t where t.manutencao = ?
+2015-05-28 20:58:07,808 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.TipoServico on table tb_tiposervico
+2015-05-28 20:58:07,811 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.TipoVeiculo
+2015-05-28 20:58:07,811 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.TipoVeiculo on table TB_TIPO_VEICULO
+2015-05-28 20:58:07,812 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Transmissao
+2015-05-28 20:58:07,812 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Transmissao.findByVeiculo => SELECT p FROM Transmissao p WHERE p.veiculoId = ?  AND p.dataTransmissao between ? AND ? ORDER BY p.dataTransmissao desc
+2015-05-28 20:58:07,812 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Transmissao.findByVeiculoVelocidade => SELECT p FROM Transmissao p WHERE p.ponto.id != 0 AND p.veiculoId = ?  AND p.dataTransmissao between ? AND ? AND p.velocidade >= ? ORDER BY p.dataTransmissao
+2015-05-28 20:58:07,812 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Transmissao on table TB_TRANSMISSAO
+2015-05-28 20:58:07,817 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.UA
+2015-05-28 20:58:07,817 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findBy => select object(v) from Veiculo v
+2015-05-28 20:58:07,817 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findByUG => select ua from UA ua where ua.ug = ?
+2015-05-28 20:58:07,817 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findByID => select ua from UA ua where ua.id = ?
+2015-05-28 20:58:07,817 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UA.findSorted => select ua from UA ua order by ua.descricao
+2015-05-28 20:58:07,817 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.UA on table TB_UA
+2015-05-28 20:58:07,819 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.UG
+2015-05-28 20:58:07,819 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UG.findByID => select ug from UG ug where ug.id = ?
+2015-05-28 20:58:07,819 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: UG.findSorted => select ug from UG ug order by ug.descricao
+2015-05-28 20:58:07,819 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.UG on table tb_ug
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.User
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByLogin => select o from User o where o.login = ? and (o.status != ? and o.status != ?)
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByStatus => select o from User o where o.status = ? or o.status = ?
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByLoginAndStatus => select o from User o where o.login = ? and o.status = ?
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUGAndLogin => select o from User o where o.pessoa.ua.ug.id = ? and o.login = ? and (o.status = ? or o.status = ?)
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByCpf => select u from User u where u.pessoa.cpf = ?
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUGAndCpf => select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.cpf = ?
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUA => select u from User u where u.pessoa.ua.id = ?
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByName => select u from User u where u.pessoa.nome LIKE ? and (u.status = ? or u.status = ?)
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUG => select u from User u where u.pessoa.ua.ug.id = ? and (u.status = ? or u.status = ?)
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: User.findByUGAndName => select u from User u where u.pessoa.ua.ug.id = ? and u.pessoa.nome LIKE ? and (u.status = ? or u.status = ?)
+2015-05-28 20:58:07,823 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.User on table TB_PESSOAUSUARIO
+2015-05-28 20:58:07,832 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.User -> TB_GRUPOUSUARIO
+2015-05-28 20:58:07,832 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.Veiculo
+2015-05-28 20:58:07,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findVeiculosSemCota => select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.status != 6
+2015-05-28 20:58:07,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findVeiculosSemCotaByPlaca => select v from Veiculo as v where v not in(select c.veiculo from Cota c) and v.placa LIKE ? and v.status != 6
+2015-05-28 20:58:07,832 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findVeiculosComCota => select v from Veiculo as v inner join v.cota as cota where v.status != 6
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByPCR => SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?)
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByUGPCR => SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id LIKE ?) AND ((v.placa LIKE ?) OR  (v.chassi LIKE ?) OR (v.renavam LIKE ?))
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByUG => SELECT v FROM Veiculo AS v WHERE (v.ua.ug.id = ?)
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findByPlaca => SELECT v FROM Veiculo AS v WHERE (v.placa LIKE ?) and v.status != 6 
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.QueryBinder - Binding Named query: Veiculo.findById => SELECT v FROM Veiculo AS v WHERE (v.id = ?)
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.Veiculo on table TB_CADVEICULO
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.Veiculo -> TB_EQUIPAMENTO
+2015-05-28 20:58:07,833 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Adding secondary table to entity br.gov.ce.fortaleza.cti.sgf.entity.Veiculo -> TB_ULTIMATRANSMISSAO
+2015-05-28 20:58:07,855 [main] INFO   org.hibernate.cfg.AnnotationBinder - Binding entity from annotated class: br.gov.ce.fortaleza.cti.sgf.entity.VeiculoSubstituto
+2015-05-28 20:58:07,855 [main] INFO   org.hibernate.cfg.annotations.EntityBinder - Bind entity br.gov.ce.fortaleza.cti.sgf.entity.VeiculoSubstituto on table TB_VEICULO_SUBSTITUTO
+2015-05-28 20:58:07,892 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.Posto.listaBomba -> tb_bomba
+2015-05-28 20:58:07,892 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.Posto.postoServicos -> tb_postoservico
+2015-05-28 20:58:07,892 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.Bomba.diarioBombas -> tb_diariobomba
+2015-05-28 20:58:07,892 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.CotaKm.diarioKm -> tb_diario_quilometragem
+2015-05-28 20:58:07,895 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.PostoServico.postosServicosVeiculos -> tb_postoservicoveiculo
+2015-05-28 20:58:07,895 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.RequisicaoManutencao.itensRequisicao -> TB_REQUISICAOITEM
+2015-05-28 20:58:07,896 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.TipoCombustivel.postoServicos -> tb_postoservico
+2015-05-28 20:58:07,896 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.TipoServico.postoServicos -> tb_postoservico
+2015-05-28 20:58:07,896 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.UG.uas -> TB_UA
+2015-05-28 20:58:07,896 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.Veiculo.abastecimentos -> TB_ABASTECIMENTO
+2015-05-28 20:58:07,896 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.Veiculo.postosServicosVeiculos -> tb_postoservicoveiculo
+2015-05-28 20:58:07,897 [main] INFO   org.hibernate.cfg.annotations.CollectionBinder - Mapping collection: br.gov.ce.fortaleza.cti.sgf.entity.Veiculo.solicitacoesVeiculo -> TB_SOLVEICULOS
+2015-05-28 20:58:07,903 [main] INFO   org.hibernate.validator.Version - Hibernate Validator 3.1.0.CR2
+2015-05-28 20:58:08,046 [main] INFO   org.hibernate.tool.hbm2ddl.SchemaExport - Running hbm2ddl schema export
+2015-05-28 20:58:08,047 [main] INFO   org.hibernate.tool.hbm2ddl.SchemaExport - exporting generated schema to database
+2015-05-28 20:58:08,048 [main] INFO   org.hibernate.connection.DriverManagerConnectionProvider - Using Hibernate built-in connection pool (not for production use!)
+2015-05-28 20:58:08,048 [main] INFO   org.hibernate.connection.DriverManagerConnectionProvider - Hibernate connection pool size: 20
+2015-05-28 20:58:08,048 [main] INFO   org.hibernate.connection.DriverManagerConnectionProvider - autocommit mode: false
+2015-05-28 20:58:08,054 [main] INFO   org.hibernate.connection.DriverManagerConnectionProvider - using driver: org.postgresql.Driver at URL: jdbc:postgresql://localhost:5432/pmf
+2015-05-28 20:58:08,054 [main] INFO   org.hibernate.connection.DriverManagerConnectionProvider - connection properties: {user=postgres, password=****}
+2015-05-28 20:58:09,444 [main] INFO   org.hibernate.tool.hbm2ddl.SchemaExport - schema export complete
+2015-05-28 20:58:09,446 [main] INFO   org.hibernate.connection.DriverManagerConnectionProvider - cleaning up connection pool: jdbc:postgresql://localhost:5432/pmf

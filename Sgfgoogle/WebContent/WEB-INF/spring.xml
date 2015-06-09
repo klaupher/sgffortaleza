@@ -42,14 +42,9 @@
 		
 		<sec:intercept-url pattern="/login.jsp*" access="ROLE_ANONYMOUS"/>
 		
-		<sec:intercept-url pattern="/pages/**" 
-		                   access="ROLE_MASTER,
-		                   			ROLE_ADMIN, 
-									ROLE_CHEFE_TRANSP, 
-									ROLE_COORD_TRANSP, 
-									ROLE_CHEFE_SETOR, 
-									ROLE_OPERADOR, 
-									ROLE_USER"/>
+		<sec:intercept-url pattern="*/pages/**" access="ROLE_MASTER,ROLE_ADMIN, 
+									ROLE_CHEFE_TRANSP, ROLE_COORD_TRANSP, 
+									ROLE_CHEFE_SETOR, ROLE_OPERADOR, ROLE_USER"/>
 		<sec:logout logout-url="/j_spring_security_logout" logout-success-url="/login.jsf" invalidate-session="true"/>
 
 		<sec:concurrent-session-control max-sessions="1" session-registry-alias="session" />
@@ -78,7 +73,7 @@
 		<sec:custom-filter position="AUTHENTICATION_PROCESSING_FILTER"/>
 	</bean>
 	
-<!--	<bean id="usernamePasswordAuthenticationFilter" class="br.gov.ce.fortaleza.cti.sgf.service.UsernamePasswordAuthenticationFilter">-->
-<!--  	</bean>-->
+<!-- 	<bean id="usernamePasswordAuthenticationFilter" class="br.gov.ce.fortaleza.cti.sgf.service.UsernamePasswordAuthenticationFilter"> -->
+<!--  	</bean> -->
 
 </beans>

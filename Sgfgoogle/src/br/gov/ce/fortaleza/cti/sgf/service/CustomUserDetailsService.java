@@ -6,6 +6,7 @@ package br.gov.ce.fortaleza.cti.sgf.service;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.concurrent.SessionAlreadyUsedException;
 import org.springframework.security.userdetails.UserDetails;
@@ -24,7 +25,8 @@ import br.gov.ce.fortaleza.cti.sgf.entity.User;
 public class CustomUserDetailsService extends BaseService<Integer, User> implements UserDetailsService{
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException,SessionAlreadyUsedException {
+	public UserDetails loadUserByUsername(String username) 
+			throws UsernameNotFoundException, DataAccessException,SessionAlreadyUsedException {
 		
 		User user = null;
 		if(username == null || username.equals("")){
